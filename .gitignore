@@ -19,3 +19,11 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+
+
+# Project specific ignorings
+Assets/UnityVS.meta
+Assets/UnityVS/
+Assets/StandardAssets.meta
+Assets/StandardAssets/
