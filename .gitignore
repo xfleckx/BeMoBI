@@ -25,5 +25,13 @@ sysinfo.txt
 # Project specific ignorings
 Assets/UnityVS.meta
 Assets/UnityVS/
+Assets/beMoBi.PhaseSpace.meta
+Assets/beMoBi.PhaseSpace/
+Assets/Phasespace.meta
+Assets/Phasespace/
+Assets/OVR.meta
+Assets/OVR/
+Assets/Test.meta
+Assets/Test/
 Assets/StandardAssets.meta
 Assets/StandardAssets/
