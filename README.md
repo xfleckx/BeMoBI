@@ -6,7 +6,9 @@ It implements a spatial navigation paradigm as an example.
 # Submodules
 After cloning this repository, call
 > git submodule init
+
 and
+
 > git submodule update
 
 # Other Dependencies
