@@ -17,6 +17,11 @@ You need to get stuff manually.
 
 ### Unity Standard Assets
 
+### LabStreamingLayer
+Please download the LSL API and especially the Csharp implementation. You will find it at <https://github.com/sccn/labstreaminglayer/tree/master/LSL/liblsl-Csharp>
+
+Move the **liblsl32.dll** into the Assets/LSL4Unity/ directory
+
 ### Oculus VR Unity Integration
 
 ### Phasespace API for C#/Unity
