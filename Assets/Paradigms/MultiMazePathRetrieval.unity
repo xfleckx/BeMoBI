@@ -113,7 +113,7 @@ Light:
   serializedVersion: 6
   m_Type: 1
   m_Color: {r: 1, g: .956862748, b: .839215696, a: 1}
-  m_Intensity: 1
+  m_Intensity: .879999995
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -131,7 +131,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
@@ -141,8 +141,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 46440678}
-  m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381661, w: .875426114}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: .431233227, y: -.518603027, z: .212799951, w: .706968963}
+  m_LocalPosition: {x: 0, y: 3, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -220,7 +220,7 @@ MonoBehaviour:
   environment: {fileID: 1016292664}
   instructions: {fileID: 1354465420}
   markerStream: {fileID: 188249850}
-  NumberOfTrainingsTrials: 0
+  NumberOfTrainingsTrials: 5
   NumberOfTrialsPerCondition: 0
 --- !u!114 &188249850
 MonoBehaviour:
@@ -247,10 +247,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!1 &312990453 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 166596, guid: cb58e9071f5386c44834ab0cc8e77717, type: 2}
+  m_PrefabInternal: {fileID: 635298796}
 --- !u!4 &312990454 stripped
 Transform:
   m_PrefabParentObject: {fileID: 465702, guid: cb58e9071f5386c44834ab0cc8e77717, type: 2}
   m_PrefabInternal: {fileID: 635298796}
+--- !u!114 &312990455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 312990453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7ff97d8c955784f95e48b6e42e7c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: MazeA
 --- !u!1 &581096259
 GameObject:
   m_ObjectHideFlags: 0
