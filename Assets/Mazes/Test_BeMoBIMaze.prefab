@@ -7398,9 +7398,51 @@ MonoBehaviour:
   HideOut: {fileID: 0}
   HideOutReplacement: {fileID: 0}
   ID: 0
-  Units: []
-  Elements: []
-  GridIDs: []
+  Units:
+  - {fileID: 11425962}
+  - {fileID: 11469870}
+  - {fileID: 11415786}
+  - {fileID: 11486234}
+  - {fileID: 11406766}
+  - {fileID: 11472376}
+  - {fileID: 11438696}
+  Elements:
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11425962}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11469870}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11415786}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11486234}
+    Type: 1
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11406766}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11472376}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11438696}
+    Type: 0
+    Turn: 0
+  GridIDs:
+  - {x: 0, y: 3}
+  - {x: 1, y: 3}
+  - {x: 1, y: 4}
+  - {x: 1, y: 5}
+  - {x: 2, y: 5}
+  - {x: 3, y: 5}
+  - {x: 3, y: 6}
 --- !u!114 &11425962
 MonoBehaviour:
   m_ObjectHideFlags: 1
