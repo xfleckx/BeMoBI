@@ -214,13 +214,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 188249848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bff7928b1e74694f80b9855cfd09f06, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bbe3da5cd8218e49897ec9bd468bccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  environment: {fileID: 1016292664}
-  instructions: {fileID: 1354465420}
-  markerStream: {fileID: 188249850}
-  NumberOfTrainingsTrials: 5
+  environment: {fileID: 0}
+  instructions: {fileID: 0}
+  markerStream: {fileID: 0}
+  NumberOfTrainingsTrials: 0
   NumberOfTrialsPerCondition: 0
 --- !u!114 &188249850
 MonoBehaviour:
@@ -431,9 +431,3 @@ Transform:
   - {fileID: 312990454}
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!114 &1354465420 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11495616, guid: 5e9e851c0e142814dac026a256ba2ac0,
-    type: 2}
-  m_PrefabInternal: {fileID: 150669894}
-  m_Script: {fileID: 11500000, guid: 1a2aed36195892749a93b50510ebd6f5, type: 3}
