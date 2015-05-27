@@ -1278,6 +1278,8 @@ GameObject:
   - 4: {fileID: 465702}
   - 114: {fileID: 11467102}
   - 114: {fileID: 11413994}
+  - 114: {fileID: 11407322}
+  - 114: {fileID: 11418512}
   m_Layer: 0
   m_Name: Test_BeMoBIMaze
   m_TagString: Untagged
@@ -7332,6 +7334,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 12
   GridID: {x: 2, y: 5}
+--- !u!114 &11407322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Paths: []
 --- !u!114 &11413994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7370,6 +7384,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 1, y: 2}
+--- !u!114 &11418512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 0
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11425962
 MonoBehaviour:
   m_ObjectHideFlags: 1
