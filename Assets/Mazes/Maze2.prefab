@@ -187,6 +187,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 477914}
   - 114: {fileID: 11445672}
+  - 114: {fileID: 11488968}
+  - 114: {fileID: 11427342}
+  - 114: {fileID: 11473812}
+  - 114: {fileID: 11461524}
+  - 114: {fileID: 11461442}
+  - 114: {fileID: 11476768}
   m_Layer: 0
   m_Name: Maze2
   m_TagString: Untagged
@@ -4673,7 +4679,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 107172}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 16.0631065, y: 43.198494, z: 5.19792938}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470420}
@@ -11783,6 +11789,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 13
   GridID: {x: 2, y: 0}
+--- !u!114 &11427342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 0
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11428398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11905,6 +11928,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 4
   GridID: {x: 1, y: 0}
+--- !u!114 &11461442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 3
+  Units: []
+  Elements: []
+  GridIDs: []
+--- !u!114 &11461524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 2
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11462756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11931,6 +11988,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 4
   GridID: {x: 0, y: 3}
+--- !u!114 &11473812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 1
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11475684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11957,6 +12031,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 3, y: 3}
+--- !u!114 &11476768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 4
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11478610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11970,6 +12061,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 6
   GridID: {x: 0, y: 1}
+--- !u!114 &11488968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Paths: []
 --- !u!114 &11490764
 MonoBehaviour:
   m_ObjectHideFlags: 1
