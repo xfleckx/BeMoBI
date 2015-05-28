@@ -653,6 +653,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 409852}
   - 114: {fileID: 11468412}
+  - 114: {fileID: 11447462}
+  - 114: {fileID: 11413924}
+  - 114: {fileID: 11489516}
+  - 114: {fileID: 11440322}
+  - 114: {fileID: 11424282}
+  - 114: {fileID: 11450224}
   m_Layer: 0
   m_Name: Maze4
   m_TagString: Untagged
@@ -2995,7 +3001,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.29888678, y: 14.7952652, z: 2.80322933}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 476128}
@@ -10759,6 +10765,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 2, y: 6}
+--- !u!114 &11413924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 0
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11414384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10824,6 +10847,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 4
   GridID: {x: 0, y: 6}
+--- !u!114 &11424282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 3
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11431560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10876,6 +10916,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 2, y: 1}
+--- !u!114 &11440322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 2
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11445298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10902,6 +10959,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 1, y: 3}
+--- !u!114 &11447462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Paths: []
+--- !u!114 &11450224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 4
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11460880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10959,6 +11045,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 0, y: 0}
+--- !u!114 &11489516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 1
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11492216
 MonoBehaviour:
   m_ObjectHideFlags: 1
