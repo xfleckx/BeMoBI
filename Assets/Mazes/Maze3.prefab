@@ -902,6 +902,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 420982}
   - 114: {fileID: 11458564}
+  - 114: {fileID: 11427238}
+  - 114: {fileID: 11441238}
+  - 114: {fileID: 11457012}
+  - 114: {fileID: 11400240}
+  - 114: {fileID: 11435854}
+  - 114: {fileID: 11403532}
   m_Layer: 0
   m_Name: Maze3
   m_TagString: Untagged
@@ -4462,7 +4468,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127748}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.69414806, y: 10.9071064, z: 1.05379391}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 448990}
@@ -15094,6 +15100,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11400240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 2
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11401972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15107,6 +15130,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 0, y: 0}
+--- !u!114 &11403532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 4
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11403756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15198,6 +15238,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 4, y: 7}
+--- !u!114 &11427238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Paths: []
 --- !u!114 &11432092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15237,6 +15289,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 7
   GridID: {x: 0, y: 6}
+--- !u!114 &11435854
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 3
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11438418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15250,6 +15319,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 0, y: 2}
+--- !u!114 &11441238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 0
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11445868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15315,6 +15401,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 3, y: 1}
+--- !u!114 &11457012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 1
+  Units: []
+  Elements: []
+  GridIDs: []
 --- !u!114 &11458564
 MonoBehaviour:
   m_ObjectHideFlags: 1
