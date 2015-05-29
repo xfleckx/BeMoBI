@@ -187,6 +187,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 477914}
   - 114: {fileID: 11445672}
+  - 114: {fileID: 11485998}
+  - 114: {fileID: 11483580}
+  - 114: {fileID: 11439030}
+  - 114: {fileID: 11479628}
+  - 114: {fileID: 11441190}
+  - 114: {fileID: 11413694}
   m_Layer: 0
   m_Name: Maze2
   m_TagString: Untagged
@@ -11757,6 +11763,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 1, y: 3}
+--- !u!114 &11413694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 4
+  Units:
+  - {fileID: 11466784}
+  - {fileID: 11413302}
+  - {fileID: 11433356}
+  - {fileID: 11431722}
+  - {fileID: 11407524}
+  - {fileID: 11493260}
+  - {fileID: 11407190}
+  - {fileID: 11416768}
+  Elements:
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11466784}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11413302}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11433356}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11431722}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11407524}
+    Type: 1
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11493260}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11407190}
+    Type: 1
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11416768}
+    Type: 0
+    Turn: 0
+  GridIDs:
+  - {x: 0, y: 3}
+  - {x: 1, y: 3}
+  - {x: 1, y: 4}
+  - {x: 1, y: 5}
+  - {x: 2, y: 5}
+  - {x: 2, y: 6}
+  - {x: 3, y: 6}
+  - {x: 3, y: 5}
 --- !u!114 &11416768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11848,6 +11919,95 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 2, y: 4}
+--- !u!114 &11439030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 1
+  Units:
+  - {fileID: 11466784}
+  - {fileID: 11413302}
+  - {fileID: 11462756}
+  - {fileID: 11404444}
+  - {fileID: 11498234}
+  - {fileID: 11421264}
+  - {fileID: 11475684}
+  - {fileID: 11446158}
+  - {fileID: 11409252}
+  - {fileID: 11476124}
+  - {fileID: 11430966}
+  - {fileID: 11440780}
+  Elements:
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11466784}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11413302}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11462756}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11404444}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11498234}
+    Type: 1
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11421264}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11475684}
+    Type: 1
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11446158}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11409252}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11476124}
+    Type: 1
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11430966}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11440780}
+    Type: 0
+    Turn: 0
+  GridIDs:
+  - {x: 0, y: 3}
+  - {x: 1, y: 3}
+  - {x: 1, y: 2}
+  - {x: 1, y: 1}
+  - {x: 2, y: 1}
+  - {x: 2, y: 0}
+  - {x: 3, y: 0}
+  - {x: 3, y: 1}
+  - {x: 3, y: 2}
+  - {x: 3, y: 3}
+  - {x: 2, y: 3}
+  - {x: 2, y: 2}
 --- !u!114 &11440780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11861,6 +12021,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 2, y: 2}
+--- !u!114 &11441190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 3
+  Units:
+  - {fileID: 11466784}
+  - {fileID: 11413302}
+  - {fileID: 11433356}
+  - {fileID: 11431722}
+  - {fileID: 11407524}
+  - {fileID: 11493260}
+  - {fileID: 11428398}
+  Elements:
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11466784}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11413302}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11433356}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11431722}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11407524}
+    Type: 1
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11493260}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11428398}
+    Type: 0
+    Turn: 0
+  GridIDs:
+  - {x: 0, y: 3}
+  - {x: 1, y: 3}
+  - {x: 1, y: 4}
+  - {x: 1, y: 5}
+  - {x: 2, y: 5}
+  - {x: 2, y: 6}
+  - {x: 1, y: 6}
 --- !u!114 &11445672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11970,6 +12189,166 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 6
   GridID: {x: 0, y: 1}
+--- !u!114 &11479628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 2
+  Units:
+  - {fileID: 11466784}
+  - {fileID: 11413302}
+  - {fileID: 11462756}
+  - {fileID: 11404444}
+  - {fileID: 11498234}
+  - {fileID: 11421264}
+  - {fileID: 11449932}
+  Elements:
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11466784}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11413302}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11462756}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11404444}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11498234}
+    Type: 1
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11421264}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11449932}
+    Type: 0
+    Turn: 0
+  GridIDs:
+  - {x: 0, y: 3}
+  - {x: 1, y: 3}
+  - {x: 1, y: 2}
+  - {x: 1, y: 1}
+  - {x: 2, y: 1}
+  - {x: 2, y: 0}
+  - {x: 1, y: 0}
+--- !u!114 &11483580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideOut: {fileID: 0}
+  HideOutReplacement: {fileID: 0}
+  ID: 0
+  Units:
+  - {fileID: 11466784}
+  - {fileID: 11413302}
+  - {fileID: 11462756}
+  - {fileID: 11404444}
+  - {fileID: 11498234}
+  - {fileID: 11421264}
+  - {fileID: 11475684}
+  - {fileID: 11446158}
+  - {fileID: 11409252}
+  - {fileID: 11476124}
+  - {fileID: 11430966}
+  - {fileID: 11435126}
+  Elements:
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11466784}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11413302}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11462756}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11404444}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11498234}
+    Type: 1
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11421264}
+    Type: 2
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11475684}
+    Type: 1
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11446158}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11409252}
+    Type: 0
+    Turn: 0
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11476124}
+    Type: 1
+    Turn: 1
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11430966}
+    Type: 2
+    Turn: 2
+  - Landmark: {fileID: 0}
+    Unit: {fileID: 11435126}
+    Type: 0
+    Turn: 0
+  GridIDs:
+  - {x: 0, y: 3}
+  - {x: 1, y: 3}
+  - {x: 1, y: 2}
+  - {x: 1, y: 1}
+  - {x: 2, y: 1}
+  - {x: 2, y: 0}
+  - {x: 3, y: 0}
+  - {x: 3, y: 1}
+  - {x: 3, y: 2}
+  - {x: 3, y: 3}
+  - {x: 2, y: 3}
+  - {x: 2, y: 4}
+--- !u!114 &11485998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Paths: []
 --- !u!114 &11490764
 MonoBehaviour:
   m_ObjectHideFlags: 1
