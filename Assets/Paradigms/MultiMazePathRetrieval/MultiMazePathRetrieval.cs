@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
-public enum ParadigmCondition { Active, Passive }
+public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
 [RequireComponent(typeof(LSLMarkerStream))]
 public class MultiMazePathRetrieval : MonoBehaviour {
@@ -10,6 +11,12 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public VirtualRealityManager environment;
 	public HUDInstruction instructions;
 	public LSLMarkerStream markerStream;
+
+    public Training training;
+
+    //public Experiment experiment;
+
+    public HashSet<ITrial> TrialTypes;
 
 	public ITrial currentTrial;
 
@@ -21,38 +28,47 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	void Awake()
 	{
+        TrialTypes = new HashSet<ITrial>();
+
 		if (environment == null)
 			throw new MissingReferenceException("Reference to VirtualRealityManager is missing");
-
-        markerStream = GetComponent<LSLMarkerStream>();
-
+		
 		if (markerStream == null)
 			throw new MissingReferenceException("Reference to a MarkerStream instance is missing");
 
 		if (instructions == null)
 			throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
-        
-	}
-
-	// Use this for initialization
-	void Start () {
-		 
-		currentTrial = new Training(environment, markerStream, instructions);
-		currentTrial.Initialize();
-
-		currentTrial.OnEnd += currentTrial_OnEnd;
-
-		currentTrial.Start();
-	}
-
-	void currentTrial_OnEnd()
-	{
 		
+	}
+
+	public void BeginTraining()
+	{
+        currentTrial = training;
+        training.Initialize(1, 0, SubjectControlMode.Joystick);
+        training.StartTrial();
+	}
+
+    public void BeginExperiment()
+    {
+        
+    }
+
+	void currentTrial_Finished()
+	{
+		currentTrial.CleanUp();
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	 
+    ITrial GetRandomTrial()
+    { 
+
+        return null;
+    }
+}
+
+
+public static class MarkerPattern {
+
+	public const string BeginTrial = "{0}_{1}_{2}_BeginTrial";
+
 }
