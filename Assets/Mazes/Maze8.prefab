@@ -2340,7 +2340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &161694
 GameObject:
   m_ObjectHideFlags: 1
@@ -4453,7 +4453,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 164258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 1.495, z: 8.80000019}
+  m_LocalPosition: {x: -3.25999999, y: 0, z: -5.28000021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493574}
@@ -14691,6 +14691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 11479870}
   Landmarks: []
   HideOutReplacement: {fileID: 11482908}
@@ -14967,6 +14968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 11451584}
   Landmarks: []
   HideOutReplacement: {fileID: 11446784}
@@ -15256,6 +15258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 11437712}
   Landmarks: []
   HideOutReplacement: {fileID: 11451452}
@@ -15335,6 +15338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 0
   HideOut: {fileID: 11477186}
   Landmarks: []
   HideOutReplacement: {fileID: 11469102}
@@ -15425,6 +15429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 0
   HideOut: {fileID: 0}
   Landmarks: []
   HideOutReplacement: {fileID: 0}

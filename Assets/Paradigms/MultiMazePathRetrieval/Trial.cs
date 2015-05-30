@@ -31,21 +31,26 @@ public class Trial : MonoBehaviour, ITrial
 
     protected PathInMaze path;
 
-    protected PathController pathController;
+    public PathController pathController;
 
-    private int currentPathID = -1;
+    public int currentPathID = -1;
+    public int mazeID = -1;
 
-    public void Initialize(int mazeID, int pathID, SubjectControlMode mode)
+    public void Initialize(int mazeId, int pathID, SubjectControlMode mode)
     {
-        var targetWorld = string.Format(MazeNamePattern, mazeID);
+        var targetWorldName = string.Format(MazeNamePattern, mazeId);
         
-        var activeEnvironment = environment.ChangeWorld(targetWorld);
+        var activeEnvironment = environment.ChangeWorld(targetWorldName);
 
         mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
+
+        mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 
         pathController = activeEnvironment.GetComponent<PathController>();
 
         currentPathID = pathID;
+
+        mazeID = mazeId;
     }
 
     public virtual void OnMazeUnitEvent(MazeUnitEvent evt)

@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
-
 
 [RequireComponent(typeof(LSLMarkerStream))]
 public class MultiMazePathRetrieval : MonoBehaviour {
@@ -14,14 +14,10 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public LSLMarkerStream markerStream;
 
 	public Training training;
-     
+	 
 	public ITrial currentTrial;
 
-	[SerializeField]
-	public int NumberOfTrainingsTrials;
-
-	[SerializeField]
-	public int NumberOfTrialsPerCondition;
+	private ITrial lastTrial;
 
 	void Awake()
 	{
@@ -39,21 +35,44 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public void Begin(Training training)
 	{ 
 		currentTrial = training;
-		training.Initialize(1, 0, SubjectControlMode.Joystick);
+		training.Initialize(8, 1, SubjectControlMode.Joystick);
 		training.StartTrial();
 	}
 	 
-
 	void currentTrial_Finished()
 	{
 		currentTrial.CleanUp();
 
-	}
-	 
-	ITrial GetRandomTrial()
-	{ 
+		lastTrial = currentTrial;
 
-		return null;
+		DecideOnNextTrial();
+	}
+
+	private void DecideOnNextTrial(){
+
+		if (lastTrial.GetType() == typeof(Training))
+		{
+			currentTrial = GetNextTrial(training);
+		}
+
+	}
+
+	Training GetNextTrial(Training recycle)
+	{
+		int lastPath = recycle.currentPathID;
+
+		var allPaths = recycle.pathController.GetAvailablePathIDs();
+
+		var allPathsExceptLastPath = allPaths.Except(new int[] { lastPath });
+
+		var rand = new System.Random();
+		int randIndex = rand.Next(allPathsExceptLastPath.Count());
+
+		int newPathID = allPathsExceptLastPath.ElementAt(randIndex);
+
+		recycle.Initialize(recycle.mazeID, newPathID, SubjectControlMode.Joystick);
+
+		return recycle;
 	}
 }
 
@@ -61,5 +80,9 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 public static class MarkerPattern {
 
 	public const string BeginTrial = "{0}_{1}_{2}_BeginTrial";
-
+	public const string L = "L";
+	public const string R = "R";
+	public const string Turn = "{0}_Turn";
+	public const string Correct = "Correct";
+	public const string Incorrect = "Incorrect";
 }
