@@ -10,7 +10,9 @@ public class Training : Trial {
     /// A Trial Start may caused from external source (e.g. a key press)
     /// </summary>
     public override void StartTrial()
-    {   
+    {
+        base.StartTrial();
+
         var instruction = new Instruction();
         
         instruction.DisplayTime = 30f;
@@ -18,6 +20,8 @@ public class Training : Trial {
 
         if(hud.enabled)
             hud.StartDisplaying(instruction);
+        
+        path.SetLandmarks(true);
     }
 
     public override void OnMazeUnitEvent(MazeUnitEvent obj)
