@@ -5,6 +5,7 @@ using System;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
+
 [RequireComponent(typeof(LSLMarkerStream))]
 public class MultiMazePathRetrieval : MonoBehaviour {
 
@@ -12,12 +13,8 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public HUDInstruction instructions;
 	public LSLMarkerStream markerStream;
 
-    public Training training;
-
-    //public Experiment experiment;
-
-    public HashSet<ITrial> TrialTypes;
-
+	public Training training;
+     
 	public ITrial currentTrial;
 
 	[SerializeField]
@@ -28,8 +25,6 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	void Awake()
 	{
-        TrialTypes = new HashSet<ITrial>();
-
 		if (environment == null)
 			throw new MissingReferenceException("Reference to VirtualRealityManager is missing");
 		
@@ -41,17 +36,13 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 		
 	}
 
-	public void BeginTraining()
-	{
-        currentTrial = training;
-        training.Initialize(1, 0, SubjectControlMode.Joystick);
-        training.StartTrial();
+	public void Begin(Training training)
+	{ 
+		currentTrial = training;
+		training.Initialize(1, 0, SubjectControlMode.Joystick);
+		training.StartTrial();
 	}
-
-    public void BeginExperiment()
-    {
-        
-    }
+	 
 
 	void currentTrial_Finished()
 	{
@@ -59,11 +50,11 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	}
 	 
-    ITrial GetRandomTrial()
-    { 
+	ITrial GetRandomTrial()
+	{ 
 
-        return null;
-    }
+		return null;
+	}
 }
 
 

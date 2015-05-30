@@ -16,7 +16,7 @@ public class MMPREditor : Editor {
 
         if (GUILayout.Button("Start Training"))
         {
-            instance.BeginTraining();
+            instance.Begin(instance.training);
         }
 
         //if (GUILayout.Button("Start Experiment"))
