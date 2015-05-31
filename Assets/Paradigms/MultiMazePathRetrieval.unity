@@ -189,9 +189,9 @@ MonoBehaviour:
   MazeNamePattern: Maze{0}
   environment: {fileID: 1016292664}
   hud: {fileID: 995488662}
-  pathController: {fileID: 0}
-  currentPathID: -1
-  mazeID: -1
+  pathController: {fileID: 1020182184}
+  currentPathID: 1
+  mazeID: 8
   RunCount: 0
 --- !u!1001 &150669894
 Prefab:
@@ -487,7 +487,8 @@ MonoBehaviour:
   BorderZoneWidth: 1
   AvailableEnvironments:
   - {fileID: 1943560798}
-  ActiveEnvironments: []
+  ActiveEnvironments:
+  - {fileID: 1943560798}
 --- !u!4 &1016292665
 Transform:
   m_ObjectHideFlags: 0
@@ -501,6 +502,12 @@ Transform:
   - {fileID: 1943560797}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1020182184 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11441312, guid: a7ddf9d23525b5b4ea84d5c774b17eb4,
+    type: 2}
+  m_PrefabInternal: {fileID: 446541963}
+  m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
 --- !u!1 &1761092154
 GameObject:
   m_ObjectHideFlags: 0
