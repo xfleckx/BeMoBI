@@ -36,6 +36,8 @@ public class Trial : MonoBehaviour, ITrial
     public int currentPathID = -1;
     public int mazeID = -1;
 
+    public int RunCount = 0;
+
     public void Initialize(int mazeId, int pathID, SubjectControlMode mode)
     {
         var targetWorldName = string.Format(MazeNamePattern, mazeId);
@@ -63,6 +65,8 @@ public class Trial : MonoBehaviour, ITrial
         OnBeforeStart();
 
         path = pathController.EnablePathContaining(currentPathID);
+
+        marker.Write(string.Format(MarkerPattern.BeginTrial, mazeID, path.ID, 0));
     }
 
     public event Action BeforeStart;

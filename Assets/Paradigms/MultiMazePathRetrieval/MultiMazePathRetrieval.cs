@@ -19,6 +19,8 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	private ITrial lastTrial;
 
+    private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial,int>(); 
+
 	void Awake()
 	{
 		if (environment == null)
@@ -33,7 +35,10 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	}
 
 	public void Begin(Training training)
-	{ 
+	{
+        runCounter.Add(training, 0);
+
+        training.marker = markerStream;
 		currentTrial = training;
 		training.Initialize(8, 1, SubjectControlMode.Joystick);
 		training.StartTrial();
@@ -41,6 +46,8 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	 
 	void currentTrial_Finished()
 	{
+        runCounter[currentTrial]++;
+
 		currentTrial.CleanUp();
 
 		lastTrial = currentTrial;
@@ -71,7 +78,7 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 		int newPathID = allPathsExceptLastPath.ElementAt(randIndex);
 
 		recycle.Initialize(recycle.mazeID, newPathID, SubjectControlMode.Joystick);
-
+        recycle.RunCount = runCounter[recycle];
 		return recycle;
 	}
 }
@@ -85,4 +92,6 @@ public static class MarkerPattern {
 	public const string Turn = "{0}_Turn";
 	public const string Correct = "Correct";
 	public const string Incorrect = "Incorrect";
+	public const string Unit = "{0}_Unit_{1}_{2}";
+	public const string Enter = "Entering_{0}_{1}_{2}";
 }

@@ -192,6 +192,7 @@ MonoBehaviour:
   pathController: {fileID: 0}
   currentPathID: -1
   mazeID: -1
+  RunCount: 0
 --- !u!1001 &150669894
 Prefab:
   m_ObjectHideFlags: 0
@@ -278,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lslStreamName: Unity_Paradigma
-  lslStreamType: LSL_Marker_Strings
+  lslStreamType: Markers
 --- !u!4 &188249851
 Transform:
   m_ObjectHideFlags: 0
@@ -360,52 +361,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11437712, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
+    - target: {fileID: 11463612, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
       propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11451584, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11479870, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477186, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 154688, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 142914, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 119416, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 130624, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 165698, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 188294, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
+    - target: {fileID: 11403948, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 150422, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 106578, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-      propertyPath: m_IsActive
+    - target: {fileID: 11487398, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -521,7 +486,7 @@ MonoBehaviour:
   HighQualityZoneLength: 12
   BorderZoneWidth: 1
   AvailableEnvironments:
-  - {fileID: 1943560805}
+  - {fileID: 1943560798}
   ActiveEnvironments: []
 --- !u!4 &1016292665
 Transform:
@@ -563,23 +528,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 188249851}
   m_RootOrder: 2
---- !u!1 &1943560796 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 164258, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
-  m_PrefabInternal: {fileID: 446541963}
 --- !u!4 &1943560797 stripped
 Transform:
   m_PrefabParentObject: {fileID: 423278, guid: a7ddf9d23525b5b4ea84d5c774b17eb4, type: 2}
   m_PrefabInternal: {fileID: 446541963}
---- !u!114 &1943560805
+--- !u!114 &1943560798 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1943560796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_PrefabParentObject: {fileID: 11445852, guid: a7ddf9d23525b5b4ea84d5c774b17eb4,
+    type: 2}
+  m_PrefabInternal: {fileID: 446541963}
   m_Script: {fileID: 11500000, guid: 6a7ff97d8c955784f95e48b6e42e7c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Title: Name of the Environment
