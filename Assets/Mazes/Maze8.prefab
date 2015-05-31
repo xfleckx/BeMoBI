@@ -232,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &106812
 GameObject:
   m_ObjectHideFlags: 1
@@ -625,7 +625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &119528
 GameObject:
   m_ObjectHideFlags: 1
@@ -1126,7 +1126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &132282
 GameObject:
   m_ObjectHideFlags: 1
@@ -1572,7 +1572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &143166
 GameObject:
   m_ObjectHideFlags: 1
@@ -1928,7 +1928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &151338
 GameObject:
   m_ObjectHideFlags: 1
@@ -2054,7 +2054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &154856
 GameObject:
   m_ObjectHideFlags: 1
@@ -2340,7 +2340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &161694
 GameObject:
   m_ObjectHideFlags: 1
@@ -2500,6 +2500,7 @@ GameObject:
   - 114: {fileID: 11403948}
   - 114: {fileID: 11463612}
   - 114: {fileID: 11493234}
+  - 114: {fileID: 11445852}
   m_Layer: 0
   m_Name: Maze8
   m_TagString: Untagged
@@ -2559,7 +2560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &165912
 GameObject:
   m_ObjectHideFlags: 1
@@ -3469,7 +3470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &188534
 GameObject:
   m_ObjectHideFlags: 1
@@ -4452,8 +4453,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 164258}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 1.495, z: 8.80000019}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
+  m_LocalPosition: {x: 3.6500001, y: 0, z: 5.26000023}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493574}
@@ -14691,6 +14692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 11479870}
   Landmarks: []
   HideOutReplacement: {fileID: 11482908}
@@ -14816,7 +14818,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142914}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
@@ -14863,6 +14865,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 4, y: 6}
+--- !u!114 &11445852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7ff97d8c955784f95e48b6e42e7c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: Maze8
 --- !u!114 &11446784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14908,7 +14922,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154688}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
@@ -14967,6 +14981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 11451584}
   Landmarks: []
   HideOutReplacement: {fileID: 11446784}
@@ -15130,7 +15145,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130624}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
@@ -15158,7 +15173,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119416}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
@@ -15256,6 +15271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 11437712}
   Landmarks: []
   HideOutReplacement: {fileID: 11451452}
@@ -15335,6 +15351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 0
   HideOut: {fileID: 11477186}
   Landmarks: []
   HideOutReplacement: {fileID: 11469102}
@@ -15425,6 +15442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 0
   HideOut: {fileID: 0}
   Landmarks: []
   HideOutReplacement: {fileID: 0}
