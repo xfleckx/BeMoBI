@@ -31,6 +31,8 @@ public class Trial : MonoBehaviour, ITrial
 
     protected PathInMaze path;
 
+    public GameObject Socket;
+
     public PathController pathController;
 
     public int currentPathID = -1;
@@ -67,6 +69,11 @@ public class Trial : MonoBehaviour, ITrial
         path = pathController.EnablePathContaining(currentPathID);
 
         marker.Write(string.Format(MarkerPattern.BeginTrial, mazeID, path.ID, 0));
+
+        var currentObject = path.HideOut.GrabObject();
+
+        currentObject.transform.parent = Socket.transform;
+        currentObject.transform.localPosition = Vector3.zero;
     }
 
     public event Action BeforeStart;
