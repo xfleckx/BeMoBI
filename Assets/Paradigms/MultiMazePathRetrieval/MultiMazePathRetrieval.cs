@@ -12,6 +12,7 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public VirtualRealityManager environment;
 	public HUDInstruction instructions;
 	public LSLMarkerStream markerStream;
+    public StartPoint startingPoint;
 
 	public Training training;
 	 
