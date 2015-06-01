@@ -31,6 +31,8 @@ public class Trial : MonoBehaviour, ITrial
 
     protected PathInMaze path;
 
+    public StartPoint startPoint;
+
     public GameObject Socket;
 
     public PathController pathController;
@@ -50,11 +52,44 @@ public class Trial : MonoBehaviour, ITrial
 
         mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 
+        startPoint.EnterStartPoint += OnStartPointEntered;
+        startPoint.LeaveStartPoint += OnStartPointLeaved;
+
         pathController = activeEnvironment.GetComponent<PathController>();
 
         currentPathID = pathID;
 
         mazeID = mazeId;
+    }
+
+    private void OnStartPointEntered(GameObject obj)
+    {
+        var subject = obj.GetComponent<SubjectController>();
+
+        if (subject == null)
+            return;
+
+        EntersStartPoint(subject);
+    }
+
+    private void OnStartPointLeaved(GameObject obj)
+    {
+        var subject = obj.GetComponent<SubjectController>();
+
+        if (subject == null)
+            return;
+       
+       LeavesStartPoint(subject);
+    }
+
+    public virtual void EntersStartPoint(SubjectController subject) 
+    {
+        throw new NotImplementedException("Override the EntersStartPoint Method!");
+    }
+
+    public virtual void LeavesStartPoint(SubjectController subject)
+    {
+        throw new NotImplementedException("Override the EntersStartPoint Method!");
     }
 
     public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
@@ -94,5 +129,7 @@ public class Trial : MonoBehaviour, ITrial
     public void CleanUp()
     {
         mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
+        startPoint.LeaveStartPoint -= OnStartPointLeaved;
+        startPoint.EnterStartPoint -= OnStartPointEntered;
     }
 }

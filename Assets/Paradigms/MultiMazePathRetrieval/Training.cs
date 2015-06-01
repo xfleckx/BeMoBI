@@ -62,6 +62,16 @@ public class Training : Trial {
         }
     }
 
+    public override void EntersStartPoint(SubjectController subject)
+    {
+        Debug.Log("Subject entered Startpoint");
+    }
+
+    public override void LeavesStartPoint(SubjectController subject)
+    {
+        Debug.Log("Subject leaves Startpoint");
+    }
+
     private void WriteMarkerFor(PathElement pathElement)
     {
         var type = Enum.GetName(typeof(UnitType), pathElement.Type);
