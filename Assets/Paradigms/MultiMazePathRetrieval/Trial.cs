@@ -105,10 +105,10 @@ public class Trial : MonoBehaviour, ITrial
 
         marker.Write(string.Format(MarkerPattern.BeginTrial, mazeID, path.ID, 0));
 
-        var currentObject = path.HideOut.GrabObject();
+        var currentObject = GameObject.Instantiate(path.HideOut.TargetObject);
 
-        currentObject.transform.parent = Socket.transform;
-        currentObject.transform.localPosition = Vector3.zero;
+        currentObject.transform.parent = null;
+        currentObject.transform.position = Socket.transform.position;
     }
 
     public event Action BeforeStart;
