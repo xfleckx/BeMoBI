@@ -111,6 +111,12 @@ public class Trial : MonoBehaviour, ITrial
         currentObject.transform.position = Socket.transform.position;
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButton(0))
+            hud.SkipCurrent();
+    }
+
     public event Action BeforeStart;
     protected void OnBeforeStart()
     {
