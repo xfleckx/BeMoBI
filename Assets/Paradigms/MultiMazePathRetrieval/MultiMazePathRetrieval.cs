@@ -12,7 +12,7 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public VirtualRealityManager environment;
 	public HUDInstruction instructions;
 	public LSLMarkerStream markerStream;
-    public StartPoint startingPoint;
+	public StartPoint startingPoint;
 
 	public Training training;
 	 
@@ -20,7 +20,7 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	private ITrial lastTrial;
 
-    private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial,int>(); 
+	private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial,int>(); 
 
 	void Awake()
 	{
@@ -37,9 +37,12 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	public void Begin(Training training)
 	{
-        runCounter.Add(training, 0);
+		if (runCounter.ContainsKey(training))
+			runCounter[training]++;
+		else
+			runCounter.Add(training, 0);
 
-        training.marker = markerStream;
+		training.marker = markerStream;
 		currentTrial = training;
 		training.Initialize(8, 1, SubjectControlMode.Joystick);
 		training.StartTrial();
@@ -47,13 +50,22 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	 
 	void currentTrial_Finished()
 	{
-        runCounter[currentTrial]++;
+		runCounter[currentTrial]++;
 
 		currentTrial.CleanUp();
 
 		lastTrial = currentTrial;
 
 		DecideOnNextTrial();
+	}
+
+	void Update()
+	{
+		if (Input.GetKey(KeyCode.Space))
+			instructions.StopDisplaying();
+
+		if(Input.GetKey(KeyCode.S))
+			Begin(training);
 	}
 
 	private void DecideOnNextTrial(){
@@ -65,11 +77,11 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	}
 
-	Training GetNextTrial(Training recycle)
+	Training GetNextTrial(Training lastTrainingTrial)
 	{
-		int lastPath = recycle.currentPathID;
+		int lastPath = lastTrainingTrial.currentPathID;
 
-		var allPaths = recycle.pathController.GetAvailablePathIDs();
+		var allPaths = lastTrainingTrial.pathController.GetAvailablePathIDs();
 
 		var allPathsExceptLastPath = allPaths.Except(new int[] { lastPath });
 
@@ -78,9 +90,9 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 		int newPathID = allPathsExceptLastPath.ElementAt(randIndex);
 
-		recycle.Initialize(recycle.mazeID, newPathID, SubjectControlMode.Joystick);
-        recycle.RunCount = runCounter[recycle];
-		return recycle;
+		lastTrainingTrial.Initialize(lastTrainingTrial.mazeID, newPathID, SubjectControlMode.Joystick);
+		lastTrainingTrial.RunCount = runCounter[lastTrainingTrial];
+		return lastTrainingTrial;
 	}
 }
 

@@ -16,7 +16,7 @@ public class Training : Trial {
 
         var instruction = new Instruction();
         
-        instruction.DisplayTime = 10f;
+        instruction.DisplayTime = 5f;
         instruction.Text = "Remember the given path for this labyrinth";
 
         if(hud.enabled)

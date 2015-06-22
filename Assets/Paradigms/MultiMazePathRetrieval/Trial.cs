@@ -113,8 +113,8 @@ public class Trial : MonoBehaviour, ITrial
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
-            hud.SkipCurrent();
+//        if (Input.GetMouseButton(0))
+//            hud.SkipCurrent();
     }
 
     public event Action BeforeStart;
