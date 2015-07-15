@@ -62,9 +62,9 @@ public class Trial : MonoBehaviour, ITrial
         mazeID = mazeId;
     }
 
-    private void OnStartPointEntered(GameObject obj)
+    private void OnStartPointEntered(Collider c)
     {
-        var subject = obj.GetComponent<SubjectController>();
+        var subject = c.GetComponent<SubjectController>();
 
         if (subject == null)
             return;
@@ -72,9 +72,9 @@ public class Trial : MonoBehaviour, ITrial
         EntersStartPoint(subject);
     }
 
-    private void OnStartPointLeaved(GameObject obj)
+    private void OnStartPointLeaved(Collider c)
     {
-        var subject = obj.GetComponent<SubjectController>();
+        var subject = c.GetComponent<SubjectController>();
 
         if (subject == null)
             return;

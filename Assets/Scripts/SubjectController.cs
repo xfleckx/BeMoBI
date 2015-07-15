@@ -16,7 +16,7 @@ public class SubjectController : MonoBehaviour
     [SerializeField] private float m_JumpSpeed;
     [SerializeField] private float m_StickToGroundForce;
     [SerializeField] private float m_GravityMultiplier;
-
+    public bool MouseLookEnabled = false;
 
     private MouseLook m_mouseLook = new MouseLook();
     public Transform m_Camera;
@@ -33,6 +33,8 @@ public class SubjectController : MonoBehaviour
     private bool m_Jumping;
     private AudioSource m_AudioSource;
 
+    public OVRDisplay ovrDisplay;
+
     // Use this for initialization
     private void Start()
     {
@@ -45,29 +47,16 @@ public class SubjectController : MonoBehaviour
         m_mouseLook.Init(transform, m_Camera);
     }
 
+    public void ResetTracker()
+    {
+        OVRManager.display.RecenterPose();
+    }
 
     // Update is called once per frame
     private void Update()
     {
-        m_mouseLook.LookRotation(transform, m_Camera.transform);
-
-        // the jump state needs to read here to make sure it is not missed
-        if (!m_Jump)
-        {
-            m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
-        }
-
-        if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
-        { 
-            m_MoveDir.y = 0f;
-            m_Jumping = false;
-        }
-        if (!m_CharacterController.isGrounded && !m_Jumping && m_PreviouslyGrounded)
-        {
-            m_MoveDir.y = 0f;
-        }
-
-        m_PreviouslyGrounded = m_CharacterController.isGrounded;
+        if(MouseLookEnabled)
+            m_mouseLook.LookRotation(transform, m_Camera.transform);
     }
         
     private void FixedUpdate()

@@ -6,19 +6,19 @@ using UnityEngine;
 
 public class StartPoint : MonoBehaviour {
 
-    public event Action<GameObject> EnterStartPoint;
-    public event Action<GameObject> LeaveStartPoint;
+    public event Action<Collider> EnterStartPoint;
+    public event Action<Collider> LeaveStartPoint;
 
     void OnTriggerEnter(Collider c)
     {
         if (EnterStartPoint != null)
-            EnterStartPoint(c.gameObject);
+            EnterStartPoint(c);
     }
 
     void OnTriggerExit(Collider c)
     {
         if (LeaveStartPoint != null)
-            LeaveStartPoint(c.gameObject);
+            LeaveStartPoint(c);
     }
 
 }
