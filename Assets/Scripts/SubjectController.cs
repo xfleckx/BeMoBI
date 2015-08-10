@@ -33,8 +33,6 @@ public class SubjectController : MonoBehaviour
     private bool m_Jumping;
     private AudioSource m_AudioSource;
 
-    public OVRDisplay ovrDisplay;
-
     // Use this for initialization
     private void Start()
     {
