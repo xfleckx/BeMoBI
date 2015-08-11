@@ -3,24 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Xml.Serialization;
+using System.IO;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
 [RequireComponent(typeof(LSLMarkerStream))]
 public class MultiMazePathRetrieval : MonoBehaviour {
 
-	public VirtualRealityManager environment;
+    private const string ParadgimConfigDirectoryName = "ParadigmConfig";
+    private const string ParadigmConfigNamePattern = "VP_{0}_{1}";
+
+    private const string DateTimeFileNameFormat = "yyyy-MM-dd_hh-mm";
+
+    private const string DetailedDateTimeFileNameFormat = "yyyy-MM-dd_hh-mm-ss-tt";
+
+    public VirtualRealityManager environment;
 	public HUDInstruction instructions;
 	public LSLMarkerStream markerStream;
 	public StartPoint startingPoint;
 
 	public Training training;
-	 
+    public Experiment experiment;
+
 	public ITrial currentTrial;
 
 	private ITrial lastTrial;
 
-	private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial,int>(); 
+	private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial,int>();
+
+    private ParadigmConfiguration ParadigmConfiguration;
 
 	void Awake()
 	{
@@ -34,6 +46,41 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 			throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
 		
 	}
+
+    void Start()
+    {
+        int vpId = 0; // for prototyping reasons
+
+        string paradigmInstanceConfigFileName = string.Format(ParadigmConfigNamePattern, vpId, DateTime.Now.ToString(DateTimeFileNameFormat));
+
+        string pathToConfigDirectory = Path.Combine(Application.dataPath, ParadgimConfigDirectoryName);
+
+        string FullPathToParadigmInstanzConfig = Path.Combine(pathToConfigDirectory, paradigmInstanceConfigFileName);
+        
+        FileInfo ParadigmInstanceConfigFile = new FileInfo(FullPathToParadigmInstanzConfig);
+
+        if (ParadigmInstanceConfigFile.Exists) {
+            
+            Debug.Log(string.Format("Instance config file found at {0}", ParadigmInstanceConfigFile.FullName));
+
+            var serializer = new XmlSerializer(typeof(ParadigmConfiguration));
+
+            var fileStream = new FileStream(ParadigmInstanceConfigFile.FullName, FileMode.Open);
+
+            ParadigmConfiguration = serializer.Deserialize(fileStream) as ParadigmConfiguration;
+
+            // TODO: Serialization
+            if (ParadigmConfiguration == null)
+            {
+                throw new InvalidOperationException("Missing valid Paradigm config... Generate one!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No Instance Configuration found");
+        }
+
+    }
 
 	public void Begin(Training training)
 	{
@@ -70,12 +117,24 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	private void DecideOnNextTrial(){
 
-		if (lastTrial.GetType() == typeof(Training))
-		{
-			currentTrial = GetNextTrial(training);
-		}
+        if(ParadigmConfiguration == null)
+        {
+            currentTrial = GetRandomTrial();
 
-	}
+            return;
+        }
+
+
+        if (lastTrial.GetType() == typeof(Training))
+        {
+            currentTrial = GetNextTrial(training);
+        }
+    }
+
+    Trial GetNextTrial(TrialConfiguration config)
+    {
+        throw new NotImplementedException();
+    }
 
 	Training GetNextTrial(Training lastTrainingTrial)
 	{
@@ -94,8 +153,18 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 		lastTrainingTrial.RunCount = runCounter[lastTrainingTrial];
 		return lastTrainingTrial;
 	}
-}
+    
+    Trial GetRandomTrial()
+    {
+        Trial result;
 
+        var rand = new System.Random().Next(0, 1);
+
+        result = rand > 0 ? experiment : training;
+
+        return result;
+    }
+}
 
 public static class MarkerPattern {
 
@@ -107,4 +176,29 @@ public static class MarkerPattern {
 	public const string Incorrect = "Incorrect";
 	public const string Unit = "{0}_Unit_{1}_{2}";
 	public const string Enter = "Entering_{0}_{1}_{2}";
+}
+
+[XmlRoot("XmlDocRoot")]
+class ParadigmConfiguration
+{
+    [XmlArray("Trials")]
+    public List<TrialConfiguration> Trials; 
+}
+
+class TrialConfiguration
+{
+    [XmlAttribute("Type")]
+    public TrialType Type;
+
+    [XmlAttribute("Maze")]
+    public int MazeNumber;
+
+    [XmlAttribute("Categorie")]
+    public int CategorieNumber;
+
+    [XmlAttribute("Object")]
+    public int ObjectNumber;
+
+    [XmlAttribute("ControlMode")]
+    public SubjectControlMode ControlMode;
 }

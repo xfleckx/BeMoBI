@@ -16,6 +16,7 @@ public interface ITrial
     void CleanUp();
 }
 
+enum TrialType { Training, Pause, Experiment }
 
 public class Trial : MonoBehaviour, ITrial
 {
