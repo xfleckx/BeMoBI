@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using UnityStandardAssets.Characters.FirstPerson;
-
-using Random = UnityEngine.Random;
+using UnityEngine.VR;
 
 [RequireComponent(typeof (CharacterController))]
 public class SubjectController : MonoBehaviour
@@ -47,7 +46,8 @@ public class SubjectController : MonoBehaviour
 
     public void ResetTracker()
     {
-        OVRManager.display.RecenterPose();
+        InputTracking.Recenter();
+            
     }
 
     // Update is called once per frame
