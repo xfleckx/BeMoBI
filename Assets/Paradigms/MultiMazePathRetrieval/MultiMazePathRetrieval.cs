@@ -160,7 +160,10 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
         var rand = new System.Random().Next(0, 1);
 
-        result = rand > 0 ? experiment : training;
+        if (rand > 0)
+            result = experiment;
+        else 
+            result = training; 
 
         return result;
     }
