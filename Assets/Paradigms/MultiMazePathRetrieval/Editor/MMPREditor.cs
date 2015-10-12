@@ -12,16 +12,17 @@ public class MMPREditor : Editor {
     {
         instance = target as MultiMazePathRetrieval;
 
-        base.OnInspectorGUI();
-
-        if (GUILayout.Button("Start Training"))
+        if (GUILayout.Button("Open Control & \n Configuration Window", GUILayout.Height(40)))
         {
-            instance.Begin(instance.training);
+            var controlWindow = EditorWindow.CreateInstance<M2PRControl>();
+
+            controlWindow.Initialize(instance);
+
+            controlWindow.Show();
         }
 
-        //if (GUILayout.Button("Start Experiment"))
-        //{
-        //    instance.BeginTraining();
-        //}
+        base.OnInspectorGUI();
+        
+
     }
 }

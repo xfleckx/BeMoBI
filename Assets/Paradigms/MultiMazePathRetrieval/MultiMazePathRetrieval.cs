@@ -22,6 +22,8 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 	public HUDInstruction instructions;
 	public LSLMarkerStream markerStream;
 	public StartPoint startingPoint;
+    public GameObject objectPresenter;
+    public ObjectPool objectPool;
 
 	public Training training;
     public Experiment experiment;
@@ -94,7 +96,21 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 		training.Initialize(8, 1, SubjectControlMode.Joystick);
 		training.StartTrial();
 	}
-	 
+
+
+    public void Begin(Experiment experiment)
+    {
+        if (runCounter.ContainsKey(experiment))
+            runCounter[experiment]++;
+        else
+            runCounter.Add(experiment, 0);
+
+        experiment.marker = markerStream;
+        currentTrial = experiment;
+        experiment.Initialize(8, 1, SubjectControlMode.Joystick);
+        experiment.StartTrial();
+    }
+
 	void currentTrial_Finished()
 	{
 		runCounter[currentTrial]++;
@@ -167,6 +183,7 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
         return result;
     }
+
 }
 
 public static class MarkerPattern {

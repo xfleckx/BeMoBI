@@ -47,7 +47,6 @@ public class SubjectController : MonoBehaviour
     public void ResetTracker()
     {
         InputTracking.Recenter();
-            
     }
 
     // Update is called once per frame
@@ -94,9 +93,6 @@ public class SubjectController : MonoBehaviour
         UpdateCameraPosition(speed);
     }
 
-
-
-
     private void UpdateCameraPosition(float speed)
     {
         Vector3 newCameraPosition;
@@ -104,7 +100,6 @@ public class SubjectController : MonoBehaviour
             newCameraPosition = m_Camera.transform.localPosition; 
         m_Camera.transform.localPosition = newCameraPosition;
     }
-
 
     private void GetInput(out float speed)
     {
@@ -137,8 +132,6 @@ public class SubjectController : MonoBehaviour
         }
     }
 
-         
-
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
@@ -153,5 +146,14 @@ public class SubjectController : MonoBehaviour
             return;
         }
         body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+    }
+
+    void OnDrawGizmos()
+    {
+        var bodyCenter = transform.position + new Vector3(0, 1,0);
+
+        Gizmos.DrawWireCube(transform.position, new Vector3(0.4f, 0.001f, 0.4f));
+        Gizmos.DrawRay(bodyCenter, transform.forward * 0.5f);
+        Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.3f));
     }
 }

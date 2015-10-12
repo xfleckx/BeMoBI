@@ -21,4 +21,8 @@ public class StartPoint : MonoBehaviour {
             LeaveStartPoint(c);
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, transform.forward * 3);
+    }
 }
