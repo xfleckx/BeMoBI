@@ -25,10 +25,13 @@ public class MultiMazePathRetrieval : MonoBehaviour {
     public GameObject objectPresenter;
     public ObjectPool objectPool;
 
-	public Training training;
+    #region Trials
+    public Training training;
     public Experiment experiment;
-
-	public ITrial currentTrial;
+    public Pause pause;
+    public InstructionTrial instruction;
+    #endregion
+    public ITrial currentTrial;
 
 	private ITrial lastTrial;
 
@@ -83,6 +86,10 @@ public class MultiMazePathRetrieval : MonoBehaviour {
         }
 
     }
+    public void Begin(InstructionTrial trial)
+    {
+
+    }
 
 	public void Begin(Training training)
 	{
@@ -96,7 +103,11 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 		training.Initialize(8, 1, SubjectControlMode.Joystick);
 		training.StartTrial();
 	}
+    
+    public void Begin(Pause trial)
+    {
 
+    }
 
     public void Begin(Experiment experiment)
     {
@@ -138,6 +149,16 @@ public class MultiMazePathRetrieval : MonoBehaviour {
             currentTrial = GetRandomTrial();
 
             return;
+        }
+
+        if(lastTrial is InstructionTrial)
+        {
+            throw new NotImplementedException("TODO: Implement logic to get into the the Training!");
+        }
+
+        if (lastTrial is Pause)
+        {
+            throw new NotImplementedException("TODO: Implement logic to get back Pause into the Training or Experiment!");
         }
 
 

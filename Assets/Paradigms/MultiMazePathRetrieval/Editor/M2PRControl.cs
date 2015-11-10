@@ -41,6 +41,20 @@ public class M2PRControl : EditorWindow {
             return;
         }
 
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Start Instruction Trial"))
+        {
+            instance.Begin(instance.instruction);
+        }
+
+        if (GUILayout.Button("Start Pause Trial"))
+        {
+            instance.Begin(instance.pause);
+        }
+
+        EditorGUILayout.EndHorizontal();
+
         if (GUILayout.Button("Start Training Trial"))
         {
             instance.Begin(instance.training);
