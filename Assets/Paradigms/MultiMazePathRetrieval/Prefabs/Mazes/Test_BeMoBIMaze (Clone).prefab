@@ -7364,6 +7364,7 @@ MonoBehaviour:
   MazeWidthInMeter: 6
   MazeLengthInMeter: 10
   RoomDimension: {x: 1.20000005, y: 2, z: 1.20000005}
+  Units: []
 --- !u!114 &11407884
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -249,7 +249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &106812
 GameObject:
   m_ObjectHideFlags: 1
@@ -672,7 +672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &119528
 GameObject:
   m_ObjectHideFlags: 1
@@ -1191,7 +1191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &132282
 GameObject:
   m_ObjectHideFlags: 1
@@ -1673,7 +1673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &143166
 GameObject:
   m_ObjectHideFlags: 1
@@ -2044,7 +2044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &151338
 GameObject:
   m_ObjectHideFlags: 1
@@ -2188,7 +2188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &154856
 GameObject:
   m_ObjectHideFlags: 1
@@ -2694,7 +2694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &165912
 GameObject:
   m_ObjectHideFlags: 1
@@ -3622,7 +3622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &188534
 GameObject:
   m_ObjectHideFlags: 1
@@ -15222,6 +15222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 14
   GridID: {x: 2, y: 7}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11403948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15296,6 +15297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 13
   GridID: {x: 3, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11410606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15309,6 +15311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 0
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11414664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15323,10 +15326,8 @@ MonoBehaviour:
   UnitNamePattern: Unit_{0}_{1}
   MazeWidthInMeter: 6
   MazeLengthInMeter: 10
-  RoomHigthInMeter: 2
   RoomDimension: {x: 1.20000005, y: 2, z: 1.20000005}
-  EdgeDimension: {x: .100000001, y: .100000001}
-  WallThicknessInMeter: .100000001
+  Units: []
 --- !u!114 &11418750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15340,6 +15341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 6
   GridID: {x: 1, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11422668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15353,19 +15355,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 0
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11437712
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142914}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
   TargetObject: {fileID: 149890}
   FadingStep: .100000001
 --- !u!114 &11440290
@@ -15381,6 +15385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 13
   GridID: {x: 2, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11441312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15411,6 +15416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 4, y: 6}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11445852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15436,6 +15442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 2, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11449000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15449,6 +15456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 3, y: 7}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11451452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15462,19 +15470,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 1, y: 6}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11451584
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154688}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
   TargetObject: {fileID: 177916}
   FadingStep: .100000001
 --- !u!114 &11459496
@@ -15490,6 +15500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 7
   GridID: {x: 3, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11459968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15503,6 +15514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 2, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11463158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15516,6 +15528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 1, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11463612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15620,6 +15633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 3, y: 5}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11465494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15633,6 +15647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 4, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11469102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15646,6 +15661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 2, y: 5}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11470852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15659,6 +15675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 0
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11472722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15672,6 +15689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 4, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11475128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15685,19 +15703,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 14
   GridID: {x: 3, y: 6}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11477186
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130624}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
   TargetObject: {fileID: 177590}
   FadingStep: .100000001
 --- !u!114 &11478420
@@ -15713,19 +15733,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 1, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11479870
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119416}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6de9d70c934eb48ab3bfe815c4f045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
   TargetObject: {fileID: 145496}
   FadingStep: .100000001
 --- !u!114 &11482544
@@ -15741,6 +15763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 6
   GridID: {x: 2, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11482908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15754,6 +15777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 3, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11483128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15767,6 +15791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 5
   GridID: {x: 1, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11484944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15780,6 +15805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 0
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11485722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15793,6 +15819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 5
   GridID: {x: 2, y: 6}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11486882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15806,6 +15833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 6
   GridID: {x: 1, y: 7}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11487398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15886,6 +15914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 4, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11493234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16051,6 +16080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 3, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!136 &13604478
 CapsuleCollider:
   m_ObjectHideFlags: 1

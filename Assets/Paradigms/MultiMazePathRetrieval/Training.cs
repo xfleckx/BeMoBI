@@ -27,6 +27,7 @@ public class Training : Trial {
         oneBeforeLast = path.PathElements.Keys.ElementAt(IdxOneBeforeLast);
 
         path.SetLandmarks(true);
+        
     }
 
     public override void OnMazeUnitEvent(MazeUnitEvent obj)

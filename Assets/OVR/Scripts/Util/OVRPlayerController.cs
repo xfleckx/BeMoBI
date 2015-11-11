@@ -223,21 +223,14 @@ public class OVRPlayerController : MonoBehaviour
 
 		bool dpad_move = false;
 
-#if UNITY_ANDROID
-		if (OVRGamepadController.GPC_GetButton(OVRGamepadController.Button.Up))
-#else
 		if (OVRInput.Get(OVRInput.Button.DpadUp))
-#endif
 		{
 			moveForward = true;
 			dpad_move   = true;
 
 		}
-#if UNITY_ANDROID
-		if (OVRGamepadController.GPC_GetButton(OVRGamepadController.Button.Down))
-#else
+
 		if (OVRInput.Get(OVRInput.Button.DpadDown))
-#endif
 		{
 			moveBack  = true;
 			dpad_move = true;
@@ -278,22 +271,14 @@ public class OVRPlayerController : MonoBehaviour
 
 		Vector3 euler = transform.rotation.eulerAngles;
 
-#if UNITY_ANDROID
-		bool curHatLeft = OVRGamepadController.GPC_GetButton(OVRGamepadController.Button.LeftShoulder);
-#else
 		bool curHatLeft = OVRInput.Get(OVRInput.Button.PrimaryShoulder);
-#endif
 
 		if (curHatLeft && !prevHatLeft)
 			euler.y -= RotationRatchet;
 
 		prevHatLeft = curHatLeft;
 
-#if UNITY_ANDROID
-		bool curHatRight = OVRGamepadController.GPC_GetButton(OVRGamepadController.Button.RightShoulder);
-#else
 		bool curHatRight = OVRInput.Get(OVRInput.Button.SecondaryShoulder);
-#endif
 
 		if(curHatRight && !prevHatRight)
 			euler.y += RotationRatchet;
@@ -320,28 +305,6 @@ public class OVRPlayerController : MonoBehaviour
 		moveInfluence *= 1.0f + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
 #endif
 
-#if UNITY_ANDROID
-		float leftAxisX = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.LeftXAxis);
-		float leftAxisY = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.LeftYAxis);
-
-		if(leftAxisY > 0.0f)
-            MoveThrottle += ort * (leftAxisY * transform.lossyScale.z * moveInfluence * Vector3.forward);
-
-		if(leftAxisY < 0.0f)
-            MoveThrottle += ort * (Mathf.Abs(leftAxisY) * transform.lossyScale.z * moveInfluence * BackAndSideDampen * Vector3.back);
-
-		if(leftAxisX < 0.0f)
-            MoveThrottle += ort * (Mathf.Abs(leftAxisX) * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.left);
-
-		if(leftAxisX > 0.0f)
-            MoveThrottle += ort * (leftAxisX * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
-
-		float rightAxisX = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.RightXAxis);
-
-		euler.y += rightAxisX * rotateInfluence;
-
-		transform.rotation = Quaternion.Euler(euler);
-#else
 		Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
 
 		if(primaryAxis.y > 0.0f)
@@ -361,7 +324,6 @@ public class OVRPlayerController : MonoBehaviour
 		euler.y += secondaryAxis.x * rotateInfluence;
 
 		transform.rotation = Quaternion.Euler(euler);
-#endif
 	}
 
 	/// <summary>

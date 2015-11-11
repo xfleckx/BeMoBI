@@ -160,6 +160,10 @@ public class OVRGamepadController : MonoBehaviour
 
     static OVRGamepadController()
     {
+		Debug.Log("OVRGamepadController has been deprecated and will be removed in a future release. Please migrate to OVRInput. "
+				+ "Refer to the documentation here for more information: "
+				+ "https://developer.oculus.com/documentation/game-engines/latest/concepts/unity-ovrinput/");
+
 #if UNITY_ANDROID && !UNITY_EDITOR
         SetAxisNames(AndroidAxisNames);
         SetButtonNames(AndroidButtonNames);
