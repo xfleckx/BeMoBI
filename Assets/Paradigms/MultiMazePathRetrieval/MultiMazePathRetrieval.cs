@@ -12,6 +12,7 @@ public enum SubjectControlMode { None, Joystick, PhaseSpace }
 public class MultiMazePathRetrieval : MonoBehaviour {
 
     private const string ParadgimConfigDirectoryName = "ParadigmConfig";
+
     private const string ParadigmConfigNamePattern = "VP_{0}_{1}";
 
     private const string DateTimeFileNameFormat = "yyyy-MM-dd_hh-mm";
@@ -19,18 +20,21 @@ public class MultiMazePathRetrieval : MonoBehaviour {
     private const string DetailedDateTimeFileNameFormat = "yyyy-MM-dd_hh-mm-ss-tt";
 
     public VirtualRealityManager environment;
-	public HUDInstruction instructions;
+	public HUD_Instruction instructions;
 	public LSLMarkerStream markerStream;
 	public StartPoint startingPoint;
     public GameObject objectPresenter;
     public ObjectPool objectPool;
 
     #region Trials
+
     public Training training;
     public Experiment experiment;
     public Pause pause;
     public InstructionTrial instruction;
+    
     #endregion
+
     public ITrial currentTrial;
 
 	private ITrial lastTrial;
@@ -86,6 +90,7 @@ public class MultiMazePathRetrieval : MonoBehaviour {
         }
 
     }
+
     public void Begin(InstructionTrial trial)
     {
 

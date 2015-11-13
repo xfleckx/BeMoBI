@@ -26,7 +26,7 @@ public class Trial : MonoBehaviour, ITrial
 
     public IMarkerStream marker;
 
-    public HUDInstruction hud;
+    public HUD_Instruction hud;
 
     protected beMobileMaze mazeInstance;
 

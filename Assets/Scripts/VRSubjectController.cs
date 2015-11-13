@@ -236,12 +236,14 @@ public class VRSubjectController : MonoBehaviour
     }
 
     #endregion
+
     void OnDrawGizmos()
     {
         var bodyCenter = transform.position + new Vector3(0, 1, 0);
 
         Gizmos.DrawWireCube(transform.position, new Vector3(0.4f, 0.001f, 0.4f));
         Gizmos.DrawRay(bodyCenter, transform.forward * 0.5f);
-        Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.3f));
+        Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.1f));
+        
     }
 } 
