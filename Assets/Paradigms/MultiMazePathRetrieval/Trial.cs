@@ -3,140 +3,144 @@ using System.Collections;
 using System.Linq;
 using System;
 
-public interface ITrial
+namespace Assets.Paradigms.MultiMazePathRetrieval
 {
-    void Initialize(int mazeID, int pathID, SubjectControlMode mode);
 
-    void StartTrial();
-
-    event Action BeforeStart;
-
-    event Action Finished;
-
-    void CleanUp();
-}
-
-enum TrialType { Training, Pause, Experiment }
-
-public class Trial : MonoBehaviour, ITrial
-{
-    public string MazeNamePattern = "Maze{0}";
-
-    public VirtualRealityManager environment;
-
-    public IMarkerStream marker;
-
-    public HUD_Instruction hud;
-
-    protected beMobileMaze mazeInstance;
-
-    protected PathInMaze path;
-
-    public StartPoint startPoint;
-
-    public GameObject Socket;
-
-    public PathController pathController;
-
-    public int currentPathID = -1;
-    public int mazeID = -1;
-
-    public int RunCount = 0;
-
-    public void Initialize(int mazeId, int pathID, SubjectControlMode mode)
+    public interface ITrial
     {
-        var targetWorldName = string.Format(MazeNamePattern, mazeId);
-        
-        var activeEnvironment = environment.ChangeWorld(targetWorldName);
+        void Initialize(int mazeID, int pathID, SubjectControlMode mode);
 
-        mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
+        void StartTrial();
 
-        mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
+        event Action BeforeStart;
 
-        startPoint.EnterStartPoint += OnStartPointEntered;
-        startPoint.LeaveStartPoint += OnStartPointLeaved;
+        event Action Finished;
 
-        pathController = activeEnvironment.GetComponent<PathController>();
-
-        currentPathID = pathID;
-
-        mazeID = mazeId;
+        void CleanUp();
     }
 
-    private void OnStartPointEntered(Collider c)
+    enum TrialType { Training, Pause, Experiment }
+
+    public class Trial : MonoBehaviour, ITrial
     {
-        var subject = c.GetComponent<SubjectController>();
+        public string MazeNamePattern = "Maze{0}";
 
-        if (subject == null)
-            return;
+        public VirtualRealityManager environment;
 
-        EntersStartPoint(subject);
-    }
+        public IMarkerStream marker;
 
-    private void OnStartPointLeaved(Collider c)
-    {
-        var subject = c.GetComponent<SubjectController>();
+        public HUD_Instruction hud;
 
-        if (subject == null)
-            return;
-       
-       LeavesStartPoint(subject);
-    }
+        protected beMobileMaze mazeInstance;
 
-    public virtual void EntersStartPoint(SubjectController subject) 
-    {
-        throw new NotImplementedException("Override the EntersStartPoint Method!");
-    }
+        protected PathInMaze path;
 
-    public virtual void LeavesStartPoint(SubjectController subject)
-    {
-        throw new NotImplementedException("Override the EntersStartPoint Method!");
-    }
+        public StartPoint startPoint;
 
-    public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
-    {
-        throw new NotImplementedException("Override the OnMazeUnitEvent Method!");
-    }
-    
-    public virtual void StartTrial()
-    {
-        OnBeforeStart();
+        public GameObject Socket;
 
-        path = pathController.EnablePathContaining(currentPathID);
+        public PathController pathController;
 
-        marker.Write(string.Format(MarkerPattern.BeginTrial, mazeID, path.ID, 0));
+        public int currentPathID = -1;
+        public int mazeID = -1;
 
-        var currentObject = GameObject.Instantiate(path.HideOut.TargetObject);
+        public int RunCount = 0;
 
-        currentObject.transform.parent = null;
-        currentObject.transform.position = Socket.transform.position;
-    }
+        public void Initialize(int mazeId, int pathID, SubjectControlMode mode)
+        {
+            var targetWorldName = string.Format(MazeNamePattern, mazeId);
 
-    void Update()
-    {
-//        if (Input.GetMouseButton(0))
-//            hud.SkipCurrent();
-    }
+            var activeEnvironment = environment.ChangeWorld(targetWorldName);
 
-    public event Action BeforeStart;
-    protected void OnBeforeStart()
-    {
-        if (BeforeStart != null)
-            BeforeStart();
-        
-    }
+            mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
-    public event Action Finished;
-    protected void OnFinished()
-    {
-        if (Finished != null)
-            Finished();
-    }
+            mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 
-    public void CleanUp()
-    {
-        mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
-        startPoint.LeaveStartPoint -= OnStartPointLeaved;
-        startPoint.EnterStartPoint -= OnStartPointEntered;
+            startPoint.EnterStartPoint += OnStartPointEntered;
+            startPoint.LeaveStartPoint += OnStartPointLeaved;
+
+            pathController = activeEnvironment.GetComponent<PathController>();
+
+            currentPathID = pathID;
+
+            mazeID = mazeId;
+        }
+
+        private void OnStartPointEntered(Collider c)
+        {
+            var subject = c.GetComponent<SubjectController>();
+
+            if (subject == null)
+                return;
+
+            EntersStartPoint(subject);
+        }
+
+        private void OnStartPointLeaved(Collider c)
+        {
+            var subject = c.GetComponent<SubjectController>();
+
+            if (subject == null)
+                return;
+
+            LeavesStartPoint(subject);
+        }
+
+        public virtual void EntersStartPoint(SubjectController subject)
+        {
+            throw new NotImplementedException("Override the EntersStartPoint Method!");
+        }
+
+        public virtual void LeavesStartPoint(SubjectController subject)
+        {
+            throw new NotImplementedException("Override the EntersStartPoint Method!");
+        }
+
+        public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
+        {
+            throw new NotImplementedException("Override the OnMazeUnitEvent Method!");
+        }
+
+        public virtual void StartTrial()
+        {
+            OnBeforeStart();
+
+            path = pathController.EnablePathContaining(currentPathID);
+
+            marker.Write(string.Format(MarkerPattern.BeginTrial, mazeID, path.ID, 0));
+
+            var currentObject = GameObject.Instantiate(path.HideOut.TargetObject);
+
+            currentObject.transform.parent = null;
+            currentObject.transform.position = Socket.transform.position;
+        }
+
+        void Update()
+        {
+            //        if (Input.GetMouseButton(0))
+            //            hud.SkipCurrent();
+        }
+
+        public event Action BeforeStart;
+        protected void OnBeforeStart()
+        {
+            if (BeforeStart != null)
+                BeforeStart();
+
+        }
+
+        public event Action Finished;
+        protected void OnFinished()
+        {
+            if (Finished != null)
+                Finished();
+        }
+
+        public void CleanUp()
+        {
+            mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
+            startPoint.LeaveStartPoint -= OnStartPointLeaved;
+            startPoint.EnterStartPoint -= OnStartPointEntered;
+        }
     }
 }

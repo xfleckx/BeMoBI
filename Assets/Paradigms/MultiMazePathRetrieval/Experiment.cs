@@ -3,78 +3,83 @@ using System.Collections;
 using System;
 using System.Linq;
 
+namespace Assets.Paradigms.MultiMazePathRetrieval
+{
 
-public class Experiment : Trial {
-
-    Vector2 oneBeforeLast;
-    /// <summary>
-    /// A Trial Start may caused from external source (e.g. a key press)
-    /// </summary>
-    public override void StartTrial()
+    public class Experiment : Trial
     {
-        base.StartTrial();
 
-        var instruction = new Instruction();
-        
-        instruction.DisplayTime = 5f;
-        instruction.Text = "Retrieve the path to this object";
-
-        if(hud.enabled)
-            hud.StartDisplaying(instruction);
-
-        var IdxOneBeforeLast = path.PathElements.Keys.Count - 2;
-
-        oneBeforeLast = path.PathElements.Keys.ElementAt(IdxOneBeforeLast);
-
-        path.SetLandmarks(true);
-    }
-
-    public override void OnMazeUnitEvent(MazeUnitEvent obj)
-    {
-        if (obj.MazeUnitEventType == MazeUnitEventType.Entering)
+        Vector2 oneBeforeLast;
+        /// <summary>
+        /// A Trial Start may caused from external source (e.g. a key press)
+        /// </summary>
+        public override void StartTrial()
         {
-            var current = obj.MazeUnit.GridID;
+            base.StartTrial();
 
-            marker.Write(string.Format(MarkerPattern.Unit, mazeID, current.x, current.y));
+            var instruction = new Instruction();
 
-            if (!path.PathElements.ContainsKey(current))
-            {
-                var instruction = new Instruction();
+            instruction.DisplayTime = 5f;
+            instruction.Text = "Retrieve the path to this object";
 
-                instruction.Text = "You`re wrong! Please turn!";
-
+            if (hud.enabled)
                 hud.StartDisplaying(instruction);
-            }
-            else
+
+            var IdxOneBeforeLast = path.PathElements.Keys.Count - 2;
+
+            oneBeforeLast = path.PathElements.Keys.ElementAt(IdxOneBeforeLast);
+
+            path.SetLandmarks(true);
+        }
+
+        public override void OnMazeUnitEvent(MazeUnitEvent obj)
+        {
+            if (obj.MazeUnitEventType == MazeUnitEventType.Entering)
             {
-                hud.StopAllCoroutines();
+                var current = obj.MazeUnit.GridID;
 
-                var currentPathElement = path.PathElements[current];
-                WriteMarkerFor(currentPathElement);
+                marker.Write(string.Format(MarkerPattern.Unit, mazeID, current.x, current.y));
 
-            }
+                if (!path.PathElements.ContainsKey(current))
+                {
+                    var instruction = new Instruction();
 
-            if (oneBeforeLast.Equals(current)) { 
-                path.HideOut.Open();
+                    instruction.Text = "You`re wrong! Please turn!";
 
-                OnFinished();
+                    hud.StartDisplaying(instruction);
+                }
+                else
+                {
+                    hud.StopAllCoroutines();
+
+                    var currentPathElement = path.PathElements[current];
+                    WriteMarkerFor(currentPathElement);
+
+                }
+
+                if (oneBeforeLast.Equals(current))
+                {
+                    path.HideOut.Open();
+
+                    OnFinished();
+                }
             }
         }
-    }
 
-    public override void EntersStartPoint(SubjectController subject)
-    {
-        Debug.Log("Subject entered Startpoint");
-    }
+        public override void EntersStartPoint(SubjectController subject)
+        {
+            Debug.Log("Subject entered Startpoint");
+        }
 
-    public override void LeavesStartPoint(SubjectController subject)
-    {
-        Debug.Log("Subject leaves Startpoint");
-    }
+        public override void LeavesStartPoint(SubjectController subject)
+        {
+            Debug.Log("Subject leaves Startpoint");
+        }
 
-    private void WriteMarkerFor(PathElement pathElement)
-    {
-        var type = Enum.GetName(typeof(UnitType), pathElement.Type);
-         marker.Write(string.Format(MarkerPattern.Enter, type, pathElement.Unit.GridID.x,pathElement.Unit.GridID.x));
+        private void WriteMarkerFor(PathElement pathElement)
+        {
+            var type = Enum.GetName(typeof(UnitType), pathElement.Type);
+            marker.Write(string.Format(MarkerPattern.Enter, type, pathElement.Unit.GridID.x, pathElement.Unit.GridID.x));
+        }
     }
 }

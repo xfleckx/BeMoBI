@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class InstructionTrial : Trial
+namespace Assets.Paradigms.MultiMazePathRetrieval
 {
-
-    // Use this for initialization
-    void Start()
+    public class InstructionTrial : Trial
     {
 
-    }
+        // Use this for initialization
+        void Start()
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
+        }
 
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

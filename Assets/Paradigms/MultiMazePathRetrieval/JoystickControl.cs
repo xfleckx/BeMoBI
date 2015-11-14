@@ -46,8 +46,6 @@ public class JoystickControl : MonoBehaviour, IBodyMovementController
         else {
             character.transform.rotation = targetRotation;
         }
-         
-       // desiredMove = transform.TransformDirection( desiredMove );
 
         character.Move(desiredMove);
 
