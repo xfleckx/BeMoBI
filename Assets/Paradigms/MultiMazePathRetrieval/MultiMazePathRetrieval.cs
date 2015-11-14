@@ -140,11 +140,11 @@ public class MultiMazePathRetrieval : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.Space))
-			instructions.StopDisplaying();
+		//if (Input.GetKey(KeyCode.Space))
+		//	instructions.StopDisplaying();
 
-		if(Input.GetKey(KeyCode.S))
-			Begin(training);
+		//if(Input.GetKey(KeyCode.S))
+		//	Begin(training);
 	}
 
 	private void DecideOnNextTrial(){

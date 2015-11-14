@@ -25,11 +25,7 @@ public class VRSubjectInspector : Editor
         {
             instance.SetInputMethod(instance.InitMouseKeyboardInput, instance.MouseKeyboardInput);
         }
-
-        if (GUILayout.Button("Joystick"))
-        {
-            instance.SetInputMethod(instance.InitJoystick, instance.JoystickInput);
-        }
+        
 
         if (GUILayout.Button("Keyboard + RIFT"))
         {
