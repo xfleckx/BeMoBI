@@ -9,6 +9,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
     public class M2PRControl : EditorWindow
     {
         private ParadigmController instance;
+        private ObjectPool objectPool;
+
 
         private int mazesToUse;
         private int pathsToUsePerMaze; // corresponds with the available objects - one distinct object per path per maze
@@ -131,13 +133,13 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                     atLeastAvailblePathsPerMaze = availablePathsAtThisMaze;
             }
 
-            var objectManager = FindObjectOfType<ObjectPool>();
+            objectPool = FindObjectOfType<ObjectPool>();
 
-            var availableCategories = objectManager.Categories.Count;
+            var availableCategories = objectPool.Categories.Count;
 
             var atLeastAvailableObjectsPerCategory = 0;
 
-            foreach (var category in objectManager.Categories)
+            foreach (var category in objectPool.Categories)
             {
                 var availableObjectsFromThisCategory = category.AssociatedObjects.Count;
                 
@@ -152,7 +154,24 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         private ParadigmInstanceConfig Generate()
         {
-            throw new NotImplementedException("TODO");
+            var newConfig = CreateInstance<ParadigmInstanceConfig>();
+
+            newConfig.TrialConfigs = new List<TrialConfig>();
+
+            for (int i = 0; i < objectVisitationsInTraining; i++)
+            {
+                
+                var newTrainingsConfig = new TrialConfig()
+                {
+                    TrialType = typeof(Training).Name,
+                    
+                };
+                 
+            }
+
+
+
+            return newConfig;
         }
     }
     

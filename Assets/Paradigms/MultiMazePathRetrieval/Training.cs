@@ -59,7 +59,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
                 if (oneBeforeLast.Equals(current))
                 {
-                    path.HideOut.Open();
 
                     OnFinished();
                 }
