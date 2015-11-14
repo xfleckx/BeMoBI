@@ -5,12 +5,20 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.VR;
 using UnityEngine.Assertions;
+using Assets.Paradigms.MultiMazePathRetrieval;
 
+[RequireComponent(typeof(CharacterController))]
 public class VRSubjectController : MonoBehaviour
 {
     public Camera HeadPerspective;
 
+    public Transform Head;
+    public CharacterController Body;
+
     private event Action ProcessInput;
+
+    private event Action<CharacterController> ApplyMovementToBody;
+    private event Action<Transform> ApplyMovementToHead;
 
     public event Action SubmitPressed;
     public event Action<float> ItemValueRequested; 
@@ -18,7 +26,15 @@ public class VRSubjectController : MonoBehaviour
     public void Start()
     {
         Assert.IsNotNull<Camera>(HeadPerspective);
-        m_CharacterController = GetComponent<CharacterController>();
+
+        Body = GetComponent<CharacterController>();
+
+        var movementController = GetComponents<IBodyMovementController>();
+
+        if (movementController.Any())
+        {
+            ApplyMovementToBody += movementController.FirstOrDefault().ApplyMovement;
+        }
     }
 
     public void RecenterHeading()
@@ -28,9 +44,15 @@ public class VRSubjectController : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (ProcessInput != null)
-            ProcessInput.Invoke();
-    }
+        //if (ProcessInput != null)
+        //    ProcessInput.Invoke();
+
+        if (ApplyMovementToBody != null)
+            ApplyMovementToBody(Body);
+
+        if (ApplyMovementToHead != null)
+            ApplyMovementToHead(Head);
+    }       
 
     public void SetInputMethod(Action initMethod, Action continousMethod)
     {
@@ -219,20 +241,6 @@ public class VRSubjectController : MonoBehaviour
         q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
 
         return q;
-    }
-
-    #endregion
-
-    #region Joystick Input
-
-    public void InitJoystick()
-    {
-
-    }
-
-    public void JoystickInput()
-    {
-
     }
 
     #endregion
