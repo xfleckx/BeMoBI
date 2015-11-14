@@ -473,12 +473,12 @@ MonoBehaviour:
   instructions: {fileID: 736670617}
   markerStream: {fileID: 188249850}
   startingPoint: {fileID: 1465411900}
-  objectPresenter: {fileID: 1941343821}
-  objectPool: {fileID: 701507151}
+  objectPresenter: {fileID: 1944748664}
+  objectPool: {fileID: 1208354559}
   training: {fileID: 126849972}
-  experiment: {fileID: 291541180}
-  pause: {fileID: 0}
-  instruction: {fileID: 0}
+  experiment: {fileID: 1353002344}
+  pause: {fileID: 1761092156}
+  instruction: {fileID: 470305384}
 --- !u!114 &188249850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,7 +504,7 @@ Transform:
   m_Children:
   - {fileID: 1208354558}
   - {fileID: 126849971}
-  - {fileID: 291541179}
+  - {fileID: 1353002343}
   - {fileID: 1761092155}
   - {fileID: 470305383}
   m_Father: {fileID: 0}
@@ -928,54 +928,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1728555462}
   m_RootOrder: 4
---- !u!1 &291541178
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 291541179}
-  - 114: {fileID: 291541180}
-  m_Layer: 0
-  m_Name: Experiment
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &291541179
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 291541178}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 188249851}
-  m_RootOrder: 2
---- !u!114 &291541180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 291541178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d6e7e0c8359dfd479ea4f0f35a1aa79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MazeNamePattern: Maze{0}
-  environment: {fileID: 0}
-  hud: {fileID: 0}
-  startPoint: {fileID: 0}
-  Socket: {fileID: 0}
-  pathController: {fileID: 0}
-  currentPathID: -1
-  mazeID: -1
-  RunCount: 0
 --- !u!1 &321780670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,8 +1053,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 470305383}
+  - 114: {fileID: 470305384}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Instruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1120,6 +1073,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 188249851}
   m_RootOrder: 4
+--- !u!114 &470305384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 470305382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c61354649fe156244908be2ab3ef9760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MazeNamePattern: Maze{0}
+  environment: {fileID: 0}
+  hud: {fileID: 0}
+  startPoint: {fileID: 0}
+  Socket: {fileID: 0}
+  pathController: {fileID: 0}
+  currentPathID: -1
+  mazeID: -1
+  RunCount: 0
 --- !u!1001 &523877758
 Prefab:
   m_ObjectHideFlags: 0
@@ -1414,12 +1387,6 @@ MonoBehaviour:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 44884af1ac1d64d42902da40268ba120, type: 2}
   m_PrefabInternal: {fileID: 1637968901}
---- !u!114 &701507151 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11462590, guid: 60ce42ef1a8eb8f41ac315c6d969e358,
-    type: 2}
-  m_PrefabInternal: {fileID: 1208354557}
-  m_Script: {fileID: 11500000, guid: 5fbbfcc57033cce4dbebb1eeb37e059c, type: 3}
 --- !u!1 &704539511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2400,10 +2367,64 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
   m_PrefabInternal: {fileID: 1208354557}
+--- !u!114 &1208354559 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11462590, guid: 60ce42ef1a8eb8f41ac315c6d969e358,
+    type: 2}
+  m_PrefabInternal: {fileID: 1208354557}
+  m_Script: {fileID: 11500000, guid: 5fbbfcc57033cce4dbebb1eeb37e059c, type: 3}
 --- !u!4 &1262347954 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 2}
   m_PrefabInternal: {fileID: 859549286}
+--- !u!1 &1353002342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1353002343}
+  - 114: {fileID: 1353002344}
+  m_Layer: 0
+  m_Name: Experiment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1353002343
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353002342}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.6749992, y: 1.15441751, z: -.830320835}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 188249851}
+  m_RootOrder: 2
+--- !u!114 &1353002344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353002342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6e7e0c8359dfd479ea4f0f35a1aa79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MazeNamePattern: Maze{0}
+  environment: {fileID: 0}
+  hud: {fileID: 0}
+  startPoint: {fileID: 0}
+  Socket: {fileID: 0}
+  pathController: {fileID: 0}
+  currentPathID: -1
+  mazeID: -1
+  RunCount: 0
 --- !u!1 &1465411895
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3277,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1761092155}
+  - 114: {fileID: 1761092156}
   m_Layer: 0
   m_Name: Pause
   m_TagString: Untagged
@@ -3275,6 +3297,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 188249851}
   m_RootOrder: 3
+--- !u!114 &1761092156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1761092154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f94d5df69dc70d48acd1bc13fe21bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MazeNamePattern: Maze{0}
+  environment: {fileID: 0}
+  hud: {fileID: 0}
+  startPoint: {fileID: 0}
+  Socket: {fileID: 0}
+  pathController: {fileID: 0}
+  currentPathID: -1
+  mazeID: -1
+  RunCount: 0
 --- !u!1 &1794407924
 GameObject:
   m_ObjectHideFlags: 0
