@@ -12,7 +12,9 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         private int mazesToUse;
         private int pathsToUsePerMaze; // corresponds with the available objects - one distinct object per path per maze
-        private int objectVisitationsInTraining; // how often an object should be visisted while trainings trials
+        [SerializeField]
+        private int objectVisitationsInTraining; // how often an object should be visisted while trainings trial
+        [SerializeField]
         private int objectVisitationsInExperiment; // " while Experiment
 
         private ParadigmInstanceConfig lastGeneratedInstanceConfig;
@@ -81,12 +83,70 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         {
             GUILayout.Label("Configuration", EditorStyles.largeLabel);
 
+            if (lastGeneratedInstanceConfig == null)
+                EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
 
+            if(GUILayout.Button(new GUIContent("Find Possible Configuration","Search the current Scene for all necessary elements!")))
+                EstimateConfigBasedOnAvailableElements();
+            
+            mazesToUse = EditorGUILayout.IntField("Mazes",mazesToUse);
 
-            if (GUILayout.Button("Generate Instance Config", GUILayout.Height(35)))
+            pathsToUsePerMaze = EditorGUILayout.IntField("Paths (Objects) per Maze", pathsToUsePerMaze);
+
+            EditorGUILayout.HelpBox("Remember that only one path per maze per object is allowed", MessageType.Info);
+
+            EditorGUILayout.LabelField("Count of object visitations");
+
+            objectVisitationsInTraining =  EditorGUILayout.IntField("Training", objectVisitationsInTraining);
+            objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", objectVisitationsInExperiment);
+
+            if (GUILayout.Button("Generate Instance Config", GUILayout.Height(35))) 
             {
                 lastGeneratedInstanceConfig = Generate();
             }
+
+            lastGeneratedInstanceConfig = EditorGUILayout.ObjectField("Last Generated Config", lastGeneratedInstanceConfig, typeof(ParadigmInstanceConfig), false) as ParadigmInstanceConfig;
+
+            if(lastGeneratedInstanceConfig != null && GUILayout.Button("Show Config"))
+            {
+                throw new NotImplementedException("TODO Implement config viewer");
+            }
+        }
+
+        private void EstimateConfigBasedOnAvailableElements()
+        {
+            var mazes = FindObjectsOfType<beMobileMaze>();
+
+            var availableMazes = mazes.Length;
+            
+            var atLeastAvailblePathsPerMaze = 0;
+
+            foreach (var maze in mazes)
+            {
+                var pathController = maze.GetComponent<PathController>();
+
+                var availablePathsAtThisMaze = pathController.GetAvailablePathIDs().Length;
+
+                if (atLeastAvailblePathsPerMaze == 0 || atLeastAvailblePathsPerMaze > availablePathsAtThisMaze)
+                    atLeastAvailblePathsPerMaze = availablePathsAtThisMaze;
+            }
+
+            var objectManager = FindObjectOfType<ObjectPool>();
+
+            var availableCategories = objectManager.Categories.Count;
+
+            var atLeastAvailableObjectsPerCategory = 0;
+
+            foreach (var category in objectManager.Categories)
+            {
+                var availableObjectsFromThisCategory = category.AssociatedObjects.Count;
+                
+                if (atLeastAvailableObjectsPerCategory == 0 || atLeastAvailableObjectsPerCategory > availableObjectsFromThisCategory)
+                    atLeastAvailableObjectsPerCategory = availableObjectsFromThisCategory;
+            }
+
+            mazesToUse = availableMazes;
+            pathsToUsePerMaze = atLeastAvailblePathsPerMaze;
 
         }
 
@@ -95,6 +155,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             throw new NotImplementedException("TODO");
         }
     }
+    
 
 
     public class ParadigmInstanceConfig : ScriptableObject
