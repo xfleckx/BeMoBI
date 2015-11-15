@@ -7,8 +7,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 {
     public class Training : Trial
     {
-
-        Vector2 oneBeforeLast;
+        Vector2 GridPositionOFLastPathElement;
         /// <summary>
         /// A Trial Start may caused from external source (e.g. a key press)
         /// </summary>
@@ -19,16 +18,16 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             var instruction = new Instruction();
 
             instruction.DisplayTime = 5f;
-            instruction.Text = "Remember the given path for this labyrinth";
+            instruction.Text = "Remember the given path for this object!";
 
             if (hud.enabled)
                 hud.StartDisplaying(instruction);
 
-            var IdxOneBeforeLast = path.PathElements.Keys.Count - 2;
+            var IdxLast = path.PathElements.Keys.Count -1;
 
-            oneBeforeLast = path.PathElements.Keys.ElementAt(IdxOneBeforeLast);
+            GridPositionOFLastPathElement = path.PathElements.Keys.ElementAt(IdxLast);
+            
 
-            path.SetLandmarks(true);
 
         }
 
@@ -57,7 +56,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
                 }
 
-                if (oneBeforeLast.Equals(current))
+                if (GridPositionOFLastPathElement.Equals(current))
                 {
 
                     OnFinished();

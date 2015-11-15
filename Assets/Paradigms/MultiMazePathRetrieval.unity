@@ -475,6 +475,7 @@ MonoBehaviour:
   startingPoint: {fileID: 1465411900}
   objectPresenter: {fileID: 1944748664}
   objectPool: {fileID: 1208354559}
+  InstanceDefinition: {fileID: 11400000, guid: b42bb4ddf6066d24baa9bb8671a4539c, type: 2}
   training: {fileID: 126849972}
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}

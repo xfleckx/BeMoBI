@@ -13,6 +13,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         private ParadigmController instance;
 
         [SerializeField]
+        private int subject_ID = 0;
+        [SerializeField]
         private int categoriesPerMaze = 1;
         [SerializeField]
         private int mazesToUse;
@@ -76,29 +78,29 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                 return;
             }
 
-            EditorGUILayout.BeginHorizontal();
+            //EditorGUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("Start Instruction Trial"))
-            {
-                instance.Begin(instance.instruction);
-            }
+            //if (GUILayout.Button("Start Instruction Trial"))
+            //{
+            //    instance.Begin(instance.instruction);
+            //}
 
-            if (GUILayout.Button("Start Pause Trial"))
-            {
-                instance.Begin(instance.pause);
-            }
+            //if (GUILayout.Button("Start Pause Trial"))
+            //{
+            //    instance.Begin(instance.pause);
+            //}
 
-            EditorGUILayout.EndHorizontal();
+            //EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Start Training Trial"))
-            {
-                instance.Begin(instance.training);
-            }
+            //if (GUILayout.Button("Start Training Trial"))
+            //{
+            //    instance.Begin(instance.training);
+            //}
 
-            if (GUILayout.Button("Start Experiment Trial"))
-            {
-                instance.Begin(instance.experiment);
-            }
+            //if (GUILayout.Button("Start Experiment Trial"))
+            //{
+            //    instance.Begin(instance.experiment);
+            //}
         }
 
         private void RenderConfigurationGUI()
@@ -110,6 +112,10 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
                 EstimateConfigBasedOnAvailableElements();
+
+
+            subject_ID = EditorGUILayout.IntField("Subject", subject_ID);
+
 
             mazesToUse = EditorGUILayout.IntField("Mazes", mazesToUse);
 
@@ -133,7 +139,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             objectVisitationsInTraining = EditorGUILayout.IntField("Training", objectVisitationsInTraining);
             objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", objectVisitationsInExperiment);
 
-            if (GUILayout.Button("Generate Instance Config", GUILayout.Height(35)))
+            if (objectPool != null && GUILayout.Button("Generate Instance Config", GUILayout.Height(35)))
             {
                 lastGeneratedInstanceConfig = Generate();
             }
@@ -147,7 +153,9 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             if (GUILayout.Button("Save Instance Config"))
             {
-                AssetDatabase.CreateAsset(lastGeneratedInstanceConfig, "Assets/ParadigmConfig.asset");
+                var fileName = string.Format("Assets/Paradigms/MultiMazePathRetrieval/Resources/VP_{0}_InstanceDefinition.asset", subject_ID);
+
+                AssetDatabase.CreateAsset(lastGeneratedInstanceConfig, fileName);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
@@ -202,8 +210,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                     atLeastAvailblePathsPerMaze = availablePathsAtThisMaze;
             }
             
-            var availableCategories = objectPool.Categories.Count;
-
             var atLeastAvailableObjectsPerCategory = 0;
 
             foreach (var category in objectPool.Categories)
@@ -262,7 +268,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
 
             var newConfig = CreateInstance<ParadigmInstanceDefinition>();
-            newConfig.name = "ParadigmaDefinition";
+            newConfig.Subject = subject_ID;
+            newConfig.name = string.Format("VP_{0}_InstanceDef", subject_ID);
 
             newConfig.Trials = new List<TrialDefinition>();
 
@@ -341,71 +348,5 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         } 
 
         #endregion
-    }
-
-
-
-    public class ParadigmInstanceDefinition : ScriptableObject //, ISerializationCallbackReceiver
-    {
-        public string BodyController;
-        public string HeadController;
-
-        public List<TrialDefinition> Trials;
-
-        //[SerializeField]
-        //private List<string> _keys;
-        //[SerializeField]
-        //private List<TrialDefinition> _values;
-
-        //public void OnAfterDeserialize()
-        //{
-        //    for (int i = 0; i < _keys.Count; i++)
-        //    {
-        //        Trials.Add(_keys[i], _values[i]);
-        //    }
-        //}
-
-        //public void OnBeforeSerialize()
-        //{
-        //    _keys = Trials.Keys.ToList();
-        //    _values = Trials.Values.ToList();
-        //}
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName}")]
-    public class TrialDefinition
-    {
-        public string TrialType;
-        public string MazeName;
-        public int Path;
-        public string Category;
-        public string ObjectName;
-    }
-
-    /// <summary>
-    /// A temporary configuration of values describing the configuration of a trial
-    /// </summary>
-    /// 
-    [DebuggerDisplay("{MazeName} {Path} {Category} {ObjectName}")]
-    internal struct TrialConfig : ICloneable
-    { 
-        public string   MazeName;
-        public int      Path;
-        public string   Category;
-        public string   ObjectName;
-
-        public object Clone()
-        {
-            return new TrialConfig()
-            {
-                MazeName = this.MazeName,
-                Path = this.Path,
-                Category = this.Category,
-                ObjectName = this.ObjectName
-            };
-        }
     }
 }

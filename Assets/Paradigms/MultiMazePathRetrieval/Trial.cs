@@ -5,10 +5,9 @@ using System;
 
 namespace Assets.Paradigms.MultiMazePathRetrieval
 {
-
     public interface ITrial
     {
-        void Initialize(int mazeID, int pathID, SubjectControlMode mode);
+        void Initialize(string mazeName, int pathID, string category, string objectName);
 
         void StartTrial();
 
@@ -18,18 +17,15 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         void CleanUp();
     }
-
-    enum TrialType { Training, Pause, Experiment }
-
+    
     public class Trial : MonoBehaviour, ITrial
     {
-        public string MazeNamePattern = "Maze{0}";
-
         public VirtualRealityManager environment;
 
         public IMarkerStream marker;
 
         public HUD_Instruction hud;
+        public HUD_DEBUG debug;
 
         protected beMobileMaze mazeInstance;
 
@@ -43,14 +39,10 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public int currentPathID = -1;
         public int mazeID = -1;
-
-        public int RunCount = 0;
-
-        public void Initialize(int mazeId, int pathID, SubjectControlMode mode)
-        {
-            var targetWorldName = string.Format(MazeNamePattern, mazeId);
-
-            var activeEnvironment = environment.ChangeWorld(targetWorldName);
+        
+        public void Initialize(string mazeName, int pathID, string category, string objectName)
+        {  
+            var activeEnvironment = environment.ChangeWorld(mazeName);
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
@@ -61,9 +53,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             pathController = activeEnvironment.GetComponent<PathController>();
 
-            currentPathID = pathID;
-
-            mazeID = mazeId;
+            path = pathController.Paths.Single((p) => p.ID == pathID);
         }
 
         private void OnStartPointEntered(Collider c)
@@ -107,20 +97,10 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             path = pathController.EnablePathContaining(currentPathID);
 
-            marker.Write(string.Format(MarkerPattern.BeginTrial, mazeID, path.ID, 0));
-
-            var currentObject = GameObject.Instantiate(path.HideOut.TargetObject);
-
-            currentObject.transform.parent = null;
-            currentObject.transform.position = Socket.transform.position;
+            marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, mazeID, path.ID, 0));
+             
         }
-
-        void Update()
-        {
-            //        if (Input.GetMouseButton(0))
-            //            hud.SkipCurrent();
-        }
-
+        
         public event Action BeforeStart;
         protected void OnBeforeStart()
         {

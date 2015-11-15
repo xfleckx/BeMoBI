@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using System.Xml.Serialization;
 using System.IO;
 using Assets.Paradigms.MultiMazePathRetrieval;
 using System.Diagnostics;
@@ -13,6 +11,7 @@ public enum SubjectControlMode { None, Joystick, PhaseSpace }
 [RequireComponent(typeof(LSLMarkerStream))]
 public class ParadigmController : MonoBehaviour
 {
+    #region Constants
 
     private const string ParadgimConfigDirectoryName = "ParadigmConfig";
 
@@ -21,6 +20,8 @@ public class ParadigmController : MonoBehaviour
     private const string DateTimeFileNameFormat = "yyyy-MM-dd_hh-mm";
 
     private const string DetailedDateTimeFileNameFormat = "yyyy-MM-dd_hh-mm-ss-tt";
+    
+    #endregion
 
     public VirtualRealityManager environment;
     public HUD_Instruction instructions;
@@ -30,21 +31,6 @@ public class ParadigmController : MonoBehaviour
     public ObjectPool objectPool;
 
     public ParadigmInstanceDefinition InstanceDefinition;
-
-    #region Trials
-
-    public Training training;
-    public Experiment experiment;
-    public Pause pause;
-    public InstructionTrial instruction;
-
-    #endregion
-
-    public ITrial currentTrial;
-
-    private ITrial lastTrial;
-
-    private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
     
     void Awake()
     {
@@ -56,165 +42,135 @@ public class ParadigmController : MonoBehaviour
 
         if (instructions == null)
             throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
-
+        
     }
 
     void Start()
     {
-        int vpId = 0; // for prototyping reasons
+        trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
+    }
 
-        string paradigmInstanceConfigFileName = string.Format(ParadigmConfigNamePattern, vpId, DateTime.Now.ToString(DateTimeFileNameFormat));
+    #region Trials
 
-        string pathToConfigDirectory = Path.Combine(Application.dataPath, ParadgimConfigDirectoryName);
+    private LinkedList<TrialDefinition> trials;
+    private LinkedListNode<TrialDefinition> currentDefinition;
 
-        string FullPathToParadigmInstanzConfig = Path.Combine(pathToConfigDirectory, paradigmInstanceConfigFileName);
+    public Training training;
+    public Experiment experiment;
+    public Pause pause;
+    public InstructionTrial instruction;
+
+    public Trial currentTrial;
+    
+    private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
+
+    #endregion
+
+    #region Trial Management
+
+    void NextTrial()
+    {
+        if (currentDefinition == null) {
+            currentDefinition = trials.First;
+        }
+        else if (currentDefinition.Next == null)
+        {
+            ParadigmInstanceFinished();
+            return;
+        }
+        else
+        {
+            currentDefinition = currentDefinition.Next;
+        }
+
+        var next = currentDefinition.Value;
+
+        if (next.TrialType.Equals(typeof(Training).Name))
+        {
+            Begin(training, next);
+        }
+
+        if (next.TrialType.Equals(typeof(Experiment).Name))
+        {
+            Begin(experiment, next);
+        }
+    }
+    
+    public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
+    {
+        if (!runCounter.ContainsKey(trial)) 
+            runCounter.Add(trial, 0);
+
+        currentTrial = trial;
+
+        Prepare(currentTrial);
         
+        currentTrial.StartTrial();
     }
 
-    public void Begin(InstructionTrial trial)
+    private void Prepare(Trial currentTrial)
     {
+        currentTrial.marker = markerStream;
 
+        var def = currentDefinition.Value;
+
+        currentTrial.Initialize(def.MazeName, def.Path, def.Category, def.ObjectName);
+
+        currentTrial.Finished += currentTrial_Finished;
     }
-
-    public void Begin(Training training)
-    {
-        if (runCounter.ContainsKey(training))
-            runCounter[training]++;
-        else
-            runCounter.Add(training, 0);
-
-        training.marker = markerStream;
-        currentTrial = training;
-        training.Initialize(8, 1, SubjectControlMode.Joystick);
-        training.StartTrial();
-    }
-
-    public void Begin(Pause trial)
-    {
-
-    }
-
-    public void Begin(Experiment experiment)
-    {
-        if (runCounter.ContainsKey(experiment))
-            runCounter[experiment]++;
-        else
-            runCounter.Add(experiment, 0);
-
-        experiment.marker = markerStream;
-        currentTrial = experiment;
-        experiment.Initialize(8, 1, SubjectControlMode.Joystick);
-        experiment.StartTrial();
-    }
-
+     
     void currentTrial_Finished()
     {
         runCounter[currentTrial]++;
 
         currentTrial.CleanUp();
 
-        lastTrial = currentTrial;
-
-        DecideOnNextTrial();
+        NextTrial();
     }
 
-    void Update()
+    private void ParadigmInstanceFinished()
     {
-        //if (Input.GetKey(KeyCode.Space))
-        //	instructions.StopDisplaying();
-
-        //if(Input.GetKey(KeyCode.S))
-        //	Begin(training);
+        throw new NotImplementedException("TODO");
     }
+    
+    #endregion
+    
+    #region Public interface for controlling the paradigm remotely
 
-    private void DecideOnNextTrial()
+    public void StartParadigmInstance()
     {
-
-        if (InstanceDefinition == null)
-        {
-            currentTrial = GetRandomTrial();
-
-            return;
-        }
-
-        //if (config.TrialType.Equals(typeof(Instruction).Name))
-        //{
-        //    return instruction;
-        //}
-
-        //if (config.TrialType.Equals(typeof(Pause).Name))
-        //{
-        //    return pause;
-        //}
-
-        //if (config.TrialType.Equals(typeof(Training).Name))
-        //{
-        //    return training;
-        //}
-
-        //if (config.TrialType.Equals(typeof(Experiment).Name))
-        //{
-        //    return experiment;
-        //}
-
-        // throw new ArgumentException(string.Format("Expected a Trial Type \"{0}\" which seems to be not implemented!", config.TrialType));
-
-
-        if (lastTrial is InstructionTrial)
-        {
-            throw new NotImplementedException("TODO: Implement logic to get into the the Training!");
-        }
-
-        if (lastTrial is Pause)
-        {
-            throw new NotImplementedException("TODO: Implement logic to get back Pause into the Training or Experiment!");
-        }
-
-
-        if (lastTrial.GetType() == typeof(Training))
-        {
-            currentTrial = GetNextTrial(training);
-        }
+        NextTrial();
     }
 
-    Training GetNextTrial(Training lastTrainingTrial)
+    public void InjectPauseTrial()
     {
-        int lastPath = lastTrainingTrial.currentPathID;
+        var temp = currentDefinition.Next;
 
-        var allPaths = lastTrainingTrial.pathController.GetAvailablePathIDs();
+        var pauseTrial = new TrialDefinition()
+        {
+            TrialType = typeof(Pause).Name
+        };
 
-        var allPathsExceptLastPath = allPaths.Except(new int[] { lastPath });
-
-        var rand = new System.Random();
-        int randIndex = rand.Next(allPathsExceptLastPath.Count());
-
-        int newPathID = allPathsExceptLastPath.ElementAt(randIndex);
-
-        lastTrainingTrial.Initialize(lastTrainingTrial.mazeID, newPathID, SubjectControlMode.Joystick);
-        lastTrainingTrial.RunCount = runCounter[lastTrainingTrial];
-        return lastTrainingTrial;
+        trials.AddAfter(currentDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
     }
 
-    Trial GetRandomTrial()
+    public void SaveCurrentState()
     {
-        Trial result;
-
-        var rand = new System.Random().Next(0, 1);
-
-        if (rand > 0)
-            result = experiment;
-        else
-            result = training;
-
-        return result;
+        throw new NotImplementedException("TODO");
     }
 
+    public void LoadState()
+    {
+        throw new NotImplementedException("TODO");
+    }
+
+    #endregion
 }
 
 public static class MarkerPattern
 {
 
-    public const string BeginTrial = "{0}_{1}_{2}_BeginTrial";
+    public const string BeginTrial = "{0}_{1}_{2}_{3}_BeginTrial";
     public const string L = "L";
     public const string R = "R";
     public const string Turn = "{0}_Turn";
@@ -225,14 +181,26 @@ public static class MarkerPattern
 
 }
 
+#region TODO: Save instance state (SaveGames)
+//https://unity3d.com/learn/tutorials/modules/beginner/live-training-archive/persistence-data-saving-loading
+[Serializable]
+public class InstanceState
+{
+    public int last_subject_id;
+    // TODO
+}
+
+#endregion
 
 public class ParadigmInstanceDefinition : ScriptableObject //, ISerializationCallbackReceiver
 {
+    public int Subject;
     public string BodyController;
     public string HeadController;
 
+    [SerializeField]
     public List<TrialDefinition> Trials;
-
+    
     //[SerializeField]
     //private List<string> _keys;
     //[SerializeField]
@@ -257,12 +225,18 @@ public class ParadigmInstanceDefinition : ScriptableObject //, ISerializationCal
 /// 
 /// </summary>
 [DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName}")]
+[Serializable]
 public class TrialDefinition
 {
+    [SerializeField]
     public string TrialType;
+    [SerializeField]
     public string MazeName;
+    [SerializeField]
     public int Path;
+    [SerializeField]
     public string Category;
+    [SerializeField]
     public string ObjectName;
 }
 
@@ -271,7 +245,7 @@ public class TrialDefinition
 /// </summary>
 /// 
 [DebuggerDisplay("{MazeName} {Path} {Category} {ObjectName}")]
-internal struct TrialConfig : ICloneable
+public struct TrialConfig : ICloneable
 {
     public string MazeName;
     public int Path;
