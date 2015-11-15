@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using System.IO;
 using Assets.Paradigms.MultiMazePathRetrieval;
+using System.Diagnostics;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
@@ -28,6 +29,8 @@ public class ParadigmController : MonoBehaviour
     public GameObject objectPresenter;
     public ObjectPool objectPool;
 
+    public ParadigmInstanceDefinition InstanceDefinition;
+
     #region Trials
 
     public Training training;
@@ -42,9 +45,7 @@ public class ParadigmController : MonoBehaviour
     private ITrial lastTrial;
 
     private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
-
-    private ParadigmConfiguration ParadigmConfiguration;
-
+    
     void Awake()
     {
         if (environment == null)
@@ -67,31 +68,7 @@ public class ParadigmController : MonoBehaviour
         string pathToConfigDirectory = Path.Combine(Application.dataPath, ParadgimConfigDirectoryName);
 
         string FullPathToParadigmInstanzConfig = Path.Combine(pathToConfigDirectory, paradigmInstanceConfigFileName);
-
-        FileInfo ParadigmInstanceConfigFile = new FileInfo(FullPathToParadigmInstanzConfig);
-
-        if (ParadigmInstanceConfigFile.Exists)
-        {
-
-            Debug.Log(string.Format("Instance config file found at {0}", ParadigmInstanceConfigFile.FullName));
-
-            var serializer = new XmlSerializer(typeof(ParadigmConfiguration));
-
-            var fileStream = new FileStream(ParadigmInstanceConfigFile.FullName, FileMode.Open);
-
-            ParadigmConfiguration = serializer.Deserialize(fileStream) as ParadigmConfiguration;
-
-            // TODO: Serialization
-            if (ParadigmConfiguration == null)
-            {
-                throw new InvalidOperationException("Missing valid Paradigm config... Generate one!");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("No Instance Configuration found");
-        }
-
+        
     }
 
     public void Begin(InstructionTrial trial)
@@ -153,12 +130,35 @@ public class ParadigmController : MonoBehaviour
     private void DecideOnNextTrial()
     {
 
-        if (ParadigmConfiguration == null)
+        if (InstanceDefinition == null)
         {
             currentTrial = GetRandomTrial();
 
             return;
         }
+
+        //if (config.TrialType.Equals(typeof(Instruction).Name))
+        //{
+        //    return instruction;
+        //}
+
+        //if (config.TrialType.Equals(typeof(Pause).Name))
+        //{
+        //    return pause;
+        //}
+
+        //if (config.TrialType.Equals(typeof(Training).Name))
+        //{
+        //    return training;
+        //}
+
+        //if (config.TrialType.Equals(typeof(Experiment).Name))
+        //{
+        //    return experiment;
+        //}
+
+        // throw new ArgumentException(string.Format("Expected a Trial Type \"{0}\" which seems to be not implemented!", config.TrialType));
+
 
         if (lastTrial is InstructionTrial)
         {
@@ -175,11 +175,6 @@ public class ParadigmController : MonoBehaviour
         {
             currentTrial = GetNextTrial(training);
         }
-    }
-
-    Trial GetNextTrial(TrialConfiguration config)
-    {
-        throw new NotImplementedException();
     }
 
     Training GetNextTrial(Training lastTrainingTrial)
@@ -227,29 +222,70 @@ public static class MarkerPattern
     public const string Incorrect = "Incorrect";
     public const string Unit = "{0}_Unit_{1}_{2}";
     public const string Enter = "Entering_{0}_{1}_{2}";
+
 }
 
-[XmlRoot("XmlDocRoot")]
-class ParadigmConfiguration
+
+public class ParadigmInstanceDefinition : ScriptableObject //, ISerializationCallbackReceiver
 {
-    [XmlArray("Trials")]
-    public List<TrialConfiguration> Trials;
+    public string BodyController;
+    public string HeadController;
+
+    public List<TrialDefinition> Trials;
+
+    //[SerializeField]
+    //private List<string> _keys;
+    //[SerializeField]
+    //private List<TrialDefinition> _values;
+
+    //public void OnAfterDeserialize()
+    //{
+    //    for (int i = 0; i < _keys.Count; i++)
+    //    {
+    //        Trials.Add(_keys[i], _values[i]);
+    //    }
+    //}
+
+    //public void OnBeforeSerialize()
+    //{
+    //    _keys = Trials.Keys.ToList();
+    //    _values = Trials.Values.ToList();
+    //}
 }
 
-class TrialConfiguration
+/// <summary>
+/// 
+/// </summary>
+[DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName}")]
+public class TrialDefinition
 {
-    [XmlAttribute("Type")]
-    public TrialType Type;
+    public string TrialType;
+    public string MazeName;
+    public int Path;
+    public string Category;
+    public string ObjectName;
+}
 
-    [XmlAttribute("Maze")]
-    public int MazeNumber;
+/// <summary>
+/// A temporary configuration of values describing the configuration of a trial
+/// </summary>
+/// 
+[DebuggerDisplay("{MazeName} {Path} {Category} {ObjectName}")]
+internal struct TrialConfig : ICloneable
+{
+    public string MazeName;
+    public int Path;
+    public string Category;
+    public string ObjectName;
 
-    [XmlAttribute("Categorie")]
-    public int CategorieNumber;
-
-    [XmlAttribute("Object")]
-    public int ObjectNumber;
-
-    [XmlAttribute("ControlMode")]
-    public SubjectControlMode ControlMode;
+    public object Clone()
+    {
+        return new TrialConfig()
+        {
+            MazeName = this.MazeName,
+            Path = this.Path,
+            Category = this.Category,
+            ObjectName = this.ObjectName
+        };
+    }
 }
