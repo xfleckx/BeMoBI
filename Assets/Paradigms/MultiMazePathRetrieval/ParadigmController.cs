@@ -30,6 +30,8 @@ public class ParadigmController : MonoBehaviour
     public GameObject objectPresenter;
     public ObjectPool objectPool;
 
+    public UnityEngine.Object HidingSpotPrefab;
+
     public ParadigmInstanceDefinition InstanceDefinition;
     
     void Awake()
@@ -47,6 +49,12 @@ public class ParadigmController : MonoBehaviour
 
     void Start()
     {
+        if(InstanceDefinition == null)
+        {
+            UnityEngine.Debug.Log("No instance definition loaded.");
+            return;
+        }
+
         trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
     }
 
