@@ -1633,11 +1633,13 @@ MonoBehaviour:
   debug: {fileID: 0}
   startPoint: {fileID: 1465411900}
   positionAtTrialBegin: {fileID: 0}
+  ObjectDisplaySocket: {fileID: 0}
   MazeEntranceDoor: {fileID: 0}
   hidingSpotPrefab: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
-  objectToShow: {fileID: 0}
+  objectToRemember: {fileID: 0}
+  SecondsToDisplay: 10
   currentPathID: 1
   mazeID: 8
 --- !u!1 &146036303
@@ -5325,11 +5327,13 @@ MonoBehaviour:
   debug: {fileID: 0}
   startPoint: {fileID: 0}
   positionAtTrialBegin: {fileID: 0}
+  ObjectDisplaySocket: {fileID: 0}
   MazeEntranceDoor: {fileID: 0}
   hidingSpotPrefab: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
-  objectToShow: {fileID: 0}
+  objectToRemember: {fileID: 0}
+  SecondsToDisplay: 10
   currentPathID: -1
   mazeID: -1
 --- !u!1 &470330737
@@ -15794,11 +15798,13 @@ MonoBehaviour:
   debug: {fileID: 0}
   startPoint: {fileID: 0}
   positionAtTrialBegin: {fileID: 0}
+  ObjectDisplaySocket: {fileID: 0}
   MazeEntranceDoor: {fileID: 0}
   hidingSpotPrefab: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
-  objectToShow: {fileID: 0}
+  objectToRemember: {fileID: 0}
+  SecondsToDisplay: 10
   currentPathID: -1
   mazeID: -1
 --- !u!1 &1361527766
@@ -15886,7 +15892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1366915625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21301,11 +21307,13 @@ MonoBehaviour:
   debug: {fileID: 0}
   startPoint: {fileID: 0}
   positionAtTrialBegin: {fileID: 0}
+  ObjectDisplaySocket: {fileID: 0}
   MazeEntranceDoor: {fileID: 0}
   hidingSpotPrefab: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
-  objectToShow: {fileID: 0}
+  objectToRemember: {fileID: 0}
+  SecondsToDisplay: 10
   currentPathID: -1
   mazeID: -1
 --- !u!1 &1766369253
