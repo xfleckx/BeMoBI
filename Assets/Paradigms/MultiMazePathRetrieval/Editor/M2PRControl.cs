@@ -78,6 +78,11 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                 return;
             }
 
+            if (GUILayout.Button("Start Instruction Trial"))
+            {
+                instance.StartParadigmInstance();
+            }
+
             //EditorGUILayout.BeginHorizontal();
 
             //if (GUILayout.Button("Start Instruction Trial"))

@@ -29,9 +29,9 @@ public class ParadigmController : MonoBehaviour
     public StartPoint startingPoint;
     public GameObject objectPresenter;
     public ObjectPool objectPool;
-
-    public UnityEngine.Object HidingSpotPrefab;
-
+    public Transform objectPositionAtTrialStart;
+    public GameObject HidingSpotPrefab;
+    public GameObject entrance;
     public ParadigmInstanceDefinition InstanceDefinition;
     
     void Awake()
@@ -118,7 +118,12 @@ public class ParadigmController : MonoBehaviour
 
     private void Prepare(Trial currentTrial)
     {
-        currentTrial.marker = markerStream;
+        currentTrial.marker = this.markerStream;
+        currentTrial.hud = this.instructions;
+        currentTrial.hidingSpotPrefab = this.HidingSpotPrefab;
+        currentTrial.objectPool = this.objectPool;
+        currentTrial.MazeEntranceDoor = this.entrance;
+        currentTrial.positionAtTrialBegin = objectPositionAtTrialStart;
 
         var def = currentDefinition.Value;
 
@@ -130,8 +135,11 @@ public class ParadigmController : MonoBehaviour
     void currentTrial_Finished()
     {
         runCounter[currentTrial]++;
-
+        
         currentTrial.CleanUp();
+
+        // TODO: replace with a more immersive door implementation
+        entrance.SetActive(true);
 
         NextTrial();
     }

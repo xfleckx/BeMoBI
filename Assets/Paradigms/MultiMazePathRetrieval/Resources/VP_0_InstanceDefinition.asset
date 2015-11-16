@@ -19,49 +19,49 @@ MonoBehaviour:
     MazeName: Maze1
     Path: 0
     Category: Category08
-    ObjectName: 1_Wagon
+    ObjectName: 3_Horse
   - TrialType: Training
     MazeName: Maze1
     Path: 1
     Category: Category08
-    ObjectName: 2_Forklift
+    ObjectName: 4_Tricycle
   - TrialType: Training
     MazeName: Maze1
     Path: 2
     Category: Category08
-    ObjectName: 4_Tricycle
+    ObjectName: 6_Boat
   - TrialType: Training
     MazeName: Maze1
     Path: 3
     Category: Category08
-    ObjectName: 3_Horse
+    ObjectName: 2_Forklift
   - TrialType: Training
     MazeName: Maze1
     Path: 4
     Category: Category08
-    ObjectName: 5_TrainCart
+    ObjectName: 1_Wagon
   - TrialType: Experiment
     MazeName: Maze1
     Path: 0
     Category: Category08
-    ObjectName: 1_Wagon
+    ObjectName: 3_Horse
   - TrialType: Experiment
     MazeName: Maze1
     Path: 1
     Category: Category08
-    ObjectName: 2_Forklift
+    ObjectName: 4_Tricycle
   - TrialType: Experiment
     MazeName: Maze1
     Path: 2
     Category: Category08
-    ObjectName: 4_Tricycle
+    ObjectName: 6_Boat
   - TrialType: Experiment
     MazeName: Maze1
     Path: 3
     Category: Category08
-    ObjectName: 3_Horse
+    ObjectName: 2_Forklift
   - TrialType: Experiment
     MazeName: Maze1
     Path: 4
     Category: Category08
-    ObjectName: 5_TrainCart
+    ObjectName: 1_Wagon

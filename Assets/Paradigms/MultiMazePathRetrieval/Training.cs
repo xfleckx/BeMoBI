@@ -58,6 +58,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
                 if (GridPositionOFLastPathElement.Equals(current))
                 {
+                    hidingSpotInstance.Reveal();
 
                     OnFinished();
                 }

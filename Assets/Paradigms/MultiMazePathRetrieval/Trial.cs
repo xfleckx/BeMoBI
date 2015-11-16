@@ -22,6 +22,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
     {
         public VirtualRealityManager environment;
 
+        public ObjectPool objectPool;
+
         public IMarkerStream marker;
 
         public HUD_Instruction hud;
@@ -33,9 +35,17 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public StartPoint startPoint;
 
-        public GameObject Socket;
+        public Transform positionAtTrialBegin;
+
+        public GameObject MazeEntranceDoor;
+
+        public GameObject hidingSpotPrefab;
+
+        public HidingSpot hidingSpotInstance;
 
         public PathController pathController;
+
+        public GameObject objectToShow;
 
         public int currentPathID = -1;
         public int mazeID = -1;
@@ -52,8 +62,29 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             startPoint.LeaveStartPoint += OnStartPointLeaved;
 
             pathController = activeEnvironment.GetComponent<PathController>();
+            
+            path = pathController.EnablePathContaining(currentPathID);
 
-            path = pathController.Paths.Single((p) => p.ID == pathID);
+            var lastGridItem = path.PathElements.Last();
+            var unit = lastGridItem.Value.Unit;
+
+            var targetRotation = GetRotationFrom(unit);
+            var hidingSpotHost = Instantiate<GameObject>(hidingSpotPrefab);
+            hidingSpotHost.transform.SetParent(unit.transform,false);
+            hidingSpotHost.transform.localPosition = Vector3.zero;
+            hidingSpotHost.transform.Rotate(targetRotation);
+
+            hidingSpotInstance = hidingSpotHost.GetComponent<HidingSpot>();
+
+            var objectCategory = objectPool.Categories.Where(c => c.name.Equals(category)).FirstOrDefault();
+            var targetObject = objectCategory.GetObjectBy(objectName);
+            objectToShow = Instantiate<GameObject>(targetObject);
+
+            objectToShow.transform.SetParent(positionAtTrialBegin, false);
+            objectToShow.transform.localPosition = Vector3.zero;
+            objectToShow.SetActive(true);
+
+            MazeEntranceDoor.SetActive(false);
         }
 
         private void OnStartPointEntered(Collider c)
@@ -94,13 +125,43 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         public virtual void StartTrial()
         {
             OnBeforeStart();
-
-            path = pathController.EnablePathContaining(currentPathID);
+             
 
             marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, mazeID, path.ID, 0));
-             
+            
         }
-        
+
+        // look at inactive (open wall)
+        private Vector3 GetRotationFrom(MazeUnit unit)
+        {
+            var childs = unit.transform.AllChildren();
+            // try look at
+            foreach (var wall in childs)
+            {
+                if (wall.name.Equals("South") && !wall.activeSelf) {
+                    return Vector3.zero;
+                }
+
+                if (wall.name.Equals("North") && !wall.activeSelf)
+                {
+                    return new Vector3(0,180,0);
+                }
+
+                if (wall.name.Equals("West") && !wall.activeSelf)
+                {
+                    return new Vector3(0, 90, 0);
+                }
+
+                if (wall.name.Equals("East") && !wall.activeSelf)
+                {
+                    return new Vector3(0, 270, 0);
+                }
+
+            }
+
+            return Vector3.one;
+        }
+
         public event Action BeforeStart;
         protected void OnBeforeStart()
         {
@@ -121,6 +182,11 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
             startPoint.LeaveStartPoint -= OnStartPointLeaved;
             startPoint.EnterStartPoint -= OnStartPointEntered;
+
+            if(hidingSpotInstance != null)
+            {
+                Destroy(hidingSpotInstance.gameObject);
+            }
         }
     }
 }
