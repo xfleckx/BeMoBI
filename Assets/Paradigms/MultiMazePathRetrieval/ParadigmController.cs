@@ -124,6 +124,7 @@ public class ParadigmController : MonoBehaviour
         currentTrial.objectPool = this.objectPool;
         currentTrial.MazeEntranceDoor = this.entrance;
         currentTrial.positionAtTrialBegin = objectPositionAtTrialStart;
+        currentTrial.ObjectDisplaySocket = objectPresenter;
 
         var def = currentDefinition.Value;
 

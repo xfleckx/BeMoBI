@@ -5,6 +5,8 @@ using System;
 
 namespace Assets.Paradigms.MultiMazePathRetrieval
 {
+    public enum Internal_Trial_State { Searching, Returning }
+
     public interface ITrial
     {
         void Initialize(string mazeName, int pathID, string category, string objectName);
@@ -27,6 +29,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         public IMarkerStream marker;
 
         public HUD_Instruction hud;
+
         public HUD_DEBUG debug;
 
         protected beMobileMaze mazeInstance;
@@ -37,6 +40,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public Transform positionAtTrialBegin;
 
+        public GameObject ObjectDisplaySocket;
+
         public GameObject MazeEntranceDoor;
 
         public GameObject hidingSpotPrefab;
@@ -45,14 +50,22 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public PathController pathController;
 
-        public GameObject objectToShow;
+        public GameObject objectToRemember;
+
+        public int SecondsToDisplay = 10;
 
         public int currentPathID = -1;
         public int mazeID = -1;
-        
+
+        protected GameObject activeEnvironment;
+
+        protected Vector2 GridPositionOFLastPathElement;
+
+        protected Internal_Trial_State currentTrialState;
+
         public void Initialize(string mazeName, int pathID, string category, string objectName)
         {  
-            var activeEnvironment = environment.ChangeWorld(mazeName);
+            activeEnvironment = environment.ChangeWorld(mazeName).gameObject;
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
@@ -61,35 +74,76 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             startPoint.EnterStartPoint += OnStartPointEntered;
             startPoint.LeaveStartPoint += OnStartPointLeaved;
 
-            pathController = activeEnvironment.GetComponent<PathController>();
+            currentTrialState = Internal_Trial_State.Searching;
+
+            ResetStartConditions();
+
+            ActivatePath(pathID);
+
+            GatherObjectFromObjectPool(category, objectName);
+
+            StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
+        }
+
+        private void ResetStartConditions()
+        {
+            ObjectDisplaySocket.SetActive(true);
             
-            path = pathController.EnablePathContaining(currentPathID);
+        }
+
+        private void ActivatePath(int pathId)
+        {
+            pathController = activeEnvironment.GetComponent<PathController>();
+
+            path = pathController.EnablePathContaining(pathId);
 
             var lastGridItem = path.PathElements.Last();
+
             var unit = lastGridItem.Value.Unit;
+             
+            GridPositionOFLastPathElement = lastGridItem.Key;
 
             var targetRotation = GetRotationFrom(unit);
             var hidingSpotHost = Instantiate<GameObject>(hidingSpotPrefab);
-            hidingSpotHost.transform.SetParent(unit.transform,false);
+
+            hidingSpotHost.transform.SetParent(unit.transform, false);
             hidingSpotHost.transform.localPosition = Vector3.zero;
             hidingSpotHost.transform.Rotate(targetRotation);
-
+            
             hidingSpotInstance = hidingSpotHost.GetComponent<HidingSpot>();
+        }
 
-            var objectCategory = objectPool.Categories.Where(c => c.name.Equals(category)).FirstOrDefault();
+        private void GatherObjectFromObjectPool(string categoryName, string objectName)
+        {
+            var objectCategory = objectPool.Categories.Where(c => c.name.Equals(categoryName)).FirstOrDefault();
             var targetObject = objectCategory.GetObjectBy(objectName);
-            objectToShow = Instantiate<GameObject>(targetObject);
+            objectToRemember = Instantiate<GameObject>(targetObject);
+            objectToRemember.SetActive(true);
+            objectToRemember.transform.SetParent(positionAtTrialBegin, false);
+            objectToRemember.transform.localPosition = Vector3.zero;
+              
+        }
 
-            objectToShow.transform.SetParent(positionAtTrialBegin, false);
-            objectToShow.transform.localPosition = Vector3.zero;
-            objectToShow.SetActive(true);
+        IEnumerator DisplayObjectAtStartFor(float waitingTime)
+        {
+            yield return new WaitForSeconds(waitingTime);
 
+            HideSocketAndOpenEntranceAtStart();
+
+        }
+
+        private void HideSocketAndOpenEntranceAtStart()
+        {
             MazeEntranceDoor.SetActive(false);
+            ObjectDisplaySocket.SetActive(false);
+            var socketAtThePathEnd = hidingSpotInstance.GetSocket();
+            objectToRemember.transform.SetParent(socketAtThePathEnd);
+            objectToRemember.transform.localPosition = Vector3.zero;
         }
 
         private void OnStartPointEntered(Collider c)
         {
-            var subject = c.GetComponent<SubjectController>();
+            var subject = c.GetComponent<VRSubjectController>();
 
             if (subject == null)
                 return;
@@ -99,7 +153,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         private void OnStartPointLeaved(Collider c)
         {
-            var subject = c.GetComponent<SubjectController>();
+            var subject = c.GetComponent<VRSubjectController>();
 
             if (subject == null)
                 return;
@@ -107,14 +161,25 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             LeavesStartPoint(subject);
         }
 
-        public virtual void EntersStartPoint(SubjectController subject)
+        public virtual void EntersStartPoint(VRSubjectController subject)
         {
-            throw new NotImplementedException("Override the EntersStartPoint Method!");
+            if (currentTrialState == Internal_Trial_State.Searching)
+            {
+                return;
+            }
+
+            if(currentTrialState == Internal_Trial_State.Returning)
+            {
+                OnFinished();
+            }
         }
 
-        public virtual void LeavesStartPoint(SubjectController subject)
+        public virtual void LeavesStartPoint(VRSubjectController subject)
         {
-            throw new NotImplementedException("Override the EntersStartPoint Method!");
+            if (currentTrialState == Internal_Trial_State.Searching)
+            {
+                // write a marker when the subject starts walking!?
+            }
         }
 
         public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
@@ -135,7 +200,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         private Vector3 GetRotationFrom(MazeUnit unit)
         {
             var childs = unit.transform.AllChildren();
-            // try look at
+            // try LookAt functions
             foreach (var wall in childs)
             {
                 if (wall.name.Equals("South") && !wall.activeSelf) {

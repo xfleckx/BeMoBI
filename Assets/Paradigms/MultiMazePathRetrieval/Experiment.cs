@@ -53,25 +53,20 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                     hud.StopAllCoroutines();
 
                     var currentPathElement = path.PathElements[current];
+
                     WriteMarkerFor(currentPathElement);
 
                 }
 
                 if (oneBeforeLast.Equals(current))
                 {
-                    path.HideOut.Open();
-
-                    OnFinished();
+                    currentTrialState = Internal_Trial_State.Returning;
                 }
             }
         }
+        
 
-        public override void EntersStartPoint(SubjectController subject)
-        {
-            Debug.Log("Subject entered Startpoint");
-        }
-
-        public override void LeavesStartPoint(SubjectController subject)
+        public override void LeavesStartPoint(VRSubjectController subject)
         {
             Debug.Log("Subject leaves Startpoint");
         }

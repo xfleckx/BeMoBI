@@ -42,7 +42,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         {
             EditorGUILayout.BeginVertical();
 
-            if (instance == null) { 
+            if (instance == null && (instance = TryGetInstance()) == null) { 
                 EditorGUILayout.HelpBox("No Paradigm Controller available! \n Open another scene or create a paradigm controller instance!", MessageType.Info);
                 return;
             }
@@ -68,6 +68,11 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             EditorGUILayout.EndVertical();
         }
 
+        private ParadigmController TryGetInstance()
+        {
+            return FindObjectOfType<ParadigmController>();
+        }
+
         private void RenderControlGUI()
         {
             GUILayout.Label("Control", EditorStyles.largeLabel);
@@ -78,7 +83,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                 return;
             }
 
-            if (GUILayout.Button("Start Instruction Trial"))
+            if (GUILayout.Button("Start First Trial"))
             {
                 instance.StartParadigmInstance();
             }

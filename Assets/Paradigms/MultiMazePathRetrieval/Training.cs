@@ -7,7 +7,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 {
     public class Training : Trial
     {
-        Vector2 GridPositionOFLastPathElement;
         /// <summary>
         /// A Trial Start may caused from external source (e.g. a key press)
         /// </summary>
@@ -22,13 +21,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             if (hud.enabled)
                 hud.StartDisplaying(instruction);
-
-            var IdxLast = path.PathElements.Keys.Count -1;
-
-            GridPositionOFLastPathElement = path.PathElements.Keys.ElementAt(IdxLast);
-            
-
-
         }
 
         public override void OnMazeUnitEvent(MazeUnitEvent obj)
@@ -59,18 +51,12 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                 if (GridPositionOFLastPathElement.Equals(current))
                 {
                     hidingSpotInstance.Reveal();
-
-                    OnFinished();
+                    currentTrialState = Internal_Trial_State.Returning;
                 }
             }
         }
-
-        public override void EntersStartPoint(SubjectController subject)
-        {
-            Debug.Log("Subject entered Startpoint");
-        }
-
-        public override void LeavesStartPoint(SubjectController subject)
+        
+        public override void LeavesStartPoint(VRSubjectController subject)
         {
             Debug.Log("Subject leaves Startpoint");
         }
