@@ -24,7 +24,6 @@ public class MazeExperience : MonoBehaviour
     
     void Start()
     {
-        subject.SetMultipleInputMethods(subject.RiftOnlyInput, subject.XBoxActions);
 
         startPoint.EnterStartPoint += subjectEntersStartPoint; 
 
