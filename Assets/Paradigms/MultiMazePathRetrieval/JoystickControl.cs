@@ -48,15 +48,5 @@ public class JoystickControl : MonoBehaviour, IBodyMovementController
         }
 
         character.Move(desiredMove);
-
-        RaycastHit hitInfo;
-        var wallHit = Physics.SphereCast(transform.position, character.radius, Vector3.down, out hitInfo,
-                            character.height / 2f);
-        
-    }
-
-    void OnDrawGizmos()
-    {
-        
     }
 }
