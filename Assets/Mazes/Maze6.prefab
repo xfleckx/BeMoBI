@@ -3811,7 +3811,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 114904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.48151612, y: 8.08017826, z: -.221096396}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493564}
@@ -14140,7 +14140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 0}
+  Landmarks: []
   HideOutReplacement: {fileID: 0}
   ID: 0
   Units:
@@ -14207,6 +14209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 5
   GridID: {x: 3, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11402106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14218,7 +14221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 0}
+  Landmarks: []
   HideOutReplacement: {fileID: 0}
   ID: 1
   Units:
@@ -14315,6 +14320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 2, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11406170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14328,6 +14334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 1, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11406410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14341,6 +14348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 8
   GridID: {x: 4, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11409278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14354,6 +14362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 2, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11410698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14367,6 +14376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 4, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11412840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14380,6 +14390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 11
   GridID: {x: 3, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11416358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14393,6 +14404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 0, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11419264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14406,6 +14418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 2, y: 5}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11428076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14419,6 +14432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 4
   GridID: {x: 0, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11430884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14432,6 +14446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 13
   GridID: {x: 3, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11431148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14445,6 +14460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 4, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11433964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14459,10 +14475,37 @@ MonoBehaviour:
   UnitNamePattern: Unit_{0}_{1}
   MazeWidthInMeter: 6
   MazeLengthInMeter: 10
-  RoomHigthInMeter: 2
   RoomDimension: {x: 1.20000005, y: 2, z: 1.20000005}
-  EdgeDimension: {x: .100000001, y: .100000001}
-  WallThicknessInMeter: .100000001
+  Units:
+  - {fileID: 11428076}
+  - {fileID: 11406170}
+  - {fileID: 11454232}
+  - {fileID: 11459200}
+  - {fileID: 11449516}
+  - {fileID: 11412840}
+  - {fileID: 11491906}
+  - {fileID: 11436256}
+  - {fileID: 11430884}
+  - {fileID: 11406410}
+  - {fileID: 11495926}
+  - {fileID: 11403372}
+  - {fileID: 11457840}
+  - {fileID: 11496980}
+  - {fileID: 11416358}
+  - {fileID: 11499380}
+  - {fileID: 11409278}
+  - {fileID: 11463904}
+  - {fileID: 11419264}
+  - {fileID: 11472556}
+  - {fileID: 11498754}
+  - {fileID: 11492236}
+  - {fileID: 11447050}
+  - {fileID: 11461302}
+  - {fileID: 11461512}
+  - {fileID: 11401486}
+  - {fileID: 11410698}
+  - {fileID: 11470916}
+  - {fileID: 11431148}
 --- !u!114 &11436256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14476,6 +14519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 3, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11447050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14489,6 +14533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 10
   GridID: {x: 3, y: 7}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11449516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14502,6 +14547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 12
   GridID: {x: 2, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11453222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14513,7 +14559,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 0}
+  Landmarks: []
   HideOutReplacement: {fileID: 0}
   ID: 3
   Units:
@@ -14602,7 +14650,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 0}
+  Landmarks: []
   HideOutReplacement: {fileID: 0}
   ID: 2
   Units:
@@ -14667,7 +14717,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae56894e45d2c848bf0f187bbb44bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Paths: []
+  Paths:
+  - {fileID: 11400578}
+  - {fileID: 11402106}
+  - {fileID: 11499862}
+  - {fileID: 11453250}
+  - {fileID: 11453222}
+  - {fileID: 11478394}
 --- !u!114 &11454232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14681,6 +14737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 6
   GridID: {x: 1, y: 4}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11457840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14694,6 +14751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 12
   GridID: {x: 1, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11459200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14707,6 +14765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 5
   GridID: {x: 1, y: 2}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11461302
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14720,6 +14779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 3, y: 6}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11461512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14733,6 +14793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 3, y: 5}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11463904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14746,6 +14807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 2, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11470916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14759,6 +14821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 4, y: 5}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11472556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14772,6 +14835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 3
   GridID: {x: 2, y: 6}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11478394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14783,7 +14847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 0}
+  Landmarks: []
   HideOutReplacement: {fileID: 0}
   ID: 4
   Units:
@@ -14874,6 +14940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 2
   GridID: {x: 3, y: 3}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11492236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14887,6 +14954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 4
   GridID: {x: 1, y: 7}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11495926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14900,6 +14968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 5
   GridID: {x: 2, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11496980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14913,6 +14982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 7
   GridID: {x: 0, y: 1}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11498754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14926,6 +14996,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 14
   GridID: {x: 2, y: 7}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11499380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14939,6 +15010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaysOpen: 1
   GridID: {x: 0, y: 0}
+  dimension: {x: 0, y: 0, z: 0}
 --- !u!114 &11499862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14950,7 +15022,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149a0e406db7e804a805d61897931a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
   HideOut: {fileID: 0}
+  Landmarks: []
   HideOutReplacement: {fileID: 0}
   ID: -1
   Units:

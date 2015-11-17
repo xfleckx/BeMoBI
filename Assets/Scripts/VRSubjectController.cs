@@ -24,6 +24,8 @@ public class VRSubjectController : MonoBehaviour
     public string CurrentHeadController = string.Empty;
     public string CurrentBodyController = string.Empty;
 
+    public bool UseMonoscopigRendering { get; set; }
+    
     public void Start()
     {
         Assert.IsNotNull<Camera>(HeadPerspective);
@@ -31,6 +33,9 @@ public class VRSubjectController : MonoBehaviour
         Body = GetComponent<CharacterController>();
 
         var bodyMovementController = GetComponents<IBodyMovementController>();
+
+        ApplyMovementToBody = null;
+        ApplyMovementToHead = null;
 
         if (bodyMovementController.Any())
         {
@@ -62,6 +67,11 @@ public class VRSubjectController : MonoBehaviour
 
         CurrentHeadController = String.Empty;
         ApplyMovementToHead = null;
+    }
+    
+    public void SetMonoscopic(bool useMonoscopigRendering)
+    {
+        OVRManager.instance.monoscopic = useMonoscopigRendering;
     }
 
     public void ChangeHeadController(IHeadMovementController headController)
