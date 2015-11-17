@@ -13,9 +13,6 @@ public class JoystickControl : MonoBehaviour, IBodyMovementController
     private const string X_AXIS_NAME = "Horizontal";
     private const string Y_AXIS_NAME = "Vertical";
 
-    public float xSensitivity = 1f;
-    public float ySensitivity = 1f;
-
     [Range(10, 50)]
     public float WalkingSpeed = 10f;
     [Range(10, 50)]
@@ -25,6 +22,8 @@ public class JoystickControl : MonoBehaviour, IBodyMovementController
     public float SmoothTime = 1;
 
     private Quaternion targetRotation; 
+
+    public string Identifier { get { return "Joystick"; } }
 
     public void ApplyMovement(CharacterController character)
     {

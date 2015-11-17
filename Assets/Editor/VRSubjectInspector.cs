@@ -18,23 +18,31 @@ public class VRSubjectInspector : Editor
 
         GUILayout.BeginVertical();
 
-        if (GUILayout.Button("Recenter"))
-            instance.RecenterHeading();
+        var availableBodyController = instance.GetComponents<IBodyMovementController>();
+        var availableHeadController = instance.GetComponents<IHeadMovementController>();
 
-        if (GUILayout.Button("Mouse & Keyboard"))
+        EditorGUILayout.LabelField("Available Head Controller");
+
+        if (!availableHeadController.Any())
+            EditorGUILayout.HelpBox("No Head Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+
+        foreach (var headController in availableHeadController)
         {
-            instance.SetInputMethod(instance.InitMouseKeyboardInput, instance.MouseKeyboardInput);
+            if (GUILayout.Button(headController.Identifier))
+            {
+                instance.ChangeHeadController(headController);
+            }
         }
-        
 
-        if (GUILayout.Button("Keyboard + RIFT"))
-        {
-            instance.SetInputMethod(() => { }, instance.KeyboardRiftInput);
-        }
+        EditorGUILayout.LabelField("Available Body Controller");
 
-        if (GUILayout.Button("Rift + XBox Ctrl"))
+        if (!availableBodyController.Any())
+            EditorGUILayout.HelpBox("No Body Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+
+        foreach (var bodyController in availableBodyController)
         {
-            instance.SetMultipleInputMethods(instance.RiftOnlyInput, instance.XBoxActions);
+            if(GUILayout.Button(bodyController.Identifier))
+                instance.ChangeBodyController(bodyController);
         }
 
         GUILayout.EndVertical();

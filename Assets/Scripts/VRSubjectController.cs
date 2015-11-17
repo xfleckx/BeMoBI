@@ -21,7 +21,10 @@ public class VRSubjectController : MonoBehaviour
     private event Action<Transform> ApplyMovementToHead;
 
     public event Action SubmitPressed;
-    public event Action<float> ItemValueRequested; 
+    public event Action<float> ItemValueRequested;
+
+    public string CurrentHeadController = string.Empty;
+    public string CurrentBodyController = string.Empty;
 
     public void Start()
     {
@@ -29,12 +32,35 @@ public class VRSubjectController : MonoBehaviour
 
         Body = GetComponent<CharacterController>();
 
-        var movementController = GetComponents<IBodyMovementController>();
+        var bodyMovementController = GetComponents<IBodyMovementController>();
 
-        if (movementController.Any())
+        if (bodyMovementController.Any())
         {
-            ApplyMovementToBody += movementController.FirstOrDefault().ApplyMovement;
+            ApplyMovementToBody += bodyMovementController.FirstOrDefault(
+                controller => controller.Identifier.Equals(CurrentBodyController)
+                ).ApplyMovement;
         }
+
+        var headMovementController = GetComponents<IHeadMovementController>();
+
+        if (headMovementController.Any())
+        {
+            ApplyMovementToHead += headMovementController.FirstOrDefault(
+                controller => controller.Identifier.Equals(CurrentHeadController)
+                ).ApplyMovement;
+        }
+    }
+
+    public void ChangeBodyController(IBodyMovementController bodyController)
+    {
+        CurrentBodyController = bodyController.Identifier;
+        ApplyMovementToBody += bodyController.ApplyMovement;
+    }
+
+    public void ChangeHeadController(IHeadMovementController headController)
+    {
+        CurrentHeadController = headController.Identifier;
+        ApplyMovementToHead += headController.ApplyMovement;
     }
 
     public void RecenterHeading()
@@ -43,10 +69,7 @@ public class VRSubjectController : MonoBehaviour
     }
 
     public void FixedUpdate()
-    {
-        //if (ProcessInput != null)
-        //    ProcessInput.Invoke();
-
+    {   
         if (ApplyMovementToBody != null)
             ApplyMovementToBody(Body);
 
@@ -123,14 +146,12 @@ public class VRSubjectController : MonoBehaviour
     public float YSensitivity = 2f;
     public bool clampVerticalRotation = true;
     public float MinimumX = -90F;
-    public float MaximumX = 90F;
-    public bool smooth;
-    public float smoothTime = 5f;
+        public float MaximumX = 90F;
+        public bool smooth;
+        public float smoothTime = 5f;
     
     private Vector2 m_Input;
     private Vector3 m_MoveDir = Vector3.zero;
-    private CharacterController m_CharacterController;
-    private CollisionFlags m_CollisionFlags;
     private bool m_IsWalking;
     public  float m_WalkSpeed;
     public float m_RunSpeed;
@@ -179,21 +200,21 @@ public class VRSubjectController : MonoBehaviour
 
     private void KeyboardMovement()
     {
-        float speed;
-        GetInput(out speed);
+        //float speed;
+        //GetInput(out speed);
 
-        Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
+        //Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
 
-        // get a normal for the surface that is being touched to move along it
-        RaycastHit hitInfo;
-        Physics.SphereCast(transform.position, m_CharacterController.radius, Vector3.down, out hitInfo,
-                            m_CharacterController.height / 2f);
-        desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
+        //// get a normal for the surface that is being touched to move along it
+        //RaycastHit hitInfo;
+        //Physics.SphereCast(transform.position, m_CharacterController.radius, Vector3.down, out hitInfo,
+        //                    m_CharacterController.height / 2f);
+        //desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
-        m_MoveDir.x = desiredMove.x * speed;
-        m_MoveDir.z = desiredMove.z * speed;
+        //m_MoveDir.x = desiredMove.x * speed;
+        //m_MoveDir.z = desiredMove.z * speed;
 
-        m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
+        //m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
     }
 
@@ -219,12 +240,12 @@ public class VRSubjectController : MonoBehaviour
             m_Input.Normalize();
         }
 
-        // handle speed change to give an fov kick
-        // only if the player is going to a run, is running and the fovkick is to be used
-        if (m_IsWalking != waswalking && m_CharacterController.velocity.sqrMagnitude > 0)
-        {
-            StopAllCoroutines();
-        }
+        //// handle speed change to give an fov kick
+        //// only if the player is going to a run, is running and the fovkick is to be used
+        //if (m_IsWalking != waswalking && m_CharacterController.velocity.sqrMagnitude > 0)
+        //{
+        //    StopAllCoroutines();
+        //}
     }
 
     Quaternion ClampRotationAroundXAxis(Quaternion q)

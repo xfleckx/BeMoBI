@@ -2495,6 +2495,7 @@ GameObject:
   - 143: {fileID: 230468914}
   - 114: {fileID: 230468913}
   - 114: {fileID: 230468915}
+  - 114: {fileID: 230468916}
   m_Layer: 0
   m_Name: Subject
   m_TagString: Untagged
@@ -2528,8 +2529,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeadPerspective: {fileID: 789448026}
-  Head: {fileID: 0}
-  Body: {fileID: 0}
+  Head: {fileID: 789448025}
+  Body: {fileID: 230468914}
+  CurrentHeadController: 
+  CurrentBodyController: Keyboard
   XSensitivity: 2
   YSensitivity: 2
   clampVerticalRotation: 1
@@ -2575,6 +2578,17 @@ MonoBehaviour:
   RotationSpeed: 22.2000008
   RotateSmooth: 1
   SmoothTime: 5
+--- !u!114 &230468916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 230468911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c80aec75e3694f4b8d0bf2454b245d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &237018985
 GameObject:
   m_ObjectHideFlags: 0
@@ -8950,17 +8964,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a2aed36195892749a93b50510ebd6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInstructionSet: {fileID: 0}
-  currentInstruction:
-    Text: 
-    DisplayTime: 0
-    ImageName: 
-    PathToImageAsResource: 
-    ImageTexture: {fileID: 0}
-  InstructionTextBesideImage: {fileID: 2040651416}
-  InstructionTextWide: {fileID: 211271408}
-  InstructionImage: {fileID: 1848257422}
-  serializebaleInstructionList: []
+  Heading: {fileID: 0}
+  TextBesideImage: {fileID: 0}
+  TextWide: {fileID: 0}
+  Image: {fileID: 0}
 --- !u!1 &741167860
 GameObject:
   m_ObjectHideFlags: 0
@@ -18084,7 +18091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1485426165
 Transform:
   m_ObjectHideFlags: 0

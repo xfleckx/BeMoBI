@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-interface IBodyMovementController
+public interface IBodyMovementController
 {
+    string Identifier { get; }
+
     void ApplyMovement(CharacterController controller);
 }
