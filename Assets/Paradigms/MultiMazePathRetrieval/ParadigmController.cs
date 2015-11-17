@@ -161,8 +161,6 @@ public class ParadigmController : MonoBehaviour
 
     public void InjectPauseTrial()
     {
-        var temp = currentDefinition.Next;
-
         var pauseTrial = new TrialDefinition()
         {
             TrialType = typeof(Pause).Name
@@ -186,7 +184,6 @@ public class ParadigmController : MonoBehaviour
 
 public static class MarkerPattern
 {
-
     public const string BeginTrial = "{0}_{1}_{2}_{3}_BeginTrial";
     public const string L = "L";
     public const string R = "R";
@@ -195,7 +192,6 @@ public static class MarkerPattern
     public const string Incorrect = "Incorrect";
     public const string Unit = "{0}_Unit_{1}_{2}";
     public const string Enter = "Entering_{0}_{1}_{2}";
-
 }
 
 #region TODO: Save instance state (SaveGames)

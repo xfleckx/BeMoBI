@@ -8,28 +8,15 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
     public class Experiment : Trial
     {
-
-        Vector2 oneBeforeLast;
         /// <summary>
         /// A Trial Start may caused from external source (e.g. a key press)
         /// </summary>
         public override void StartTrial()
         {
             base.StartTrial();
-
-            var instruction = new Instruction();
-
-            instruction.DisplayTime = 5f;
-            instruction.Text = "Retrieve the path to this object";
-
-            if (hud.enabled)
-                hud.StartDisplaying(instruction);
-
-            var IdxOneBeforeLast = path.PathElements.Keys.Count - 2;
-
-            oneBeforeLast = path.PathElements.Keys.ElementAt(IdxOneBeforeLast);
-
-            path.SetLandmarks(true);
+             
+            hud.ShowInstruction("Retrieve the path to this object");
+            
         }
 
         public override void OnMazeUnitEvent(MazeUnitEvent obj)
@@ -42,23 +29,19 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
                 if (!path.PathElements.ContainsKey(current))
                 {
-                    var instruction = new Instruction();
-
-                    instruction.Text = "You`re wrong! Please turn!";
-
-                    hud.StartDisplaying(instruction);
+                    hud.ShowInstruction("You`re wrong! Please turn!");
                 }
                 else
                 {
-                    hud.StopAllCoroutines();
+                    if(hud.IsRendering)
+                        hud.Clear();
 
                     var currentPathElement = path.PathElements[current];
 
                     WriteMarkerFor(currentPathElement);
-
                 }
 
-                if (oneBeforeLast.Equals(current))
+                if (PathEnd.Equals(current))
                 {
                     currentTrialState = Internal_Trial_State.Returning;
                 }

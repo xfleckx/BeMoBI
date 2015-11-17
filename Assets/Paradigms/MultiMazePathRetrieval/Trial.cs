@@ -59,7 +59,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         protected GameObject activeEnvironment;
 
-        protected Vector2 GridPositionOFLastPathElement;
+        protected Vector2 PathEnd;
 
         protected Internal_Trial_State currentTrialState;
 
@@ -101,7 +101,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             var unit = lastGridItem.Value.Unit;
              
-            GridPositionOFLastPathElement = lastGridItem.Key;
+            PathEnd = lastGridItem.Key;
 
             var targetRotation = GetRotationFrom(unit);
             var hidingSpotHost = Instantiate<GameObject>(hidingSpotPrefab);

@@ -13,14 +13,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         public override void StartTrial()
         {
             base.StartTrial();
-
-            var instruction = new Instruction();
-
-            instruction.DisplayTime = 5f;
-            instruction.Text = "Remember the given path for this object!";
-
-            if (hud.enabled)
-                hud.StartDisplaying(instruction);
+            
+            hud.ShowInstruction("Remember the given path for this object!");
         }
 
         public override void OnMazeUnitEvent(MazeUnitEvent obj)
@@ -33,22 +27,18 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
                 if (!path.PathElements.ContainsKey(current))
                 {
-                    var instruction = new Instruction();
-
-                    instruction.Text = "You`re wrong! Please turn!";
-
-                    hud.StartDisplaying(instruction);
+                    hud.ShowInstruction("You`re wrong! Please turn!");
                 }
                 else
                 {
-                    hud.StopAllCoroutines();
+                    hud.Clear();
 
                     var currentPathElement = path.PathElements[current];
                     WriteMarkerFor(currentPathElement);
 
                 }
 
-                if (GridPositionOFLastPathElement.Equals(current))
+                if (PathEnd.Equals(current))
                 {
                     hidingSpotInstance.Reveal();
                     currentTrialState = Internal_Trial_State.Returning;
