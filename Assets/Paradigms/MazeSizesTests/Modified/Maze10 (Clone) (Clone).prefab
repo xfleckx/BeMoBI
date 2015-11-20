@@ -2385,6 +2385,7 @@ GameObject:
   - 114: {fileID: 11458436}
   - 114: {fileID: 11493974}
   - 114: {fileID: 11464866}
+  - 114: {fileID: 11407978}
   m_Layer: 0
   m_Name: Maze10 (Clone) (Clone)
   m_TagString: Untagged
@@ -8795,7 +8796,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.93762112, y: -1.28634667, z: 1.53470838}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 499728}
@@ -27486,6 +27487,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac952bb6cf9d6604386c3c74adb23efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11407978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7ff97d8c955784f95e48b6e42e7c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: Maze10
 --- !u!114 &11409386
 MonoBehaviour:
   m_ObjectHideFlags: 1

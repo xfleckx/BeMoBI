@@ -1167,6 +1167,7 @@ GameObject:
   - 114: {fileID: 11450762}
   - 114: {fileID: 11459772}
   - 114: {fileID: 11412388}
+  - 114: {fileID: 11414058}
   m_Layer: 0
   m_Name: Maze3 (Clone) (Clone)
   m_TagString: Untagged
@@ -7897,7 +7898,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.67952061, y: -1.28634644, z: -.0247188862}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 454910}
@@ -27537,6 +27538,18 @@ MonoBehaviour:
   WaysOpen: 4
   GridID: {x: 1, y: 5}
   dimension: {x: 1.29999995, y: 2.70000005, z: 1.29999995}
+--- !u!114 &11414058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7ff97d8c955784f95e48b6e42e7c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Title: Maze3
 --- !u!114 &11415924
 MonoBehaviour:
   m_ObjectHideFlags: 1
