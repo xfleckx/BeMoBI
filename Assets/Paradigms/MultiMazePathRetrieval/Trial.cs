@@ -22,7 +22,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
     
     public class Trial : MonoBehaviour, ITrial
     {
-        public VirtualRealityManager environment;
+        public VirtualRealityManager VRManager;
 
         public ObjectPool objectPool;
 
@@ -64,8 +64,21 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         protected Internal_Trial_State currentTrialState;
 
         public void Initialize(string mazeName, int pathID, string category, string objectName)
-        {  
-            activeEnvironment = environment.ChangeWorld(mazeName).gameObject;
+        {
+            Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
+
+            var expectedWorld = VRManager.ChangeWorld(mazeName);
+
+            if (expectedWorld != null)
+            {
+                activeEnvironment = expectedWorld.gameObject;
+            }
+            else
+            {
+                Debug.Log(string.Format("Expected VR Environment \"{0}\" not found! Ending Trial!", mazeName));
+                OnFinished();
+            }
+            
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
@@ -121,7 +134,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             objectToRemember.SetActive(true);
             objectToRemember.transform.SetParent(positionAtTrialBegin, false);
             objectToRemember.transform.localPosition = Vector3.zero;
-              
         }
 
         IEnumerator DisplayObjectAtStartFor(float waitingTime)
@@ -139,61 +151,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             var socketAtThePathEnd = hidingSpotInstance.GetSocket();
             objectToRemember.transform.SetParent(socketAtThePathEnd);
             objectToRemember.transform.localPosition = Vector3.zero;
-        }
-
-        private void OnStartPointEntered(Collider c)
-        {
-            var subject = c.GetComponent<VRSubjectController>();
-
-            if (subject == null)
-                return;
-
-            EntersStartPoint(subject);
-        }
-
-        private void OnStartPointLeaved(Collider c)
-        {
-            var subject = c.GetComponent<VRSubjectController>();
-
-            if (subject == null)
-                return;
-
-            LeavesStartPoint(subject);
-        }
-
-        public virtual void EntersStartPoint(VRSubjectController subject)
-        {
-            if (currentTrialState == Internal_Trial_State.Searching)
-            {
-                return;
-            }
-
-            if(currentTrialState == Internal_Trial_State.Returning)
-            {
-                OnFinished();
-            }
-        }
-
-        public virtual void LeavesStartPoint(VRSubjectController subject)
-        {
-            if (currentTrialState == Internal_Trial_State.Searching)
-            {
-                // write a marker when the subject starts walking!?
-            }
-        }
-
-        public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
-        {
-            throw new NotImplementedException("Override the OnMazeUnitEvent Method!");
-        }
-
-        public virtual void StartTrial()
-        {
-            OnBeforeStart();
-             
-
-            marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, mazeID, path.ID, 0));
-            
         }
 
         // look at inactive (open wall)
@@ -226,6 +183,63 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             return Vector3.one;
         }
+        
+        private void OnStartPointEntered(Collider c)
+        {
+            var subject = c.GetComponent<VRSubjectController>();
+
+            if (subject == null)
+                return;
+
+            EntersStartPoint(subject);
+        }
+
+        private void OnStartPointLeaved(Collider c)
+        {
+            var subject = c.GetComponent<VRSubjectController>();
+
+            if (subject == null)
+                return;
+
+            LeavesStartPoint(subject);
+        }
+
+        public virtual void EntersStartPoint(VRSubjectController subject)
+        {
+            Debug.Log("Subject enters Startpoint");
+
+            if (currentTrialState == Internal_Trial_State.Searching)
+            {
+                return;
+            }
+
+            if(currentTrialState == Internal_Trial_State.Returning)
+            {
+                OnFinished();
+            }
+        }
+
+        public virtual void LeavesStartPoint(VRSubjectController subject)
+        {
+            Debug.Log("Subject leaves Startpoint");
+
+            if (currentTrialState == Internal_Trial_State.Searching)
+            {
+                // write a marker when the subject starts walking!?
+            }
+        }
+
+        public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
+        {
+            throw new NotImplementedException("Override the OnMazeUnitEvent Method!");
+        }
+
+        public virtual void StartTrial()
+        {
+            OnBeforeStart();
+            marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, mazeID, path.ID, 0));
+            
+        }
 
         public event Action BeforeStart;
         protected void OnBeforeStart()
@@ -245,8 +259,11 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         public void CleanUp()
         {
             mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
-            startPoint.LeaveStartPoint -= OnStartPointLeaved;
-            startPoint.EnterStartPoint -= OnStartPointEntered;
+
+            Finished = null;
+            BeforeStart = null;
+
+            startPoint.ClearSubscriptions();
 
             if(hidingSpotInstance != null)
             {

@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class StartPoint : MonoBehaviour {
 
+    public void ClearSubscriptions()
+    {
+        EnterStartPoint = null;
+        LeaveStartPoint = null;
+    }
+
     public event Action<Collider> EnterStartPoint;
     public event Action<Collider> LeaveStartPoint;
 
