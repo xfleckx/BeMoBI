@@ -178,7 +178,7 @@ MonoBehaviour:
   objectPresenter: {fileID: 1941343821}
   objectPool: {fileID: 1208354559}
   objectPositionAtTrialStart: {fileID: 1944748665}
-  HidingSpotPrefab: {fileID: 153650, guid: 9ecf2dda461a99d4a86a99e6369dc6a5, type: 2}
+  HidingSpotPrefab: {fileID: 127242, guid: b7f2253deabaee04ea25d40bbef55bd3, type: 2}
   entrance: {fileID: 866232739}
   InstanceDefinition: {fileID: 11400000, guid: 775a50707bc36b24ba2fda92b69e8da0, type: 2}
   TimeToWaitTilNewTrialStarts: 5
