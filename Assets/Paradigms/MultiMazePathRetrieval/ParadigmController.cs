@@ -5,6 +5,7 @@ using System.Linq;
 using System.IO;
 using Assets.Paradigms.MultiMazePathRetrieval;
 using System.Diagnostics;
+using System.Collections;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
@@ -23,7 +24,7 @@ public class ParadigmController : MonoBehaviour
     
     #endregion
 
-    public VirtualRealityManager environment;
+    public VirtualRealityManager VRManager;
     public HUD_Instruction instructions;
     public LSLMarkerStream markerStream;
     public StartPoint startingPoint;
@@ -33,10 +34,12 @@ public class ParadigmController : MonoBehaviour
     public GameObject HidingSpotPrefab;
     public GameObject entrance;
     public ParadigmInstanceDefinition InstanceDefinition;
-    
+
+    public float TimeToWaitTilNewTrialStarts = 5f;
+
     void Awake()
     {
-        if (environment == null)
+        if (VRManager == null)
             throw new MissingReferenceException("Reference to VirtualRealityManager is missing");
 
         if (markerStream == null)
@@ -79,10 +82,12 @@ public class ParadigmController : MonoBehaviour
     void NextTrial()
     {
         if (currentDefinition == null) {
+            UnityEngine.Debug.Log("First Trial");
             currentDefinition = trials.First;
         }
         else if (currentDefinition.Next == null)
         {
+            UnityEngine.Debug.Log("Last Trial ended");
             ParadigmInstanceFinished();
             return;
         }
@@ -95,11 +100,14 @@ public class ParadigmController : MonoBehaviour
 
         if (next.TrialType.Equals(typeof(Training).Name))
         {
+            UnityEngine.Debug.Log("Trainings Trial");
+            
             Begin(training, next);
         }
-
-        if (next.TrialType.Equals(typeof(Experiment).Name))
+        else if (next.TrialType.Equals(typeof(Experiment).Name))
         {
+            UnityEngine.Debug.Log("Experiment Trial");
+
             Begin(experiment, next);
         }
     }
@@ -118,6 +126,7 @@ public class ParadigmController : MonoBehaviour
 
     private void Prepare(Trial currentTrial)
     {
+        currentTrial.VRManager = this.VRManager;
         currentTrial.marker = this.markerStream;
         currentTrial.hud = this.instructions;
         currentTrial.hidingSpotPrefab = this.HidingSpotPrefab;
@@ -125,6 +134,7 @@ public class ParadigmController : MonoBehaviour
         currentTrial.MazeEntranceDoor = this.entrance;
         currentTrial.positionAtTrialBegin = objectPositionAtTrialStart;
         currentTrial.ObjectDisplaySocket = objectPresenter;
+        currentTrial.startPoint = this.startingPoint;
 
         var def = currentDefinition.Value;
 
@@ -141,6 +151,13 @@ public class ParadigmController : MonoBehaviour
 
         // TODO: replace with a more immersive door implementation
         entrance.SetActive(true);
+
+       StartCoroutine( WaitForNextTrial() );
+    }
+
+    private IEnumerator WaitForNextTrial()
+    {
+        yield return new WaitForSeconds(TimeToWaitTilNewTrialStarts);
 
         NextTrial();
     }
