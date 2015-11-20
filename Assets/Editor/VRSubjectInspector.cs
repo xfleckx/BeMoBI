@@ -45,6 +45,13 @@ public class VRSubjectInspector : Editor
                 instance.ChangeBodyController(bodyController);
         }
 
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Reset Controller"))
+        {
+            instance.ResetController();
+        }
+
         GUILayout.EndVertical();
     }
 } 

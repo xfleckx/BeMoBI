@@ -55,6 +55,15 @@ public class VRSubjectController : MonoBehaviour
         ApplyMovementToBody += bodyController.ApplyMovement;
     }
 
+    public void ResetController()
+    {
+        CurrentBodyController = String.Empty;
+        ApplyMovementToBody = null;
+
+        CurrentHeadController = String.Empty;
+        ApplyMovementToHead = null;
+    }
+
     public void ChangeHeadController(IHeadMovementController headController)
     {
         CurrentHeadController = headController.Identifier;
