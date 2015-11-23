@@ -13,7 +13,9 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         public override void StartTrial()
         {
             base.StartTrial();
-            
+
+            SetLightningOn(path, mazeInstance);
+
             hud.ShowInstruction("Remember the given path for this object!");
         }
 

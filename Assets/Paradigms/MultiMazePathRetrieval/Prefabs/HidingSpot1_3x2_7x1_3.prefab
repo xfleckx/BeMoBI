@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475f47a39b760734b80126cfab0bc3f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  revealSpeedFactor: .00999999978
+  revealSpeedFactor: .200000003
   DoorA: {fileID: 179628}
   DoorB: {fileID: 103446}
   roomSize: {x: 1.29999995, y: 2.70000005, z: 1.29999995}
@@ -330,7 +330,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: revealSpeedFactor
+      value: .200000003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127242}

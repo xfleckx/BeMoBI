@@ -25,7 +25,7 @@ public class ParadigmController : MonoBehaviour
     #endregion
 
     public VirtualRealityManager VRManager;
-    public HUD_Instruction instructions;
+    public HUD_Instruction hud;
     public LSLMarkerStream markerStream;
     public StartPoint startingPoint;
     public GameObject objectPresenter;
@@ -45,7 +45,7 @@ public class ParadigmController : MonoBehaviour
         if (markerStream == null)
             throw new MissingReferenceException("Reference to a MarkerStream instance is missing");
 
-        if (instructions == null)
+        if (hud == null)
             throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
         
     }
@@ -128,7 +128,7 @@ public class ParadigmController : MonoBehaviour
     {
         currentTrial.VRManager = this.VRManager;
         currentTrial.marker = this.markerStream;
-        currentTrial.hud = this.instructions;
+        currentTrial.hud = this.hud;
         currentTrial.hidingSpotPrefab = this.HidingSpotPrefab;
         currentTrial.objectPool = this.objectPool;
         currentTrial.MazeEntranceDoor = this.entrance;
@@ -173,6 +173,8 @@ public class ParadigmController : MonoBehaviour
 
     public void StartParadigmInstance()
     {
+        hud.Clear();
+
         NextTrial();
     }
 

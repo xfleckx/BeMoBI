@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace Assets.Paradigms.MultiMazePathRetrieval
 {
@@ -62,6 +63,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         protected Vector2 PathEnd;
 
         protected Internal_Trial_State currentTrialState;
+        private LinkedList<PathElement> currentPathAsLinkedList;
 
         public void Initialize(string mazeName, int pathID, string category, string objectName)
         {
@@ -94,7 +96,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             ActivatePath(pathID);
 
             GatherObjectFromObjectPool(category, objectName);
-
+            
             StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
         }
 
@@ -110,16 +112,17 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             path = pathController.EnablePathContaining(pathId);
 
-            var lastGridItem = path.PathElements.Last();
+            this.currentPathAsLinkedList = path.PathAsLinkedList;
 
-            var unit = lastGridItem.Value.Unit;
-             
-            PathEnd = lastGridItem.Key;
+            var unitAtPathEnd = currentPathAsLinkedList.Last().Unit;
 
-            var targetRotation = GetRotationFrom(unit);
+            PathEnd = unitAtPathEnd.GridID;
+
+            // hiding spot look at inactive (open wall)
+            var targetRotation = GetRotationFrom(unitAtPathEnd);
             var hidingSpotHost = Instantiate<GameObject>(hidingSpotPrefab);
 
-            hidingSpotHost.transform.SetParent(unit.transform, false);
+            hidingSpotHost.transform.SetParent(unitAtPathEnd.transform, false);
             hidingSpotHost.transform.localPosition = Vector3.zero;
             hidingSpotHost.transform.Rotate(targetRotation);
             
@@ -153,7 +156,32 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             objectToRemember.transform.localPosition = Vector3.zero;
         }
 
-        // look at inactive (open wall)
+        protected void SwitchAllLightsOff(beMobileMaze maze)
+        {
+            var allLights = maze.GetComponentsInChildren<TopLighting>();
+
+            foreach (var light in allLights)
+            {
+                light.SwitchOff();
+                light.gameObject.SetActive(false);
+            }
+
+        }
+
+        protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
+        {
+            foreach (var element in path.PathElements)
+            {
+                var pathElement = element.Value;
+
+                var topLight = pathElement.Unit.GetComponentInChildren<TopLighting>();
+
+                topLight.gameObject.SetActive(true);
+                topLight.SwitchOn();
+
+            }
+        }
+
         private Vector3 GetRotationFrom(MazeUnit unit)
         {
             var childs = unit.transform.AllChildren();

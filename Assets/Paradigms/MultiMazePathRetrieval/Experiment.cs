@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Assets.Paradigms.MultiMazePathRetrieval
 {
-
     public class Experiment : Trial
     {
         /// <summary>
@@ -13,11 +12,14 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         /// </summary>
         public override void StartTrial()
         {
+            SwitchAllLightsOff(mazeInstance);
+
             base.StartTrial();
              
             hud.ShowInstruction("Retrieve the path to this object");
             
         }
+        
 
         public override void OnMazeUnitEvent(MazeUnitEvent obj)
         {
@@ -43,12 +45,13 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
                 if (PathEnd.Equals(current))
                 {
+                    hidingSpotInstance.Reveal();
+                    hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
                     currentTrialState = Internal_Trial_State.Returning;
                 }
             }
         }
         
-
         public override void LeavesStartPoint(VRSubjectController subject)
         {
             Debug.Log("Subject leaves Startpoint");

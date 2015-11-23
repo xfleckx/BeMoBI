@@ -117,23 +117,21 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         {
             GUILayout.Label("Configuration", EditorStyles.largeLabel);
 
+            useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
+                new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
+                useExactOnCategoryPerMaze);
+            
             if (lastGeneratedInstanceConfig == null)
                 EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
 
             if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
                 EstimateConfigBasedOnAvailableElements();
-
-
+            
             subject_ID = EditorGUILayout.IntField("Subject", subject_ID);
-
-
+            
             mazesToUse = EditorGUILayout.IntField("Mazes", mazesToUse);
 
             pathsToUsePerMaze = EditorGUILayout.IntField("Paths (Objects) per Maze", pathsToUsePerMaze);
-
-            useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
-                new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
-                useExactOnCategoryPerMaze);
 
             if (!useExactOnCategoryPerMaze)
             {
@@ -202,11 +200,30 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         private void EstimateConfigBasedOnAvailableElements()
         {
-            mazeInstances = FindObjectsOfType<beMobileMaze>().ToList();
+            var vrManager = FindObjectOfType<VirtualRealityManager>();
+            
+            mazeInstances = vrManager.transform.AllChildren().Where(c => c.GetComponents<beMobileMaze>() != null ).Select(c => c.GetComponent<beMobileMaze>()).ToList();
 
             objectPool = FindObjectOfType<ObjectPool>();
 
+            var availableCategories = objectPool.Categories.Count;
+
+            var atLeastAvailableObjectsPerCategory = 0;
+
+            foreach (var category in objectPool.Categories)
+            {
+                var availableObjectsFromThisCategory = category.AssociatedObjects.Count;
+
+                if (atLeastAvailableObjectsPerCategory == 0 || atLeastAvailableObjectsPerCategory > availableObjectsFromThisCategory)
+                    atLeastAvailableObjectsPerCategory = availableObjectsFromThisCategory;
+            }
+            
             var availableMazes = mazeInstances.Count;
+
+            if (availableMazes > availableCategories)
+                mazesToUse = availableCategories;
+            else
+                mazesToUse = availableMazes;
 
             var atLeastAvailblePathsPerMaze = 0;
 
@@ -219,18 +236,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                 if (atLeastAvailblePathsPerMaze == 0 || atLeastAvailblePathsPerMaze > availablePathsAtThisMaze)
                     atLeastAvailblePathsPerMaze = availablePathsAtThisMaze;
             }
-            
-            var atLeastAvailableObjectsPerCategory = 0;
 
-            foreach (var category in objectPool.Categories)
-            {
-                var availableObjectsFromThisCategory = category.AssociatedObjects.Count;
-
-                if (atLeastAvailableObjectsPerCategory == 0 || atLeastAvailableObjectsPerCategory > availableObjectsFromThisCategory)
-                    atLeastAvailableObjectsPerCategory = availableObjectsFromThisCategory;
-            }
-
-            mazesToUse = availableMazes;
             pathsToUsePerMaze = atLeastAvailblePathsPerMaze;
 
         }
@@ -253,10 +259,12 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             availableCategories = new Stack<Category>(objectPool.Categories);
 
-            mazeInstances.ForEach((m) => {
-                ChooseCategoryFor(m);
-            });
-
+            for (int i = 0; i < mazesToUse; i++)
+            {
+                var maze = mazeInstances[i];
+                ChooseCategoryFor(maze);
+            }
+            
             #endregion
 
             #region create all possible trial configurations
@@ -274,7 +282,6 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             #endregion
 
-
             #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
 
             var newConfig = CreateInstance<ParadigmInstanceDefinition>();
@@ -282,6 +289,9 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             newConfig.name = string.Format("VP_{0}_InstanceDef", subject_ID);
 
             newConfig.Trials = new List<TrialDefinition>();
+
+            var trainingTrials = new List<TrialDefinition>();
+            var experimentalTrials = new List<TrialDefinition>();
 
             foreach (var trialDefinition in possibleTrials)
             {
@@ -296,7 +306,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                         ObjectName = trialDefinition.ObjectName
                     };
 
-                    newConfig.Trials.Add(newTrainingsTrialDefinition);
+                    trainingTrials.Add(newTrainingsTrialDefinition);
                 }
 
                 for (int i = 0; i < objectVisitationsInExperiment; i++)
@@ -310,13 +320,17 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                         ObjectName = trialDefinition.ObjectName
                     };
 
-                    newConfig.Trials.Add(newExperimentTrialDefinition);
+                    experimentalTrials.Add(newExperimentTrialDefinition);
+
                 }
             }
 
             #endregion
-
-            newConfig.Trials = newConfig.Trials.OrderByDescending(t => t.TrialType).ToList();
+            
+            newConfig.Trials.AddRange(trainingTrials);
+            
+            var shuffledExperimentalTrials = experimentalTrials.OrderBy(trial => Guid.NewGuid());
+            newConfig.Trials.AddRange(shuffledExperimentalTrials);
 
             return newConfig;
         }

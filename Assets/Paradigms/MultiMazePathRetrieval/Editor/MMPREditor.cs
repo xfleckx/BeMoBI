@@ -9,6 +9,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
     public class MMPREditor : Editor
     {
         private ParadigmController instance;
+        private M2PRControl controlWindow;
+
 
         public override void OnInspectorGUI()
         {
@@ -16,7 +18,12 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             if (GUILayout.Button("Open Control & \n Configuration Window", GUILayout.Height(40)))
             {
-                var controlWindow = CreateInstance<M2PRControl>();
+                var existingWindow = EditorWindow.GetWindow<M2PRControl>();
+
+                if (existingWindow != null)
+                    controlWindow = existingWindow;
+                else
+                    controlWindow = CreateInstance<M2PRControl>();
 
                 controlWindow.Initialize(instance);
 
