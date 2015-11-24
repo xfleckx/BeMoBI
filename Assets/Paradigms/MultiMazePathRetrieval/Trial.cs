@@ -93,7 +93,9 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             ResetStartConditions();
 
-            ActivatePath(pathID);
+            ActivatePathAndSetHidingSpot(pathID);
+
+            SwitchAllLightsOff(mazeInstance);
 
             GatherObjectFromObjectPool(category, objectName);
             
@@ -106,7 +108,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             
         }
 
-        private void ActivatePath(int pathId)
+        private void ActivatePathAndSetHidingSpot(int pathId)
         {
             pathController = activeEnvironment.GetComponent<PathController>();
 
@@ -114,7 +116,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             this.currentPathAsLinkedList = path.PathAsLinkedList;
 
-            var unitAtPathEnd = currentPathAsLinkedList.Last().Unit;
+            var unitAtPathEnd = currentPathAsLinkedList.Last.Value.Unit;
 
             PathEnd = unitAtPathEnd.GridID;
 
@@ -163,23 +165,80 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             foreach (var light in allLights)
             {
                 light.SwitchOff();
-                light.gameObject.SetActive(false);
+                light.gameObject.transform.AllChildren().ForEach(l => l.gameObject.SetActive(false));
             }
 
         }
 
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
-            foreach (var element in path.PathElements)
+            Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
+
+            var currentElement = path.PathAsLinkedList.First;
+
+            do
             {
-                var pathElement = element.Value;
+                var currentPathElement = currentElement.Value;
+                var nextPathElement = currentElement.Next.Value;
 
-                var topLight = pathElement.Unit.GetComponentInChildren<TopLighting>();
+                var topLight = currentPathElement.Unit.GetComponentInChildren<TopLighting>();
 
-                topLight.gameObject.SetActive(true);
+                ChangeLightningOn(topLight, currentPathElement, nextPathElement);
+
                 topLight.SwitchOn();
 
+                if (currentElement.Next == null)
+                    continue;
+
+                currentElement = currentElement.Next;
+
+            } while (currentElement.Next != null);
+        }
+
+        private void ChangeLightningOn(TopLighting light, PathElement current, PathElement next)
+        {
+            var unit = current.Unit;
+
+            var currentUnitsChildren = unit.transform.AllChildren();
+            var nextUnitsChildren = next.Unit.transform.AllChildren();
+            var lightChildren = light.gameObject.transform.AllChildren();
+
+            // Enable only for open walls
+
+            foreach (var lightPanel in lightChildren)
+            {
+                if (lightPanel.name.Equals("Center"))
+                {
+                    lightPanel.SetActive(true);
+                }
+
+                if (lightPanel.name.Equals("North"))
+                { 
+
+                    var state = currentUnitsChildren.First(w => w.name.Equals("North")).activeSelf;
+
+                    lightPanel.SetActive(!state);
+                }
+
+                if (lightPanel.name.Equals("South"))
+                {
+                    var state = currentUnitsChildren.First(w => w.name.Equals("South")).activeSelf;
+                    lightPanel.SetActive(!state);
+                }
+
+                if (lightPanel.name.Equals("East"))
+                {
+                    var state = currentUnitsChildren.First(w => w.name.Equals("East")).activeSelf;
+                    lightPanel.SetActive(!state);
+                }
+
+                if (lightPanel.name.Equals("West"))
+                {
+                    var state = currentUnitsChildren.First(w => w.name.Equals("West")).activeSelf;
+                    lightPanel.SetActive(!state);
+                }
             }
+
         }
 
         private Vector3 GetRotationFrom(MazeUnit unit)

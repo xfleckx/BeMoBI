@@ -6,12 +6,15 @@ using System.IO;
 using Assets.Paradigms.MultiMazePathRetrieval;
 using System.Diagnostics;
 using System.Collections;
+using NLog;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
 [RequireComponent(typeof(LSLMarkerStream))]
 public class ParadigmController : MonoBehaviour
 {
+    private static Logger log = LogManager.GetCurrentClassLogger();
+
     #region Constants
 
     private const string ParadgimConfigDirectoryName = "ParadigmConfig";
