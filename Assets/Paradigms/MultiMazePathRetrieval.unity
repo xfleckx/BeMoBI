@@ -140,6 +140,7 @@ MonoBehaviour:
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
+  lightningMaterial: {fileID: 2100000, guid: e1f5fe6e047c8a946bd8e0112945ee83, type: 2}
   SecondsToDisplay: 10
   currentPathID: 1
   mazeID: 8
@@ -388,6 +389,7 @@ MonoBehaviour:
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
+  lightningMaterial: {fileID: 0}
   SecondsToDisplay: 10
   currentPathID: -1
   mazeID: -1
@@ -609,7 +611,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -699,7 +703,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 93e86b57e56570d46814839867bf9a52, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -6.19999981
+      value: -6.13000011
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 93e86b57e56570d46814839867bf9a52, type: 2}
       propertyPath: m_LocalRotation.x
@@ -936,7 +940,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1508,6 +1514,7 @@ MonoBehaviour:
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
+  lightningMaterial: {fileID: 2100000, guid: e1f5fe6e047c8a946bd8e0112945ee83, type: 2}
   SecondsToDisplay: 10
   currentPathID: -1
   mazeID: -1
@@ -2038,6 +2045,7 @@ MonoBehaviour:
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
+  lightningMaterial: {fileID: 0}
   SecondsToDisplay: 10
   currentPathID: -1
   mazeID: -1
@@ -2264,7 +2272,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
