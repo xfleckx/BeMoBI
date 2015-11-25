@@ -39,6 +39,7 @@ public class ParadigmController : MonoBehaviour
     public GameObject HidingSpotPrefab;
     public GameObject entrance;
     public ParadigmInstanceDefinition InstanceDefinition;
+    public FullScreenFade fading;
 
     public float TimeToWaitTilNewTrialStarts = 5f;
 
@@ -65,6 +66,8 @@ public class ParadigmController : MonoBehaviour
         log.Info("Initializing Paradigm");
 
         hud.Clear();
+
+        fading.StartFadeIn();
     }
 
     #region Trials
@@ -178,6 +181,7 @@ public class ParadigmController : MonoBehaviour
         currentTrial.positionAtTrialBegin = objectPositionAtTrialStart;
         currentTrial.ObjectDisplaySocket = objectPresenter;
         currentTrial.startPoint = this.startingPoint;
+        currentTrial.fading = this.fading;
 
         var def = currentDefinition.Value;
 
@@ -186,10 +190,13 @@ public class ParadigmController : MonoBehaviour
         currentTrial.Finished += currentTrial_Finished;
     }
      
-    void currentTrial_Finished()
+
+    void currentTrial_Finished(Trial trial, TrialResult result)
     {
-        runCounter[currentTrial]++;
+        runCounter[trial]++;
         
+        
+
         currentTrial.CleanUp();
 
         // TODO: replace with a more immersive door implementation
@@ -230,8 +237,8 @@ public class ParadigmController : MonoBehaviour
 
     public void ReturnFromPauseTrial()
     {
-       // if(currentTrial.Equals(pause))
-            // TODO Force End Trial 
+        if (currentTrial.Equals(pause))
+            currentTrial.ForceTrialEnd();
     }
 
     public void PerformSaveInterupt()
@@ -345,4 +352,9 @@ public struct TrialConfig : ICloneable
             ObjectName = this.ObjectName
         };
     }
+}
+
+public class ParadigmRunStatistics
+{
+
 }

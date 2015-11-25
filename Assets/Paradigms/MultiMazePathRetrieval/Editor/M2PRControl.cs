@@ -104,15 +104,24 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             {
                 EditorGUILayout.HelpBox("Paradigma is already running", MessageType.Info);
 
-                if(GUILayout.Button("Inject Pause Trial"))
+
+                if(instance.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
                 { 
                     instance.InjectPauseTrial();
                 }
+
+                if(instance.currentTrial == instance.pause && GUILayout.Button("End Pause"))
+                {
+                    instance.currentTrial.ForceTrialEnd();
+                }
+
 
                 if(GUILayout.Button("Save Paradigma State \n and Quit"))
                 {
                     instance.PerformSaveInterupt();
                 }
+
+
             }
         }
 

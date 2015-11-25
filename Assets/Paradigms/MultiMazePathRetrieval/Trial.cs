@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Assets.Paradigms.MultiMazePathRetrieval
 {
@@ -16,7 +17,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         event Action BeforeStart;
 
-        event Action Finished;
+        event Action<Trial, TrialResult> Finished;
 
         void CleanUp();
     }
@@ -67,9 +68,12 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         protected Internal_Trial_State currentTrialState;
         private LinkedList<PathElement> currentPathAsLinkedList;
 
-        public void Initialize(string mazeName, int pathID, string category, string objectName)
+        protected Stopwatch stopWatch;
+        public FullScreenFade fading;
+
+        public virtual void Initialize(string mazeName, int pathID, string category, string objectName)
         {
-            Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
+            UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
 
             var expectedWorld = VRManager.ChangeWorld(mazeName);
 
@@ -79,10 +83,11 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             }
             else
             {
-                Debug.Log(string.Format("Expected VR Environment \"{0}\" not found! Ending Trial!", mazeName));
-                OnFinished();
+                UnityEngine.Debug.Log(string.Format("Expected VR Environment \"{0}\" not found! Ending Trial!", mazeName));
+                OnFinished(TimeSpan.Zero);
             }
-            
+
+            stopWatch = new Stopwatch();
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
@@ -124,7 +129,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             // hiding spot look at inactive (open wall)
             var targetRotation = GetRotationFrom(unitAtPathEnd);
-            var hidingSpotHost = Instantiate<GameObject>(hidingSpotPrefab);
+            var hidingSpotHost = Instantiate(hidingSpotPrefab);
 
             hidingSpotHost.transform.SetParent(unitAtPathEnd.transform, false);
             hidingSpotHost.transform.localPosition = Vector3.zero;
@@ -137,10 +142,12 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         {
             var objectCategory = objectPool.Categories.Where(c => c.name.Equals(categoryName)).FirstOrDefault();
             var targetObject = objectCategory.GetObjectBy(objectName);
-            objectToRemember = Instantiate<GameObject>(targetObject);
+            objectToRemember = Instantiate(targetObject);
             objectToRemember.SetActive(true);
             objectToRemember.transform.SetParent(positionAtTrialBegin, false);
             objectToRemember.transform.localPosition = Vector3.zero;
+            objectToRemember.transform.rotation = Quaternion.identity;
+            objectToRemember.transform.localScale = Vector3.one;
         }
 
         IEnumerator DisplayObjectAtStartFor(float waitingTime)
@@ -174,7 +181,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
-            Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
+            UnityEngine.Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
             
             var lineRenderer = maze.gameObject.AddComponent<LineRenderer>();
 
@@ -316,7 +323,7 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public virtual void EntersStartPoint(VRSubjectController subject)
         {
-            Debug.Log("Subject enters Startpoint");
+            UnityEngine.Debug.Log("Subject enters Startpoint");
 
             if (currentTrialState == Internal_Trial_State.Searching)
             {
@@ -325,13 +332,14 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
             if(currentTrialState == Internal_Trial_State.Returning)
             {
-                OnFinished();
+                stopWatch.Stop();
+                OnFinished(stopWatch.Elapsed);
             }
         }
 
         public virtual void LeavesStartPoint(VRSubjectController subject)
         {
-            Debug.Log("Subject leaves Startpoint");
+            UnityEngine.Debug.Log("Subject leaves Startpoint");
 
             if (currentTrialState == Internal_Trial_State.Searching)
             {
@@ -348,34 +356,53 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         {
             OnBeforeStart();
             marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, mazeID, path.ID, 0));
-            
+            stopWatch.Start();
         }
+        
+        /// <summary>
+        /// Warning using this could cause inconsistent behaviour within the paradigm!
+        /// In most cases, the trial should end itself!
+        /// </summary>
+        public virtual void ForceTrialEnd()
+        {
+            stopWatch.Stop();
 
+            OnFinished(stopWatch.Elapsed);
+        }
+        
         public event Action BeforeStart;
         protected void OnBeforeStart()
         {
             if (BeforeStart != null)
                 BeforeStart();
-
         }
-
-        public event Action Finished;
-        protected void OnFinished()
+         
+        public event Action<Trial, TrialResult> Finished;
+        protected void OnFinished(TimeSpan trialDuration)
         {
             if (Finished != null)
-                Finished();
+                Finished(this, new TrialResult(trialDuration));
         }
 
-        public void CleanUp()
+        protected void ClearCallbacks()
         {
-            var lineRenderer = mazeInstance.GetComponent<LineRenderer>();
-
-            Destroy(lineRenderer);
-
-            mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
 
             Finished = null;
             BeforeStart = null;
+
+        }
+
+        public void CleanUp()
+        { 
+            if(mazeInstance != null) { 
+                var lineRenderer = mazeInstance.GetComponent<LineRenderer>();
+            
+                Destroy(lineRenderer);
+
+                mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
+            }
+
+            ClearCallbacks();
 
             startPoint.ClearSubscriptions();
 
@@ -383,6 +410,17 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             {
                 Destroy(hidingSpotInstance.gameObject);
             }
+        }
+    }
+
+    public class TrialResult
+    {
+        private TimeSpan duration;
+        public TimeSpan Duration { get { return duration; } }
+
+        public TrialResult(TimeSpan duration)
+        {
+            this.duration = duration;
         }
     }
 }
