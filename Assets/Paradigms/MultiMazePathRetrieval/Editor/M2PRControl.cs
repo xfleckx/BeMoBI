@@ -5,11 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using System.Diagnostics;
+using NLog;
 
 namespace Assets.Paradigms.MultiMazePathRetrieval
 {
     public class M2PRControl : EditorWindow
     {
+        Logger log = LogManager.GetCurrentClassLogger();
+
         private ParadigmController instance;
 
         [SerializeField]
@@ -36,6 +39,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             titleContent = new GUIContent("Paradigm Control");
 
             this.minSize = new Vector2(500, 600);
+
+            log.Info("Initialize Paradigma Control Window");
         }
          
         void OnGUI()
@@ -83,34 +88,32 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
                 return;
             }
 
-            if (GUILayout.Button("Start First Trial"))
-            {
-                instance.StartParadigmInstance();
+            if (!instance.IsRunning) { 
+
+                if (GUILayout.Button("Start First Trial"))
+                {
+                    instance.RunAll();
+                }
+
+                if(GUILayout.Button("Run Training"))
+                {
+                    instance.RunOnly<Training>();
+                }
             }
+            else
+            {
+                EditorGUILayout.HelpBox("Paradigma is already running", MessageType.Info);
 
-            //EditorGUILayout.BeginHorizontal();
+                if(GUILayout.Button("Inject Pause Trial"))
+                { 
+                    instance.InjectPauseTrial();
+                }
 
-            //if (GUILayout.Button("Start Instruction Trial"))
-            //{
-            //    instance.Begin(instance.instruction);
-            //}
-
-            //if (GUILayout.Button("Start Pause Trial"))
-            //{
-            //    instance.Begin(instance.pause);
-            //}
-
-            //EditorGUILayout.EndHorizontal();
-
-            //if (GUILayout.Button("Start Training Trial"))
-            //{
-            //    instance.Begin(instance.training);
-            //}
-
-            //if (GUILayout.Button("Start Experiment Trial"))
-            //{
-            //    instance.Begin(instance.experiment);
-            //}
+                if(GUILayout.Button("Save Paradigma State \n and Quit"))
+                {
+                    instance.PerformSaveInterupt();
+                }
+            }
         }
 
         private void RenderConfigurationGUI()

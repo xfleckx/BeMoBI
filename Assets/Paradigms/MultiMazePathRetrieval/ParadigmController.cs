@@ -15,6 +15,8 @@ public class ParadigmController : MonoBehaviour
 {
     private static Logger log = LogManager.GetCurrentClassLogger();
 
+    private bool isRunning = false;
+
     #region Constants
 
     private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -50,7 +52,6 @@ public class ParadigmController : MonoBehaviour
 
         if (hud == null)
             throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
-        
     }
 
     void Start()
@@ -60,8 +61,10 @@ public class ParadigmController : MonoBehaviour
             UnityEngine.Debug.Log("No instance definition loaded.");
             return;
         }
+        
+        log.Info("Initializing Paradigm");
 
-        trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
+        hud.Clear();
     }
 
     #region Trials
@@ -78,12 +81,22 @@ public class ParadigmController : MonoBehaviour
     
     private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
+    public bool IsRunning
+    {
+        get
+        {
+            return isRunning;
+        }
+    }
+
     #endregion
 
     #region Trial Management
 
     void NextTrial()
     {
+        isRunning = true;
+
         if (currentDefinition == null) {
             UnityEngine.Debug.Log("First Trial");
             currentDefinition = trials.First;
@@ -112,9 +125,36 @@ public class ParadigmController : MonoBehaviour
             UnityEngine.Debug.Log("Experiment Trial");
 
             Begin(experiment, next);
+
+        }else if (next.TrialType.Equals(typeof(Pause).Name))
+        {
+            UnityEngine.Debug.Log("Pause Trial");
+
+            Begin(pause, next);
         }
     }
-    
+
+    public void RunAll()
+    {
+        trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
+        log.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
+        
+        NextTrial();
+    }
+
+    public void RunOnly<T>() where T : Trial
+    {
+        var nameOfTrialsToSelect = typeof(T).Name;
+
+        log.Info(string.Format("Run only {0} trials!", nameOfTrialsToSelect));
+
+        var selectedTrials = InstanceDefinition.Trials.Where((def) => def.TrialType.Equals(nameOfTrialsToSelect));
+
+        trials = new LinkedList<TrialDefinition>(selectedTrials);
+
+        NextTrial();
+    }
+
     public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
     {
         if (!runCounter.ContainsKey(trial)) 
@@ -167,20 +207,17 @@ public class ParadigmController : MonoBehaviour
 
     private void ParadigmInstanceFinished()
     {
-        throw new NotImplementedException("TODO");
+        isRunning = false;
+
+        hud.ShowInstruction("You made it!\nThx for participation!","Experiment finished!");
+
+        log.Info("Paradigma run finished");
     }
     
     #endregion
     
     #region Public interface for controlling the paradigm remotely
-
-    public void StartParadigmInstance()
-    {
-        hud.Clear();
-
-        NextTrial();
-    }
-
+    
     public void InjectPauseTrial()
     {
         var pauseTrial = new TrialDefinition()
@@ -189,6 +226,17 @@ public class ParadigmController : MonoBehaviour
         };
 
         trials.AddAfter(currentDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
+    }
+
+    public void ReturnFromPauseTrial()
+    {
+       // if(currentTrial.Equals(pause))
+            // TODO Force End Trial 
+    }
+
+    public void PerformSaveInterupt()
+    {
+        
     }
 
     public void SaveCurrentState()
