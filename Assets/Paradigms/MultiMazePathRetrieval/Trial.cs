@@ -53,6 +53,8 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public GameObject objectToRemember;
 
+        public Material lightningMaterial;
+
         public int SecondsToDisplay = 10;
 
         public int currentPathID = -1;
@@ -173,26 +175,47 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
             Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
+            
+            var lineRenderer = maze.gameObject.AddComponent<LineRenderer>();
 
-            var currentElement = path.PathAsLinkedList.First;
+            lineRenderer.SetWidth(0.2f, 0.2f);
 
-            do
+            lineRenderer.material = lightningMaterial;
+            
+            var elements = path.PathElements.Values.ToList();
+
+            var countOfPositions = path.PathElements.Count;
+
+            lineRenderer.SetVertexCount(countOfPositions);
+
+            for (int i = 0; i < countOfPositions; i++)
             {
-                var currentPathElement = currentElement.Value;
-                var nextPathElement = currentElement.Next.Value;
+                var unitPosition = elements[i].Unit.transform.position + new Vector3(0,maze.RoomDimension.y,0);
 
-                var topLight = currentPathElement.Unit.GetComponentInChildren<TopLighting>();
+                lineRenderer.SetPosition(i, unitPosition);
+            }
 
-                ChangeLightningOn(topLight, currentPathElement, nextPathElement);
+            #region stashed
+            //var currentElement = path.PathAsLinkedList.First;
 
-                topLight.SwitchOn();
+            //do
+            //{
+            //    var currentPathElement = currentElement.Value;
+            //    var nextPathElement = currentElement.Next.Value;
 
-                if (currentElement.Next == null)
-                    continue;
+            //    var topLight = currentPathElement.Unit.GetComponentInChildren<TopLighting>();
 
-                currentElement = currentElement.Next;
+            //    ChangeLightningOn(topLight, currentPathElement, nextPathElement);
 
-            } while (currentElement.Next != null);
+            //    topLight.SwitchOn();
+
+            //    if (currentElement.Next == null)
+            //        continue;
+
+            //    currentElement = currentElement.Next;
+
+            //} while (currentElement.Next != null);
+            #endregion
         }
 
         private void ChangeLightningOn(TopLighting light, PathElement current, PathElement next)
@@ -345,6 +368,10 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
 
         public void CleanUp()
         {
+            var lineRenderer = mazeInstance.GetComponent<LineRenderer>();
+
+            Destroy(lineRenderer);
+
             mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
 
             Finished = null;
