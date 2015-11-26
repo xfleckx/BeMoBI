@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+using UnityEngine.VR;
 namespace Assets.Paradigms.MultiMazePathRetrieval.Scripts.Controls
 {
     public class OculusRift : MonoBehaviour, IHeadMovementController
@@ -19,6 +20,32 @@ namespace Assets.Paradigms.MultiMazePathRetrieval.Scripts.Controls
             {
                return "Oculus Headset";
             }
+        }
+
+        private bool monoscopicRendering = false;
+
+        public void Recenter()
+        {
+            InputTracking.Recenter();
+        }
+
+        public bool UseMonoscopigRendering {
+
+            get {
+                return monoscopicRendering;
+            }
+            set {
+
+                if (value != monoscopicRendering) {
+                    monoscopicRendering = value;
+                    OnMonoscopicRenderingChanged();
+                }
+            }
+        }
+
+        private void OnMonoscopicRenderingChanged()
+        {
+            ovrManager.monoscopic = true;
         }
 
         void Awake()
