@@ -887,6 +887,22 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 188960, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 172352, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 149662, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 103888, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
   m_IsPrefabParent: 0
@@ -1267,6 +1283,14 @@ Prefab:
       propertyPath: smooth
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 14302780, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
+      propertyPath: m_StepOffset
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 14302780, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
+      propertyPath: m_SlopeLimit
+      value: 90
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11484968, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
@@ -1290,6 +1314,61 @@ MonoBehaviour:
   colorOpaque: {r: .00999999978, g: .00999999978, b: .00999999978, a: 1}
   colorTransparent: {r: .00999999978, g: .00999999978, b: .00999999978, a: 0}
   material: {fileID: 2100000, guid: 2ca7526820a800e41b84f4cc2601a5f4, type: 2}
+--- !u!4 &1410851484 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 427396, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
+  m_PrefabInternal: {fileID: 1410851481}
+--- !u!4 &1410851485 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 430354, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
+  m_PrefabInternal: {fileID: 1410851481}
+--- !u!1 &1410851486 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 124870, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
+  m_PrefabInternal: {fileID: 1410851481}
+--- !u!114 &1410851487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1410851486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ce674aa0e138742932c17571fad179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ovrManager: {fileID: 0}
+  ovrRig: {fileID: 0}
+--- !u!114 &1410851488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1410851486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3698830e838fb654598a03c850ba3ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity.BodyOrientation
+  StreamType: Unity.Quarternion
+  ChannelCount: 4
+  body: {fileID: 1410851484}
+--- !u!114 &1410851489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1410851486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0115e4cc8ac6243b2d1953e5eb4942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity.HeadOrientation
+  StreamType: Unity.Quaternion
+  ChannelCount: 4
+  head: {fileID: 1410851485}
 --- !u!114 &1477825551 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11463598, guid: 9a66d8eba1f971d4cb563e9d49519ed4,
