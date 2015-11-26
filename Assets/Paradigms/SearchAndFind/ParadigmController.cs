@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.IO;
-using Assets.Paradigms.MultiMazePathRetrieval;
+using Assets.Paradigms.SearchAndFind;
 using System.Diagnostics;
 using System.Collections;
 using NLog;

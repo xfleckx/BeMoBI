@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Assets.Paradigms.MultiMazePathRetrieval.Scripts.Controls;
+using Assets.Paradigms.SearchAndFind.Scripts.Controls;
 
 [CustomEditor(typeof(OculusRift))]
 public class OculusHeadControlInspector : Editor

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-namespace Assets.Paradigms.MultiMazePathRetrieval
+namespace Assets.Paradigms.SearchAndFind
 {
     public class InstructionTrial : Trial
     {

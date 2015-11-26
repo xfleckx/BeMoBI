@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 using UnityEngine.VR;
-namespace Assets.Paradigms.MultiMazePathRetrieval.Scripts.Controls
+namespace Assets.Paradigms.SearchAndFind.Scripts.Controls
 {
     public class OculusRift : MonoBehaviour, IHeadMovementController
     {

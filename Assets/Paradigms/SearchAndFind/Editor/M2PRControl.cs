@@ -7,7 +7,7 @@ using UnityEditor;
 using System.Diagnostics;
 using NLog;
 
-namespace Assets.Paradigms.MultiMazePathRetrieval
+namespace Assets.Paradigms.SearchAndFind
 {
     public class M2PRControl : EditorWindow
     {
@@ -29,6 +29,9 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
         private int objectVisitationsInExperiment = 1; // " while Experiment
         [SerializeField]
         private bool useExactOnCategoryPerMaze = true;
+        [SerializeField]
+        private bool groupByMazes = true;
+
 
         private ParadigmInstanceDefinition lastGeneratedInstanceConfig;
 
@@ -132,7 +135,11 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
                 new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
                 useExactOnCategoryPerMaze);
-            
+
+            groupByMazes = EditorGUILayout.Toggle(
+                new GUIContent("Group by Mazes and Paths", "Trials are set as tuples of training and experiment trials per Maze and Path"), 
+                groupByMazes);
+
             if (lastGeneratedInstanceConfig == null)
                 EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
 
@@ -338,11 +345,34 @@ namespace Assets.Paradigms.MultiMazePathRetrieval
             }
 
             #endregion
-            
-            newConfig.Trials.AddRange(trainingTrials);
-            
-            var shuffledExperimentalTrials = experimentalTrials.OrderBy(trial => Guid.NewGuid());
-            newConfig.Trials.AddRange(shuffledExperimentalTrials);
+
+            if (groupByMazes) {
+
+                var tempAllTrials = new List<TrialDefinition>();
+                tempAllTrials.AddRange(trainingTrials);
+                tempAllTrials.AddRange(experimentalTrials);
+
+                var grouped = tempAllTrials.GroupBy((td) => td.MazeName);
+
+                foreach (var group in grouped)
+                {
+                    var groupedByPath = group.GroupBy(td => td.Path).OrderBy(g => Guid.NewGuid());
+
+                    foreach (var pathGroup in groupedByPath)
+                    {
+                        newConfig.Trials.AddRange(pathGroup);
+                    }
+
+                } 
+
+            }
+            else
+            {
+                newConfig.Trials.AddRange(trainingTrials);
+
+                var shuffledExperimentalTrials = experimentalTrials.OrderBy(trial => Guid.NewGuid());
+                newConfig.Trials.AddRange(shuffledExperimentalTrials);
+            }
 
             return newConfig;
         }

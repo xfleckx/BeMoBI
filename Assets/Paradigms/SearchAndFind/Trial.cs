@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Assets.Paradigms.MultiMazePathRetrieval
+namespace Assets.Paradigms.SearchAndFind
 {
     public enum Internal_Trial_State { Searching, Returning }
 

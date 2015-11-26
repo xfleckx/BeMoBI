@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Paradigms.MultiMazePathRetrieval;
+using Assets.Paradigms.SearchAndFind;
 using System;
 
 

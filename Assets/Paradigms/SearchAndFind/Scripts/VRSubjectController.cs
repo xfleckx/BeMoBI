@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.VR;
 using UnityEngine.Assertions;
-using Assets.Paradigms.MultiMazePathRetrieval;
+using Assets.Paradigms.SearchAndFind;
 
 [RequireComponent(typeof(CharacterController))]
 public class VRSubjectController : MonoBehaviour

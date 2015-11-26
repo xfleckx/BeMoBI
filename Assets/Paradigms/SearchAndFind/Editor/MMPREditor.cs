@@ -3,7 +3,7 @@ using UnityEditor;
 
 using System.Collections;
 
-namespace Assets.Paradigms.MultiMazePathRetrieval
+namespace Assets.Paradigms.SearchAndFind
 {
     [CustomEditor(typeof(ParadigmController))]
     public class MMPREditor : Editor
