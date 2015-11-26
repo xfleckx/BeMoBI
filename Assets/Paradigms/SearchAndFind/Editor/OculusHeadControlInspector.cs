@@ -2,14 +2,14 @@
 using UnityEditor;
 using Assets.Paradigms.SearchAndFind.Scripts.Controls;
 
-[CustomEditor(typeof(OculusRift))]
+[CustomEditor(typeof(OculusRiftController))]
 public class OculusHeadControlInspector : Editor
 {
-    OculusRift instance;
+    OculusRiftController instance;
 
     public override void OnInspectorGUI()
     {
-        instance =  target as OculusRift;
+        instance =  target as OculusRiftController;
 
         instance.UseMonoscopigRendering = EditorGUILayout.Toggle("Monoscopic Rendering", instance.UseMonoscopigRendering);
 

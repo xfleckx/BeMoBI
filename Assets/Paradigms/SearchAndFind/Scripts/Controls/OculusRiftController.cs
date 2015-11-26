@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.VR;
 namespace Assets.Paradigms.SearchAndFind.Scripts.Controls
 {
-    public class OculusRift : MonoBehaviour, IHeadMovementController
+    public class OculusRiftController : MonoBehaviour, IHeadMovementController
     {
         public OVRManager ovrManager;
 
