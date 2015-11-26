@@ -54,9 +54,5 @@ public class VRSubjectInspector : Editor
         
         GUILayout.EndVertical();
 
-        instance.UseMonoscopigRendering = EditorGUILayout.Toggle("Monoscopic Rendering", instance.UseMonoscopigRendering);
-
-        if (instance.UseMonoscopigRendering)
-            instance.SetMonoscopic(instance.UseMonoscopigRendering);
     }
 } 
