@@ -131,7 +131,7 @@ GameObject:
   - 20: {fileID: 2093398}
   - 114: {fileID: 11492232}
   - 114: {fileID: 11452340}
-  - 114: {fileID: 11484968}
+  - 114: {fileID: 11473066}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -189,6 +189,9 @@ GameObject:
   - 114: {fileID: 11403648}
   - 114: {fileID: 11408356}
   - 114: {fileID: 11453930}
+  - 114: {fileID: 11486666}
+  - 114: {fileID: 11440538}
+  - 114: {fileID: 11412628}
   m_Layer: 0
   m_Name: Subject
   m_TagString: Untagged
@@ -863,6 +866,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b0ee5b9cb565244b29e94c968ce974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11412628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0115e4cc8ac6243b2d1953e5eb4942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity.HeadOrientation
+  StreamType: Unity.Quaternion
+  ChannelCount: 4
+  head: {fileID: 430354}
 --- !u!114 &11413014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1046,8 +1064,8 @@ MonoBehaviour:
   HeadPerspective: {fileID: 2093398}
   Head: {fileID: 430354}
   Body: {fileID: 14302780}
-  CurrentHeadController: Mouse Head Controller
-  CurrentBodyController: Keyboard
+  CurrentHeadController: Oculus Headset
+  CurrentBodyController: Joystick
 --- !u!114 &11423998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1112,6 +1130,21 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
+--- !u!114 &11440538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3698830e838fb654598a03c850ba3ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity.BodyOrientation
+  StreamType: Unity.Quarternion
+  ChannelCount: 4
+  body: {fileID: 427396}
 --- !u!114 &11443356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1210,7 +1243,7 @@ MonoBehaviour:
   clampVerticalRotation: 1
   MinimumX: -90
   MaximumX: 90
-  smooth: 0
+  smooth: 1
   smoothTime: 5
 --- !u!114 &11454228
 MonoBehaviour:
@@ -1354,6 +1387,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: empty log slot
+--- !u!114 &11473066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14bf835a2f6d2948ab96a7087fd103e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToFade: 2
+  colorOpaque: {r: .00999999978, g: .00999999978, b: .00999999978, a: 1}
+  colorTransparent: {r: .00999999978, g: .00999999978, b: .00999999978, a: 0}
+  material: {fileID: 2100000, guid: 2ca7526820a800e41b84f4cc2601a5f4, type: 2}
 --- !u!114 &11475342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1418,19 +1466,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: empty log slot
---- !u!114 &11484968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df8e1d778abf442e4bec449c360e9e1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeTime: 2
-  fadeColor: {r: .00999999978, g: .00999999978, b: .00999999978, a: 1}
 --- !u!114 &11485398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1483,6 +1518,19 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
+--- !u!114 &11486666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ce674aa0e138742932c17571fad179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ovrManager: {fileID: 0}
+  ovrRig: {fileID: 0}
 --- !u!114 &11489592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1580,7 +1628,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112082}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 646b5bc27a658f447b1d929fd5ffbd70, type: 3}
   m_Name: 
@@ -1628,8 +1676,8 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1.67999995
   m_Radius: .5
-  m_SlopeLimit: 45
-  m_StepOffset: .300000012
+  m_SlopeLimit: 90
+  m_StepOffset: .5
   m_SkinWidth: .0799999982
   m_MinMoveDistance: .00100000005
   m_Center: {x: 0, y: 1, z: 0}
