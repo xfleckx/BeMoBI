@@ -86,8 +86,11 @@ public class ParadigmController : MonoBehaviour
 
     public Trial currentTrial;
     
+
     private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
+    private bool shouldEnd;
+    
     public bool IsRunning
     {
         get
@@ -108,7 +111,7 @@ public class ParadigmController : MonoBehaviour
             UnityEngine.Debug.Log("First Trial");
             currentDefinition = trials.First;
         }
-        else if (currentDefinition.Next == null)
+        else if (shouldEnd || currentDefinition.Next == null)
         {
             UnityEngine.Debug.Log("Last Trial ended");
             ParadigmInstanceFinished();
@@ -140,6 +143,7 @@ public class ParadigmController : MonoBehaviour
             Begin(pause, next);
         }
     }
+
 
     public void RunAll()
     {
@@ -207,7 +211,7 @@ public class ParadigmController : MonoBehaviour
 
         var trialType = trial.GetType().Name;
 
-        statistic.Trace(string.Format("Trial: {0}|{1}|{2}|{3}|{5}min", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
+        statistic.Trace(string.Format("Trial: {0}|{1}|{2}|{3}|{4}min", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
 
         runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
 
@@ -226,12 +230,30 @@ public class ParadigmController : MonoBehaviour
         NextTrial();
     }
 
+    public void ForceSaveEnd()
+    {
+        this.shouldEnd = true;
+    }
+
     private void ParadigmInstanceFinished()
     {
         isRunning = false;
 
         hud.ShowInstruction("You made it!\nThx for participation!","Experiment finished!");
-        
+        var completeTime = runStatistic.Trials.Sum(t => t.DurationInSeconds) / 60;
+
+        double averageTimePerTraining = 0;
+
+        if (runStatistic.Trials.Any(t => t.TrialType.Equals(typeof(Training).Name)))
+            averageTimePerTraining = runStatistic.Trials.Where(t => t.TrialType.Equals(typeof(Training).Name)).Average(t => t.DurationInSeconds) / 60;
+
+        double averageTimePerExperiment = 0;
+
+        if (runStatistic.Trials.Any(t => t.TrialType.Equals(typeof(Experiment).Name)))
+          averageTimePerExperiment = runStatistic.Trials.Where(t => t.TrialType.Equals(typeof(Experiment).Name)).Average(t => t.DurationInSeconds) / 60;
+
+        statistic.Info(string.Format("Run took: {0} minutes, Avg Training: {1}     Avg Experiment {2}", completeTime, averageTimePerTraining, averageTimePerExperiment));
+
         appLog.Info("Paradigma run finished");
     }
     

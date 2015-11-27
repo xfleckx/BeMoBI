@@ -21,10 +21,10 @@ public class VRSubjectController : MonoBehaviour
     public event Action SubmitPressed;
     public event Action<float> ItemValueRequested;
 
+    [SerializeField]
     public string CurrentHeadController = string.Empty;
+    [SerializeField]
     public string CurrentBodyController = string.Empty;
-
-    public bool UseMonoscopigRendering { get; set; }
     
     public void Start()
     {

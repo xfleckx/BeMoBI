@@ -93,7 +93,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (!instance.IsRunning) { 
 
-                if (GUILayout.Button("Start First Trial"))
+                if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
                 {
                     instance.RunAll();
                 }
@@ -117,7 +117,15 @@ namespace Assets.Paradigms.SearchAndFind
                 {
                     instance.currentTrial.ForceTrialEnd();
                 }
+                
+                EditorGUILayout.Space();
 
+                if (GUILayout.Button("End current run", GUILayout.Height(25)))
+                {
+                    instance.ForceSaveEnd();
+                }
+
+                EditorGUILayout.Space();
 
                 if(GUILayout.Button("Save Paradigma State \n and Quit"))
                 {
