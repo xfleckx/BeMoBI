@@ -59,7 +59,7 @@ namespace Assets.Paradigms.SearchAndFind
         public int SecondsToDisplay = 10;
 
         public int currentPathID = -1;
-        public int mazeID = -1;
+        public string currentMazeName = string.Empty;
 
         protected GameObject activeEnvironment;
 
@@ -90,7 +90,7 @@ namespace Assets.Paradigms.SearchAndFind
             stopWatch = new Stopwatch();
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
-
+            currentMazeName = mazeName;
             mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 
             startPoint.EnterStartPoint += OnStartPointEntered;
@@ -103,7 +103,7 @@ namespace Assets.Paradigms.SearchAndFind
             ActivatePathAndSetHidingSpot(pathID);
 
             SwitchAllLightsOff(mazeInstance);
-
+            
             GatherObjectFromObjectPool(category, objectName);
             
             StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
@@ -118,6 +118,8 @@ namespace Assets.Paradigms.SearchAndFind
         private void ActivatePathAndSetHidingSpot(int pathId)
         {
             pathController = activeEnvironment.GetComponent<PathController>();
+
+            currentPathID = pathId;
 
             path = pathController.EnablePathContaining(pathId);
 
@@ -230,7 +232,6 @@ namespace Assets.Paradigms.SearchAndFind
             var unit = current.Unit;
 
             var currentUnitsChildren = unit.transform.AllChildren();
-            var nextUnitsChildren = next.Unit.transform.AllChildren();
             var lightChildren = light.gameObject.transform.AllChildren();
 
             // Enable only for open walls
@@ -355,7 +356,7 @@ namespace Assets.Paradigms.SearchAndFind
         public virtual void StartTrial()
         {
             OnBeforeStart();
-            marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, mazeID, path.ID, 0));
+            marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, currentMazeName, path.ID, 0));
             stopWatch.Start();
         }
         

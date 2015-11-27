@@ -13,9 +13,13 @@ public enum SubjectControlMode { None, Joystick, PhaseSpace }
 [RequireComponent(typeof(LSLMarkerStream))]
 public class ParadigmController : MonoBehaviour
 {
-    private static Logger log = LogManager.GetCurrentClassLogger();
+    private static Logger appLog = LogManager.GetLogger("App");
+
+    private static Logger statistic = LogManager.GetLogger("Statistics");
 
     private bool isRunning = false;
+
+    private ParadigmRunStatistics runStatistic;
 
     #region Constants
 
@@ -63,7 +67,7 @@ public class ParadigmController : MonoBehaviour
             return;
         }
         
-        log.Info("Initializing Paradigm");
+        appLog.Info("Initializing Paradigm");
 
         hud.Clear();
 
@@ -140,8 +144,13 @@ public class ParadigmController : MonoBehaviour
     public void RunAll()
     {
         trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
-        log.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
-        
+
+        appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
+
+        runStatistic = new ParadigmRunStatistics();
+
+        statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
+
         NextTrial();
     }
 
@@ -149,11 +158,13 @@ public class ParadigmController : MonoBehaviour
     {
         var nameOfTrialsToSelect = typeof(T).Name;
 
-        log.Info(string.Format("Run only {0} trials!", nameOfTrialsToSelect));
+        appLog.Info(string.Format("Run only {0} trials!", nameOfTrialsToSelect));
 
         var selectedTrials = InstanceDefinition.Trials.Where((def) => def.TrialType.Equals(nameOfTrialsToSelect));
 
         trials = new LinkedList<TrialDefinition>(selectedTrials);
+
+        runStatistic = new ParadigmRunStatistics();
 
         NextTrial();
     }
@@ -190,12 +201,15 @@ public class ParadigmController : MonoBehaviour
         currentTrial.Finished += currentTrial_Finished;
     }
      
-
     void currentTrial_Finished(Trial trial, TrialResult result)
     {
         runCounter[trial]++;
-        
-        
+
+        var trialType = trial.GetType().Name;
+
+        statistic.Trace(string.Format("Trial: {0}|{1}|{2}|{3}|{5}min", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
+
+        runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
 
         currentTrial.CleanUp();
 
@@ -217,8 +231,8 @@ public class ParadigmController : MonoBehaviour
         isRunning = false;
 
         hud.ShowInstruction("You made it!\nThx for participation!","Experiment finished!");
-
-        log.Info("Paradigma run finished");
+        
+        appLog.Info("Paradigma run finished");
     }
     
     #endregion
@@ -282,8 +296,8 @@ public class InstanceState
 
 #endregion
 
-public class ParadigmInstanceDefinition : ScriptableObject //, ISerializationCallbackReceiver
-{
+public class ParadigmInstanceDefinition : ScriptableObject
+{ 
     public int Subject;
     public string BodyController;
     public string HeadController;
@@ -291,24 +305,6 @@ public class ParadigmInstanceDefinition : ScriptableObject //, ISerializationCal
     [SerializeField]
     public List<TrialDefinition> Trials;
     
-    //[SerializeField]
-    //private List<string> _keys;
-    //[SerializeField]
-    //private List<TrialDefinition> _values;
-
-    //public void OnAfterDeserialize()
-    //{
-    //    for (int i = 0; i < _keys.Count; i++)
-    //    {
-    //        Trials.Add(_keys[i], _values[i]);
-    //    }
-    //}
-
-    //public void OnBeforeSerialize()
-    //{
-    //    _keys = Trials.Keys.ToList();
-    //    _values = Trials.Values.ToList();
-    //}
 }
 
 /// <summary>
@@ -356,5 +352,68 @@ public struct TrialConfig : ICloneable
 
 public class ParadigmRunStatistics
 {
+    private string subjectId = String.Empty;
+    
+    public class TrialStatistic
+    {
+        private string mazeName;
+        private int path;
+        private double seconds;
+        private string trialType;
 
+        public TrialStatistic(string trialType, string mazeName, int path, double seconds)
+        {
+            this.trialType = trialType;
+            this.mazeName = mazeName;
+            this.path = path;
+            this.seconds = seconds;
+        }
+
+        public string MazeName
+        {
+            get
+            {
+                return mazeName;
+            }
+        }
+
+        public int Path
+        {
+            get
+            {
+                return path;
+            }
+        }
+
+        public double DurationInSeconds
+        {
+            get
+            {
+                return seconds;
+            }
+        }
+
+        public string TrialType
+        {
+            get
+            {
+                return trialType;
+            }
+        }
+    }
+
+    public List<TrialStatistic> Trials = new List<TrialStatistic>();
+
+    public string SubjectId
+    {
+        get
+        {
+            return subjectId;
+        }
+    }
+
+    public void Add(string trialType, string mazeName, int pathId, TrialResult result)
+    {
+        Trials.Add(new TrialStatistic(trialType, mazeName, pathId, result.Duration.TotalSeconds));
+    }
 }

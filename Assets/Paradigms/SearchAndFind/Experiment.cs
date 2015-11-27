@@ -27,10 +27,13 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 var current = obj.MazeUnit.GridID;
 
-                marker.Write(string.Format(MarkerPattern.Unit, mazeID, current.x, current.y));
+                marker.Write(string.Format(MarkerPattern.Unit, currentMazeName, current.x, current.y));
 
                 if (!path.PathElements.ContainsKey(current))
                 {
+
+                    marker.Write(MarkerPattern.Incorrect);
+
                     hud.ShowInstruction("You`re wrong! Please turn!");
                 }
                 else
@@ -46,7 +49,9 @@ namespace Assets.Paradigms.SearchAndFind
                 if (PathEnd.Equals(current))
                 {
                     hidingSpotInstance.Reveal();
+
                     hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
+
                     currentTrialState = Internal_Trial_State.Returning;
                 }
             }

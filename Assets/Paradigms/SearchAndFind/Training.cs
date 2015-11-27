@@ -25,10 +25,12 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 var current = obj.MazeUnit.GridID;
 
-                marker.Write(string.Format(MarkerPattern.Unit, mazeID, current.x, current.y));
+                marker.Write(string.Format(MarkerPattern.Unit, currentMazeName, current.x, current.y));
 
                 if (!path.PathElements.ContainsKey(current))
                 {
+                    marker.Write(MarkerPattern.Incorrect);
+
                     hud.ShowInstruction("You`re wrong! Please turn!");
                 }
                 else
@@ -36,8 +38,8 @@ namespace Assets.Paradigms.SearchAndFind
                     hud.Clear();
 
                     var currentPathElement = path.PathElements[current];
-                    WriteMarkerFor(currentPathElement);
 
+                    WriteMarkerFor(currentPathElement);
                 }
 
                 if (PathEnd.Equals(current))

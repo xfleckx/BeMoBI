@@ -180,7 +180,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Save Instance Config"))
             {
-                var fileName = string.Format("Assets/Paradigms/MultiMazePathRetrieval/Resources/VP_{0}_InstanceDefinition.asset", subject_ID);
+                var fileName = string.Format("Assets/Paradigms/SearchAndFind/Resources/VP_{0}_InstanceDefinition.asset", subject_ID);
 
                 AssetDatabase.CreateAsset(lastGeneratedInstanceConfig, fileName);
                 AssetDatabase.SaveAssets();
@@ -198,9 +198,12 @@ namespace Assets.Paradigms.SearchAndFind
             if (lastGeneratedInstanceConfig.Trials != null && previewConfig)
             {
                 configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
-
+                string lastMazeName = string.Empty;
                 foreach (var tdef in lastGeneratedInstanceConfig.Trials)
                 {
+                    if (!lastMazeName.Equals(tdef.MazeName))
+                        EditorGUILayout.Space();
+
                     EditorGUILayout.LabelField(
                         string.Format(DEFINITION_PREVIEW_PATTERN,
                         tdef.TrialType,
@@ -208,6 +211,7 @@ namespace Assets.Paradigms.SearchAndFind
                         tdef.Path,
                         tdef.ObjectName,
                         tdef.Category));
+                    lastMazeName = tdef.MazeName;
                 }
 
                 EditorGUILayout.EndScrollView();
@@ -352,17 +356,30 @@ namespace Assets.Paradigms.SearchAndFind
                 tempAllTrials.AddRange(trainingTrials);
                 tempAllTrials.AddRange(experimentalTrials);
 
-                var grouped = tempAllTrials.GroupBy((td) => td.MazeName);
+                var groupedByMaze = tempAllTrials.GroupBy((td) => td.MazeName);
 
-                foreach (var group in grouped)
+                foreach (var group in groupedByMaze)
                 {
                     var groupedByPath = group.GroupBy(td => td.Path).OrderBy(g => Guid.NewGuid());
 
+                    List<TrialDefinition> trainingPerMaze = new List<TrialDefinition>();
+                    List<TrialDefinition> experimentPerMaze = new List<TrialDefinition>();
+
                     foreach (var pathGroup in groupedByPath)
                     {
-                        newConfig.Trials.AddRange(pathGroup);
+                        var pathGroupTraining = pathGroup.Where(td => td.TrialType.Equals(typeof(Training).Name));
+                        trainingPerMaze.AddRange(pathGroupTraining);
+
+                        var pathGroupExperiment = pathGroup.Where(td => td.TrialType.Equals(typeof(Experiment).Name));
+                        experimentPerMaze.AddRange(pathGroupExperiment);
                     }
 
+                    // using Guid is a trick to randomly sort a set
+                    var shuffledTrainingPerMaze = trainingPerMaze.OrderBy(td => Guid.NewGuid());
+                    var shuffledExperimentPerMaze = experimentPerMaze.OrderBy(td => Guid.NewGuid());
+
+                    newConfig.Trials.AddRange(shuffledTrainingPerMaze);
+                    newConfig.Trials.AddRange(shuffledExperimentPerMaze);
                 } 
 
             }

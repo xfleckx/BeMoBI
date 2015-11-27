@@ -12,8 +12,7 @@ namespace Assets.Paradigms.SearchAndFind.Scripts.Controls
         public OVRManager ovrManager;
 
         public OVRCameraRig ovrRig;
-
-
+        
         public string Identifier
         {
             get
@@ -50,7 +49,7 @@ namespace Assets.Paradigms.SearchAndFind.Scripts.Controls
 
         void Awake()
         {
-            ovrManager = gameObject.GetComponentInChildren<OVRManager>();
+            ovrManager = OVRManager.instance;
             ovrRig = gameObject.GetComponentInChildren<OVRCameraRig>();
         }
 
