@@ -12,7 +12,6 @@ and
 To get the BeMoBI.Unity3D framework and the LSL4Unity components through a submodule reference to their latest versions.
 
 # Other Dependencies
-This project make use of various components, all the components which are not available from a git repository are listed below.
 
 ### Oculus VR Unity Integration
 The project works with the latest OVR Runtime and the Oculus utilities for Unity3D
