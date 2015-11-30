@@ -13,8 +13,11 @@ public class JoystickControl : MonoBehaviour, IBodyMovementController
     private const string X_AXIS_NAME = "Horizontal";
     private const string Y_AXIS_NAME = "Vertical";
 
-    [Range(10, 50)]
-    public float WalkingSpeed = 10f;
+    [Range(0.1f, 2)]
+    public float MaxWalkingSpeed = 1.4f;
+
+    public AnimationCurve accelerationCurve;
+
     [Range(10, 50)]
     public float RotationSpeed = 40f;
 
@@ -33,7 +36,7 @@ public class JoystickControl : MonoBehaviour, IBodyMovementController
 
         var y = Input.GetAxis(Y_AXIS_NAME); // use as movement to forward / backwards
 
-        Vector3 desiredMove = transform.forward * y * WalkingSpeed * Time.deltaTime;
+        Vector3 desiredMove = transform.forward * accelerationCurve.Evaluate(y) * Time.deltaTime * MaxWalkingSpeed;
 
         targetRotation *= Quaternion.Euler(0f, x * RotationSpeed, 0f);
         
