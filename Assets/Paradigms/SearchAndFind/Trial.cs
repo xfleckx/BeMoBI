@@ -165,8 +165,14 @@ namespace Assets.Paradigms.SearchAndFind
             MazeEntranceDoor.SetActive(false);
             ObjectDisplaySocket.SetActive(false);
             var socketAtThePathEnd = hidingSpotInstance.GetSocket();
-            objectToRemember.transform.SetParent(socketAtThePathEnd);
-            objectToRemember.transform.localPosition = Vector3.zero;
+
+            var objectSocket = socketAtThePathEnd.GetComponent<ObjectSocket>();
+
+            objectSocket.PutIn(objectToRemember);
+
+            //objectToRemember.transform.SetParent(socketAtThePathEnd);
+            //objectToRemember.transform.localPosition = Vector3.zero;
+            
         }
 
         protected void SwitchAllLightsOff(beMobileMaze maze)

@@ -76,6 +76,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 465950}
+  - 65: {fileID: 6504084}
+  - 114: {fileID: 11440512}
   m_Layer: 0
   m_Name: Socket
   m_TagString: Untagged
@@ -276,6 +278,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104062}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &6504084
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .5, y: .5, z: .5}
+  m_Center: {x: 0, y: .25, z: 0}
 --- !u!65 &6524700
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -311,6 +325,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3359e81c45c17ff4ebae0a531b841a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11440512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda05ac26c08e9b4aa4354148d9a2553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoRescaleToFitTheBox: 1
 --- !u!114 &11488360
 MonoBehaviour:
   m_ObjectHideFlags: 1
