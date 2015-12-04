@@ -58,19 +58,20 @@ namespace Assets.Paradigms.SearchAndFind
 
         public int SecondsToDisplay = 10;
 
+        public FullScreenFade fading;
+
         public int currentPathID = -1;
+
         public string currentMazeName = string.Empty;
 
         protected GameObject activeEnvironment;
 
-        protected Vector2 PathEnd;
+        protected PathElement currentPathElement;
 
         protected Internal_Trial_State currentTrialState;
-        private LinkedList<PathElement> currentPathAsLinkedList;
 
         protected Stopwatch stopWatch;
-        public FullScreenFade fading;
-
+        
         public virtual void Initialize(string mazeName, int pathID, string category, string objectName)
         {
             UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
@@ -122,12 +123,8 @@ namespace Assets.Paradigms.SearchAndFind
             currentPathID = pathId;
 
             path = pathController.EnablePathContaining(pathId);
-
-            this.currentPathAsLinkedList = path.PathAsLinkedList;
-
-            var unitAtPathEnd = currentPathAsLinkedList.Last.Value.Unit;
-
-            PathEnd = unitAtPathEnd.GridID;
+          
+            var unitAtPathEnd = path.PathAsLinkedList.Last.Value.Unit;
 
             // hiding spot look at inactive (open wall)
             var targetRotation = GetRotationFrom(unitAtPathEnd);
@@ -169,10 +166,6 @@ namespace Assets.Paradigms.SearchAndFind
             var objectSocket = socketAtThePathEnd.GetComponent<ObjectSocket>();
 
             objectSocket.PutIn(objectToRemember);
-
-            //objectToRemember.transform.SetParent(socketAtThePathEnd);
-            //objectToRemember.transform.localPosition = Vector3.zero;
-            
         }
 
         protected void SwitchAllLightsOff(beMobileMaze maze)
@@ -190,46 +183,47 @@ namespace Assets.Paradigms.SearchAndFind
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
             UnityEngine.Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
-            
-            var lineRenderer = maze.gameObject.AddComponent<LineRenderer>();
+            #region deprecated
+            //var lineRenderer = maze.gameObject.AddComponent<LineRenderer>();
 
-            lineRenderer.SetWidth(0.2f, 0.2f);
+            //lineRenderer.SetWidth(0.2f, 0.2f);
 
-            lineRenderer.material = lightningMaterial;
-            
-            var elements = path.PathAsLinkedList.ToList();
+            //lineRenderer.material = lightningMaterial;
 
-            var countOfPositions = elements.Count;
+            //var elements = path.PathAsLinkedList.ToList();
 
-            lineRenderer.SetVertexCount(countOfPositions);
+            //var countOfPositions = elements.Count;
 
-            for (int i = 0; i < countOfPositions; i++)
-            {
-                var unitPosition = elements[i].Unit.transform.position + new Vector3(0,maze.RoomDimension.y,0);
+            //lineRenderer.SetVertexCount(countOfPositions);
 
-                lineRenderer.SetPosition(i, unitPosition);
-            }
+            //for (int i = 0; i < countOfPositions; i++)
+            //{
+            //    var unitPosition = elements[i].Unit.transform.position + new Vector3(0,maze.RoomDimension.y,0);
+
+            //    lineRenderer.SetPosition(i, unitPosition);
+            //}
+            #endregion
 
             #region stashed
-            //var currentElement = path.PathAsLinkedList.First;
+            var currentElement = path.PathAsLinkedList.First;
 
-            //do
-            //{
-            //    var currentPathElement = currentElement.Value;
-            //    var nextPathElement = currentElement.Next.Value;
+            do
+            {
+                var currentPathElement = currentElement.Value;
+                var nextPathElement = currentElement.Next.Value;
 
-            //    var topLight = currentPathElement.Unit.GetComponentInChildren<TopLighting>();
+                var topLight = currentPathElement.Unit.GetComponentInChildren<TopLighting>();
 
-            //    ChangeLightningOn(topLight, currentPathElement, nextPathElement);
+                ChangeLightningOn(topLight, currentPathElement, nextPathElement);
 
-            //    topLight.SwitchOn();
+                topLight.SwitchOn();
 
-            //    if (currentElement.Next == null)
-            //        continue;
+                if (currentElement.Next == null)
+                    continue;
 
-            //    currentElement = currentElement.Next;
+                currentElement = currentElement.Next;
 
-            //} while (currentElement.Next != null);
+            } while (currentElement.Next != null);
             #endregion
         }
 

@@ -47,14 +47,14 @@ namespace Assets.Paradigms.SearchAndFind
                     //WriteMarkerFor(currentPathElement);
                 }
 
-                if (PathEnd.Equals(current))
-                {
-                    hidingSpotInstance.Reveal();
+                //if (PathEnd.Equals(current))
+                //{
+                //    hidingSpotInstance.Reveal();
 
-                    hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
+                //    hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
 
-                    currentTrialState = Internal_Trial_State.Returning;
-                }
+                //    currentTrialState = Internal_Trial_State.Returning;
+                //}
             }
         }
         

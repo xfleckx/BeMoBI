@@ -298,13 +298,14 @@ public class ParadigmController : MonoBehaviour
 public static class MarkerPattern
 {
     public const string BeginTrial = "{0}_{1}_{2}_{3}_BeginTrial";
-    public const string L = "L";
-    public const string R = "R";
-    public const string Turn = "{0}_Turn";
-    public const string Correct = "Correct";
-    public const string Incorrect = "Incorrect";
     public const string Unit = "{0}_Unit_{1}_{2}";
     public const string Enter = "Entering_{0}_{1}_{2}";
+    public const string Turn = "{0}_Turn";
+
+    public const string L = "L";
+    public const string R = "R";
+    public const string Correct = "Correct"; // TODO: integrate into other marker 
+    public const string Incorrect = "Incorrect";
 }
 
 #region TODO: Save instance state (SaveGames)

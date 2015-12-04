@@ -26,6 +26,8 @@ namespace Assets.Paradigms.SearchAndFind
                 var current = obj.MazeUnit.GridID;
 
                 marker.Write(string.Format(MarkerPattern.Unit, currentMazeName, current.x, current.y));
+                
+                
 
                 // TODO write an abstraction to check whether a PathElement is the expected
 
@@ -44,11 +46,11 @@ namespace Assets.Paradigms.SearchAndFind
                 //    WriteMarkerFor(currentPathElement);
                 //}
 
-                if (PathEnd.Equals(current))
-                {
-                    hidingSpotInstance.Reveal();
-                    currentTrialState = Internal_Trial_State.Returning;
-                }
+                //if (PathEnd.Equals(current))
+                //{
+                //    hidingSpotInstance.Reveal();
+                //    currentTrialState = Internal_Trial_State.Returning;
+                //}
             }
         }
         

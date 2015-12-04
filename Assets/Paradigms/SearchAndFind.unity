@@ -202,9 +202,9 @@ MonoBehaviour:
   objectToRemember: {fileID: 0}
   lightningMaterial: {fileID: 2100000, guid: e1f5fe6e047c8a946bd8e0112945ee83, type: 2}
   SecondsToDisplay: 10
+  fading: {fileID: 0}
   currentPathID: 1
   currentMazeName: 
-  fading: {fileID: 0}
 --- !u!1 &188249848
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,9 +393,9 @@ MonoBehaviour:
   objectToRemember: {fileID: 0}
   lightningMaterial: {fileID: 0}
   SecondsToDisplay: 10
+  fading: {fileID: 0}
   currentPathID: -1
   currentMazeName: 
-  fading: {fileID: 0}
 --- !u!4 &576901738 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 93e86b57e56570d46814839867bf9a52, type: 2}
@@ -1039,9 +1039,9 @@ MonoBehaviour:
   objectToRemember: {fileID: 0}
   lightningMaterial: {fileID: 2100000, guid: e1f5fe6e047c8a946bd8e0112945ee83, type: 2}
   SecondsToDisplay: 10
+  fading: {fileID: 0}
   currentPathID: -1
   currentMazeName: 
-  fading: {fileID: 0}
 --- !u!1001 &1410851481
 Prefab:
   m_ObjectHideFlags: 0
@@ -1192,6 +1192,10 @@ Prefab:
     - target: {fileID: 11403648, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
       propertyPath: accelerationCurve.m_Curve.Array.data[3].value
       value: .992760599
+      objectReference: {fileID: 0}
+    - target: {fileID: 14302780, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
+      propertyPath: m_Radius
+      value: .150000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9a66d8eba1f971d4cb563e9d49519ed4, type: 2}
@@ -1421,9 +1425,9 @@ MonoBehaviour:
   objectToRemember: {fileID: 0}
   lightningMaterial: {fileID: 0}
   SecondsToDisplay: 10
+  fading: {fileID: 0}
   currentPathID: -1
   currentMazeName: 
-  fading: {fileID: 0}
 --- !u!4 &1832325977 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 93e86b57e56570d46814839867bf9a52, type: 2}

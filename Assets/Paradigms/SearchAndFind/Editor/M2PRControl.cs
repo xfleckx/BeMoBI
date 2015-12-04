@@ -283,12 +283,14 @@ namespace Assets.Paradigms.SearchAndFind
         private bool previewConfig;
 
         private ParadigmInstanceDefinition Generate()
-        {
+        { 
             #region assert some preconditions for the algorithm
-
+            
             mazeCategoryMap = new Dictionary<beMobileMaze, Category>();
 
-            availableCategories = new Stack<Category>(objectPool.Categories);
+            var shuffledCategories = objectPool.Categories.OrderBy((i) => Guid.NewGuid()).ToList();
+
+            availableCategories = new Stack<Category>(shuffledCategories);
 
             for (int i = 0; i < mazesToUse; i++)
             {
