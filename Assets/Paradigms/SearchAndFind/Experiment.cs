@@ -29,9 +29,8 @@ namespace Assets.Paradigms.SearchAndFind
 
                 marker.Write(string.Format(MarkerPattern.Unit, currentMazeName, current.x, current.y));
 
-                if (!path.PathElements.ContainsKey(current))
+                if (!path.PathAsLinkedList.Any(e => e.Unit.Equals(obj.MazeUnit)))
                 {
-
                     marker.Write(MarkerPattern.Incorrect);
 
                     hud.ShowInstruction("You`re wrong! Please turn!");
@@ -41,9 +40,11 @@ namespace Assets.Paradigms.SearchAndFind
                     if(hud.IsRendering)
                         hud.Clear();
 
-                    var currentPathElement = path.PathElements[current];
+                    // TODO
 
-                    WriteMarkerFor(currentPathElement);
+                    //var currentPathElement = path.PathElements[current];
+
+                    //WriteMarkerFor(currentPathElement);
                 }
 
                 if (PathEnd.Equals(current))

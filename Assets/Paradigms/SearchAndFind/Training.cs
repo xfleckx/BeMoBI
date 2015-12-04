@@ -27,20 +27,22 @@ namespace Assets.Paradigms.SearchAndFind
 
                 marker.Write(string.Format(MarkerPattern.Unit, currentMazeName, current.x, current.y));
 
-                if (!path.PathElements.ContainsKey(current))
-                {
-                    marker.Write(MarkerPattern.Incorrect);
+                // TODO write an abstraction to check whether a PathElement is the expected
 
-                    hud.ShowInstruction("You`re wrong! Please turn!");
-                }
-                else
-                {
-                    hud.Clear();
+                //if (!path.PathElements.ContainsKey(current))
+                //{
+                //    marker.Write(MarkerPattern.Incorrect);
 
-                    var currentPathElement = path.PathElements[current];
+                //    hud.ShowInstruction("You`re wrong! Please turn!");
+                //}
+                //else
+                //{
+                //    hud.Clear();
 
-                    WriteMarkerFor(currentPathElement);
-                }
+                //    var currentPathElement = path.PathElements[current];
+
+                //    WriteMarkerFor(currentPathElement);
+                //}
 
                 if (PathEnd.Equals(current))
                 {

@@ -197,9 +197,9 @@ namespace Assets.Paradigms.SearchAndFind
 
             lineRenderer.material = lightningMaterial;
             
-            var elements = path.PathElements.Values.ToList();
+            var elements = path.PathAsLinkedList.ToList();
 
-            var countOfPositions = path.PathElements.Count;
+            var countOfPositions = elements.Count;
 
             lineRenderer.SetVertexCount(countOfPositions);
 
