@@ -563,7 +563,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124870}
   m_LocalRotation: {x: 0, y: .708709419, z: 0, w: .705500484}
-  m_LocalPosition: {x: -6.98000002, y: -.150000006, z: -.529999971}
+  m_LocalPosition: {x: -6.98000002, y: 0, z: -.529999971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 451240}
@@ -775,8 +775,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9e6e14ca5031e4683ae612826be1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkingSpeed: 12.3000002
-  RotationSpeed: 22.2000008
+  MaxWalkingSpeed: 1
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: -.00723937852
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: .992760599
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  RotationSpeed: 19.3999996
   RotateSmooth: 1
   SmoothTime: 5
 --- !u!114 &11405838
@@ -1675,9 +1690,9 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.67999995
-  m_Radius: .5
-  m_SlopeLimit: 90
-  m_StepOffset: .5
+  m_Radius: .150000006
+  m_SlopeLimit: 45
+  m_StepOffset: .100000001
   m_SkinWidth: .0799999982
   m_MinMoveDistance: .00100000005
   m_Center: {x: 0, y: 1, z: 0}
@@ -1855,7 +1870,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
 --- !u!224 &22400956
 RectTransform:
   m_ObjectHideFlags: 1
