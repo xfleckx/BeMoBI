@@ -215,59 +215,87 @@ namespace Assets.Paradigms.SearchAndFind
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
             UnityEngine.Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
-            #region deprecated
-            //var lineRenderer = maze.gameObject.AddComponent<LineRenderer>();
-
-            //lineRenderer.SetWidth(0.2f, 0.2f);
-
-            //lineRenderer.material = lightningMaterial;
-
-            //var elements = path.PathAsLinkedList.ToList();
-
-            //var countOfPositions = elements.Count;
-
-            //lineRenderer.SetVertexCount(countOfPositions);
-
-            //for (int i = 0; i < countOfPositions; i++)
-            //{
-            //    var unitPosition = elements[i].Unit.transform.position + new Vector3(0,maze.RoomDimension.y,0);
-
-            //    lineRenderer.SetPosition(i, unitPosition);
-            //}
-            #endregion
+       
 
             #region stashed
+
             var currentElement = path.PathAsLinkedList.First;
+            
+            int globalRotation = 0;
 
             do
-            {
-                var currentPathElement = currentElement.Value;
-                var nextPathElement = currentElement.Next.Value;
+            { 
+                var previousElement = currentElement.Previous;
 
-                var topLight = currentPathElement.Unit.GetComponentInChildren<TopLighting>();
+                var nextElement = currentElement.Next;
 
-                ChangeLightningOn(topLight, currentPathElement, nextPathElement);
+                if (previousElement == null)
+                    previousElement = currentElement;
+                
+                if (nextElement == null)
+                    nextElement = currentElement;
+
+                var previosElementsPosition = previousElement.Value.Unit.transform.position;
+                var currentElementsPosition = currentElement.Value.Unit.transform.position;
+                var nextPathElementsPosition = nextElement.Value.Unit.transform.position;
+                
+                var a = previosElementsPosition - currentElementsPosition;
+                var b = currentElementsPosition - nextPathElementsPosition;
+
+                var turningAngle = a.SignedAngle(b, Vector3.up);
+
+                globalRotation = (globalRotation + (int) turningAngle) % 360;
+
+                UnityEngine.Debug.Log(string.Format("From {2} to {3} ## Current Angle: {0} ## GlobalRotation {1}", turningAngle, globalRotation, currentElementsPosition, nextPathElementsPosition));
+
+                var topLight = currentElement.Value.Unit.GetComponentInChildren<TopLighting>();
+
+                ChangeLightningOn(topLight, currentElement.Value, globalRotation);
 
                 topLight.SwitchOn();
 
                 if (currentElement.Next == null)
                     continue;
-
+                
                 currentElement = currentElement.Next;
 
             } while (currentElement.Next != null);
             #endregion
         }
 
-        private void ChangeLightningOn(TopLighting light, PathElement current, PathElement next)
+        private void ChangeLightningOn(TopLighting light, PathElement current, int globalRotation)
         {
             var unit = current.Unit;
 
             var currentUnitsChildren = unit.transform.AllChildren();
             var lightChildren = light.gameObject.transform.AllChildren();
 
-            // Enable only for open walls
+            var toDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation);
 
+            int rotationOffset = 0;
+            if(current.Type == UnitType.L || current.Type == UnitType.T || current.Type == UnitType.X)
+            {
+                if (current.Turn == TurnType.LEFT)
+                    rotationOffset = -90;
+                
+                if (current.Turn == TurnType.RIGHT)
+                    rotationOffset = 90;
+
+                if (current.Turn == TurnType.STRAIGHT)
+                    rotationOffset = 180;
+            }
+
+            if (current.Type == UnitType.I)
+            {
+               rotationOffset = 180;
+            }
+
+            var fromDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation + rotationOffset);
+
+            UnityEngine.Debug.Log(string.Format("From Direction: {0} ## To direction: {1}", fromDirectionPanelName, toDirectionPanelName));
+
+            // Enable only for open walls
+            
             foreach (var lightPanel in lightChildren)
             {
                 if (lightPanel.name.Equals("Center"))
@@ -275,30 +303,9 @@ namespace Assets.Paradigms.SearchAndFind
                     lightPanel.SetActive(true);
                 }
 
-                if (lightPanel.name.Equals("North"))
+                if (lightPanel.name.Equals(toDirectionPanelName) || lightPanel.name.Equals(fromDirectionPanelName))
                 { 
-
-                    var state = currentUnitsChildren.First(w => w.name.Equals("North")).activeSelf;
-
-                    lightPanel.SetActive(!state);
-                }
-
-                if (lightPanel.name.Equals("South"))
-                {
-                    var state = currentUnitsChildren.First(w => w.name.Equals("South")).activeSelf;
-                    lightPanel.SetActive(!state);
-                }
-
-                if (lightPanel.name.Equals("East"))
-                {
-                    var state = currentUnitsChildren.First(w => w.name.Equals("East")).activeSelf;
-                    lightPanel.SetActive(!state);
-                }
-
-                if (lightPanel.name.Equals("West"))
-                {
-                    var state = currentUnitsChildren.First(w => w.name.Equals("West")).activeSelf;
-                    lightPanel.SetActive(!state);
+                    lightPanel.SetActive( true );
                 }
             }
 
@@ -522,7 +529,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             return Vector3.one;
         }
-
+        
         #endregion
     }
 
