@@ -16,19 +16,7 @@ public static class OnEditorInitialize   {
         Debug.Log("Application.dataPath: " + Application.dataPath);
         Debug.Log("Application.dataPersistentPath: " + Application.persistentDataPath);
         Debug.Log("Environment.CurrentDirectory: " + Environment.CurrentDirectory);
-
-        var nlog_expected_log_directory = Path.Combine(Environment.CurrentDirectory, "logs");
-        var nlog_expected_statistics_directory = Path.Combine(Environment.CurrentDirectory, "statistics");
-
-        if (!Directory.Exists(nlog_expected_log_directory))
-        {
-            Directory.CreateDirectory(nlog_expected_log_directory);
-        }
-
-        if (!Directory.Exists(nlog_expected_statistics_directory))
-        {
-            Directory.CreateDirectory(nlog_expected_statistics_directory);
-        }
+        
 
         LogManager.Configuration = new XmlLoggingConfiguration(Environment.CurrentDirectory + @"\Assets\NLog.config");
 
