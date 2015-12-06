@@ -4,6 +4,8 @@ using LSL;
 
 public class LSLHeadOrientation : MonoBehaviour {
 
+    private const string unique_source_id = "0405AF5C24B04416B61684CA9F5D8F0E";
+
     private liblsl.StreamOutlet outlet;
     private liblsl.StreamInfo streamInfo;
     private float[] currentSample;
@@ -18,7 +20,7 @@ public class LSLHeadOrientation : MonoBehaviour {
     {
         currentSample = new float[ChannelCount];
 
-        streamInfo = new liblsl.StreamInfo(StreamName, StreamType, ChannelCount, Time.fixedDeltaTime);
+        streamInfo = new liblsl.StreamInfo(StreamName, StreamType, ChannelCount, Time.fixedDeltaTime, liblsl.channel_format_t.cf_float32, unique_source_id);
 
         outlet = new liblsl.StreamOutlet(streamInfo);
     }
