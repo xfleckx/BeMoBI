@@ -24,6 +24,7 @@ namespace Assets.Paradigms.SearchAndFind
     
     public class Trial : MonoBehaviour, ITrial
     {
+        #region Dependencies
         public VirtualRealityManager VRManager;
 
         public ObjectPool objectPool;
@@ -64,14 +65,30 @@ namespace Assets.Paradigms.SearchAndFind
 
         public string currentMazeName = string.Empty;
 
+        #endregion
+
+        #region Trial state 
+
+        protected string objectName;
+
+        protected string categoryName;
+
         protected GameObject activeEnvironment;
 
-        protected PathElement currentPathElement;
-
+        protected LinkedListNode<PathElement> currentPathElement;
+             
         protected Internal_Trial_State currentTrialState;
 
         protected Stopwatch stopWatch;
-        
+
+        protected Stopwatch unitStopWatch;
+
+        bool lastTurnWasIncorrect = false;
+
+        #endregion
+
+        #region Setup methods
+
         public virtual void Initialize(string mazeName, int pathID, string category, string objectName)
         {
             UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
@@ -89,6 +106,7 @@ namespace Assets.Paradigms.SearchAndFind
             }
 
             stopWatch = new Stopwatch();
+            unitStopWatch = new Stopwatch();
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
             currentMazeName = mazeName;
@@ -140,13 +158,27 @@ namespace Assets.Paradigms.SearchAndFind
         private void GatherObjectFromObjectPool(string categoryName, string objectName)
         {
             var objectCategory = objectPool.Categories.Where(c => c.name.Equals(categoryName)).FirstOrDefault();
+
+            if(objectCategory == null)
+                throw new ArgumentException(string.Format("Expected category \"{0}\" not found!", categoryName));
+
             var targetObject = objectCategory.GetObjectBy(objectName);
+
+            if (targetObject == null)
+                throw new ArgumentException(string.Format("Expected Object \"{0}\" from category \"{1}\" not found!", objectName, categoryName));
+
             objectToRemember = Instantiate(targetObject);
             objectToRemember.SetActive(true);
             objectToRemember.transform.SetParent(positionAtTrialBegin, false);
             objectToRemember.transform.localPosition = Vector3.zero;
             objectToRemember.transform.rotation = Quaternion.identity;
             objectToRemember.transform.localScale = Vector3.one;
+
+
+            this.objectName = objectName;
+
+            this.categoryName = categoryName;
+
         }
 
         IEnumerator DisplayObjectAtStartFor(float waitingTime)
@@ -272,36 +304,15 @@ namespace Assets.Paradigms.SearchAndFind
 
         }
 
-        private Vector3 GetRotationFrom(MazeUnit unit)
+        #endregion
+
+        public virtual void StartTrial()
         {
-            var childs = unit.transform.AllChildren();
-            // try LookAt functions
-            foreach (var wall in childs)
-            {
-                if (wall.name.Equals("South") && !wall.activeSelf) {
-                    return Vector3.zero;
-                }
-
-                if (wall.name.Equals("North") && !wall.activeSelf)
-                {
-                    return new Vector3(0,180,0);
-                }
-
-                if (wall.name.Equals("West") && !wall.activeSelf)
-                {
-                    return new Vector3(0, 90, 0);
-                }
-
-                if (wall.name.Equals("East") && !wall.activeSelf)
-                {
-                    return new Vector3(0, 270, 0);
-                }
-
-            }
-
-            return Vector3.one;
+            OnBeforeStart();
+            marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
+            stopWatch.Start();
         }
-        
+
         private void OnStartPointEntered(Collider c)
         {
             var subject = c.GetComponent<VRSubjectController>();
@@ -333,6 +344,8 @@ namespace Assets.Paradigms.SearchAndFind
 
             if(currentTrialState == Internal_Trial_State.Returning)
             {
+                marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
+
                 stopWatch.Stop();
                 OnFinished(stopWatch.Elapsed);
             }
@@ -345,19 +358,79 @@ namespace Assets.Paradigms.SearchAndFind
             if (currentTrialState == Internal_Trial_State.Searching)
             {
                 // write a marker when the subject starts walking!?
+               
             }
         }
 
         public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
         {
-            throw new NotImplementedException("Override the OnMazeUnitEvent Method!");
-        }
+            var unit = evt.MazeUnit;
 
-        public virtual void StartTrial()
-        {
-            OnBeforeStart();
-            marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, currentMazeName, path.ID, 0));
-            stopWatch.Start();
+            if(evt.MazeUnitEventType == MazeUnitEventType.Entering) { 
+
+                if(currentPathElement == null)
+                {
+                    if (path.PathAsLinkedList.First.Value.Unit.Equals(unit))
+                    {
+                        currentPathElement = path.PathAsLinkedList.First;
+
+                        // special case entering the maze
+                        marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.Log("Seems as something entered the maze on the wrong entrance!");
+                    }
+                }
+                else
+                {
+                    // end of the path is reached
+                    if (path.PathAsLinkedList.Last.Value.Unit.Equals(unit))
+                    {
+                        if( currentTrialState == Internal_Trial_State.Searching) {
+
+                            marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+
+                            hidingSpotInstance.Reveal();
+
+                            marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
+
+                            hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
+
+                            currentTrialState = Internal_Trial_State.Returning;
+
+                            path.InvertPath();
+                        
+                            currentPathElement = path.PathAsLinkedList.First;
+                        }
+                    }
+                    else if (currentPathElement.Value.Unit.Equals(unit) || currentPathElement.Next.Value.Unit.Equals(unit))
+                    {
+                        // avoid write correct marker duplication
+                        if (!lastTurnWasIncorrect) { 
+                            // Don't get confused here! From the current state of the trial we are actual one element behind!
+                            marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
+                        }
+
+                        lastTurnWasIncorrect = false;
+
+                        if (hud.IsRendering)
+                            hud.Clear();
+                        
+                        // now change the current state of the trial for the next unit event!
+                        currentPathElement = currentPathElement.Next;
+                    }
+                    else
+                    {
+                        lastTurnWasIncorrect = true;
+
+                        marker.Write(MarkerPattern.FormatIncorrectTurn(unit, currentPathElement.Value, currentPathElement.Next.Value));
+
+                        hud.ShowInstruction("You`re wrong! Please turn!");
+                    }
+                }
+            }
+
         }
         
         /// <summary>
@@ -394,7 +467,11 @@ namespace Assets.Paradigms.SearchAndFind
         }
 
         public void CleanUp()
-        { 
+        {
+            currentPathElement = null;
+
+            path.InvertPath();
+
             if(mazeInstance != null) { 
                 var lineRenderer = mazeInstance.GetComponent<LineRenderer>();
             
@@ -412,6 +489,41 @@ namespace Assets.Paradigms.SearchAndFind
                 Destroy(hidingSpotInstance.gameObject);
             }
         }
+         
+        #region Helper functions
+
+        private Vector3 GetRotationFrom(MazeUnit unit)
+        {
+            var childs = unit.transform.AllChildren();
+            // try LookAt functions
+            foreach (var wall in childs)
+            {
+                if (wall.name.Equals("South") && !wall.activeSelf)
+                {
+                    return Vector3.zero;
+                }
+
+                if (wall.name.Equals("North") && !wall.activeSelf)
+                {
+                    return new Vector3(0, 180, 0);
+                }
+
+                if (wall.name.Equals("West") && !wall.activeSelf)
+                {
+                    return new Vector3(0, 90, 0);
+                }
+
+                if (wall.name.Equals("East") && !wall.activeSelf)
+                {
+                    return new Vector3(0, 270, 0);
+                }
+
+            }
+
+            return Vector3.one;
+        }
+
+        #endregion
     }
 
     public class TrialResult
