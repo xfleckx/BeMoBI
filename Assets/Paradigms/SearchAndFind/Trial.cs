@@ -368,6 +368,22 @@ namespace Assets.Paradigms.SearchAndFind
             }
         }
 
+        public virtual void EntersWaypoint(int id)
+        {
+            if (id != 0)
+                return;
+
+
+        }
+
+        public virtual void LeavesWaypoint(int id)
+        {
+            if (id != 0)
+                return;
+
+
+        }
+
         public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
         {
             var unit = evt.MazeUnit;
