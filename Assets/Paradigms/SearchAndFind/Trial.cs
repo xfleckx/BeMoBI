@@ -214,17 +214,17 @@ namespace Assets.Paradigms.SearchAndFind
 
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
-            UnityEngine.Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
+            // UnityEngine.Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
        
-
-            #region stashed
-
             var currentElement = path.PathAsLinkedList.First;
             
             int globalRotation = 0;
 
             do
             { 
+
+                // TODO: special case last element!
+
                 var previousElement = currentElement.Previous;
 
                 var nextElement = currentElement.Next;
@@ -246,7 +246,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                 globalRotation = (globalRotation + (int) turningAngle) % 360;
 
-                UnityEngine.Debug.Log(string.Format("From {2} to {3} ## Current Angle: {0} ## GlobalRotation {1}", turningAngle, globalRotation, currentElementsPosition, nextPathElementsPosition));
+                //UnityEngine.Debug.Log(string.Format("From {2} to {3} ## Current Angle: {0} ## GlobalRotation {1}", turningAngle, globalRotation, currentElementsPosition, nextPathElementsPosition));
 
                 var topLight = currentElement.Value.Unit.GetComponentInChildren<TopLighting>();
 
@@ -260,7 +260,6 @@ namespace Assets.Paradigms.SearchAndFind
                 currentElement = currentElement.Next;
 
             } while (currentElement.Next != null);
-            #endregion
         }
 
         private void ChangeLightningOn(TopLighting light, PathElement current, int globalRotation)
@@ -292,9 +291,9 @@ namespace Assets.Paradigms.SearchAndFind
 
             var fromDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation + rotationOffset);
 
-            UnityEngine.Debug.Log(string.Format("From Direction: {0} ## To direction: {1}", fromDirectionPanelName, toDirectionPanelName));
+            // UnityEngine.Debug.Log(string.Format("From Direction: {0} ## To direction: {1}", fromDirectionPanelName, toDirectionPanelName));
 
-            // Enable only for open walls
+            // Enable only for open walls and the direction
             
             foreach (var lightPanel in lightChildren)
             {
