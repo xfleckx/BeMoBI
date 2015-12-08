@@ -84,7 +84,7 @@ public class ParadigmController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.F5))
+        if (Input.GetKey(KeyCode.F5) && !IsRunning)
             RunAll();
     }
 
