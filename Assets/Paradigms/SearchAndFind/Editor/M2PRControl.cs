@@ -88,11 +88,21 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (!EditorApplication.isPlaying)
             {
-                EditorGUILayout.HelpBox("To use the controls, please start the playmode!", MessageType.Info);
+                EditorGUILayout.HelpBox("Please start the playmode through this start button!", MessageType.Info);
+
+                if(GUILayout.Button("Start playmode", GUILayout.Height(30)))
+                { 
+                    InjectCmdArgs();
+
+                    EditorApplication.ExecuteMenuItem("Edit/Play");
+                }
+
                 return;
             }
 
-            if (!instance.IsRunning) { 
+            if (!instance.IsRunning) {
+
+                RenderRunVariables();
 
                 if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
                 {
@@ -137,6 +147,20 @@ namespace Assets.Paradigms.SearchAndFind
             }
         }
 
+        private void RenderRunVariables()
+        {
+            EditorGUILayout.BeginVertical();
+
+            subject_ID = EditorGUILayout.TextField("Subject ID:", subject_ID);
+
+            EditorGUILayout.EndVertical();
+        }
+
+        private void InjectCmdArgs()
+        {
+            instance.SubjectID = subject_ID;
+        }
+
         private void RenderConfigurationGUI()
         {
             GUILayout.Label("Configuration", EditorStyles.largeLabel);
@@ -154,8 +178,6 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
                 EstimateConfigBasedOnAvailableElements();
-            
-            subject_ID = EditorGUILayout.IntField("Subject", subject_ID);
             
             mazesToUse = EditorGUILayout.IntField("Mazes", mazesToUse);
 
