@@ -92,7 +92,7 @@ namespace Assets.Paradigms.SearchAndFind
         public virtual void Initialize(string mazeName, int pathID, string category, string objectName)
         {
             UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
-
+            
             var expectedWorld = VRManager.ChangeWorld(mazeName);
 
             if (expectedWorld != null)
@@ -264,9 +264,6 @@ namespace Assets.Paradigms.SearchAndFind
 
         private void ChangeLightningOn(TopLighting light, PathElement current, int globalRotation)
         {
-            var unit = current.Unit;
-
-            var currentUnitsChildren = unit.transform.AllChildren();
             var lightChildren = light.gameObject.transform.AllChildren();
 
             var toDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation);

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using NLog;
+using NLogger = NLog.Logger;
 
 public class LSLMarkerStream : AMarkerStream {
 
-    Logger markerLog = LogManager.GetLogger("MarkerLog");
+    NLogger markerLog = LogManager.GetLogger("MarkerLog");
 
     private const string unique_source_id = "D3F83BB699EB49AB94A9FA44B88882AB";
     

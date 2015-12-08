@@ -17,8 +17,7 @@ public class VRSubjectController : MonoBehaviour
     
     private event Action<CharacterController> ApplyMovementToBody;
     private event Action<Transform> ApplyMovementToHead;
-
-    public event Action SubmitPressed;
+    
     public event Action<float> ItemValueRequested;
 
     [SerializeField]

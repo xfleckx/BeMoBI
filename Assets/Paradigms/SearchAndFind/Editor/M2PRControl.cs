@@ -6,17 +6,18 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.Diagnostics;
 using NLog;
+using NLogger = NLog.Logger;
 
 namespace Assets.Paradigms.SearchAndFind
 {
     public class M2PRControl : EditorWindow
     {
-        Logger log = LogManager.GetCurrentClassLogger();
+        NLogger log = LogManager.GetCurrentClassLogger();
 
         private ParadigmController instance;
 
         [SerializeField]
-        private int subject_ID = 0;
+        private string subject_ID = "TestSubject";
         [SerializeField]
         private int categoriesPerMaze = 1;
         [SerializeField]
