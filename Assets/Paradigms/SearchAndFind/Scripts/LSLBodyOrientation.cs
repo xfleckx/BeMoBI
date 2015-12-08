@@ -27,6 +27,9 @@ public class LSLBodyOrientation : MonoBehaviour {
 
     public void FixedUpdate()
     {
+        if (outlet == null)
+            return;
+
         var rotation = body.rotation;
 
         currentSample[0] = rotation.x;

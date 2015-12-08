@@ -22,11 +22,21 @@ public class LSLHeadOrientation : MonoBehaviour {
 
         streamInfo = new liblsl.StreamInfo(StreamName, StreamType, ChannelCount, Time.fixedDeltaTime, liblsl.channel_format_t.cf_float32, unique_source_id);
 
-        outlet = new liblsl.StreamOutlet(streamInfo);
+        try
+        {
+            outlet = new liblsl.StreamOutlet(streamInfo);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.Message);
+        }
     }
 
     public void FixedUpdate()
     {
+        if (outlet == null)
+            return;
+
         var rotation = head.rotation;
 
         currentSample[0] = rotation.x;
