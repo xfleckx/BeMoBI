@@ -354,8 +354,6 @@ namespace Assets.Paradigms.SearchAndFind
 
         public virtual void LeavesStartPoint(VRSubjectController subject)
         {
-            UnityEngine.Debug.Log("Subject leaves Startpoint");
-
             if (currentTrialState == Internal_Trial_State.Searching)
             {
                 // write a marker when the subject starts walking!?
