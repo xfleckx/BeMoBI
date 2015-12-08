@@ -338,8 +338,6 @@ namespace Assets.Paradigms.SearchAndFind
 
         public virtual void EntersStartPoint(VRSubjectController subject)
         {
-            UnityEngine.Debug.Log("Subject enters Startpoint");
-
             if (currentTrialState == Internal_Trial_State.Searching)
             {
                 return;

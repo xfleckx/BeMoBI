@@ -121,12 +121,11 @@ public class ParadigmController : MonoBehaviour
         isRunning = true;
 
         if (currentDefinition == null) {
-            UnityEngine.Debug.Log("First Trial");
+
             currentDefinition = trials.First;
         }
         else if (shouldEnd || currentDefinition.Next == null)
         {
-            UnityEngine.Debug.Log("Last Trial ended");
             ParadigmInstanceFinished();
             return;
         }
