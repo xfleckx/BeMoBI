@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using System.IO;
 using Assets.Paradigms.SearchAndFind;
 using System.Diagnostics;
 using System.Collections;
 using NLog;
+
+using Debug = UnityEngine.Debug;
+
+using Logger = NLog.Logger;
 
 public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
@@ -30,19 +33,21 @@ public class ParadigmController : MonoBehaviour
     private const string DateTimeFileNameFormat = "yyyy-MM-dd_hh-mm";
 
     private const string DetailedDateTimeFileNameFormat = "yyyy-MM-dd_hh-mm-ss-tt";
-    
+
     #endregion
 
+    public string SubjectID = String.Empty;
+
+    public ParadigmInstanceDefinition InstanceDefinition;
     public VirtualRealityManager VRManager;
+    public StartPoint startingPoint;
     public HUD_Instruction hud;
     public LSLMarkerStream markerStream;
-    public StartPoint startingPoint;
     public GameObject objectPresenter;
     public ObjectPool objectPool;
     public Transform objectPositionAtTrialStart;
     public GameObject HidingSpotPrefab;
     public GameObject entrance;
-    public ParadigmInstanceDefinition InstanceDefinition;
     public FullScreenFade fading;
 
     public float TimeToWaitTilNewTrialStarts = 5f;
@@ -66,12 +71,21 @@ public class ParadigmController : MonoBehaviour
             UnityEngine.Debug.Log("No instance definition loaded.");
             return;
         }
+
+        GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
         
         appLog.Info("Initializing Paradigm");
 
         hud.Clear();
 
         fading.StartFadeIn();
+    }
+
+
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.F5))
+            RunAll();
     }
 
     #region Trials
@@ -86,7 +100,6 @@ public class ParadigmController : MonoBehaviour
 
     public Trial currentTrial;
     
-
     private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
     private bool shouldEnd;
@@ -211,7 +224,7 @@ public class ParadigmController : MonoBehaviour
 
         var trialType = trial.GetType().Name;
 
-        statistic.Trace(string.Format("Trial: {0}|{1}|{2}|{3}|{4}min", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
+        statistic.Trace(string.Format("{0}\t{1}\t{2}\t{3}\t{4}", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
 
         runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
 
@@ -251,7 +264,7 @@ public class ParadigmController : MonoBehaviour
 
         if (runStatistic.Trials.Any(t => t.TrialType.Equals(typeof(Experiment).Name)))
           averageTimePerExperiment = runStatistic.Trials.Where(t => t.TrialType.Equals(typeof(Experiment).Name)).Average(t => t.DurationInSeconds) / 60;
-
+        
         statistic.Info(string.Format("Run took: {0} minutes, Avg Training: {1}     Avg Experiment {2}", completeTime, averageTimePerTraining, averageTimePerExperiment));
 
         appLog.Info("Paradigma run finished");
@@ -279,7 +292,7 @@ public class ParadigmController : MonoBehaviour
 
     public void PerformSaveInterupt()
     {
-        
+
     }
 
     public void SaveCurrentState()
@@ -367,7 +380,7 @@ public class InstanceState
 
 public class ParadigmInstanceDefinition : ScriptableObject
 { 
-    public int Subject;
+    public string Subject;
     public string BodyController;
     public string HeadController;
 

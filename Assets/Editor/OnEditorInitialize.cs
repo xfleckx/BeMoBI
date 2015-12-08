@@ -4,6 +4,8 @@ using UnityEditor;
 using NLog;
 using NLog.Config;
 using System.IO;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 [InitializeOnLoad]
 public static class OnEditorInitialize   {
@@ -11,14 +13,18 @@ public static class OnEditorInitialize   {
     [InitializeOnLoadMethod]
     private static void LookRuntimeInfos()
     {
-        Debug.Log("EditorApplication.applicationPath :" + EditorApplication.applicationPath);
-        Debug.Log("EditorApplication.applicationsContentsPath: " + EditorApplication.applicationContentsPath);
-        Debug.Log("Application.dataPath: " + Application.dataPath);
-        Debug.Log("Application.dataPersistentPath: " + Application.persistentDataPath);
-        Debug.Log("Environment.CurrentDirectory: " + Environment.CurrentDirectory);
-        
+        if(LogManager.Configuration== null) {
+            var stopWatch = new Stopwatch();
 
-        LogManager.Configuration = new XmlLoggingConfiguration(Environment.CurrentDirectory + @"\Assets\NLog.config");
+            stopWatch.Start();
+
+            LogManager.Configuration = new XmlLoggingConfiguration(Application.dataPath + @"\NLog.config");
+
+            stopWatch.Stop();
+
+            Debug.Log(string.Format("Nlog config lookup took: {0}", stopWatch.Elapsed));
+        }
+        
 
         LogManager.ReconfigExistingLoggers();
     }
