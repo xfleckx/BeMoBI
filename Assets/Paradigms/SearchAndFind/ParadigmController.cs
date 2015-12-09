@@ -209,7 +209,7 @@ public class ParadigmController : MonoBehaviour
         currentTrial.ObjectDisplaySocket = objectPresenter;
         currentTrial.startPoint = this.startingPoint;
         currentTrial.fading = this.fading;
-
+        
         var def = currentDefinition.Value;
 
         currentTrial.Initialize(def.MazeName, def.Path, def.Category, def.ObjectName);

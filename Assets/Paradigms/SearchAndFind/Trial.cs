@@ -343,19 +343,14 @@ namespace Assets.Paradigms.SearchAndFind
                 return;
             }
 
-            if(currentTrialState == Internal_Trial_State.Returning)
-            {
-                marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
-
-                stopWatch.Stop();
-                OnFinished(stopWatch.Elapsed);
-            }
+            
         }
 
         public virtual void LeavesStartPoint(VRSubjectController subject)
         {
             if (currentTrialState == Internal_Trial_State.Searching)
             {
+                startPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
                
             }
@@ -366,7 +361,18 @@ namespace Assets.Paradigms.SearchAndFind
             if (id != 0)
                 return;
 
+            if (currentTrialState == Internal_Trial_State.Returning)
+            {
+                marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
 
+                startPoint.gameObject.SetActive(true);
+
+                stopWatch.Stop();
+
+                hud.ShowInstruction("Turn and go back to Start point for the next trial!");
+
+                OnFinished(stopWatch.Elapsed);
+            }
         }
 
         public virtual void LeavesWaypoint(int id)
