@@ -67,11 +67,6 @@ public class VRSubjectController : MonoBehaviour
         CurrentHeadController = String.Empty;
         ApplyMovementToHead = null;
     }
-    
-    public void SetMonoscopic(bool useMonoscopigRendering)
-    {
-        OVRManager.instance.monoscopic = useMonoscopigRendering;
-    }
 
     public void ChangeHeadController(IHeadMovementController headController)
     {
