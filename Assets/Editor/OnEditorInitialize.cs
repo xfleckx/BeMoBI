@@ -14,6 +14,7 @@ public static class OnEditorInitialize   {
     private static void LookRuntimeInfos()
     {
         if(LogManager.Configuration== null) {
+
             var stopWatch = new Stopwatch();
 
             stopWatch.Start();
@@ -22,7 +23,7 @@ public static class OnEditorInitialize   {
 
             stopWatch.Stop();
 
-            Debug.Log(string.Format("Nlog config lookup took: {0}", stopWatch.Elapsed));
+            //Debug.Log(string.Format("Nlog config lookup took: {0}", stopWatch.Elapsed));
         }
         
 

@@ -10,7 +10,7 @@ namespace Assets.Paradigms.SearchAndFind
             // does actual nothing
         }
 
-        public override void StartTrial()
+        public override void SetReady()
         {
             OnBeforeStart();
             marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, -1, -1, -1));

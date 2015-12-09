@@ -115,8 +115,39 @@ public class ParadigmController : MonoBehaviour
     #endregion
 
     #region Trial Management
+    
+    public void RunAll()
+    {
+        trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
 
-    void NextTrial()
+        appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
+
+        runStatistic = new ParadigmRunStatistics();
+
+        statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
+
+        SetNextTrialPending();
+    }
+
+    public void RunOnly<T>() where T : Trial
+    {
+        var nameOfTrialsToSelect = typeof(T).Name;
+
+        appLog.Info(string.Format("Run only {0} trials!", nameOfTrialsToSelect));
+
+        var selectedTrials = InstanceDefinition.Trials.Where((def) => def.TrialType.Equals(nameOfTrialsToSelect));
+
+        trials = new LinkedList<TrialDefinition>(selectedTrials);
+
+        runStatistic = new ParadigmRunStatistics();
+
+        SetNextTrialPending();
+    }
+    
+    /// <summary>
+    /// Setup the next trial but wait until subject enters startpoint
+    /// </summary>
+    void SetNextTrialPending()
     {
         isRunning = true;
 
@@ -134,55 +165,26 @@ public class ParadigmController : MonoBehaviour
             currentDefinition = currentDefinition.Next;
         }
 
-        var next = currentDefinition.Value;
+        var definitionForNextTrial = currentDefinition.Value;
 
-        if (next.TrialType.Equals(typeof(Training).Name))
+        if (definitionForNextTrial.TrialType.Equals(typeof(Training).Name))
         {
             UnityEngine.Debug.Log("Trainings Trial");
             
-            Begin(training, next);
+            Begin(training, definitionForNextTrial);
         }
-        else if (next.TrialType.Equals(typeof(Experiment).Name))
+        else if (definitionForNextTrial.TrialType.Equals(typeof(Experiment).Name))
         {
             UnityEngine.Debug.Log("Experiment Trial");
 
-            Begin(experiment, next);
+            Begin(experiment, definitionForNextTrial);
 
-        }else if (next.TrialType.Equals(typeof(Pause).Name))
+        }else if (definitionForNextTrial.TrialType.Equals(typeof(Pause).Name))
         {
             UnityEngine.Debug.Log("Pause Trial");
 
-            Begin(pause, next);
+            Begin(pause, definitionForNextTrial);
         }
-    }
-
-
-    public void RunAll()
-    {
-        trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
-
-        appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
-
-        runStatistic = new ParadigmRunStatistics();
-
-        statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
-
-        NextTrial();
-    }
-
-    public void RunOnly<T>() where T : Trial
-    {
-        var nameOfTrialsToSelect = typeof(T).Name;
-
-        appLog.Info(string.Format("Run only {0} trials!", nameOfTrialsToSelect));
-
-        var selectedTrials = InstanceDefinition.Trials.Where((def) => def.TrialType.Equals(nameOfTrialsToSelect));
-
-        trials = new LinkedList<TrialDefinition>(selectedTrials);
-
-        runStatistic = new ParadigmRunStatistics();
-
-        NextTrial();
     }
 
     public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
@@ -194,11 +196,14 @@ public class ParadigmController : MonoBehaviour
 
         Prepare(currentTrial);
         
-        currentTrial.StartTrial();
+        currentTrial.SetReady();
     }
 
     private void Prepare(Trial currentTrial)
     {
+        currentTrial.gameObject.SetActive(true);
+        currentTrial.enabled = true;
+
         currentTrial.VRManager = this.VRManager;
         currentTrial.marker = this.markerStream;
         currentTrial.hud = this.hud;
@@ -211,6 +216,8 @@ public class ParadigmController : MonoBehaviour
         currentTrial.fading = this.fading;
         
         var def = currentDefinition.Value;
+
+
 
         currentTrial.Initialize(def.MazeName, def.Path, def.Category, def.ObjectName);
 
@@ -229,19 +236,16 @@ public class ParadigmController : MonoBehaviour
 
         currentTrial.CleanUp();
 
+        currentTrial.enabled = false;
+
+        currentTrial.gameObject.SetActive(false);
+
         // TODO: replace with a more immersive door implementation
         entrance.SetActive(true);
 
-       StartCoroutine( WaitForNextTrial() );
+        SetNextTrialPending();
     }
-
-    private IEnumerator WaitForNextTrial()
-    {
-        yield return new WaitForSeconds(TimeToWaitTilNewTrialStarts);
-
-        NextTrial();
-    }
-
+     
     public void ForceSaveEnd()
     {
         this.shouldEnd = true;

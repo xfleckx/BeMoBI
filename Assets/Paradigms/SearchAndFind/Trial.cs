@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Assets.Paradigms.SearchAndFind.ImageEffects;
 
 namespace Assets.Paradigms.SearchAndFind
 {
@@ -13,7 +14,7 @@ namespace Assets.Paradigms.SearchAndFind
     {
         void Initialize(string mazeName, int pathID, string category, string objectName);
 
-        void StartTrial();
+        void SetReady();
 
         event Action BeforeStart;
 
@@ -65,6 +66,8 @@ namespace Assets.Paradigms.SearchAndFind
 
         public string currentMazeName = string.Empty;
 
+        public CustomGlobalFog fog;
+
         #endregion
 
         #region Trial state 
@@ -84,6 +87,7 @@ namespace Assets.Paradigms.SearchAndFind
         protected Stopwatch unitStopWatch;
 
         bool lastTurnWasIncorrect = false;
+        private bool isReady;
 
         #endregion
 
@@ -106,10 +110,13 @@ namespace Assets.Paradigms.SearchAndFind
             }
 
             stopWatch = new Stopwatch();
+
             unitStopWatch = new Stopwatch();
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
+
             currentMazeName = mazeName;
+
             mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 
             startPoint.EnterStartPoint += OnStartPointEntered;
@@ -125,7 +132,6 @@ namespace Assets.Paradigms.SearchAndFind
             
             GatherObjectFromObjectPool(category, objectName);
             
-            StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
         }
 
         private void ResetStartConditions()
@@ -168,7 +174,7 @@ namespace Assets.Paradigms.SearchAndFind
                 throw new ArgumentException(string.Format("Expected Object \"{0}\" from category \"{1}\" not found!", objectName, categoryName));
 
             objectToRemember = Instantiate(targetObject);
-            objectToRemember.SetActive(true);
+            
             objectToRemember.transform.SetParent(positionAtTrialBegin, false);
             objectToRemember.transform.localPosition = Vector3.zero;
             objectToRemember.transform.rotation = Quaternion.identity;
@@ -232,15 +238,22 @@ namespace Assets.Paradigms.SearchAndFind
                 if (previousElement == null)
                     previousElement = currentElement;
                 
-                if (nextElement == null)
-                    nextElement = currentElement;
+                if (nextElement == null) { 
+                    nextElement = previousElement;
+                }
 
-                var previosElementsPosition = previousElement.Value.Unit.transform.position;
+                var previousElementsPosition = previousElement.Value.Unit.transform.position;
                 var currentElementsPosition = currentElement.Value.Unit.transform.position;
                 var nextPathElementsPosition = nextElement.Value.Unit.transform.position;
                 
-                var a = previosElementsPosition - currentElementsPosition;
-                var b = currentElementsPosition - nextPathElementsPosition;
+                var a = previousElementsPosition - currentElementsPosition;
+
+                Vector3 b = Vector3.zero;
+
+                if (currentElement.Next != null)
+                    b = currentElementsPosition - nextPathElementsPosition;
+                else
+                    b = nextPathElementsPosition - currentElementsPosition;
 
                 var turningAngle = a.SignedAngle(b, Vector3.up);
 
@@ -253,13 +266,10 @@ namespace Assets.Paradigms.SearchAndFind
                 ChangeLightningOn(topLight, currentElement.Value, globalRotation);
 
                 topLight.SwitchOn();
-
-                if (currentElement.Next == null)
-                    continue;
                 
                 currentElement = currentElement.Next;
 
-            } while (currentElement.Next != null);
+            } while (currentElement != null);
         }
 
         private void ChangeLightningOn(TopLighting light, PathElement current, int globalRotation)
@@ -309,11 +319,9 @@ namespace Assets.Paradigms.SearchAndFind
 
         #endregion
 
-        public virtual void StartTrial()
+        public virtual void SetReady()
         {
-            OnBeforeStart();
-            marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
-            stopWatch.Start();
+            this.isReady = true; // Trial starts when Subject enters Startpoint
         }
 
         private void OnStartPointEntered(Collider c)
@@ -338,12 +346,26 @@ namespace Assets.Paradigms.SearchAndFind
 
         public virtual void EntersStartPoint(VRSubjectController subject)
         {
-            if (currentTrialState == Internal_Trial_State.Searching)
+            if (isReady && currentTrialState == Internal_Trial_State.Searching)
             {
-                return;
+                OnBeforeStart();
+
+                marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
+                
+                stopWatch.Start();
+
+                ShowObject();
+
             }
 
             
+        }
+
+        protected virtual void ShowObject()
+        {
+            objectToRemember.SetActive(true);
+
+            StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
         }
 
         public virtual void LeavesStartPoint(VRSubjectController subject)
@@ -352,13 +374,13 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 startPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
-               
+                hud.Clear();
             }
         }
 
-        public virtual void EntersWaypoint(int id)
+        public virtual void EntersWaypoint(ActionWaypoint waypoint)
         {
-            if (id != 0)
+            if (!this.isActiveAndEnabled || waypoint.WaypointId != 0)
                 return;
 
             if (currentTrialState == Internal_Trial_State.Returning)
@@ -369,15 +391,17 @@ namespace Assets.Paradigms.SearchAndFind
 
                 stopWatch.Stop();
 
-                hud.ShowInstruction("Turn and go back to Start point for the next trial!");
+                waypoint.HideInfoText();
+
+                hud.ShowInstruction("Turn and go back to Start point for the next trial!","Task:");
 
                 OnFinished(stopWatch.Elapsed);
             }
         }
 
-        public virtual void LeavesWaypoint(int id)
+        public virtual void LeavesWaypoint(ActionWaypoint waypoint)
         {
-            if (id != 0)
+            if (!this.isActiveAndEnabled || waypoint.WaypointId != 0)
                 return;
 
 
@@ -397,6 +421,8 @@ namespace Assets.Paradigms.SearchAndFind
 
                         // special case entering the maze
                         marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+
+                        hud.Clear();
                     }
                     else
                     {
@@ -447,7 +473,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                         marker.Write(MarkerPattern.FormatIncorrectTurn(unit, currentPathElement.Value, currentPathElement.Next.Value));
 
-                        hud.ShowInstruction("You`re wrong! Please turn!");
+                        hud.ShowInstruction("You`re wrong! Please turn!", "Task");
                     }
                 }
             }

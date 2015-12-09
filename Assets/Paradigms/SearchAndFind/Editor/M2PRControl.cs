@@ -342,7 +342,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             var newConfig = CreateInstance<ParadigmInstanceDefinition>();
             newConfig.Subject = subject_ID;
-            newConfig.name = string.Format("VP_{0}_InstanceDef", subject_ID);
+            newConfig.name = string.Format("VP_Def_{0}", subject_ID);
 
             newConfig.Trials = new List<TrialDefinition>();
 

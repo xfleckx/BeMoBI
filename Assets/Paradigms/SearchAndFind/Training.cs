@@ -10,13 +10,19 @@ namespace Assets.Paradigms.SearchAndFind
         /// <summary>
         /// A Trial Start may caused from external source (e.g. a key press)
         /// </summary>
-        public override void StartTrial()
+        public override void SetReady()
         {
-            base.StartTrial();
+            base.SetReady();
 
             SetLightningOn(path, mazeInstance);
 
+        }
+
+        protected override void ShowObject()
+        {
             hud.ShowInstruction("Remember the given path for this object!");
+
+            base.ShowObject();
         }
     }
 }
