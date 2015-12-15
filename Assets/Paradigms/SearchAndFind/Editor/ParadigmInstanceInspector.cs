@@ -11,7 +11,7 @@ namespace Assets.Paradigms.SearchAndFind
     public class ParadigmInstanceInspector : Editor
     {
         private ParadigmController instance;
-        private M2PRControl controlWindow;
+        private ParadigmControlWindow controlWindow;
         private List<ParadigmInstanceDefinition> availableDefinitions;
 
         public override void OnInspectorGUI()
@@ -20,14 +20,28 @@ namespace Assets.Paradigms.SearchAndFind
 
             availableDefinitions = new List<ParadigmInstanceDefinition>();
 
-            if (GUILayout.Button("Open Control & \n Configuration Window", GUILayout.Height(40)))
+            if (GUILayout.Button("Open Control Window", GUILayout.Height(40)))
             {
-                var existingWindow = EditorWindow.GetWindow<M2PRControl>();
+                var existingWindow = EditorWindow.GetWindow<ParadigmControlWindow>();
 
                 if (existingWindow != null)
                     controlWindow = existingWindow;
                 else
-                    controlWindow = CreateInstance<M2PRControl>();
+                    controlWindow = CreateInstance<ParadigmControlWindow>();
+
+                controlWindow.Initialize(instance);
+
+                controlWindow.Show();
+            }
+
+            if (GUILayout.Button("Open Configuration Window", GUILayout.Height(30)))
+            {
+                var existingWindow = EditorWindow.GetWindow<ParadigmControlWindow>();
+
+                if (existingWindow != null)
+                    controlWindow = existingWindow;
+                else
+                    controlWindow = CreateInstance<ParadigmControlWindow>();
 
                 controlWindow.Initialize(instance);
 

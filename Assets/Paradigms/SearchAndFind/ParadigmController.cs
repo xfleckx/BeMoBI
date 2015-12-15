@@ -87,7 +87,7 @@ public class ParadigmController : MonoBehaviour
     void Update()
     {
         if (Input.GetKey(KeyCode.F5) && !IsRunning)
-            RunAll();
+            StartTheExperimentFromBeginning();
     }
 
     #region Trials
@@ -104,7 +104,7 @@ public class ParadigmController : MonoBehaviour
     
     private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
-    private bool shouldEnd;
+    private bool currentRunShouldEndAfterTrialFinished;
     
     public bool IsRunning
     {
@@ -118,7 +118,7 @@ public class ParadigmController : MonoBehaviour
 
     #region Trial Management
     
-    public void RunAll()
+    public void StartTheExperimentFromBeginning()
     {
         trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
 
@@ -131,7 +131,7 @@ public class ParadigmController : MonoBehaviour
         SetNextTrialPending();
     }
 
-    public void RunOnly<T>() where T : Trial
+    public void StartASubsetOfTrials<T>() where T : Trial
     {
         var nameOfTrialsToSelect = typeof(T).Name;
 
@@ -148,22 +148,26 @@ public class ParadigmController : MonoBehaviour
     
     /// <summary>
     /// Setup the next trial but wait until subject enters startpoint
+    /// 
+    /// Take into a account that the paradigm definition is a linked list!
     /// </summary>
     void SetNextTrialPending()
     {
         isRunning = true;
-
+        
         if (currentDefinition == null) {
-
+            // Special case: First Trial after experiment start
             currentDefinition = trials.First;
         }
-        else if (shouldEnd || currentDefinition.Next == null)
+        else if (currentRunShouldEndAfterTrialFinished || currentDefinition.Next == null)
         {
+            // Special case: Last Trial either the run was canceld or all trials done
             ParadigmInstanceFinished();
             return;
         }
         else
         {
+            // normal case the next trial is the follower of the current trial due to the definition
             currentDefinition = currentDefinition.Next;
         }
 
@@ -171,20 +175,14 @@ public class ParadigmController : MonoBehaviour
 
         if (definitionForNextTrial.TrialType.Equals(typeof(Training).Name))
         {
-            UnityEngine.Debug.Log("Trainings Trial");
-            
             Begin(training, definitionForNextTrial);
         }
         else if (definitionForNextTrial.TrialType.Equals(typeof(Experiment).Name))
         {
-            UnityEngine.Debug.Log("Experiment Trial");
-
             Begin(experiment, definitionForNextTrial);
 
         }else if (definitionForNextTrial.TrialType.Equals(typeof(Pause).Name))
         {
-            UnityEngine.Debug.Log("Pause Trial");
-
             Begin(pause, definitionForNextTrial);
         }
     }
@@ -218,14 +216,18 @@ public class ParadigmController : MonoBehaviour
         currentTrial.fading = this.fading;
         
         var def = currentDefinition.Value;
-
-
-
+        
         currentTrial.Initialize(def.MazeName, def.Path, def.Category, def.ObjectName);
 
+        // this sets a callback to Trials Finished event (it's an pointer to a function)
         currentTrial.Finished += currentTrial_Finished;
     }
-     
+    
+    /// <summary>
+    /// Callback method, should be called by the trial itself - cause only the trial knows when it's finished
+    /// </summary>
+    /// <param name="trial">the trial instance which has finished</param>
+    /// <param name="result">A collection of informations on the trial run</param>
     void currentTrial_Finished(Trial trial, TrialResult result)
     {
         runCounter[trial]++;
@@ -250,7 +252,7 @@ public class ParadigmController : MonoBehaviour
      
     public void ForceSaveEnd()
     {
-        this.shouldEnd = true;
+        this.currentRunShouldEndAfterTrialFinished = true;
     }
 
     private void ParadigmInstanceFinished()
@@ -302,6 +304,7 @@ public class ParadigmController : MonoBehaviour
 
     public void SaveCurrentState()
     {
+        // TODO serialize to JSON string...  JsonUtility.ToJson()
         throw new NotImplementedException("TODO");
     }
 
@@ -384,8 +387,11 @@ public static class MarkerPattern
 [Serializable]
 public class InstanceState
 {
-    public int last_subject_id;
-    // TODO
+    public string Subject;
+
+    public string InstanceDefinition;
+
+    public TrialDefinition LastFinishedTrial;
 }
 
 #endregion

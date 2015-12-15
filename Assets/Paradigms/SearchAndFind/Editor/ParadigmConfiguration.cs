@@ -10,7 +10,7 @@ using NLogger = NLog.Logger;
 
 namespace Assets.Paradigms.SearchAndFind
 {
-    public class M2PRControl : EditorWindow
+    public class ConfigurationControl : EditorWindow
     {
         NLogger log = LogManager.GetCurrentClassLogger();
 
@@ -56,15 +56,9 @@ namespace Assets.Paradigms.SearchAndFind
                 return;
             }
 
-            EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+            EditorGUILayout.BeginHorizontal(GUILayout.Width(400)); 
 
-            EditorGUILayout.BeginVertical(GUILayout.Width(150));
-
-            RenderControlGUI();
-
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical(GUILayout.Width(250));
+            EditorGUILayout.BeginVertical();
 
             RenderConfigurationGUI();
 
@@ -82,76 +76,9 @@ namespace Assets.Paradigms.SearchAndFind
             return FindObjectOfType<ParadigmController>();
         }
 
-        private void RenderControlGUI()
+        private string FormatSurveyRequest()
         {
-            GUILayout.Label("Control", EditorStyles.largeLabel);
-
-            if (!EditorApplication.isPlaying)
-            {
-                EditorGUILayout.HelpBox("Please start the playmode through this start button!", MessageType.Info);
-
-                RenderRunVariables();
-
-                if (GUILayout.Button("Start playmode", GUILayout.Height(30)))
-                { 
-                    InjectCmdArgs();
-
-                    EditorApplication.ExecuteMenuItem("Edit/Play");
-                }
-
-
-                if (GUILayout.Button("Open logs"))
-                {
-                    Process.Start("explorer.exe", ".");
-                }
-
-                return;
-            }
-
-            if (!instance.IsRunning) {
-                
-                if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
-                {
-                    instance.RunAll();
-                }
-
-                if(GUILayout.Button("Run Training"))
-                {
-                    instance.RunOnly<Training>();
-                }
-            }
-            else
-            {
-                EditorGUILayout.HelpBox("Paradigma is already running", MessageType.Info);
-
-
-                if(instance.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
-                { 
-                    instance.InjectPauseTrial();
-                }
-
-                if(instance.currentTrial == instance.pause && GUILayout.Button("End Pause"))
-                {
-                    instance.currentTrial.ForceTrialEnd();
-                }
-                
-                EditorGUILayout.Space();
-
-                if (GUILayout.Button("End current run", GUILayout.Height(25)))
-                {
-                    instance.ForceSaveEnd();
-                }
-
-                EditorGUILayout.Space();
-
-                if(GUILayout.Button("Save Paradigma State \n and Quit"))
-                {
-                    instance.PerformSaveInterupt();
-                }
-
-
-            }
-
+            return @"http:\\localhost\limesurvey\index.php\197498?lang=en" + "?subject=test?pose=bla";
         }
 
         private void RenderRunVariables()
