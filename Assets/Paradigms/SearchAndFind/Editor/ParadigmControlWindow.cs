@@ -27,9 +27,7 @@ namespace Assets.Paradigms.SearchAndFind
             instance = target;
 
             titleContent = new GUIContent("Paradigm Control");
-
-            this.minSize = new Vector2(500, 600);
-
+            
             log.Info("Initialize Paradigma Control Window");
         }
          
@@ -145,11 +143,11 @@ namespace Assets.Paradigms.SearchAndFind
 
             GUILayout.Label("Subject ID:");
             subject_ID = EditorGUILayout.TextField(subject_ID);
-
-
+            
             GUILayout.Label("Run definition:");
             instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
 
+            instance.WriteStatistics =  GUILayout.Toggle(instance.WriteStatistics, "Write statistics?");
 
             EditorGUILayout.EndVertical();
         }

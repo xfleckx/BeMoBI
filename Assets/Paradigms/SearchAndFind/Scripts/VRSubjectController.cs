@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.VR;
 using UnityEngine.Assertions;
 using Assets.Paradigms.SearchAndFind;
+using VRStandardAssets.Utils;
 
 [RequireComponent(typeof(CharacterController))]
 public class VRSubjectController : MonoBehaviour
@@ -13,6 +14,8 @@ public class VRSubjectController : MonoBehaviour
     public Camera HeadPerspective;
 
     public Transform Head;
+    public Reticle reticle;
+
     public CharacterController Body;
     
     private event Action<CharacterController> ApplyMovementToBody;
@@ -51,6 +54,16 @@ public class VRSubjectController : MonoBehaviour
                 controller => controller.Identifier.Equals(CurrentHeadController)
                 ).ApplyMovement;
         }
+    }
+
+    public void ToggleRectile()
+    {
+        if (reticle == null)
+            return;
+
+        var state = reticle.ReticleTransform.gameObject.activeSelf;
+
+        reticle.ReticleTransform.gameObject.SetActive(!state);
     }
 
     public void ChangeBodyController(IBodyMovementController bodyController)

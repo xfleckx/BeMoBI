@@ -38,8 +38,10 @@ public class ParadigmController : MonoBehaviour
 
     public string SubjectID = String.Empty;
 
-    public ActionWaypoint TrialEndPoint;
+    public bool WriteStatistics = false;
 
+
+    public ActionWaypoint TrialEndPoint;
     public ParadigmInstanceDefinition InstanceDefinition;
     public VirtualRealityManager VRManager;
     public StartPoint startingPoint;
@@ -234,7 +236,8 @@ public class ParadigmController : MonoBehaviour
 
         var trialType = trial.GetType().Name;
 
-        statistic.Trace(string.Format("{0}\t{1}\t{2}\t{3}\t{4}", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
+        if (WriteStatistics)
+            statistic.Trace(string.Format("{0}\t{1}\t{2}\t{3}\t{4}", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
 
         runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
 
