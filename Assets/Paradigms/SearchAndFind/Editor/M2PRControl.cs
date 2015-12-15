@@ -90,20 +90,26 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 EditorGUILayout.HelpBox("Please start the playmode through this start button!", MessageType.Info);
 
-                if(GUILayout.Button("Start playmode", GUILayout.Height(30)))
+                RenderRunVariables();
+
+                if (GUILayout.Button("Start playmode", GUILayout.Height(30)))
                 { 
                     InjectCmdArgs();
 
                     EditorApplication.ExecuteMenuItem("Edit/Play");
                 }
 
+
+                if (GUILayout.Button("Open logs"))
+                {
+                    Process.Start("explorer.exe", ".");
+                }
+
                 return;
             }
 
             if (!instance.IsRunning) {
-
-                RenderRunVariables();
-
+                
                 if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
                 {
                     instance.RunAll();
@@ -145,13 +151,20 @@ namespace Assets.Paradigms.SearchAndFind
 
 
             }
+
         }
 
         private void RenderRunVariables()
         {
             EditorGUILayout.BeginVertical();
 
-            subject_ID = EditorGUILayout.TextField("Subject ID:", subject_ID);
+            GUILayout.Label("Subject ID:");
+            subject_ID = EditorGUILayout.TextField(subject_ID);
+
+
+            GUILayout.Label("Run definition:");
+            instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
+
 
             EditorGUILayout.EndVertical();
         }

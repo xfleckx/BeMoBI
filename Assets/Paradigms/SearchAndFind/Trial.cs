@@ -68,6 +68,8 @@ namespace Assets.Paradigms.SearchAndFind
 
         public CustomGlobalFog fog;
 
+        public ActionWaypoint TrialEndPoint { get; internal set; }
+
         #endregion
 
         #region Trial state 
@@ -357,13 +359,13 @@ namespace Assets.Paradigms.SearchAndFind
                 ShowObject();
 
             }
-
-            
         }
 
         protected virtual void ShowObject()
         {
             objectToRemember.SetActive(true);
+
+            marker.Write(MarkerPattern.FormatDisplayObject(objectName, categoryName));
 
             StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
         }

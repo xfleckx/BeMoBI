@@ -1,0 +1,197 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: VP_Anne2_InstanceDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::ParadigmInstanceDefinition
+  Subject: Anne2
+  BodyController: 
+  HeadController: 
+  Trials:
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 1
+    Category: Category08
+    ObjectName: 6_Boat
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 3
+    Category: Category08
+    ObjectName: 4_Tricycle
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 0
+    Category: Category08
+    ObjectName: 2_Forklift
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 2
+    Category: Category08
+    ObjectName: 3_Horse
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 1
+    Category: Category08
+    ObjectName: 6_Boat
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 0
+    Category: Category08
+    ObjectName: 2_Forklift
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 2
+    Category: Category08
+    ObjectName: 3_Horse
+  - TrialType: Training
+    MazeName: Maze1
+    Path: 3
+    Category: Category08
+    ObjectName: 4_Tricycle
+  - TrialType: Experiment
+    MazeName: Maze1
+    Path: 2
+    Category: Category08
+    ObjectName: 3_Horse
+  - TrialType: Experiment
+    MazeName: Maze1
+    Path: 0
+    Category: Category08
+    ObjectName: 2_Forklift
+  - TrialType: Experiment
+    MazeName: Maze1
+    Path: 3
+    Category: Category08
+    ObjectName: 4_Tricycle
+  - TrialType: Experiment
+    MazeName: Maze1
+    Path: 1
+    Category: Category08
+    ObjectName: 6_Boat
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 3
+    Category: Category07
+    ObjectName: 3_Jerrycan
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 0
+    Category: Category07
+    ObjectName: 4_ToolCase
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 1
+    Category: Category07
+    ObjectName: 2_HP_FBX
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 0
+    Category: Category07
+    ObjectName: 4_ToolCase
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 2
+    Category: Category07
+    ObjectName: 1_CargoFBX
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 3
+    Category: Category07
+    ObjectName: 3_Jerrycan
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 1
+    Category: Category07
+    ObjectName: 2_HP_FBX
+  - TrialType: Training
+    MazeName: Maze2
+    Path: 2
+    Category: Category07
+    ObjectName: 1_CargoFBX
+  - TrialType: Experiment
+    MazeName: Maze2
+    Path: 0
+    Category: Category07
+    ObjectName: 4_ToolCase
+  - TrialType: Experiment
+    MazeName: Maze2
+    Path: 1
+    Category: Category07
+    ObjectName: 2_HP_FBX
+  - TrialType: Experiment
+    MazeName: Maze2
+    Path: 2
+    Category: Category07
+    ObjectName: 1_CargoFBX
+  - TrialType: Experiment
+    MazeName: Maze2
+    Path: 3
+    Category: Category07
+    ObjectName: 3_Jerrycan
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 1
+    Category: Category02
+    ObjectName: 6_Car
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 2
+    Category: Category02
+    ObjectName: 1_Van
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 0
+    Category: Category02
+    ObjectName: 3_Airplane
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 3
+    Category: Category02
+    ObjectName: 5_Heli
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 1
+    Category: Category02
+    ObjectName: 6_Car
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 2
+    Category: Category02
+    ObjectName: 1_Van
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 0
+    Category: Category02
+    ObjectName: 3_Airplane
+  - TrialType: Training
+    MazeName: Maze3
+    Path: 3
+    Category: Category02
+    ObjectName: 5_Heli
+  - TrialType: Experiment
+    MazeName: Maze3
+    Path: 2
+    Category: Category02
+    ObjectName: 1_Van
+  - TrialType: Experiment
+    MazeName: Maze3
+    Path: 1
+    Category: Category02
+    ObjectName: 6_Car
+  - TrialType: Experiment
+    MazeName: Maze3
+    Path: 0
+    Category: Category02
+    ObjectName: 3_Airplane
+  - TrialType: Experiment
+    MazeName: Maze3
+    Path: 3
+    Category: Category02
+    ObjectName: 5_Heli
