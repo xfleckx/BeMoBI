@@ -34,6 +34,10 @@ public class VRSubjectInspector : Editor
             }
         }
 
+        if(GUILayout.Button("Toggle Rectile")){
+            instance.ToggleRectile();
+        }
+
         EditorGUILayout.LabelField("Available Body Controller");
 
         if (!availableBodyController.Any())
