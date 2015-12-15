@@ -254,8 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe3da5cd8218e49897ec9bd468bccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SubjectID: Niklas
-  TrialEndPoint: {fileID: 0}
+  SubjectID: FizzBob
+  WriteStatistics: 0
+  TrialEndPoint: {fileID: 307021767}
   InstanceDefinition: {fileID: 11400000, guid: a211b268a106d454d9047a00b0d44d75, type: 2}
   VRManager: {fileID: 1029432134}
   startingPoint: {fileID: 726889599}
@@ -365,6 +366,12 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &307021767 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11416508, guid: 5fbb735a00a12a84da743506dbe42417,
+    type: 2}
+  m_PrefabInternal: {fileID: 1474378240}
+  m_Script: {fileID: 11500000, guid: 553e67f2d8ae41e458353e6ff328f877, type: 3}
 --- !u!1 &470305382
 GameObject:
   m_ObjectHideFlags: 0
@@ -820,6 +827,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 866232739}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &875944344 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11466292, guid: 5f5d86963667fec40a90b0572b217861,
+    type: 2}
+  m_PrefabInternal: {fileID: 2016469146}
+  m_Script: {fileID: 11500000, guid: 56d3ced531afaea45b4a1689f3740e99, type: 3}
 --- !u!1 &1029432132
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,7 +5426,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 109194, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463566, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
+      propertyPath: reticle
+      value: 
+      objectReference: {fileID: 875944344}
+    - target: {fileID: 127740, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
