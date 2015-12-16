@@ -114,10 +114,15 @@ namespace Assets.Paradigms.SearchAndFind
                 }
                 
                 EditorGUILayout.Space();
-
-                if (GUILayout.Button("End current run", GUILayout.Height(25)))
+                
+                if (GUILayout.Button("End current run \n (stop playmode)", GUILayout.Height(25)))
                 {
                     instance.ForceSaveEnd();
+
+                    instance.currentTrial.Finished += (t, ts) => {
+                        EditorApplication.ExecuteMenuItem("Edit/Play"); // call Play a second time to stop it
+                    };
+
                 }
 
                 EditorGUILayout.Space();

@@ -18,6 +18,19 @@ public class VRSubjectInspector : Editor
 
         GUILayout.BeginVertical();
 
+
+        if (GUILayout.Button("Toggle Rectile"))
+        {
+            instance.ToggleRectile();
+        }
+
+        if(GUILayout.Button("Toogle Fog"))
+        {
+            instance.ToggleFog();
+        }
+
+        EditorGUILayout.Space();
+
         var availableBodyController = instance.GetComponents<IBodyMovementController>();
         var availableHeadController = instance.GetComponents<IHeadMovementController>();
 
@@ -33,11 +46,7 @@ public class VRSubjectInspector : Editor
                 instance.ChangeHeadController(headController);
             }
         }
-
-        if(GUILayout.Button("Toggle Rectile")){
-            instance.ToggleRectile();
-        }
-
+        
         EditorGUILayout.LabelField("Available Body Controller");
 
         if (!availableBodyController.Any())

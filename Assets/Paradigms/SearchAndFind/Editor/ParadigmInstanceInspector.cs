@@ -36,16 +36,11 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Open Configuration Window", GUILayout.Height(30)))
             {
-                var existingWindow = EditorWindow.GetWindow<ParadigmControlWindow>();
+                var window = EditorWindow.GetWindow<ConfigurationControl>();
 
-                if (existingWindow != null)
-                    controlWindow = existingWindow;
-                else
-                    controlWindow = CreateInstance<ParadigmControlWindow>();
+                window.Initialize(instance);
 
-                controlWindow.Initialize(instance);
-
-                controlWindow.Show();
+                window.Show();
             }
 
             if (GUILayout.Button("Lookup Instance definitions"))

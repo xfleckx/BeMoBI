@@ -8,6 +8,9 @@ public class ObjectSocket : MonoBehaviour {
 
     public bool AutoRescaleToFitTheBox = true;
 
+    public Transform objectLookAt;
+
+
     void Awake()
     {
         boxToFit = GetComponent<BoxCollider>();
@@ -17,6 +20,11 @@ public class ObjectSocket : MonoBehaviour {
     {
         objectToPresent.transform.SetParent(this.transform);
         objectToPresent.transform.localPosition = Vector3.zero;
+         
+        // Not working yet!
+        var targetPosition = objectLookAt.position;
+        targetPosition.y = transform.position.y;
+        transform.LookAt(targetPosition);
 
         if (AutoRescaleToFitTheBox) { 
 

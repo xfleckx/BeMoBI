@@ -7,6 +7,7 @@ using UnityEngine.VR;
 using UnityEngine.Assertions;
 using Assets.Paradigms.SearchAndFind;
 using VRStandardAssets.Utils;
+using Assets.Paradigms.SearchAndFind.ImageEffects;
 
 [RequireComponent(typeof(CharacterController))]
 public class VRSubjectController : MonoBehaviour
@@ -55,6 +56,7 @@ public class VRSubjectController : MonoBehaviour
                 ).ApplyMovement;
         }
     }
+    #region Options
 
     public void ToggleRectile()
     {
@@ -66,6 +68,20 @@ public class VRSubjectController : MonoBehaviour
         reticle.ReticleTransform.gameObject.SetActive(!state);
     }
 
+    public void ToggleFog()
+    {
+        var fog = GetComponentInChildren<CustomGlobalFog>();
+
+        if (fog == null) { 
+            Debug.Log("No CustomGlobalFog instance found");
+            return;
+        }
+
+        fog.enabled = !fog.enabled;
+
+    }
+
+    #endregion
     public void ChangeBodyController(IBodyMovementController bodyController)
     {
         CurrentBodyController = bodyController.Identifier;

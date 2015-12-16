@@ -324,6 +324,10 @@ namespace Assets.Paradigms.SearchAndFind
         public virtual void SetReady()
         {
             this.isReady = true; // Trial starts when Subject enters Startpoint
+
+            hud.Clear();
+
+            hud.ShowInstruction("Please enter the pink start point to start the trial!", "Task");
         }
 
         private void OnStartPointEntered(Collider c)
@@ -446,13 +450,15 @@ namespace Assets.Paradigms.SearchAndFind
 
                             hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
 
+                            TrialEndPoint.gameObject.SetActive(true);
+
                             currentTrialState = Internal_Trial_State.Returning;
 
                             path.InvertPath();
                         
                             currentPathElement = path.PathAsLinkedList.First;
                         }
-                    }
+                    } // A correct turn is defined as entering the last correct or the next element of the path
                     else if (currentPathElement.Value.Unit.Equals(unit) || currentPathElement.Next.Value.Unit.Equals(unit))
                     {
                         // avoid write correct marker duplication

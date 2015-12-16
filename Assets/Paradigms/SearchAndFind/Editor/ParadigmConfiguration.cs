@@ -60,6 +60,8 @@ namespace Assets.Paradigms.SearchAndFind
 
             EditorGUILayout.BeginVertical();
 
+            RenderRunVariables();
+
             RenderConfigurationGUI();
 
             EditorGUILayout.EndVertical();
@@ -87,11 +89,6 @@ namespace Assets.Paradigms.SearchAndFind
 
             GUILayout.Label("Subject ID:");
             subject_ID = EditorGUILayout.TextField(subject_ID);
-
-
-            GUILayout.Label("Run definition:");
-            instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
-
 
             EditorGUILayout.EndVertical();
         }

@@ -9,9 +9,9 @@ using NLog;
 
 using Debug = UnityEngine.Debug;
 
+// A logging framework, mainly used to write the log and statistic files. 
+// See also the NLog.config within the asset directory 
 using Logger = NLog.Logger;
-
-public enum SubjectControlMode { None, Joystick, PhaseSpace }
 
 [RequireComponent(typeof(LSLMarkerStream))]
 public class ParadigmController : MonoBehaviour
@@ -76,7 +76,8 @@ public class ParadigmController : MonoBehaviour
             return;
         }
 
-        GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
+        // this is enables access to variables used by the logging framework
+        NLog.GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
         
         appLog.Info("Initializing Paradigm");
 
@@ -398,17 +399,6 @@ public class InstanceState
 }
 
 #endregion
-
-public class ParadigmInstanceDefinition : ScriptableObject
-{ 
-    public string Subject;
-    public string BodyController;
-    public string HeadController;
-
-    [SerializeField]
-    public List<TrialDefinition> Trials;
-    
-}
 
 /// <summary>
 /// 
