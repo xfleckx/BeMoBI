@@ -37,3 +37,4 @@ packages/
 logs/
 nlog-internal.log
 statistics/
+misc/utils/BeMoBI_Protocol/bin/
