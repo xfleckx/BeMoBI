@@ -15,8 +15,6 @@ namespace Assets.Paradigms.SearchAndFind
             SwitchAllLightsOff(mazeInstance);
 
             base.SetReady();
-             
-            
         }
 
         protected override void ShowObject()

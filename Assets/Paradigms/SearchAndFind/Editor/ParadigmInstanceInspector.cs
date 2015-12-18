@@ -60,6 +60,24 @@ namespace Assets.Paradigms.SearchAndFind
                 }
             }
 
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("Configuration");
+
+            if(instance.config == null)
+            {
+                instance.LoadConfig(true);
+            }
+
+            instance.config.useTeleportation = EditorGUILayout.Toggle(new GUIContent("Use Teleportation", "Teleport the subject to the startpoint on trial finished."), instance.config.useTeleportation);
+
+            instance.config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.config.writeStatistics);
+
+            if (GUILayout.Button("Save Config"))
+            {
+                instance.SaveConfig();
+            }
+
             base.OnInspectorGUI();
 
 
