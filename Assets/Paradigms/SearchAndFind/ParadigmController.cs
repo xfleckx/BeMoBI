@@ -4,14 +4,15 @@ using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Collections;
-using NLog;
+using System.IO;
 
 using Debug = UnityEngine.Debug;
 
 // A logging framework, mainly used to write the log and statistic files. 
 // See also the NLog.config within the asset directory 
-using Logger = NLog.Logger;
-using System.IO;
+using NLog;
+using Logger = NLog.Logger; // just aliasing
+
 
 namespace Assets.Paradigms.SearchAndFind
 {
@@ -19,8 +20,6 @@ namespace Assets.Paradigms.SearchAndFind
     [RequireComponent(typeof(LSLMarkerStream))]
     public class ParadigmController : MonoBehaviour
     {
-        public static readonly string PathToConfig = Application.dataPath + @"\Resources\SearchAndFind_Config.json";
-
         private static Logger appLog = LogManager.GetLogger("App");
 
         private static Logger statistic = LogManager.GetLogger("Statistics");
@@ -42,9 +41,7 @@ namespace Assets.Paradigms.SearchAndFind
         #endregion
 
         public string SubjectID = String.Empty;
-
-        public bool WriteStatistics = false;
-
+        
         public ParadigmConfiguration config;
 
         public ActionWaypoint TrialEndPoint;
@@ -59,9 +56,7 @@ namespace Assets.Paradigms.SearchAndFind
         public GameObject HidingSpotPrefab;
         public GameObject entrance;
         public FullScreenFade fading;
-
-        public float TimeToWaitTilNewTrialStarts = 5f;
-
+        
         void Awake()
         {
             if (VRManager == null)
@@ -78,11 +73,16 @@ namespace Assets.Paradigms.SearchAndFind
         {
             var configAsJson = JsonUtility.ToJson(config);
 
-            using (var streamWriter = new System.IO.StreamWriter(ParadigmController.PathToConfig))
+            using (var streamWriter = new StreamWriter(GetPathToConfig()))
             {
                 streamWriter.Write(configAsJson);
             }
 
+        }
+
+        public string GetPathToConfig()
+        {
+            return Application.dataPath + @"\Resources\SearchAndFind_Config.json";
         }
 
         void Start()
@@ -232,18 +232,10 @@ namespace Assets.Paradigms.SearchAndFind
         private void Prepare(Trial currentTrial)
         {
             currentTrial.gameObject.SetActive(true);
+
             currentTrial.enabled = true;
-            currentTrial.TrialEndPoint = this.TrialEndPoint;
-            currentTrial.VRManager = this.VRManager;
-            currentTrial.marker = this.markerStream;
-            currentTrial.hud = this.hud;
-            currentTrial.hidingSpotPrefab = this.HidingSpotPrefab;
-            currentTrial.objectPool = this.objectPool;
-            currentTrial.MazeEntranceDoor = this.entrance;
-            currentTrial.positionAtTrialBegin = objectPositionAtTrialStart;
-            currentTrial.ObjectDisplaySocket = objectPresenter;
-            currentTrial.startPoint = this.startingPoint;
-            currentTrial.fading = this.fading;
+
+            currentTrial.paradigm = this;
 
             var def = currentDefinition.Value;
 
@@ -318,7 +310,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             try
             { 
-                using (var fileStream = new StreamReader(PathToConfig))
+                using (var fileStream = new StreamReader(GetPathToConfig()))
                 {
                     jsonAsText = fileStream.ReadToEnd();
                 }
@@ -326,7 +318,7 @@ namespace Assets.Paradigms.SearchAndFind
             catch (FileNotFoundException)
             {
                 Debug.Log("No Config found");
-                appLog.Error(string.Format("No config file found at {0}! Using default values and write new config!", PathToConfig));
+                appLog.Error(string.Format("No config file found at {0}! Using default values and write new config!", GetPathToConfig()));
 
                 if (writeNewWhenNotFound) { 
                     config = new ParadigmConfiguration();

@@ -21,7 +21,7 @@ namespace Assets.Paradigms.SearchAndFind
         {
             hud.Clear();
 
-            hud.ShowInstruction("Retrieve the path to this object");
+            hud.ShowInstruction("Retrieve the path to this object","Task");
 
             base.ShowObject();
         }

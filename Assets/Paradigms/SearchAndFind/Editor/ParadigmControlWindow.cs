@@ -18,8 +18,7 @@ namespace Assets.Paradigms.SearchAndFind
 
         [SerializeField]
         private string subject_ID = "TestSubject";
-
-
+        
         private ParadigmInstanceDefinition lastGeneratedInstanceConfig;
 
         internal void Initialize(ParadigmController target)
@@ -152,7 +151,7 @@ namespace Assets.Paradigms.SearchAndFind
             GUILayout.Label("Run definition:");
             instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
 
-            instance.WriteStatistics =  GUILayout.Toggle(instance.WriteStatistics, "Write statistics?");
+            instance.config.writeStatistics =  GUILayout.Toggle(instance.config.writeStatistics, "Write statistics?");
 
             EditorGUILayout.EndVertical();
         }

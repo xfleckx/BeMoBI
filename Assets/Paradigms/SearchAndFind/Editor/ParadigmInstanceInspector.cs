@@ -14,6 +14,8 @@ namespace Assets.Paradigms.SearchAndFind
         private ParadigmControlWindow controlWindow;
         private List<ParadigmInstanceDefinition> availableDefinitions;
 
+        private bool showDependencies = false;
+
         public override void OnInspectorGUI()
         {
             instance = target as ParadigmController;
@@ -78,8 +80,10 @@ namespace Assets.Paradigms.SearchAndFind
                 instance.SaveConfig();
             }
 
-            base.OnInspectorGUI();
+            showDependencies = EditorGUILayout.Foldout(showDependencies, new GUIContent("Dependencies", "Shows all dependencies of this ParadigmController"));
 
+            if (showDependencies)
+                base.OnInspectorGUI(); 
 
         }
     }

@@ -36,32 +36,17 @@ namespace Assets.Paradigms.SearchAndFind
 
         public HUD_DEBUG debug;
 
+        public ParadigmController paradigm;
+
         protected beMobileMaze mazeInstance;
 
         protected PathInMaze path;
 
-        public StartPoint startPoint;
-
-        public Transform positionAtTrialBegin;
-
-        public GameObject ObjectDisplaySocket;
-
-        public GameObject MazeEntranceDoor;
-
-        public GameObject hidingSpotPrefab;
-
         public HidingSpot hidingSpotInstance;
 
         public PathController pathController;
-
         public GameObject objectToRemember;
-
-        public Material lightningMaterial;
-
-        public int SecondsToDisplay = 10;
-
-        public FullScreenFade fading;
-
+        
         public int currentPathID = -1;
 
         public string currentMazeName = string.Empty;
@@ -72,7 +57,7 @@ namespace Assets.Paradigms.SearchAndFind
 
         #endregion
 
-        #region Trial state 
+        #region Trial state only interesting for the trial itself!
 
         protected string objectName;
 
@@ -121,8 +106,8 @@ namespace Assets.Paradigms.SearchAndFind
 
             mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 
-            startPoint.EnterStartPoint += OnStartPointEntered;
-            startPoint.LeaveStartPoint += OnStartPointLeaved;
+            paradigm.startingPoint.EnterStartPoint += OnStartPointEntered;
+            paradigm.startingPoint.LeaveStartPoint += OnStartPointLeaved;
 
             currentTrialState = Internal_Trial_State.Searching;
 
@@ -138,7 +123,7 @@ namespace Assets.Paradigms.SearchAndFind
 
         private void ResetStartConditions()
         {
-            ObjectDisplaySocket.SetActive(true);
+           paradigm.objectPresenter.SetActive(true);
             
         }
 
@@ -154,7 +139,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             // hiding spot look at inactive (open wall)
             var targetRotation = GetRotationFrom(unitAtPathEnd);
-            var hidingSpotHost = Instantiate(hidingSpotPrefab);
+            var hidingSpotHost = Instantiate(paradigm.HidingSpotPrefab);
 
             hidingSpotHost.transform.SetParent(unitAtPathEnd.transform, false);
             hidingSpotHost.transform.localPosition = Vector3.zero;
@@ -177,7 +162,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             objectToRemember = Instantiate(targetObject);
             
-            objectToRemember.transform.SetParent(positionAtTrialBegin, false);
+            objectToRemember.transform.SetParent(paradigm.objectPositionAtTrialStart, false);
             objectToRemember.transform.localPosition = Vector3.zero;
             objectToRemember.transform.rotation = Quaternion.identity;
             objectToRemember.transform.localScale = Vector3.one;
@@ -199,8 +184,8 @@ namespace Assets.Paradigms.SearchAndFind
 
         private void HideSocketAndOpenEntranceAtStart()
         {
-            MazeEntranceDoor.SetActive(false);
-            ObjectDisplaySocket.SetActive(false);
+            paradigm.entrance.SetActive(false);
+            paradigm.objectPresenter.SetActive(false);
             var socketAtThePathEnd = hidingSpotInstance.GetSocket();
 
             var objectSocket = socketAtThePathEnd.GetComponent<ObjectSocket>();
@@ -371,14 +356,17 @@ namespace Assets.Paradigms.SearchAndFind
 
             marker.Write(MarkerPattern.FormatDisplayObject(objectName, categoryName));
 
-            StartCoroutine(DisplayObjectAtStartFor(SecondsToDisplay));
+            StartCoroutine(
+                DisplayObjectAtStartFor(
+                    paradigm.config.TimeToDisplayObjectToRememberInSeconds)
+                    );
         }
 
         public virtual void LeavesStartPoint(VRSubjectController subject)
         {
             if (currentTrialState == Internal_Trial_State.Searching)
             {
-                startPoint.gameObject.SetActive(false);
+                paradigm.startingPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
                 hud.Clear();
             }
@@ -393,7 +381,7 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
 
-                startPoint.gameObject.SetActive(true);
+                paradigm.startingPoint.gameObject.SetActive(true);
 
                 stopWatch.Stop();
 
@@ -537,7 +525,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             ClearCallbacks();
 
-            startPoint.ClearSubscriptions();
+            paradigm.startingPoint.ClearSubscriptions();
 
             if(hidingSpotInstance != null)
             {

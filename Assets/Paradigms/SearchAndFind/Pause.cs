@@ -17,12 +17,12 @@ namespace Assets.Paradigms.SearchAndFind
             stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Start();
 
-            fading.StartFadeOut();
+            paradigm.fading.StartFadeOut();
         }
 
         public override void ForceTrialEnd()
         {
-            fading.StartFadeIn();
+            paradigm.fading.StartFadeIn();
 
             base.ForceTrialEnd();
         }
