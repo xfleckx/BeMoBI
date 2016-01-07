@@ -1,9 +1,10 @@
 [submodule "Assets/LSL4Unity"]
 	path = Assets/LSL4Unity
 	url = https://github.com/xfleckx/LSL4Unity.git
-[submodule "Assets/Daidalos"]
-	path = Assets/Daidalos
-	url = https://github.com/xfleckx/Daidalos.git
 [submodule "Assets/MF_Unity3D_Utilities"]
 	path = Assets/MF_Unity3D_Utilities
 	url = https://github.com/xfleckx/MF_Unity3D_Utilities
+[submodule "Assets/SNEED"]
+	path = Assets/SNEED
+	url = https://github.com/xfleckx/SNEED.git
+	branch = master
