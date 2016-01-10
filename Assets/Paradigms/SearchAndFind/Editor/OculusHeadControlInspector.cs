@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Assets.Paradigms.SearchAndFind.Scripts.Controls;
+using Assets.BeMoBI.Scripts.Controls;
 
 [CustomEditor(typeof(OculusRiftController))]
 public class OculusHeadControlInspector : Editor

@@ -190,12 +190,44 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
-    dead: 0.01
+    dead: 0.3
     sensitivity: 1
     snap: 0
     invert: 0
     type: 2
     axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: XBX_Horizontal_Body
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: XBX_Horizontal_Head_X
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 3
     joyNum: 0
   - serializedVersion: 3
     m_Name: Vertical
@@ -206,12 +238,44 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
-    dead: 0.19
+    dead: 0.3
     sensitivity: 1
     snap: 0
     invert: 1
     type: 2
     axis: 1
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: XBX_Vertical_Body
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 1
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: XBX_Vertical_Head_Y
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 4
     joyNum: 0
   - serializedVersion: 3
     m_Name: KB_Vertical

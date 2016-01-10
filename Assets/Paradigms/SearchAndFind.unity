@@ -208,17 +208,10 @@ MonoBehaviour:
   objectPool: {fileID: 0}
   hud: {fileID: 0}
   debug: {fileID: 0}
-  startPoint: {fileID: 0}
-  positionAtTrialBegin: {fileID: 0}
-  ObjectDisplaySocket: {fileID: 0}
-  MazeEntranceDoor: {fileID: 0}
-  hidingSpotPrefab: {fileID: 0}
+  paradigm: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
-  lightningMaterial: {fileID: 2100000, guid: e1f5fe6e047c8a946bd8e0112945ee83, type: 2}
-  SecondsToDisplay: 5
-  fading: {fileID: 0}
   currentPathID: 1
   currentMazeName: 
   fog: {fileID: 0}
@@ -257,7 +250,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SubjectID: blub
-  WriteStatistics: 0
   config:
     useTeleportation: 0
     writeStatistics: 0
@@ -275,7 +267,6 @@ MonoBehaviour:
   HidingSpotPrefab: {fileID: 127242, guid: b7f2253deabaee04ea25d40bbef55bd3, type: 2}
   entrance: {fileID: 866232739}
   fading: {fileID: 1410851483}
-  TimeToWaitTilNewTrialStarts: 5
   training: {fileID: 126849972}
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
@@ -323,14 +314,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c1173be82d2914da1fb51c7f048e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectToTeleport: {fileID: 0}
-  Target: {fileID: 0}
+  ExpectedDuration: 2
+  ObjectToTeleport: {fileID: 2016469147}
+  Target: {fileID: 1474378241}
+  postTeleportLookAt: {fileID: 726889598}
   BeforeTeleporting:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1410851483}
         m_MethodName: StartFadeOut
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -339,14 +332,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: TeleportingDurationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   AfterTeleporting:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1410851483}
         m_MethodName: StartFadeIn
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -355,7 +348,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: TeleportingDurationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
 --- !u!114 &188249853
 MonoBehaviour:
@@ -642,17 +635,10 @@ MonoBehaviour:
   objectPool: {fileID: 0}
   hud: {fileID: 0}
   debug: {fileID: 0}
-  startPoint: {fileID: 0}
-  positionAtTrialBegin: {fileID: 0}
-  ObjectDisplaySocket: {fileID: 0}
-  MazeEntranceDoor: {fileID: 0}
-  hidingSpotPrefab: {fileID: 0}
+  paradigm: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
-  lightningMaterial: {fileID: 0}
-  SecondsToDisplay: 10
-  fading: {fileID: 0}
   currentPathID: -1
   currentMazeName: 
   fog: {fileID: 0}
@@ -2823,17 +2809,10 @@ MonoBehaviour:
   objectPool: {fileID: 0}
   hud: {fileID: 0}
   debug: {fileID: 0}
-  startPoint: {fileID: 0}
-  positionAtTrialBegin: {fileID: 0}
-  ObjectDisplaySocket: {fileID: 0}
-  MazeEntranceDoor: {fileID: 0}
-  hidingSpotPrefab: {fileID: 0}
+  paradigm: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
-  lightningMaterial: {fileID: 2100000, guid: e1f5fe6e047c8a946bd8e0112945ee83, type: 2}
-  SecondsToDisplay: 10
-  fading: {fileID: 0}
   currentPathID: -1
   currentMazeName: 
   fog: {fileID: 0}
@@ -3556,17 +3535,10 @@ MonoBehaviour:
   objectPool: {fileID: 0}
   hud: {fileID: 0}
   debug: {fileID: 0}
-  startPoint: {fileID: 0}
-  positionAtTrialBegin: {fileID: 0}
-  ObjectDisplaySocket: {fileID: 0}
-  MazeEntranceDoor: {fileID: 0}
-  hidingSpotPrefab: {fileID: 0}
+  paradigm: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
-  lightningMaterial: {fileID: 0}
-  SecondsToDisplay: 10
-  fading: {fileID: 0}
   currentPathID: -1
   currentMazeName: 
   fog: {fileID: 0}
@@ -5997,9 +5969,65 @@ Prefab:
       propertyPath: far clip plane
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 11463566, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
+      propertyPath: Head
+      value: 
+      objectReference: {fileID: 1112819487}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2016469147 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 124712, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
+  m_PrefabInternal: {fileID: 2016469146}
+--- !u!114 &2016469156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2016469147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01b26023901905499508f965c1dd5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWalkingSpeed: 1.4
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 10
+    - time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 10
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  customHeadReference: {fileID: 0}
+  RotationSpeed: 40
+  RotateSmooth: 1
+  SmoothTime: 1
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  body_raw_X: 0
+  body_raw_Y: 0
+  head_raw_X: 0
+  head_raw_Y: 0
+  smooth: 0
+  smoothTime: 5
+  headTargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceRotation: {x: 0, y: 0, z: 0, w: 1}
+  X_Sensitivity: 2
+  Y_Sensitivity: 2
+  clampVerticalRotation: 1
+  clampHorizontalRotation: 1
+  MinimumX: -30
+  MaximumX: 30
 --- !u!1001 &2050533855
 Prefab:
   m_ObjectHideFlags: 0

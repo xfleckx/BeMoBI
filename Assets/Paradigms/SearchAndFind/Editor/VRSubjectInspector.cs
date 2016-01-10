@@ -5,6 +5,8 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
+using Assets.BeMoBI.Scripts.Controls;
+
 [CustomEditor(typeof(VRSubjectController))]
 public class VRSubjectInspector : Editor
 {
@@ -31,9 +33,23 @@ public class VRSubjectInspector : Editor
 
         EditorGUILayout.Space();
 
-        var availableBodyController = instance.GetComponents<IBodyMovementController>();
-        var availableHeadController = instance.GetComponents<IHeadMovementController>();
+        var availableBodyController = instance.GetComponents<IBodyMovementController>().Where(c => !(c is IHeadMovementController));
+        var availableHeadController = instance.GetComponents<IHeadMovementController>().Where(c => !(c is IBodyMovementController));
+        var availableCombinedController = instance.GetComponents<ICombinedControl>();
 
+        EditorGUILayout.LabelField("Available Combi Controller");
+
+        if (!availableCombinedController.Any())
+            EditorGUILayout.HelpBox("No Combined Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+
+        foreach (var combiController in availableCombinedController)
+        {
+            if (GUILayout.Button((combiController as IHeadMovementController).Identifier))
+            {
+                instance.ChangeHeadController(combiController);
+                instance.ChangeBodyController(combiController);
+            }
+        }
         EditorGUILayout.LabelField("Available Head Controller");
 
         if (!availableHeadController.Any())
@@ -57,7 +73,7 @@ public class VRSubjectInspector : Editor
             if(GUILayout.Button(bodyController.Identifier))
                 instance.ChangeBodyController(bodyController);
         }
-
+        
         EditorGUILayout.Space();
 
         if (GUILayout.Button("Reset Controller"))

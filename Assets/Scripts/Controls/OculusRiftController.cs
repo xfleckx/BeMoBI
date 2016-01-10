@@ -5,7 +5,8 @@ using System.Text;
 using UnityEngine;
 
 using UnityEngine.VR;
-namespace Assets.Paradigms.SearchAndFind.Scripts.Controls
+
+namespace Assets.BeMoBI.Scripts.Controls
 {
     public class OculusRiftController : MonoBehaviour, IHeadMovementController
     {
