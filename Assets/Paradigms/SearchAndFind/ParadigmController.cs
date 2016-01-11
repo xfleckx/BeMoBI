@@ -80,6 +80,11 @@ namespace Assets.Paradigms.SearchAndFind
 
         }
 
+        public void LoadInstanceDefinitionFrom(FileInfo file)
+        {
+
+        }
+
         public string GetPathToConfig()
         {
             return Application.dataPath + @"\Resources\SearchAndFind_Config.json";
@@ -87,6 +92,12 @@ namespace Assets.Paradigms.SearchAndFind
 
         void Start()
         {
+
+            if(config == null)
+            {
+                LoadConfig(true);
+            }
+
             if (InstanceDefinition == null)
             {
                 UnityEngine.Debug.Log("No instance definition loaded.");
@@ -94,11 +105,6 @@ namespace Assets.Paradigms.SearchAndFind
                 //! TODO check if instance definition is available if not generate one!
 
                 return;
-            }
-
-            if(config == null)
-            {
-                LoadConfig(true);
             }
 
             // this is enables access to variables used by the logging framework
@@ -519,7 +525,10 @@ namespace Assets.Paradigms.SearchAndFind
 
         [SerializeField]
         public bool writeStatistics = false;
-        
+
+        [SerializeField]
+        public bool ifNoInstanceDefinitionCreateOne = false;
+
         [SerializeField]
         public float TimeToDisplayObjectToRememberInSeconds = 3;
         

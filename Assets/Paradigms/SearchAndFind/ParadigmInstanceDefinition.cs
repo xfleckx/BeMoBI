@@ -9,8 +9,8 @@ namespace Assets.Paradigms.SearchAndFind
     public class ParadigmInstanceDefinition : ScriptableObject
     {
         public string Subject;
-        public string BodyController;
-        public string HeadController;
+
+        public ParadigmConfiguration Configuration;
 
         [SerializeField]
         public List<TrialDefinition> Trials;
