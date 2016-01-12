@@ -110,7 +110,11 @@ namespace Assets.Paradigms.SearchAndFind
 
             factory.mazesToUse = EditorGUILayout.IntField("Mazes", factory.mazesToUse);
 
-            factory.pathsToUsePerMaze = EditorGUILayout.IntField("Paths (Objects) per Maze", factory.pathsToUsePerMaze);
+            factory.atLeastAvailblePathsPerMaze = EditorGUILayout.IntField("Common available paths", factory.atLeastAvailblePathsPerMaze);
+
+            factory.pathsToUsePerMaze = EditorGUILayout.IntField("Use Paths per Maze", factory.pathsToUsePerMaze);
+
+            factory.CheckIfEnoughPathsAreAvailable();
 
             if (!factory.useExactOnCategoryPerMaze)
             {
@@ -126,7 +130,7 @@ namespace Assets.Paradigms.SearchAndFind
             factory.objectVisitationsInTraining = EditorGUILayout.IntField("Training", factory.objectVisitationsInTraining);
             factory.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", factory.objectVisitationsInExperiment);
 
-            if (factory.IsAbleToGenerate != null && GUILayout.Button("Generate Instance Config", GUILayout.Height(35)))
+            if (factory.IsAbleToGenerate && GUILayout.Button("Generate Instance Config", GUILayout.Height(35)))
             {
                 lastGeneratedInstanceConfig = factory.Generate();
                 lastGeneratedInstanceConfig.Configuration = instance.config;

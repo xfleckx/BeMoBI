@@ -7,9 +7,10 @@ using System.Collections;
 using System.IO;
 
 using Debug = UnityEngine.Debug;
-
+using Assets.BeMoBI.Scripts;
 // A logging framework, mainly used to write the log and statistic files. 
 // See also the NLog.config within the asset directory 
+// Pittfall: You need to copy the NLog.config file to the *_DATA directory after the build!
 using NLog;
 using Logger = NLog.Logger; // just aliasing
 
@@ -20,6 +21,13 @@ namespace Assets.Paradigms.SearchAndFind
     [RequireComponent(typeof(LSLMarkerStream))]
     public class ParadigmController : MonoBehaviour
     {
+        private const string COND_MOCAP = "mocap";
+        private const string COND_MOCAP_ROT = "mocap_rot";
+        private const string COND_DESKTOP = "desktop";
+        private const string COND_MONOSCOP = "monoscop";
+        private const string COND_STANDING = "standing";
+        private const string COND_SITTING = "sitting";
+
         private static Logger appLog = LogManager.GetLogger("App");
 
         private static Logger statistic = LogManager.GetLogger("Statistics");
@@ -41,7 +49,9 @@ namespace Assets.Paradigms.SearchAndFind
         #endregion
 
         public string SubjectID = String.Empty;
-        
+
+        public AppInit appInit;
+
         public ParadigmConfiguration config;
 
         public ActionWaypoint TrialEndPoint;
@@ -49,20 +59,21 @@ namespace Assets.Paradigms.SearchAndFind
         public VirtualRealityManager VRManager;
         public StartPoint startingPoint;
         public HUD_Instruction hud;
-        public LSLMarkerStream markerStream;
+        public LSLMarkerStream marker;
         public GameObject objectPresenter;
         public ObjectPool objectPool;
         public Transform objectPositionAtTrialStart;
         public GameObject HidingSpotPrefab;
         public GameObject entrance;
         public FullScreenFade fading;
-        
+        public Teleporting teleporter;
+
         void Awake()
         {
             if (VRManager == null)
                 throw new MissingReferenceException("Reference to VirtualRealityManager is missing");
 
-            if (markerStream == null)
+            if (marker == null)
                 throw new MissingReferenceException("Reference to a MarkerStream instance is missing");
 
             if (hud == null)
@@ -80,9 +91,24 @@ namespace Assets.Paradigms.SearchAndFind
 
         }
 
+        /// <summary>
+        /// Loads a predefined definition from a file
+        /// May override already loaded config!
+        /// </summary>
+        /// <param name="file"></param>
         public void LoadInstanceDefinitionFrom(FileInfo file)
         {
+            using (var reader = new StreamReader(file.FullName))
+            {
+                var jsonFromFile = reader.ReadToEnd();
 
+                InstanceDefinition = JsonUtility.FromJson<ParadigmInstanceDefinition>(jsonFromFile);
+
+                if (InstanceDefinition == null) { 
+                    appLog.Fatal(string.Format("Loading {0} as Instance Definition failed!", file.FullName));
+                    Application.Quit();
+                }
+            }
         }
 
         public string GetPathToConfig()
@@ -93,31 +119,68 @@ namespace Assets.Paradigms.SearchAndFind
         void Start()
         {
 
-            if(config == null)
+            if (SubjectID == string.Empty)
             {
+
+                if (appInit.Options.subjectId != String.Empty)
+                    SubjectID = appInit.Options.subjectId;
+                else
+                    SubjectID = ParadigmUtils.GetRandomSubjectName();
+            }
+
+            // this is enables access to var}iables used by the logging framework
+            NLog.GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
+
+            appLog.Info("Initializing Paradigm");
+
+            if (config == null)
+            {
+                appLog.Info("Load Config or create a new one!");
                 LoadConfig(true);
             }
 
             if (InstanceDefinition == null)
             {
-                UnityEngine.Debug.Log("No instance definition loaded.");
+                UnityEngine.Debug.Log("No instance definition found.");
+                
+                if (appInit.HasOptions && File.Exists(appInit.Options.fileNameOfParadigmDefinition))
+                {
+                    var logMsg = string.Format("Load instance definition from {0}", appInit.Options.fileNameOfParadigmDefinition);
 
-                //! TODO check if instance definition is available if not generate one!
+                    UnityEngine.Debug.Log(logMsg);
 
-                return;
+                    appLog.Info(logMsg);
+
+                    var fileContainingDefinition = new FileInfo(appInit.Options.fileNameOfParadigmDefinition);
+
+                    LoadInstanceDefinitionFrom(fileContainingDefinition);
+                }
+                else
+                {
+                    var factory = new InstanceDefinitionFactory();
+                    
+                    //factory.categoriesPerMaze = config.
+
+                    factory.EstimateConfigBasedOnAvailableElements();
+
+                    if (!factory.IsAbleToGenerate)
+                    {
+                        appLog.Fatal("Not able to create an instance definition based on the given configuration! Check the paradigm using the UnityEditor and rebuild the paradigm or change the expected configuration!");
+                        Application.Quit();
+                    }
+                    else
+                    {
+                        InstanceDefinition = factory.Generate();
+                    }
+                }
             }
 
-            // this is enables access to variables used by the logging framework
-            NLog.GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
-
-            appLog.Info("Initializing Paradigm");
 
             hud.Clear();
 
             fading.StartFadeIn();
         }
-
-
+        
         void Update()
         {
             if (Input.GetKey(KeyCode.F5) && !IsRunning)
@@ -312,11 +375,13 @@ namespace Assets.Paradigms.SearchAndFind
 
         public void LoadConfig(bool writeNewWhenNotFound)
         {
+            var expectedConfig = GetPathToConfig();
+
             string jsonAsText = String.Empty;
 
             try
             { 
-                using (var fileStream = new StreamReader(GetPathToConfig()))
+                using (var fileStream = new StreamReader(expectedConfig))
                 {
                     jsonAsText = fileStream.ReadToEnd();
                 }
@@ -330,6 +395,9 @@ namespace Assets.Paradigms.SearchAndFind
                     config = new ParadigmConfiguration();
                 }
             }
+
+            if (jsonAsText == string.Empty)
+                appLog.Fatal("Loading config from JSON file failed for unkwnown reason!");
 
             config = JsonUtility.FromJson<ParadigmConfiguration>(jsonAsText);
         }
@@ -534,5 +602,8 @@ namespace Assets.Paradigms.SearchAndFind
         
         [SerializeField]
         public float TimeToDisplayObjectWhenFoundInSeconds = 2;
+
+        [SerializeField]
+        public float offsetToTeleportation = 2;
     }
 }

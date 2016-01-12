@@ -23,6 +23,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         }
 
         private bool monoscopicRendering = false;
+        private float originalIpd = 0;
 
         public void Recenter()
         {
@@ -41,6 +42,18 @@ namespace Assets.BeMoBI.Scripts.Controls
                     OnMonoscopicRenderingChanged();
                 }
             }
+        }
+
+        public void ChangeIPDValue(float value)
+        {
+            originalIpd = OVRPlugin.ipd;
+
+            OVRPlugin.ipd = value;
+        }
+
+        public void RestoreOriginalIpd()
+        {
+            OVRPlugin.ipd = originalIpd;
         }
 
         private void OnMonoscopicRenderingChanged()

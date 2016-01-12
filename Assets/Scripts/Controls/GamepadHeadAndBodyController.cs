@@ -77,7 +77,7 @@ namespace Assets.BeMoBI.Scripts.Controls
             float xRot = head_raw_X * X_Sensitivity;
             float yRot = head_raw_Y * Y_Sensitivity;
 
-            headTargetRotation *= Quaternion.Euler(yRot, -xRot, 0f);
+            headTargetRotation *= Quaternion.Euler(yRot, xRot, 0f);
 
             if (clampVerticalRotation)
                 headTargetRotation = InputUtils.ClampRotationAroundXAxis(headTargetRotation, MinimumX, MaximumX);

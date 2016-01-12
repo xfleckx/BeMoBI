@@ -47,12 +47,16 @@ namespace Assets.Paradigms.SearchAndFind
             
             var availableMazes = mazeInstances.Count;
 
+
             if (availableMazes > availableCategories)
                 mazesToUse = availableCategories;
             else
                 mazesToUse = availableMazes;
 
+
             CheckIfEnoughPathsAreAvailable();
+
+            CheckIfEnoughObjectsAreAvailable();
         }
 
         #region Generator logic - bad code here... needs to be encapsulated
@@ -64,28 +68,26 @@ namespace Assets.Paradigms.SearchAndFind
         // use stack for asserting that every category will be used once
         private Stack<Category> availableCategories;
 
-        public object IsAbleToGenerate {
+        public bool IsAbleToGenerate {
             get
             {
                 return CheckGenerationConstraints();
             }
         }
 
-        public object CheckGenerationConstraints()
+        public bool CheckGenerationConstraints()
         {
-            bool result = false;
-
-            result = objectPool != null && result;
-            result = mazeInstances.Count >= mazesToUse && result;
+            var result = objectPool != null;
+            result = mazeInstances.Count >= mazesToUse && (mazesToUse > 0) && result;
             result = enoughPathsAreAvailable && result;
             result = enoughObjectsAreAvailable && result;
             
-            return false;
+            return result;
         }
 
         public void CheckIfEnoughPathsAreAvailable()
         {
-            atLeastAvailblePathsPerMaze = 0;
+            var atLeastAvailablePaths = 0;
 
             foreach (var maze in mazeInstances)
             {
@@ -93,20 +95,28 @@ namespace Assets.Paradigms.SearchAndFind
 
                 var availablePathsAtThisMaze = pathController.GetAvailablePathIDs().Length;
 
-                if (atLeastAvailblePathsPerMaze == 0 || atLeastAvailblePathsPerMaze > availablePathsAtThisMaze)
+                if (atLeastAvailablePaths == 0)
                 {
-                    enoughPathsAreAvailable = false;
-                    atLeastAvailblePathsPerMaze = availablePathsAtThisMaze;
+                    atLeastAvailablePaths = availablePathsAtThisMaze;
                 }
-                else
+
+                if (availablePathsAtThisMaze < atLeastAvailablePaths)
                 {
-                    enoughPathsAreAvailable = true;
-                    pathsToUsePerMaze = atLeastAvailblePathsPerMaze;
+                    atLeastAvailablePaths = availablePathsAtThisMaze;
                 }
+            }
+
+            atLeastAvailblePathsPerMaze = atLeastAvailablePaths;
+
+            if (pathsToUsePerMaze > atLeastAvailblePathsPerMaze)
+                enoughPathsAreAvailable = false;
+            else
+            {
+                enoughPathsAreAvailable = true;
             }
         }
 
-        public bool CheckIfEnoughObjectsAreAvailable()
+        public void CheckIfEnoughObjectsAreAvailable()
         {
             var atLeastAvailableObjectsPerCategory = 0;
 
@@ -117,12 +127,17 @@ namespace Assets.Paradigms.SearchAndFind
                 if (atLeastAvailableObjectsPerCategory == 0 || atLeastAvailableObjectsPerCategory > availableObjectsFromThisCategory) { 
                     atLeastAvailableObjectsPerCategory = availableObjectsFromThisCategory;
                 }
-
             }
 
-            // TODO here
+            // for the case that categories should be used exclusively
+            if(atLeastAvailableObjectsPerCategory >= pathsToUsePerMaze)
+            {
+                enoughObjectsAreAvailable = true;
+                return;
+            }
 
-            return true;
+            Debug.Log(string.Format("Max {0} objects available but expected {1}", atLeastAvailableObjectsPerCategory, pathsToUsePerMaze));
+            enoughObjectsAreAvailable = false;
         }
 
         public ParadigmInstanceDefinition Generate()

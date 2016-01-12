@@ -25,16 +25,7 @@ namespace Assets.Paradigms.SearchAndFind
     
     public class Trial : MonoBehaviour, ITrial
     {
-        #region Dependencies
-        public VirtualRealityManager VRManager;
-
-        public ObjectPool objectPool;
-
-        public IMarkerStream marker;
-
-        public HUD_Instruction hud;
-
-        public HUD_DEBUG debug;
+        #region Dependencies 
 
         public ParadigmController paradigm;
 
@@ -52,8 +43,6 @@ namespace Assets.Paradigms.SearchAndFind
         public string currentMazeName = string.Empty;
 
         public CustomGlobalFog fog;
-
-        public ActionWaypoint TrialEndPoint { get; internal set; }
 
         #endregion
 
@@ -84,7 +73,7 @@ namespace Assets.Paradigms.SearchAndFind
         {
             UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
             
-            var expectedWorld = VRManager.ChangeWorld(mazeName);
+            var expectedWorld = paradigm.VRManager.ChangeWorld(mazeName);
 
             if (expectedWorld != null)
             {
@@ -150,7 +139,7 @@ namespace Assets.Paradigms.SearchAndFind
 
         private void GatherObjectFromObjectPool(string categoryName, string objectName)
         {
-            var objectCategory = objectPool.Categories.Where(c => c.name.Equals(categoryName)).FirstOrDefault();
+            var objectCategory = paradigm.objectPool.Categories.Where(c => c.name.Equals(categoryName)).FirstOrDefault();
 
             if(objectCategory == null)
                 throw new ArgumentException(string.Format("Expected category \"{0}\" not found!", categoryName));
@@ -310,9 +299,9 @@ namespace Assets.Paradigms.SearchAndFind
         {
             this.isReady = true; // Trial starts when Subject enters Startpoint
 
-            hud.Clear();
+            paradigm.hud.Clear();
 
-            hud.ShowInstruction("Please enter the pink start point to start the trial!", "Task");
+            paradigm.hud.ShowInstruction("Please enter the pink start point to start the trial!", "Task");
         }
 
         private void OnStartPointEntered(Collider c)
@@ -341,7 +330,7 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 OnBeforeStart();
 
-                marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
+                paradigm.marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
                 
                 stopWatch.Start();
 
@@ -354,7 +343,7 @@ namespace Assets.Paradigms.SearchAndFind
         {
             objectToRemember.SetActive(true);
 
-            marker.Write(MarkerPattern.FormatDisplayObject(objectName, categoryName));
+            paradigm.marker.Write(MarkerPattern.FormatDisplayObject(objectName, categoryName));
 
             StartCoroutine(
                 DisplayObjectAtStartFor(
@@ -368,7 +357,7 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 paradigm.startingPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
-                hud.Clear();
+                paradigm.hud.Clear();
             }
         }
 
@@ -379,7 +368,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (currentTrialState == Internal_Trial_State.Returning)
             {
-                marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
+                paradigm.marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
 
                 paradigm.startingPoint.gameObject.SetActive(true);
 
@@ -387,7 +376,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                 waypoint.HideInfoText();
 
-                hud.ShowInstruction("Turn and go back to Start point for the next trial!","Task:");
+                paradigm.hud.ShowInstruction("Turn and go back to Start point for the next trial!","Task:");
 
                 OnFinished(stopWatch.Elapsed);
             }
@@ -414,9 +403,9 @@ namespace Assets.Paradigms.SearchAndFind
                         currentPathElement = path.PathAsLinkedList.First;
 
                         // special case entering the maze
-                        marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+                        paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
 
-                        hud.Clear();
+                        paradigm.hud.Clear();
                     }
                     else
                     {
@@ -430,35 +419,48 @@ namespace Assets.Paradigms.SearchAndFind
                     {
                         if( currentTrialState == Internal_Trial_State.Searching) {
 
-                            marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+                            paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
 
                             hidingSpotInstance.Reveal();
 
-                            marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
+                            paradigm.marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
 
-                            hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
-
-                            TrialEndPoint.gameObject.SetActive(true);
+                            paradigm.TrialEndPoint.gameObject.SetActive(true);
 
                             currentTrialState = Internal_Trial_State.Returning;
 
-                            path.InvertPath();
-                        
-                            currentPathElement = path.PathAsLinkedList.First;
+
+                            if (paradigm.config.useTeleportation) {
+
+                                paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
+
+                                StartCoroutine(BeginTeleportation());
+
+                            }
+                            else
+                            {
+
+                                paradigm.hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
+
+                                path.InvertPath();
+
+                                currentPathElement = path.PathAsLinkedList.First;
+                            }
+
                         }
                     } // A correct turn is defined as entering the last correct or the next element of the path
                     else if (currentPathElement.Value.Unit.Equals(unit) || currentPathElement.Next.Value.Unit.Equals(unit))
                     {
                         // avoid write correct marker duplication
-                        if (!lastTurnWasIncorrect) { 
+                        if (!lastTurnWasIncorrect) {
                             // Don't get confused here! From the current state of the trial we are actual one element behind!
-                            marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
+                            paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
                         }
 
                         lastTurnWasIncorrect = false;
 
-                        if (hud.IsRendering)
-                            hud.Clear();
+                        if (paradigm.hud.IsRendering)
+                            paradigm.hud.Clear();
                         
                         // now change the current state of the trial for the next unit event!
                         currentPathElement = currentPathElement.Next;
@@ -467,15 +469,22 @@ namespace Assets.Paradigms.SearchAndFind
                     {
                         lastTurnWasIncorrect = true;
 
-                        marker.Write(MarkerPattern.FormatIncorrectTurn(unit, currentPathElement.Value, currentPathElement.Next.Value));
+                        paradigm.marker.Write(MarkerPattern.FormatIncorrectTurn(unit, currentPathElement.Value, currentPathElement.Next.Value));
 
-                        hud.ShowInstruction("You`re wrong! Please turn!", "Task");
+                        paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Task");
                     }
                 }
             }
 
         }
         
+        IEnumerator BeginTeleportation()
+        {
+            yield return new WaitForSeconds(paradigm.config.offsetToTeleportation);
+            paradigm.teleporter.Teleport();
+            yield return null;
+        }
+
         /// <summary>
         /// Warning using this could cause inconsistent behaviour within the paradigm!
         /// In most cases, the trial should end itself!

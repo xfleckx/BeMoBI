@@ -20,9 +20,9 @@ namespace Assets.Paradigms.SearchAndFind
 
         protected override void ShowObject()
         {
-            hud.Clear();
+            paradigm.hud.Clear();
 
-            hud.ShowInstruction("Remember the given path for this object!");
+            paradigm.hud.ShowInstruction("Remember the given path for this object!");
 
             base.ShowObject();
         }

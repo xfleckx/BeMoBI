@@ -40,7 +40,7 @@ namespace Assets.BeMoBI.Scripts.Controls
             body = subject.Body;
             var head = subject.Head;
             m_CharacterTargetRot = body.transform.rotation;
-            m_CameraTargetRot = head.transform.rotation;
+           // m_CameraTargetRot = head.transform.localRotation;
         }
 
         public void ApplyMovement(Transform head)
@@ -48,33 +48,34 @@ namespace Assets.BeMoBI.Scripts.Controls
             float yRot = Input.GetAxis("Mouse X") * X_Sensitivity;
             float xRot = Input.GetAxis("Mouse Y") * Y_Sensitivity;
 
-            m_CharacterTargetRot *= Quaternion.Euler(0f, 0, yRot);
+            //m_CharacterTargetRot = body.transform.rotation;
+            //m_CameraTargetRot = head.transform.localRotation;
 
-            m_CameraTargetRot *= Quaternion.Euler(0, -xRot, 0f);
+            m_CharacterTargetRot *= Quaternion.Euler(0, yRot, 0);
+
+            m_CameraTargetRot *= Quaternion.Euler(-xRot, 0, 0f);
 
             if (clampVerticalRotation)
-                m_CameraTargetRot = InputUtils.ClampRotationAroundXAxis(m_CameraTargetRot, 90, 90);
+                m_CameraTargetRot = InputUtils.ClampRotationAroundXAxis(m_CameraTargetRot, -90, 90);
 
             if (clampHorizontalRotation)
-                m_CharacterTargetRot = InputUtils.ClampRotationAroundYAxis(m_CharacterTargetRot, 90, 90);
+                m_CharacterTargetRot = InputUtils.ClampRotationAroundYAxis(m_CharacterTargetRot, -90, 90);
 
 
             if (smooth)
             {
-                body.transform.rotation = Quaternion.Slerp(body.transform.rotation, m_CharacterTargetRot,
+
+                head.localRotation *= Quaternion.Slerp(head.localRotation, m_CameraTargetRot,
                     smoothTime * Time.deltaTime);
 
-                head.rotation = Quaternion.Slerp(head.rotation, m_CameraTargetRot,
+                body.transform.rotation = Quaternion.Slerp(body.transform.rotation, m_CharacterTargetRot,
                     smoothTime * Time.deltaTime);
             }
             else
             {
+                head.localRotation *= m_CameraTargetRot;
                 body.transform.rotation = m_CharacterTargetRot;
-                head.rotation = m_CameraTargetRot;
             }
         }
-
-
-
     }
 }
