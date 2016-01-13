@@ -522,7 +522,8 @@ namespace Assets.Paradigms.SearchAndFind
         {
             currentPathElement = null;
 
-            path.InvertPath();
+            if(path.Inverse)
+                path.InvertPath();
 
             if(mazeInstance != null) { 
                 var lineRenderer = mazeInstance.GetComponent<LineRenderer>();
