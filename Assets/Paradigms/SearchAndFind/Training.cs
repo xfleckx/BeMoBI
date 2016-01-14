@@ -18,13 +18,13 @@ namespace Assets.Paradigms.SearchAndFind
 
         }
 
-        protected override void ShowObject()
+        protected override void ShowObjectAtStart()
         {
             paradigm.hud.Clear();
 
             paradigm.hud.ShowInstruction("Remember the given path for this object!");
 
-            base.ShowObject();
+            base.ShowObjectAtStart();
         }
     }
 }

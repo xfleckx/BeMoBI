@@ -19,7 +19,9 @@ namespace Assets.Paradigms.SearchAndFind
 
         private InstanceDefinitionFactory factory;
 
-        private bool previewConfig;
+        public String SubjectID = "TestSubject";
+
+        private bool previewDefinition;
         
         private ParadigmInstanceDefinition lastGeneratedInstanceConfig;
 
@@ -36,16 +38,25 @@ namespace Assets.Paradigms.SearchAndFind
          
         void OnGUI()
         {
-            if (factory == null) { 
-                factory = new InstanceDefinitionFactory();
-                factory.EstimateConfigBasedOnAvailableElements();
-            }
-
             EditorGUILayout.BeginVertical();
 
             if (instance == null && (instance = TryGetInstance()) == null) { 
                 EditorGUILayout.HelpBox("No Paradigm Controller available! \n Open another scene or create a paradigm controller instance!", MessageType.Info);
                 return;
+            }
+
+            if (instance != null && instance.config == null)
+            {
+                EditorGUILayout.HelpBox("No Configuration at the paradigm controller available! \n Loard or create one!", MessageType.Info);
+                return;
+            }
+
+
+            if (factory == null)
+            {
+                factory = new InstanceDefinitionFactory();
+                factory.config = instance.config;
+                factory.EstimateConfigBasedOnAvailableElements();
             }
 
             EditorGUILayout.BeginHorizontal(GUILayout.Width(400)); 
@@ -80,27 +91,34 @@ namespace Assets.Paradigms.SearchAndFind
             EditorGUILayout.BeginVertical();
 
             GUILayout.Label("Subject ID:");
-            factory.subject_ID = EditorGUILayout.TextField(factory.subject_ID);
+            SubjectID = EditorGUILayout.TextField(SubjectID);
 
             EditorGUILayout.EndVertical();
         }
 
         private void InjectCmdArgs()
         {
-            instance.SubjectID = factory.subject_ID;
+            instance.SubjectID = SubjectID;
         }
 
         private void RenderConfigurationGUI()
         {
             GUILayout.Label("Configuration", EditorStyles.largeLabel);
 
-            factory.useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
-                new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
-                factory.useExactOnCategoryPerMaze);
+            if(factory.config == null)
+            {
+                EditorGUILayout.HelpBox("Please Load or generate a Paradigm configuration first!", MessageType.Info);
 
-            factory.groupByMazes = EditorGUILayout.Toggle(
+                return;
+            }
+
+            factory.config.useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
+                new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
+                factory.config.useExactOnCategoryPerMaze);
+
+            factory.config.groupByMazes = EditorGUILayout.Toggle(
                 new GUIContent("Group by Mazes and Paths", "Trials are set as tuples of training and experiment trials per Maze and Path"),
-                factory.groupByMazes);
+                factory.config.groupByMazes);
 
             if (lastGeneratedInstanceConfig == null)
                 EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
@@ -108,44 +126,44 @@ namespace Assets.Paradigms.SearchAndFind
             if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
                 factory.EstimateConfigBasedOnAvailableElements();
 
-            factory.mazesToUse = EditorGUILayout.IntField("Mazes", factory.mazesToUse);
+            factory.config.mazesToUse = EditorGUILayout.IntField("Mazes", factory.config.mazesToUse);
 
             factory.atLeastAvailblePathsPerMaze = EditorGUILayout.IntField("Common available paths", factory.atLeastAvailblePathsPerMaze);
 
-            factory.pathsToUsePerMaze = EditorGUILayout.IntField("Use Paths per Maze", factory.pathsToUsePerMaze);
+            factory.config.pathsToUsePerMaze = EditorGUILayout.IntField("Use Paths per Maze", factory.config.pathsToUsePerMaze);
 
             factory.CheckIfEnoughPathsAreAvailable();
 
-            if (!factory.useExactOnCategoryPerMaze)
+            if (!factory.config.useExactOnCategoryPerMaze)
             {
-                factory.categoriesPerMaze = EditorGUILayout.IntField(
+                factory.config.categoriesPerMaze = EditorGUILayout.IntField(
                     new GUIContent("Categories per Maze", "Declares the amount of categories \n from which objects are choosen."),
-                    factory.categoriesPerMaze);
+                    factory.config.categoriesPerMaze);
             }
 
             EditorGUILayout.HelpBox("Remember that only one path per maze per object is allowed", MessageType.Info);
 
             EditorGUILayout.LabelField("Count of object visitations");
 
-            factory.objectVisitationsInTraining = EditorGUILayout.IntField("Training", factory.objectVisitationsInTraining);
-            factory.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", factory.objectVisitationsInExperiment);
+            factory.config.objectVisitationsInTraining = EditorGUILayout.IntField("Training", factory.config.objectVisitationsInTraining);
+            factory.config.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", factory.config.objectVisitationsInExperiment);
 
-            if (factory.IsAbleToGenerate && GUILayout.Button("Generate Instance Config", GUILayout.Height(35)))
+            if (factory.IsAbleToGenerate && GUILayout.Button("Generate Instance Definition", GUILayout.Height(35)))
             {
                 lastGeneratedInstanceConfig = factory.Generate();
                 lastGeneratedInstanceConfig.Configuration = instance.config;
             }
 
-            lastGeneratedInstanceConfig = EditorGUILayout.ObjectField("Last Generated Config", lastGeneratedInstanceConfig, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
+            lastGeneratedInstanceConfig = EditorGUILayout.ObjectField("Last Generated Definion", lastGeneratedInstanceConfig, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
 
             if (lastGeneratedInstanceConfig == null)
                 return;
 
-            previewConfig = EditorGUILayout.Toggle("Show definition", previewConfig);
+            previewDefinition = EditorGUILayout.Toggle("Show definition", previewDefinition);
 
             if (GUILayout.Button("Save Instance Definition"))
             {
-                var fileNameWoExt = string.Format("Assets/Paradigms/SearchAndFind/Resources/VP_{0}_InstanceDefinition", factory.subject_ID);
+                var fileNameWoExt = string.Format("Assets/Paradigms/SearchAndFind/Resources/VP_{0}_InstanceDefinition", instance.SubjectID);
 
                 var jsonString = JsonUtility.ToJson(lastGeneratedInstanceConfig, true);
 
@@ -166,9 +184,9 @@ namespace Assets.Paradigms.SearchAndFind
             if (lastGeneratedInstanceConfig == null)
                 return;
 
-            EditorGUILayout.LabelField("Preview;");
+            EditorGUILayout.LabelField("Preview:");
 
-            if (lastGeneratedInstanceConfig.Trials != null && previewConfig)
+            if (lastGeneratedInstanceConfig.Trials != null && previewDefinition)
             {
                 configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
                 string lastMazeName = string.Empty;

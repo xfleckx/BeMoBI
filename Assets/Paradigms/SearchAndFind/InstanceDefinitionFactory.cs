@@ -8,23 +8,9 @@ namespace Assets.Paradigms.SearchAndFind
 {
     public class InstanceDefinitionFactory
     {
-        [SerializeField]
-        public int categoriesPerMaze = 1;
-        [SerializeField]
-        public int mazesToUse;
-        [SerializeField]
-        public int pathsToUsePerMaze; // corresponds with the available objects - one distinct object per path per maze
-        [SerializeField]
-        public int objectVisitationsInTraining = 1; // how often an object should be visisted while trainings trial
-        [SerializeField]
-        public int objectVisitationsInExperiment = 1; // " while Experiment
-        [SerializeField]
-        public bool useExactOnCategoryPerMaze = true;
-        [SerializeField]
-        public bool groupByMazes = true;
-        
-        [SerializeField]
-        public string subject_ID = "TestSubject";
+        public ParadigmConfiguration config;
+
+        public string SubjectID = String.Empty;
 
         public InstanceDefinitionFactory()
         {
@@ -49,9 +35,9 @@ namespace Assets.Paradigms.SearchAndFind
 
 
             if (availableMazes > availableCategories)
-                mazesToUse = availableCategories;
+                config.mazesToUse = availableCategories;
             else
-                mazesToUse = availableMazes;
+                config.mazesToUse = availableMazes;
 
 
             CheckIfEnoughPathsAreAvailable();
@@ -78,7 +64,7 @@ namespace Assets.Paradigms.SearchAndFind
         public bool CheckGenerationConstraints()
         {
             var result = objectPool != null;
-            result = mazeInstances.Count >= mazesToUse && (mazesToUse > 0) && result;
+            result = mazeInstances.Count >= config.mazesToUse && (config.mazesToUse > 0) && result;
             result = enoughPathsAreAvailable && result;
             result = enoughObjectsAreAvailable && result;
             
@@ -108,7 +94,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             atLeastAvailblePathsPerMaze = atLeastAvailablePaths;
 
-            if (pathsToUsePerMaze > atLeastAvailblePathsPerMaze)
+            if (config.pathsToUsePerMaze > atLeastAvailblePathsPerMaze)
                 enoughPathsAreAvailable = false;
             else
             {
@@ -130,13 +116,13 @@ namespace Assets.Paradigms.SearchAndFind
             }
 
             // for the case that categories should be used exclusively
-            if(atLeastAvailableObjectsPerCategory >= pathsToUsePerMaze)
+            if(atLeastAvailableObjectsPerCategory >= config.pathsToUsePerMaze)
             {
                 enoughObjectsAreAvailable = true;
                 return;
             }
 
-            Debug.Log(string.Format("Max {0} objects available but expected {1}", atLeastAvailableObjectsPerCategory, pathsToUsePerMaze));
+            Debug.Log(string.Format("Max {0} objects available but expected {1}", atLeastAvailableObjectsPerCategory, config.pathsToUsePerMaze));
             enoughObjectsAreAvailable = false;
         }
 
@@ -150,7 +136,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             availableCategories = new Stack<Category>(shuffledCategories);
 
-            for (int i = 0; i < mazesToUse; i++)
+            for (int i = 0; i < config.mazesToUse; i++)
             {
                 var maze = mazeInstances[i];
                 ChooseCategoryFor(maze);
@@ -176,8 +162,8 @@ namespace Assets.Paradigms.SearchAndFind
             #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
 
             var newConfig = UnityEngine.ScriptableObject.CreateInstance<ParadigmInstanceDefinition>();
-            newConfig.Subject = subject_ID;
-            newConfig.name = string.Format("VP_Def_{0}", subject_ID);
+            newConfig.Subject = SubjectID;
+            newConfig.name = string.Format("VP_Def_{0}", SubjectID);
 
             newConfig.Trials = new List<TrialDefinition>();
 
@@ -186,7 +172,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             foreach (var trialDefinition in possibleTrials)
             {
-                for (int i = 0; i < objectVisitationsInTraining; i++)
+                for (int i = 0; i < config.objectVisitationsInTraining; i++)
                 {
                     var newTrainingsTrialDefinition = new TrialDefinition()
                     {
@@ -200,7 +186,7 @@ namespace Assets.Paradigms.SearchAndFind
                     trainingTrials.Add(newTrainingsTrialDefinition);
                 }
 
-                for (int i = 0; i < objectVisitationsInExperiment; i++)
+                for (int i = 0; i < config.objectVisitationsInExperiment; i++)
                 {
                     var newExperimentTrialDefinition = new TrialDefinition()
                     {
@@ -218,7 +204,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             #endregion
 
-            if (groupByMazes)
+            if (config.groupByMazes)
             {
 
                 var tempAllTrials = new List<TrialDefinition>();
@@ -269,7 +255,7 @@ namespace Assets.Paradigms.SearchAndFind
             var resultConfigs = new List<TrialConfig>();
 
             // be aware that pathsToUsePerMaze must be up-to-date
-            for (int i = 0; i < pathsToUsePerMaze; i++)
+            for (int i = 0; i < config.pathsToUsePerMaze; i++)
             {
                 var objectFromCategory = category.SampleWithoutReplacement();
                 var path = paths[i];

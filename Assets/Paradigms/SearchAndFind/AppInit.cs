@@ -6,18 +6,34 @@ using NLog;
 using NLog.Config;
 using Debug = UnityEngine.Debug;
 using CommandLine;
+using System.IO;
 
 public class AppInit : MonoBehaviour {
 
     NLog.Logger log = NLog.LogManager.GetLogger("App");
 
-	// Use this for initialization
-	void Start () {
+    public const string DEFINTION_DIR_NAME = "Definitions";
+    
+    public DirectoryInfo DirectoryForInstanceDefinitions;
+
+    // Use this for initialization
+    void Start () {
+
+        var pathToInstanceDefinitions = Application.dataPath + @"\" + DEFINTION_DIR_NAME;
+
+        if (!Directory.Exists(pathToInstanceDefinitions))
+        {
+            DirectoryForInstanceDefinitions = Directory.CreateDirectory(pathToInstanceDefinitions);
+        }
+        else
+        {
+            DirectoryForInstanceDefinitions = new DirectoryInfo(pathToInstanceDefinitions);
+        }
 
         var args = Environment.GetCommandLineArgs();
 
         options = new StartUpOptions();
-
+        
         hasOptions = Parser.Default.ParseArguments( args, options );
 
         var stopWatch = new Stopwatch();

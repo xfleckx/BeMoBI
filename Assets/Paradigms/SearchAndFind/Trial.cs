@@ -334,12 +334,12 @@ namespace Assets.Paradigms.SearchAndFind
                 
                 stopWatch.Start();
 
-                ShowObject();
+                ShowObjectAtStart();
 
             }
         }
 
-        protected virtual void ShowObject()
+        protected virtual void ShowObjectAtStart()
         {
             objectToRemember.SetActive(true);
 
@@ -433,7 +433,7 @@ namespace Assets.Paradigms.SearchAndFind
                             if (paradigm.config.useTeleportation) {
 
                                 paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
-
+                                
                                 StartCoroutine(BeginTeleportation());
 
                             }
@@ -481,7 +481,9 @@ namespace Assets.Paradigms.SearchAndFind
         IEnumerator BeginTeleportation()
         {
             yield return new WaitForSeconds(paradigm.config.offsetToTeleportation);
+
             paradigm.teleporter.Teleport();
+
             yield return null;
         }
 
@@ -506,6 +508,8 @@ namespace Assets.Paradigms.SearchAndFind
         public event Action<Trial, TrialResult> Finished;
         protected void OnFinished(TimeSpan trialDuration)
         {
+            UnityEngine.Debug.Log("Trial report finished");
+
             if (Finished != null)
                 Finished(this, new TrialResult(trialDuration));
         }

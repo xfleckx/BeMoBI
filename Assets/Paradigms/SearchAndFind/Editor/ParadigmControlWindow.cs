@@ -149,9 +149,12 @@ namespace Assets.Paradigms.SearchAndFind
             subject_ID = EditorGUILayout.TextField(subject_ID);
             
             GUILayout.Label("Run definition:");
+            
             instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
 
-            instance.config.writeStatistics =  GUILayout.Toggle(instance.config.writeStatistics, "Write statistics?");
+            if (instance.config != null) { 
+                instance.config.writeStatistics =  GUILayout.Toggle(instance.config.writeStatistics, "Write statistics?");
+            }
 
             EditorGUILayout.EndVertical();
         }

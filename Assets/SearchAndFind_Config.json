@@ -1,0 +1,15 @@
+{
+    "useTeleportation": false,
+    "writeStatistics": false,
+    "ifNoInstanceDefinitionCreateOne": false,
+    "TimeToDisplayObjectToRememberInSeconds": 3.0,
+    "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+    "offsetToTeleportation": 2.0,
+    "categoriesPerMaze": 1,
+    "mazesToUse": 0,
+    "pathsToUsePerMaze": 0,
+    "objectVisitationsInTraining": 1,
+    "objectVisitationsInExperiment": 1,
+    "useExactOnCategoryPerMaze": true,
+    "groupByMazes": true
+}

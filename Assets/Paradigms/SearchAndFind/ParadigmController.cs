@@ -21,6 +21,8 @@ namespace Assets.Paradigms.SearchAndFind
     [RequireComponent(typeof(LSLMarkerStream))]
     public class ParadigmController : MonoBehaviour
     {
+        public const string STD_CONFIG_NAME = "SearchAndFind_Config.json";
+        
         private const string COND_MOCAP = "mocap";
         private const string COND_MOCAP_ROT = "mocap_rot";
         private const string COND_DESKTOP = "desktop";
@@ -52,6 +54,8 @@ namespace Assets.Paradigms.SearchAndFind
 
         public AppInit appInit;
 
+        public FileInfo fileToLoadedConfig;
+        
         public ParadigmConfiguration config;
 
         public ActionWaypoint TrialEndPoint;
@@ -80,69 +84,82 @@ namespace Assets.Paradigms.SearchAndFind
                 throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
         }
 
-        public void SaveConfig()
-        {
-            var configAsJson = JsonUtility.ToJson(config);
-
-            using (var streamWriter = new StreamWriter(GetPathToConfig()))
-            {
-                streamWriter.Write(configAsJson);
-            }
-
-        }
-
-        /// <summary>
-        /// Loads a predefined definition from a file
-        /// May override already loaded config!
-        /// </summary>
-        /// <param name="file"></param>
-        public void LoadInstanceDefinitionFrom(FileInfo file)
-        {
-            using (var reader = new StreamReader(file.FullName))
-            {
-                var jsonFromFile = reader.ReadToEnd();
-
-                InstanceDefinition = JsonUtility.FromJson<ParadigmInstanceDefinition>(jsonFromFile);
-
-                if (InstanceDefinition == null) { 
-                    appLog.Fatal(string.Format("Loading {0} as Instance Definition failed!", file.FullName));
-                    Application.Quit();
-                }
-            }
-        }
-
-        public string GetPathToConfig()
-        {
-            return Application.dataPath + @"\Resources\SearchAndFind_Config.json";
-        }
 
         void Start()
         {
+            First_GetTheSubjectName();
+            
+            appLog.Info("Initializing Paradigm");
 
+            Second_LoadOrGenerateAConfig();
+
+            Third_LoadInstanceDefinitionAndSupplySubjectIDAndConfig();
+
+            hud.Clear();
+
+            fading.StartFadeIn();
+        }
+
+        private void First_GetTheSubjectName()
+        {
             if (SubjectID == string.Empty)
             {
-
                 if (appInit.Options.subjectId != String.Empty)
                     SubjectID = appInit.Options.subjectId;
                 else
                     SubjectID = ParadigmUtils.GetRandomSubjectName();
             }
-
+            
             // this is enables access to var}iables used by the logging framework
             NLog.GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
 
-            appLog.Info("Initializing Paradigm");
+            appLog.Info(string.Format("Using Subject Id: {0}", SubjectID));
+        }
 
+        private void Second_LoadOrGenerateAConfig()
+        {
             if (config == null)
             {
                 appLog.Info("Load Config or create a new one!");
-                LoadConfig(true);
+
+                if (appInit.HasOptions &&
+                    appInit.Options.fileNameOfCustomConfig != String.Empty &&
+                    File.Exists(Application.dataPath + @"\" + appInit.Options.fileNameOfCustomConfig))
+                {
+                    var configFile = new FileInfo(Application.dataPath + @"\" + appInit.Options.fileNameOfCustomConfig);
+
+                    appLog.Info(string.Format("Load Config: {0}!", configFile.FullName));
+
+                    LoadConfig(configFile, true);
+                }
+                else
+                {
+                    var pathOfDefaultConfig = new FileInfo(Application.dataPath + @"\" + STD_CONFIG_NAME);
+
+                    config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
+
+                    // TODO if cmd args available use them here
+
+                    appLog.Info(string.Format("New Config created will be saved to: {0}! Reason: No config file found!", pathOfDefaultConfig.FullName));
+
+                    SaveConfig(pathOfDefaultConfig, config);
+                }
+
+            }
+            else
+            {
+                appLog.Info("Config not null!");
             }
 
+
+        }
+
+        private void Third_LoadInstanceDefinitionAndSupplySubjectIDAndConfig()
+        {
             if (InstanceDefinition == null)
             {
                 UnityEngine.Debug.Log("No instance definition found.");
-                
+
                 if (appInit.HasOptions && File.Exists(appInit.Options.fileNameOfParadigmDefinition))
                 {
                     var logMsg = string.Format("Load instance definition from {0}", appInit.Options.fileNameOfParadigmDefinition);
@@ -158,8 +175,10 @@ namespace Assets.Paradigms.SearchAndFind
                 else
                 {
                     var factory = new InstanceDefinitionFactory();
-                    
-                    //factory.categoriesPerMaze = config.
+
+                    factory.config = config;
+
+                    factory.SubjectID = SubjectID;
 
                     factory.EstimateConfigBasedOnAvailableElements();
 
@@ -175,12 +194,8 @@ namespace Assets.Paradigms.SearchAndFind
                 }
             }
 
-
-            hud.Clear();
-
-            fading.StartFadeIn();
         }
-        
+
         void Update()
         {
             if (Input.GetKey(KeyCode.F5) && !IsRunning)
@@ -373,15 +388,46 @@ namespace Assets.Paradigms.SearchAndFind
 
         #region Public interface for controlling the paradigm remotely
 
-        public void LoadConfig(bool writeNewWhenNotFound)
+        public void SaveConfig(FileInfo pathToConfig, ParadigmConfiguration config)
         {
-            var expectedConfig = GetPathToConfig();
+            var configAsJson = JsonUtility.ToJson(config, true);
+            
+            using (var streamWriter = new StreamWriter(pathToConfig.FullName))
+            {
+                streamWriter.Write(configAsJson);
+            }
 
+            appLog.Info(string.Format("Config has been saved to: {0}!", pathToConfig.FullName));
+        }
+
+        /// <summary>
+        /// Loads a predefined definition from a file
+        /// May override already loaded config!
+        /// </summary>
+        /// <param name="file"></param>
+        public void LoadInstanceDefinitionFrom(FileInfo file)
+        {
+            using (var reader = new StreamReader(file.FullName))
+            {
+                var jsonFromFile = reader.ReadToEnd();
+
+                InstanceDefinition = JsonUtility.FromJson<ParadigmInstanceDefinition>(jsonFromFile);
+
+                if (InstanceDefinition == null)
+                {
+                    appLog.Fatal(string.Format("Loading {0} as Instance Definition failed!", file.FullName));
+                    Application.Quit();
+                }
+            }
+        }
+        
+        public void LoadConfig(FileInfo expectedConfig, bool writeNewWhenNotFound)
+        {
             string jsonAsText = String.Empty;
 
             try
             { 
-                using (var fileStream = new StreamReader(expectedConfig))
+                using (var fileStream = new StreamReader(expectedConfig.FullName))
                 {
                     jsonAsText = fileStream.ReadToEnd();
                 }
@@ -389,7 +435,7 @@ namespace Assets.Paradigms.SearchAndFind
             catch (FileNotFoundException)
             {
                 Debug.Log("No Config found");
-                appLog.Error(string.Format("No config file found at {0}! Using default values and write new config!", GetPathToConfig()));
+                appLog.Error(string.Format("No config file found at {0}! Using default values and write new config!", expectedConfig.FullName));
 
                 if (writeNewWhenNotFound) { 
                     config = new ParadigmConfiguration();
@@ -586,7 +632,7 @@ namespace Assets.Paradigms.SearchAndFind
     }
 
     [Serializable]
-    public class ParadigmConfiguration
+    public class ParadigmConfiguration : ScriptableObject
     {
         [SerializeField]
         public bool useTeleportation = false;
@@ -605,5 +651,27 @@ namespace Assets.Paradigms.SearchAndFind
 
         [SerializeField]
         public float offsetToTeleportation = 2;
+
+        [SerializeField]
+        public int categoriesPerMaze = 1;
+
+        [SerializeField]
+        public int mazesToUse;
+
+        [SerializeField]
+        public int pathsToUsePerMaze; // corresponds with the available objects - one distinct object per path per maze
+
+        [SerializeField]
+        public int objectVisitationsInTraining = 1; // how often an object should be visisted while trainings trial
+
+        [SerializeField]
+        public int objectVisitationsInExperiment = 1; // " while Experiment
+
+        [SerializeField]
+        public bool useExactOnCategoryPerMaze = true;
+
+        [SerializeField]
+        public bool groupByMazes = true;
+        
     }
 }
