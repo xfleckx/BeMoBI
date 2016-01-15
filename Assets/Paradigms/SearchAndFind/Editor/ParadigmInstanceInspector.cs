@@ -15,7 +15,7 @@ namespace Assets.Paradigms.SearchAndFind
         private ParadigmController instance;
         private ParadigmControlWindow controlWindow;
         private List<ParadigmInstanceDefinition> availableDefinitions;
-
+        private string configFilePathToLoad = string.Empty;
         private string configName = string.Empty;
 
         private bool showDependencies = false;
@@ -40,12 +40,14 @@ namespace Assets.Paradigms.SearchAndFind
                 controlWindow.Show();
             }
 
-            if(instance.config == null)
+            if (instance.config == null)
             {
                 EditorGUILayout.HelpBox("To Generate Instance definitions please load or generate a paradigm config!", MessageType.Info);
-            }else
+            }
+            else
             {
-                if(GUILayout.Button("Open Configuration Window", GUILayout.Height(30))) { 
+                if (GUILayout.Button("Open Configuration Window", GUILayout.Height(30)))
+                {
 
                     var window = EditorWindow.GetWindow<ConfigurationControl>();
 
@@ -53,7 +55,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                     window.Show();
                 }
-            } 
+            }
 
 
             if (GUILayout.Button("Lookup Instance definitions"))
@@ -65,7 +67,8 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 foreach (var item in availableDefinitions)
                 {
-                    if (GUILayout.Button(item.name)) {
+                    if (GUILayout.Button(item.name))
+                    {
 
                         instance.InstanceDefinition = item;
                     }
@@ -83,7 +86,24 @@ namespace Assets.Paradigms.SearchAndFind
 
             EditorGUILayout.LabelField("Path to Config");
 
-            var pathToConfigFile = Application.dataPath + @"\" + configName + ".json";
+            var pathToConfigFile = Application.dataPath + @"/" + configName + ".json";
+
+            EditorGUILayout.BeginVertical();
+
+
+            configFilePathToLoad = EditorGUILayout.TextField(configFilePathToLoad);
+
+            if (GUILayout.Button("Load"))
+            {
+                configFilePathToLoad = EditorUtility.OpenFilePanel("Load Config", Application.dataPath, "json");
+
+                instance.LoadConfig(new FileInfo(configFilePathToLoad), false);
+
+                configName = Path.GetFileNameWithoutExtension(new FileInfo(configFilePathToLoad).Name);
+
+            }
+
+            EditorGUILayout.EndVertical();
 
             EditorGUILayout.LabelField(pathToConfigFile);
 
@@ -107,8 +127,9 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 instance.config = CreateInstance<ParadigmConfiguration>();
             }
-            
-            if (instance.config != null){
+
+            if (instance.config != null)
+            {
 
                 instance.config.useTeleportation = EditorGUILayout.Toggle(new GUIContent("Use Teleportation", "Teleport the subject to the startpoint on trial finished."), instance.config.useTeleportation);
 
@@ -125,7 +146,7 @@ namespace Assets.Paradigms.SearchAndFind
             showDependencies = EditorGUILayout.Foldout(showDependencies, new GUIContent("Dependencies", "Shows all dependencies of this ParadigmController"));
 
             if (showDependencies)
-                base.OnInspectorGUI(); 
+                base.OnInspectorGUI();
 
         }
     }

@@ -438,14 +438,15 @@ namespace Assets.Paradigms.SearchAndFind
                 appLog.Error(string.Format("No config file found at {0}! Using default values and write new config!", expectedConfig.FullName));
 
                 if (writeNewWhenNotFound) { 
-                    config = new ParadigmConfiguration();
+                    config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
                 }
             }
 
             if (jsonAsText == string.Empty)
                 appLog.Fatal("Loading config from JSON file failed for unkwnown reason!");
 
-            config = JsonUtility.FromJson<ParadigmConfiguration>(jsonAsText);
+            config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
+            JsonUtility.FromJsonOverwrite(jsonAsText, config);
         }
 
         public void InjectPauseTrial()
