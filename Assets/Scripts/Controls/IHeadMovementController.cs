@@ -8,6 +8,6 @@ namespace Assets.BeMoBI.Scripts.Controls
 {
     public interface IHeadMovementController : IInputController
     {
-        void ApplyMovement(Transform head);
+        Transform Head { get; set; }
     }
 }

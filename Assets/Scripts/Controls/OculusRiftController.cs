@@ -10,6 +10,21 @@ namespace Assets.BeMoBI.Scripts.Controls
 {
     public class OculusRiftController : MonoBehaviour, IHeadMovementController
     {
+        [SerializeField]
+        private Transform head;
+        public Transform Head
+        {
+            get
+            {
+                return head;
+            }
+
+            set
+            {
+                head = value;
+            }
+        }
+
         public OVRManager ovrManager;
 
         public OVRCameraRig ovrRig;
@@ -47,7 +62,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         public float IPD {
             get { return OVRPlugin.ipd; }
         }
-
+        
         public void ChangeIPDValue(float value)
         {
             originalIpd = OVRPlugin.ipd;
@@ -76,22 +91,27 @@ namespace Assets.BeMoBI.Scripts.Controls
             ovrRig.enabled = true;
             ovrManager.enabled = true;
         }
-
+        
         void OnEnable()
         {
             ovrRig.enabled = true;
             ovrManager.enabled = true;
         }
-
-        public void ApplyMovement(Transform head)
-        {
-            // Actual Controlled by the Oculus Components!
-        }
-
+         
         void OnDisable()
         {
-            ovrRig.enabled = true;
-            ovrManager.enabled = true;
+            ovrRig.enabled = false;
+            ovrManager.enabled = false;
+        }
+
+        public void Enable()
+        {
+            enabled = true;
+        }
+
+        public void Disable()
+        {
+            enabled = false;
         }
     }
 }

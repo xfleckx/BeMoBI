@@ -1039,12 +1039,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 866232739}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &875944344 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11466292, guid: 5f5d86963667fec40a90b0572b217861,
-    type: 2}
-  m_PrefabInternal: {fileID: 2016469146}
-  m_Script: {fileID: 11500000, guid: 56d3ced531afaea45b4a1689f3740e99, type: 3}
 --- !u!1 &1029432132
 GameObject:
   m_ObjectHideFlags: 0
@@ -5816,10 +5810,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 11472998, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: accelerationCurve.m_Curve.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 426452, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_LocalPosition.x
       value: -9.09
@@ -5838,7 +5828,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 426452, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 426452, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_LocalRotation.z
@@ -5846,117 +5836,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 426452, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 426452, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 109194, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463566, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: reticle
-      value: 
-      objectReference: {fileID: 875944344}
-    - target: {fileID: 127740, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11493866, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: distanceFog
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11493866, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: useRadialDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11493866, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: heightFog
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11493866, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: height
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 11493866, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: heightDensity
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 11493866, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
+    - target: {fileID: 11430856, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11472998, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: accelerationCurve.m_Curve.Array.data[1].time
-      value: 0.3996049
-      objectReference: {fileID: 0}
-    - target: {fileID: 11472998, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: accelerationCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11472998, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: accelerationCurve.m_Curve.Array.data[1].value
-      value: 0.99452424
-      objectReference: {fileID: 0}
-    - target: {fileID: 11472998, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: accelerationCurve.m_Curve.Array.data[2].time
-      value: 0.99993944
-      objectReference: {fileID: 0}
-    - target: {fileID: 11472998, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: accelerationCurve.m_Curve.Array.data[2].value
-      value: 0.9959839
-      objectReference: {fileID: 0}
-    - target: {fileID: 11434564, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 1ab4740f034baf2488e984a82e190cb3,
-        type: 3}
-    - target: {fileID: 11403828, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 1ab4740f034baf2488e984a82e190cb3,
-        type: 3}
-    - target: {fileID: 11484762, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 1ab4740f034baf2488e984a82e190cb3,
-        type: 3}
-    - target: {fileID: 11447572, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: Y_Sensitivity
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2026578, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: field of view
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2026578, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2026578, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2026578, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2026578, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2026578, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: far clip plane
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463566, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: Head
-      value: 
-      objectReference: {fileID: 1112819487}
-    - target: {fileID: 11447572, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
-      propertyPath: clampHorizontalRotation
+    - target: {fileID: 11498526, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5966,7 +5857,7 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 124712, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
   m_PrefabInternal: {fileID: 2016469146}
---- !u!114 &2016469156
+--- !u!114 &2016469148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -5974,19 +5865,64 @@ MonoBehaviour:
   m_GameObject: {fileID: 2016469147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a01b26023901905499508f965c1dd5a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 45a07d22d4f58bd42bdbe814157ebd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxWalkingSpeed: 1.4
-  accelerationCurve:
+  head: {fileID: 0}
+  body: {fileID: 2016469155}
+  headRotation_X_Sensitivity: 2
+  headRotation_Y_Sensitivity: 2
+  clampVerticalRotation: 1
+  clampHorizontalRotation: 0
+  headRotationClampMinX: -90
+  headRotationClampMaxX: 90
+  headRotationClampMinY: -90
+  headRotationClampMaxY: 90
+  smooth: 0
+  smoothTime: 5
+  BodyAccelerationCurve:
     serializedVersion: 2
     m_Curve:
     - time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  BodyRotationSpeed: 40
+  RotateBodySmooth: 0
+  SmoothBodyTime: 1
+  MaxWalkingSpeed: 1.4
+  body_raw_X: 0
+  body_raw_Y: 0
+  head_raw_X: 0
+  head_raw_Y: 0
+  desiredMove: {x: 0, y: 0, z: 0}
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  headTargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceRotation: {x: 0, y: 0, z: 0, w: 1}
+  BodyRotationAccelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
       tangentMode: 10
     - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 10
+    - time: 2
       value: 1
       inSlope: 1
       outSlope: 1
@@ -5994,26 +5930,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  customHeadReference: {fileID: 0}
-  RotationSpeed: 50
-  RotateSmooth: 1
-  SmoothTime: 1
-  targetRotation: {x: 0, y: 0, z: 0, w: 0}
-  body_raw_X: 0
-  body_raw_Y: 0
-  head_raw_X: 0
-  head_raw_Y: 0
-  smooth: 0
-  smoothTime: 5
-  headTargetRotation: {x: 0, y: 0, z: 0, w: 1}
-  sourceLocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  sourceRotation: {x: 0, y: 0, z: 0, w: 1}
-  X_Sensitivity: 2
-  Y_Sensitivity: 2
-  clampVerticalRotation: 1
-  clampHorizontalRotation: 1
-  MinimumX: -30
-  MaximumX: 30
+--- !u!143 &2016469155 stripped
+CharacterController:
+  m_PrefabParentObject: {fileID: 14352012, guid: 5f5d86963667fec40a90b0572b217861,
+    type: 2}
+  m_PrefabInternal: {fileID: 2016469146}
 --- !u!1001 &2050533855
 Prefab:
   m_ObjectHideFlags: 0

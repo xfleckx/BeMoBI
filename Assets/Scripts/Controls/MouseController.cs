@@ -5,9 +5,39 @@ using System;
 namespace Assets.BeMoBI.Scripts.Controls
 {
     [RequireComponent(typeof(VRSubjectController))]
-    public class MouseController : MonoBehaviour, IHeadMovementController
+    public class MouseController : MonoBehaviour, ICombinedControl
     {
+
+        [SerializeField]
+        private Transform head;
+        public Transform Head
+        {
+            get
+            {
+                return head;
+            }
+
+            set
+            {
+                head = value;
+            }
+        }
+
+        [SerializeField]
         private CharacterController body;
+        public CharacterController Body
+        {
+            get
+            {
+                return body;
+            }
+
+            set
+            {
+                body = value;
+            }
+        }
+
 
         private Quaternion m_CharacterTargetRot = Quaternion.identity;
         private Quaternion m_CameraTargetRot = Quaternion.identity;
@@ -31,7 +61,7 @@ namespace Assets.BeMoBI.Scripts.Controls
                 return "Mouse Head Controller";
             }
         }
-
+        
 
         // Use this for initialization
         void Start()
@@ -76,6 +106,21 @@ namespace Assets.BeMoBI.Scripts.Controls
                 head.localRotation *= m_CameraTargetRot;
                 body.transform.rotation = m_CharacterTargetRot;
             }
+        }
+
+        public void ApplyMovement(CharacterController controller)
+        {
+
+        }
+
+        public void Enable()
+        {
+            enabled = true;
+        }
+
+        public void Disable()
+        {
+            enabled = false;
         }
     }
 }

@@ -29,14 +29,29 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public string Identifier { get { return "Joystick"; } }
 
+        [SerializeField]
+        private CharacterController body;
+        public CharacterController Body
+        {
+            get
+            {
+                return body;
+            }
+
+            set
+            {
+                body = value;
+            }
+        }
+        
         [HideInInspector]
         public float body_raw_X = 0f;
         [HideInInspector]
         public float body_raw_Y = 0f;
 
-        public void ApplyMovement(CharacterController character)
-        {
-            targetRotation = character.transform.rotation;
+        void Update() { 
+
+            targetRotation = body.transform.rotation;
 
             body_raw_X = Input.GetAxis(X_AXIS_NAME); // use as body rotation
 
@@ -48,15 +63,24 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             if (RotateSmooth)
             {
-                character.transform.rotation = Quaternion.Slerp(character.transform.rotation, targetRotation,
+                body.transform.rotation = Quaternion.Slerp(body.transform.rotation, targetRotation,
                     SmoothTime * Time.deltaTime);
             }
             else {
-                character.transform.rotation = targetRotation;
+                body.transform.rotation = targetRotation;
             }
 
-            character.Move(desiredMove);
+            body.Move(desiredMove);
         }
 
+        public void Enable()
+        {
+            this.enabled = true;
+        }
+
+        public void Disable()
+        {
+            this.enabled = false;
+        }
     }
 }

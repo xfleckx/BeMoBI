@@ -33,9 +33,9 @@ public class VRSubjectInspector : Editor
 
         EditorGUILayout.Space();
 
-        var availableBodyController = instance.GetComponents<IBodyMovementController>().Where(c => !(c is IHeadMovementController));
-        var availableHeadController = instance.GetComponents<IHeadMovementController>().Where(c => !(c is IBodyMovementController));
-        var availableCombinedController = instance.GetComponents<ICombinedControl>();
+        var availableBodyController = instance.GetComponents<IBodyMovementController>().Where(c => !(c is CombinedController));
+        var availableHeadController = instance.GetComponents<IHeadMovementController>().Where(c => !(c is CombinedController));
+        var availableCombinedController = instance.GetComponents<CombinedController>();
 
         EditorGUILayout.LabelField("Available Combi Controller");
 
@@ -44,12 +44,16 @@ public class VRSubjectInspector : Editor
 
         foreach (var combiController in availableCombinedController)
         {
-            if (GUILayout.Button((combiController as IHeadMovementController).Identifier))
+            var nameOfController = combiController.Identifier;
+
+            if (GUILayout.Button(nameOfController))
             {
-                instance.ChangeHeadController(combiController);
-                instance.ChangeBodyController(combiController);
+                instance.HeadController = nameOfController;
+                instance.BodyController = nameOfController;
+                instance.Change<CombinedController>(nameOfController);
             }
         }
+
         EditorGUILayout.LabelField("Available Head Controller");
 
         if (!availableHeadController.Any())
@@ -57,9 +61,12 @@ public class VRSubjectInspector : Editor
 
         foreach (var headController in availableHeadController)
         {
-            if (GUILayout.Button(headController.Identifier))
+            var nameOfController = headController.Identifier;
+
+            if (GUILayout.Button(nameOfController))
             {
-                instance.ChangeHeadController(headController);
+                instance.HeadController = nameOfController;
+                instance.Change<IHeadMovementController>(nameOfController);
             }
         }
         
@@ -70,8 +77,13 @@ public class VRSubjectInspector : Editor
 
         foreach (var bodyController in availableBodyController)
         {
-            if(GUILayout.Button(bodyController.Identifier))
-                instance.ChangeBodyController(bodyController);
+            var nameOfController = bodyController.Identifier;
+
+            if (GUILayout.Button(nameOfController))
+            {
+                instance.BodyController = nameOfController;
+                instance.Change<IBodyMovementController>(nameOfController);
+            }
         }
         
         EditorGUILayout.Space();

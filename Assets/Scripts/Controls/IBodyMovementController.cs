@@ -8,6 +8,10 @@ namespace Assets.BeMoBI.Scripts.Controls
 {
     public interface IBodyMovementController : IInputController
     {
-        void ApplyMovement(CharacterController controller);
+        CharacterController Body
+        {
+            get; set;
+        }
+        
     }
 }

@@ -168,6 +168,7 @@ GameObject:
   - 114: {fileID: 11475224}
   - 114: {fileID: 11424050}
   - 114: {fileID: 11482548}
+  - 114: {fileID: 11430856}
   m_Layer: 0
   m_Name: Subject_Fixed_HUD_Rectile
   m_TagString: Untagged
@@ -640,7 +641,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124712}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.09, y: 0, z: -0.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -737,8 +738,8 @@ Camera:
   m_GameObject: {fileID: 183998}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.667712, g: 0.77977824, b: 0.9558824, a: 0.019607844}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -746,7 +747,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 90
   orthographic: 0
   orthographic size: 5
@@ -839,7 +840,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 1ab4740f034baf2488e984a82e190cb3, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -1016,6 +1017,55 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11430856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124712}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01b26023901905499508f965c1dd5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 466054}
+  body: {fileID: 14352012}
+  RotationSpeed: 50
+  RotateSmooth: 1
+  SmoothTime: 1
+  MaxWalkingSpeed: 1.4
+  smooth: 0
+  smoothTime: 5
+  X_Sensitivity: 2
+  Y_Sensitivity: 2
+  clampVerticalRotation: 1
+  clampHorizontalRotation: 1
+  MinimumX: -30
+  MaximumX: 30
+  body_raw_X: 0
+  body_raw_Y: 0
+  head_raw_X: 0
+  head_raw_Y: 0
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  headTargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceRotation: {x: 0, y: 0, z: 0, w: 1}
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 10
+    - time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 10
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &11433330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1027,7 +1077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14bf835a2f6d2948ab96a7087fd103e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToFade: 2
   colorOpaque: {r: 0.01, g: 0.01, b: 0.01, a: 1}
   colorTransparent: {r: 0.01, g: 0.01, b: 0.01, a: 0}
   material: {fileID: 2100000, guid: 2ca7526820a800e41b84f4cc2601a5f4, type: 2}
@@ -1072,7 +1121,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 1ab4740f034baf2488e984a82e190cb3, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -1208,14 +1257,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124712}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 249b90b247834674587566ee02075b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  head: {fileID: 0}
+  body: {fileID: 0}
   X_Sensitivity: 10
-  Y_Sensitivity: 2
+  Y_Sensitivity: 10
   clampVerticalRotation: 1
+  clampHorizontalRotation: 0
   MinimumX: -90
   MaximumX: 90
   smooth: 1
@@ -1333,11 +1385,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6edf3656e7f771245bc42076483292e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeadPerspective: {fileID: 2026578}
-  Head: {fileID: 417132}
   Body: {fileID: 14352012}
-  CurrentHeadController: Oculus Headset
-  CurrentBodyController: Joystick
+  Head: {fileID: 417132}
+  HeadPerspective: {fileID: 2026578}
+  reticle: {fileID: 11466292}
+  HeadController: Mouse Head Controller
+  BodyController: Keyboard
 --- !u!114 &11465472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1467,7 +1520,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124712}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b9e6e14ca5031e4683ae612826be1af, type: 3}
   m_Name: 
@@ -1481,17 +1534,25 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 1
-      value: 0.9927606
+    - time: 0.3996049
+      value: 0.99452424
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 0.99993944
+      value: 0.9959839
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   RotationSpeed: 19.4
   RotateSmooth: 1
   SmoothTime: 5
+  body: {fileID: 14352012}
+  body_raw_X: 0
+  body_raw_Y: 0
 --- !u!114 &11473176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1531,11 +1592,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124712}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67ce674aa0e138742932c17571fad179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  head: {fileID: 0}
   ovrManager: {fileID: 0}
   ovrRig: {fileID: 0}
 --- !u!114 &11476018
@@ -1657,7 +1719,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 1ab4740f034baf2488e984a82e190cb3, type: 3}
     m_FontSize: 14
     m_FontStyle: 1
     m_BestFit: 0
@@ -1753,16 +1815,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183998}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72a86ff3347b0f8458e2e91450f582e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFog: 1
+  distanceFog: 0
   useRadialDistance: 1
   heightFog: 1
-  height: 5.52
-  heightDensity: 6.91
+  height: 7
+  heightDensity: 9
   startDistance: 0.3
   fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
 --- !u!114 &11494558
@@ -1849,6 +1911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c80aec75e3694f4b8d0bf2454b245d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 0}
   speed: 2
 --- !u!143 &14352012
 CharacterController:

@@ -13,69 +13,70 @@ using Assets.BeMoBI.Scripts.Controls;
 [RequireComponent(typeof(CharacterController))]
 public class VRSubjectController : MonoBehaviour
 {
-
     public CharacterController Body;
     public Transform Head;
     public Camera HeadPerspective;
     public Reticle reticle;
-
-    
-    private event Action<CharacterController> ApplyMovementToBody;
-    private event Action<Transform> ApplyMovementToHead;
     
     public event Action<float> ItemValueRequested;
 
     [SerializeField]
-    public string HeadController = string.Empty;
+    public string HeadController;
     [SerializeField]
-    public string BodyController = string.Empty;
-    
+    public string BodyController;
+
     public void Start()
     {
         Assert.IsNotNull<Camera>(HeadPerspective);
 
-        Body = GetComponent<CharacterController>();
-
-        ApplyMovementToBody = null;
-        ApplyMovementToHead = null;
-
-        var bodyMovementController = GetComponents<IBodyMovementController>();
-
-        Func<IInputController, bool> withTheExpectedName = controller => controller.Identifier.Equals(BodyController);
-
-        if (bodyMovementController.Any(withTheExpectedName))
-        {
-            ApplyMovementToBody += (bodyMovementController.FirstOrDefault(withTheExpectedName) as IBodyMovementController ).ApplyMovement;
-        }
-
-        var headMovementController = GetComponents<IHeadMovementController>();
-
-        withTheExpectedName = controller => controller.Identifier.Equals(HeadController);
-
-        if (headMovementController.Any(withTheExpectedName))
-        {
-            ApplyMovementToHead += ( headMovementController.FirstOrDefault(withTheExpectedName) as IHeadMovementController ).ApplyMovement;
-        }
-    }
-
-    void Update()
-    {
-
-        if (ApplyMovementToBody != null)
-            ApplyMovementToBody(Body);
-
-        if (ApplyMovementToHead != null)
-            ApplyMovementToHead(Head);
+        Body = GetComponent<CharacterController>(); 
     }
     
-    void OnDrawGizmos()
+    public void EnableSubjectBehaviorControl()
     {
-        var bodyCenter = transform.position + new Vector3(0, 1, 0);
+        Change<IHeadMovementController>(HeadController);
+        Change<IBodyMovementController>(BodyController);
+    }
+    
+    private void Enable<C>(string ControllerName) where C : IInputController
+    {
+        var possibleController = GetComponents<C>();
 
-        Gizmos.DrawWireCube(transform.position, new Vector3(0.4f, 0.001f, 0.4f));
-        Gizmos.DrawRay(bodyCenter, transform.forward * 0.5f);
-        Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.1f));
+        Func<C, bool> withTheExpectedName = controller => controller.Identifier.Equals(ControllerName);
+
+        if (possibleController.Any(withTheExpectedName))
+        {
+            possibleController.FirstOrDefault(withTheExpectedName).Enable();
+        }
         
+    }
+
+    public void Change<C>(string controllerName) where C : IInputController
+    {
+        DisableAll<C>();
+        Enable<C>(controllerName);
+    }
+
+    private void DisableAll<C>() where C : IInputController
+    {
+        var controller = GetComponents<C>();
+
+        foreach (var c in controller)
+        {
+            c.Disable();
+        }
+
+    }
+     
+    public void ResetController()
+    {
+        BodyController = String.Empty; 
+        HeadController = String.Empty;
+
+        DisableAll<IInputController>();
+
+        Head.rotation = Quaternion.identity;
+        Body.transform.rotation = Quaternion.identity;
     }
 
     #region Options
@@ -94,7 +95,8 @@ public class VRSubjectController : MonoBehaviour
     {
         var fog = GetComponentInChildren<CustomGlobalFog>();
 
-        if (fog == null) { 
+        if (fog == null)
+        {
             Debug.Log("No CustomGlobalFog instance found");
             return;
         }
@@ -107,32 +109,16 @@ public class VRSubjectController : MonoBehaviour
     {
         InputTracking.Recenter();
     }
-    
+
     #endregion
-
-    public void ChangeBodyController(IBodyMovementController bodyController)
+    
+    void OnDrawGizmos()
     {
-        BodyController = bodyController.Identifier;
-        ApplyMovementToBody += bodyController.ApplyMovement;
+        var bodyCenter = transform.position + new Vector3(0, 1, 0);
+
+        Gizmos.DrawWireCube(transform.position, new Vector3(0.4f, 0.001f, 0.4f));
+        Gizmos.DrawRay(bodyCenter, transform.forward * 0.5f);
+        Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.1f));
+
     }
-
-    public void ResetController()
-    {
-        BodyController = String.Empty;
-        ApplyMovementToBody = null;
-
-        HeadController = String.Empty;
-        ApplyMovementToHead = null;
-
-        Head.rotation = Quaternion.identity;
-        Body.transform.rotation = Quaternion.identity;
-    }
-
-    public void ChangeHeadController(IHeadMovementController headController)
-    {
-        HeadController = headController.Identifier;
-        ApplyMovementToHead += headController.ApplyMovement;
-    }
-
-
-} 
+}

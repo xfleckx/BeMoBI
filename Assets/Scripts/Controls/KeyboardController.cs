@@ -24,7 +24,22 @@ namespace Assets.BeMoBI.Scripts.Controls
                 return "Keyboard";
             }
         }
+        
+        [SerializeField]
+        private CharacterController body;
+        public CharacterController Body
+        {
+            get
+            {
+                return body;
+            }
 
+            set
+            {
+                body = value;
+            }
+        }
+        
         public float speed = 2.0f;
 
         public void ApplyMovement(CharacterController controller)
@@ -62,5 +77,14 @@ namespace Assets.BeMoBI.Scripts.Controls
             controller.Move(desiredMove);
         }
 
+        public void Enable()
+        {
+            enabled = true;
+        }
+
+        public void Disable()
+        {
+            enabled = false;
+        }
     }
 }

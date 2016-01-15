@@ -12,5 +12,9 @@ namespace Assets.BeMoBI.Scripts.Controls
     public interface IInputController
     {
         string Identifier { get; }
+
+        void Enable();
+
+        void Disable();
     }
 }
