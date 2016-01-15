@@ -44,6 +44,10 @@ namespace Assets.BeMoBI.Scripts.Controls
             }
         }
 
+        public float IPD {
+            get { return OVRPlugin.ipd; }
+        }
+
         public void ChangeIPDValue(float value)
         {
             originalIpd = OVRPlugin.ipd;
