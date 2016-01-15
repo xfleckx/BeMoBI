@@ -14,7 +14,6 @@ using Assets.BeMoBI.Scripts;
 using NLog;
 using Logger = NLog.Logger; // just aliasing
 
-
 namespace Assets.Paradigms.SearchAndFind
 {
 
@@ -118,6 +117,8 @@ namespace Assets.Paradigms.SearchAndFind
 
         private void Second_LoadOrGenerateAConfig()
         {
+            var pathOfDefaultConfig = new FileInfo(Application.dataPath + @"\" + STD_CONFIG_NAME);
+
             if (config == null)
             {
                 appLog.Info("Load Config or create a new one!");
@@ -128,14 +129,18 @@ namespace Assets.Paradigms.SearchAndFind
                 {
                     var configFile = new FileInfo(Application.dataPath + @"\" + appInit.Options.fileNameOfCustomConfig);
 
-                    appLog.Info(string.Format("Load Config: {0}!", configFile.FullName));
+                    appLog.Info(string.Format("Load specific config: {0}!", configFile.FullName));
 
                     LoadConfig(configFile, true);
                 }
-                else
+                else if (pathOfDefaultConfig.Exists) 
                 {
-                    var pathOfDefaultConfig = new FileInfo(Application.dataPath + @"\" + STD_CONFIG_NAME);
+                    appLog.Info(string.Format("Found default config at {0}", pathOfDefaultConfig.Name));
 
+                    LoadConfig(pathOfDefaultConfig, false);
+                }
+                else
+                { 
                     config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
 
                     // TODO if cmd args available use them here
@@ -177,9 +182,7 @@ namespace Assets.Paradigms.SearchAndFind
                     var factory = new InstanceDefinitionFactory();
 
                     factory.config = config;
-
-                    factory.SubjectID = SubjectID;
-
+                    
                     factory.EstimateConfigBasedOnAvailableElements();
 
                     if (!factory.IsAbleToGenerate)
@@ -189,7 +192,20 @@ namespace Assets.Paradigms.SearchAndFind
                     }
                     else
                     {
-                        InstanceDefinition = factory.Generate();
+                        InstanceDefinition = factory.Generate(SubjectID);
+                        
+                        var fileNameWoExt = string.Format("{0}/PreDefinitions/VP_{1}_Definition", Application.dataPath, InstanceDefinition.Subject);
+
+                        var jsonString = JsonUtility.ToJson(InstanceDefinition, true);
+
+                        var targetFileName = fileNameWoExt + ".json";
+
+                        appLog.Info(string.Format("Saving new definition at: {0}", targetFileName));
+
+                        using (var file = new StreamWriter(targetFileName))
+                        {
+                            file.Write(jsonString);
+                        }
                     }
                 }
             }

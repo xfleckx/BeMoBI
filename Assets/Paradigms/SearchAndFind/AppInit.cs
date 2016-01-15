@@ -12,7 +12,7 @@ public class AppInit : MonoBehaviour {
 
     NLog.Logger log = NLog.LogManager.GetLogger("App");
 
-    public const string DEFINTION_DIR_NAME = "Definitions";
+    public const string DEFINTION_DIR_NAME = "PreDefinitions";
     
     public DirectoryInfo DirectoryForInstanceDefinitions;
 

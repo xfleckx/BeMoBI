@@ -247,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SubjectID: TestSubject
   appInit: {fileID: 188249853}
-  config: {fileID: 1858423713}
+  config: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   InstanceDefinition: {fileID: 0}
   VRManager: {fileID: 1029432134}
@@ -3528,30 +3528,6 @@ MonoBehaviour:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 93e86b57e56570d46814839867bf9a52, type: 2}
   m_PrefabInternal: {fileID: 1889350745}
---- !u!114 &1858423713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp:Assets.Paradigms.SearchAndFind:ParadigmConfiguration
-  useTeleportation: 0
-  writeStatistics: 0
-  ifNoInstanceDefinitionCreateOne: 0
-  TimeToDisplayObjectToRememberInSeconds: 3
-  TimeToDisplayObjectWhenFoundInSeconds: 2
-  offsetToTeleportation: 2
-  categoriesPerMaze: 1
-  mazesToUse: 0
-  pathsToUsePerMaze: 0
-  objectVisitationsInTraining: 1
-  objectVisitationsInExperiment: 1
-  useExactOnCategoryPerMaze: 1
-  groupByMazes: 1
 --- !u!1001 &1889350745
 Prefab:
   m_ObjectHideFlags: 0

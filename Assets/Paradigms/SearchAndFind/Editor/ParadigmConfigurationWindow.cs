@@ -19,19 +19,17 @@ namespace Assets.Paradigms.SearchAndFind
 
         private InstanceDefinitionFactory factory;
 
-        public String SubjectID = "TestSubject";
+        public String PreDefinedSubjectID = "TestSubject";
 
         private bool previewDefinition;
         
-        private ParadigmInstanceDefinition lastGeneratedInstanceConfig;
+        private ParadigmInstanceDefinition lastGeneratedInstanceDefinition;
 
         internal void Initialize(ParadigmController target)
         {
             instance = target;
 
             titleContent = new GUIContent("Paradigm Control");
-
-            this.minSize = new Vector2(500, 600);
             
             log.Info("Initialize Paradigma Control Window");
         }
@@ -91,14 +89,14 @@ namespace Assets.Paradigms.SearchAndFind
             EditorGUILayout.BeginVertical();
 
             GUILayout.Label("Subject ID:");
-            SubjectID = EditorGUILayout.TextField(SubjectID);
+            PreDefinedSubjectID = EditorGUILayout.TextField(PreDefinedSubjectID);
 
             EditorGUILayout.EndVertical();
         }
 
         private void InjectCmdArgs()
         {
-            instance.SubjectID = SubjectID;
+            instance.SubjectID = PreDefinedSubjectID;
         }
 
         private void RenderConfigurationGUI()
@@ -120,7 +118,7 @@ namespace Assets.Paradigms.SearchAndFind
                 new GUIContent("Group by Mazes and Paths", "Trials are set as tuples of training and experiment trials per Maze and Path"),
                 factory.config.groupByMazes);
 
-            if (lastGeneratedInstanceConfig == null)
+            if (lastGeneratedInstanceDefinition == null)
                 EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
 
             if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
@@ -146,28 +144,34 @@ namespace Assets.Paradigms.SearchAndFind
             EditorGUILayout.LabelField("Count of object visitations");
 
             factory.config.objectVisitationsInTraining = EditorGUILayout.IntField("Training", factory.config.objectVisitationsInTraining);
-            factory.config.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", factory.config.objectVisitationsInExperiment);
 
+            factory.config.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", factory.config.objectVisitationsInExperiment);
+            
             if (factory.IsAbleToGenerate && GUILayout.Button("Generate Instance Definition", GUILayout.Height(35)))
             {
-                lastGeneratedInstanceConfig = factory.Generate();
-                lastGeneratedInstanceConfig.Configuration = instance.config;
+                if (instance.SubjectID == null)
+                {
+                    instance.SubjectID = this.PreDefinedSubjectID;
+                }
+
+                lastGeneratedInstanceDefinition = factory.Generate(this.PreDefinedSubjectID);
+                lastGeneratedInstanceDefinition.Configuration = instance.config;
             }
 
-            lastGeneratedInstanceConfig = EditorGUILayout.ObjectField("Last Generated Definion", lastGeneratedInstanceConfig, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
+            lastGeneratedInstanceDefinition = EditorGUILayout.ObjectField("Last Generated Definion", lastGeneratedInstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
 
-            if (lastGeneratedInstanceConfig == null)
+            if (lastGeneratedInstanceDefinition == null)
                 return;
 
             previewDefinition = EditorGUILayout.Toggle("Show definition", previewDefinition);
 
             if (GUILayout.Button("Save Instance Definition"))
             {
-                var fileNameWoExt = string.Format("Assets/Paradigms/SearchAndFind/Resources/VP_{0}_InstanceDefinition", instance.SubjectID);
+                var fileNameWoExt = string.Format("Assets/Paradigms/SearchAndFind/PreDefinitions/VP_{0}_Definition", lastGeneratedInstanceDefinition.Subject);
 
-                var jsonString = JsonUtility.ToJson(lastGeneratedInstanceConfig, true);
+                var jsonString = JsonUtility.ToJson(lastGeneratedInstanceDefinition, true);
 
-                AssetDatabase.CreateAsset(lastGeneratedInstanceConfig, fileNameWoExt + ".asset");
+                AssetDatabase.CreateAsset(lastGeneratedInstanceDefinition, fileNameWoExt + ".asset");
 
                 using (var file = new StreamWriter(fileNameWoExt + ".json"))
                 {
@@ -177,20 +181,25 @@ namespace Assets.Paradigms.SearchAndFind
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
+
+            if(GUILayout.Button("Use this definition"))
+            {
+                instance.InstanceDefinition = lastGeneratedInstanceDefinition;
+            }
         }
 
         private void RenderPreviewGUI()
         {
-            if (lastGeneratedInstanceConfig == null)
+            if (lastGeneratedInstanceDefinition == null)
                 return;
 
             EditorGUILayout.LabelField("Preview:");
 
-            if (lastGeneratedInstanceConfig.Trials != null && previewDefinition)
+            if (lastGeneratedInstanceDefinition.Trials != null && previewDefinition)
             {
                 configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
                 string lastMazeName = string.Empty;
-                foreach (var tdef in lastGeneratedInstanceConfig.Trials)
+                foreach (var tdef in lastGeneratedInstanceDefinition.Trials)
                 {
                     if (!lastMazeName.Equals(tdef.MazeName))
                         EditorGUILayout.Space();

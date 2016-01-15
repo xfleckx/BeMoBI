@@ -9,9 +9,7 @@ namespace Assets.Paradigms.SearchAndFind
     public class InstanceDefinitionFactory
     {
         public ParadigmConfiguration config;
-
-        public string SubjectID = String.Empty;
-
+        
         public InstanceDefinitionFactory()
         {
         }
@@ -34,12 +32,21 @@ namespace Assets.Paradigms.SearchAndFind
             var availableMazes = mazeInstances.Count;
 
 
-            if (availableMazes > availableCategories)
-                config.mazesToUse = availableCategories;
-            else
+            if(config.mazesToUse > availableMazes) {
+
                 config.mazesToUse = availableMazes;
 
+                var warningMessage = string.Format("Warning! You want to use more mazes {0} than available {1}", config.mazesToUse, availableMazes);
 
+                Debug.Log(warningMessage);
+            }
+
+            if (config.useExactOnCategoryPerMaze)
+            {
+                if (config.mazesToUse > availableCategories)
+                    config.mazesToUse = availableCategories;
+            } // warning no else condition defined! TODO... what should happen when multiple categories per maze are available?
+            
             CheckIfEnoughPathsAreAvailable();
 
             CheckIfEnoughObjectsAreAvailable();
@@ -126,7 +133,7 @@ namespace Assets.Paradigms.SearchAndFind
             enoughObjectsAreAvailable = false;
         }
 
-        public ParadigmInstanceDefinition Generate()
+        public ParadigmInstanceDefinition Generate(string subjectID)
         {
             #region assert some preconditions for the algorithm
 
@@ -162,8 +169,8 @@ namespace Assets.Paradigms.SearchAndFind
             #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
 
             var newConfig = UnityEngine.ScriptableObject.CreateInstance<ParadigmInstanceDefinition>();
-            newConfig.Subject = SubjectID;
-            newConfig.name = string.Format("VP_Def_{0}", SubjectID);
+            newConfig.Subject = subjectID;
+            newConfig.name = string.Format("VP_Def_{0}", subjectID);
 
             newConfig.Trials = new List<TrialDefinition>();
 

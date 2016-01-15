@@ -48,7 +48,6 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 if (GUILayout.Button("Open Configuration Window", GUILayout.Height(30)))
                 {
-
                     var window = EditorWindow.GetWindow<ConfigurationControl>();
 
                     window.Initialize(instance);
@@ -80,29 +79,29 @@ namespace Assets.Paradigms.SearchAndFind
 
             EditorGUILayout.LabelField("Configuration", EditorStyles.boldLabel);
 
-            EditorGUILayout.LabelField("Config Name:");
-
-            configName = EditorGUILayout.TextField(configName);
-
-            EditorGUILayout.LabelField("Path to Config");
 
             var pathToConfigFile = Application.dataPath + @"/" + configName + ".json";
 
             EditorGUILayout.BeginVertical();
-
-
+            
             configFilePathToLoad = EditorGUILayout.TextField(configFilePathToLoad);
 
             if (GUILayout.Button("Load"))
             {
                 configFilePathToLoad = EditorUtility.OpenFilePanel("Load Config", Application.dataPath, "json");
 
-                instance.LoadConfig(new FileInfo(configFilePathToLoad), false);
+                if (configFilePathToLoad != null && configFilePathToLoad != string.Empty) { 
+                    instance.LoadConfig(new FileInfo(configFilePathToLoad), false);
 
-                configName = Path.GetFileNameWithoutExtension(new FileInfo(configFilePathToLoad).Name);
-
+                    configName = Path.GetFileNameWithoutExtension(new FileInfo(configFilePathToLoad).Name);
+                }
             }
 
+            EditorGUILayout.LabelField("Config Name:");
+
+            configName = EditorGUILayout.TextField(configName);
+
+            EditorGUILayout.LabelField("Path to Config");
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.LabelField(pathToConfigFile);
@@ -113,6 +112,7 @@ namespace Assets.Paradigms.SearchAndFind
             {
                 DestroyImmediate(instance.config);
                 instance.config = null;
+                configName = string.Empty;
                 GC.Collect();
             }
 
@@ -130,7 +130,6 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (instance.config != null)
             {
-
                 instance.config.useTeleportation = EditorGUILayout.Toggle(new GUIContent("Use Teleportation", "Teleport the subject to the startpoint on trial finished."), instance.config.useTeleportation);
 
                 instance.config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.config.writeStatistics);
@@ -140,6 +139,10 @@ namespace Assets.Paradigms.SearchAndFind
                     instance.SaveConfig(fileInfoForConfig, instance.config);
                     AssetDatabase.Refresh();
                 }
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Load a Config to see available config values!", MessageType.Info);
             }
 
 
