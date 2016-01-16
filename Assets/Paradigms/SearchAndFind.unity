@@ -225,8 +225,10 @@ GameObject:
   - 4: {fileID: 188249851}
   - 114: {fileID: 188249853}
   - 114: {fileID: 188249849}
-  - 114: {fileID: 188249850}
   - 114: {fileID: 188249852}
+  - 114: {fileID: 188249850}
+  - 114: {fileID: 188249855}
+  - 114: {fileID: 188249854}
   m_Layer: 0
   m_Name: ParadigmController
   m_TagString: Untagged
@@ -261,6 +263,7 @@ MonoBehaviour:
   entrance: {fileID: 866232739}
   fading: {fileID: 1410851483}
   teleporter: {fileID: 188249852}
+  relativePositionStream: {fileID: 0}
   training: {fileID: 126849972}
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
@@ -355,6 +358,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289a498fd2c95eb499c3a75f60c7f2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &188249854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188249848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04cb4c6864e26644a8e049acaf2a018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity3D.SubjectPositionRelative
+  StreamType: Unity3D.LocalPositionVector
+  ChannelCount: 3
+  Subject: {fileID: 534861550}
+  currentMaze: {fileID: 0}
+--- !u!114 &188249855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188249848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53504521e06e64243a7f918b4aa0035e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity3D.SubjectPosition
+  StreamType: Unity3D.GlobalPositionVector
+  ChannelCount: 3
+  Subject: {fileID: 534861550}
 --- !u!1 &200460092
 GameObject:
   m_ObjectHideFlags: 0
@@ -5849,6 +5883,36 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 124712, guid: 5f5d86963667fec40a90b0572b217861, type: 2}
   m_PrefabInternal: {fileID: 1849948336}
+--- !u!114 &2016469148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2016469147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7c9d92cf2a3d448a687266f24b4dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity3D.HeadOrientation
+  StreamType: Unity3D.Euler
+  ChannelCount: 4
+  head: {fileID: 1112819487}
+--- !u!114 &2016469149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2016469147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6e9a0abb354a14da51dea260035b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity3D.BodyOrientation
+  StreamType: Unity3D.Euler
+  ChannelCount: 3
+  body: {fileID: 534861550}
 --- !u!1001 &2050533855
 Prefab:
   m_ObjectHideFlags: 0

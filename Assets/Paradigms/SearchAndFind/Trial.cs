@@ -43,7 +43,7 @@ namespace Assets.Paradigms.SearchAndFind
         public string currentMazeName = string.Empty;
 
         public CustomGlobalFog fog;
-
+        
         #endregion
 
         #region Trial state only interesting for the trial itself!
@@ -92,6 +92,8 @@ namespace Assets.Paradigms.SearchAndFind
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
             currentMazeName = mazeName;
+
+            paradigm.relativePositionStream.currentMaze = mazeInstance;
 
             mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
 

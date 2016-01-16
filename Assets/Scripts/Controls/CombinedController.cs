@@ -37,7 +37,13 @@ namespace Assets.BeMoBI.Scripts.Controls
                 body = value;
             }
         }
-        
+
+        protected bool isBodyRotating = false;
+        public bool IsBodyRotating { get { return isBodyRotating; } }
+
+        public RotationEvent OnHeadRotation;
+        public RotationEvent OnBodyRotation;
+
         public virtual string Identifier
         {
             get

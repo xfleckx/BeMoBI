@@ -70,6 +70,8 @@ namespace Assets.Paradigms.SearchAndFind
         public GameObject entrance;
         public FullScreenFade fading;
         public Teleporting teleporter;
+        
+        public LSLSubjectRelativePositionStream relativePositionStream;
 
         void Awake()
         {
