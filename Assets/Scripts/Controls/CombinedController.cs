@@ -72,8 +72,8 @@ namespace Assets.BeMoBI.Scripts.Controls
         public float headRotationClampMinY = -90F;
         public float headRotationClampMaxY = 90F;
 
-        public bool smooth;
-        public float smoothTime = 5f;
+        public bool UseSmoothHeadRotation;
+        public float HeadRotsmoothTime = 2f;
 
         #endregion
 
@@ -81,8 +81,8 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public AnimationCurve BodyAccelerationCurve;
 
-        [Range(10, 50)]
-        public float BodyRotationSpeed = 40f;
+        [Range(1, 10)]
+        public float BodyRotationSpeed = 5;
 
         public bool RotateBodySmooth = true;
         public float SmoothBodyTime = 1;

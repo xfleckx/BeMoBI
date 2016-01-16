@@ -32,6 +32,7 @@ namespace Assets.BeMoBI.Scripts.Controls
             body_raw_X = Input.GetAxis(X_AXIS_NAME);
 
             var sign = Math.Sign(body_raw_X);
+            var abs_body_raw_X = Math.Abs(body_raw_X);
 
             body_raw_Y = Input.GetAxis(Y_AXIS_NAME);
 
@@ -39,9 +40,9 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             // Problem here... Acceleration for rotation doesn't work :/ always the same direction
 
-            var evaluated = BodyRotationAccelerationCurve.Evaluate(body_raw_X);
+            var evaluated = BodyRotationAccelerationCurve.Evaluate(abs_body_raw_X);
 
-            var bodyRotation = evaluated >= 1 ? evaluated : evaluated * -1;
+            var bodyRotation = evaluated * sign;
 
             targetRotation *= Quaternion.Euler(0f, bodyRotation * BodyRotationSpeed, 0f);
 

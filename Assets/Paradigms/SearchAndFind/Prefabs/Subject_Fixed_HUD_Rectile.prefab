@@ -162,13 +162,14 @@ GameObject:
   - 4: {fileID: 426452}
   - 143: {fileID: 14352012}
   - 114: {fileID: 11463566}
+  - 114: {fileID: 11473474}
+  - 114: {fileID: 11430856}
+  - 114: {fileID: 11475224}
   - 114: {fileID: 11472998}
   - 114: {fileID: 11498526}
   - 114: {fileID: 11447572}
-  - 114: {fileID: 11475224}
   - 114: {fileID: 11424050}
   - 114: {fileID: 11482548}
-  - 114: {fileID: 11430856}
   m_Layer: 0
   m_Name: Subject_Fixed_HUD_Rectile
   m_TagString: Untagged
@@ -1028,44 +1029,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a01b26023901905499508f965c1dd5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 466054}
-  body: {fileID: 14352012}
-  RotationSpeed: 50
-  RotateSmooth: 1
-  SmoothTime: 1
-  MaxWalkingSpeed: 1.4
-  smooth: 0
-  smoothTime: 5
-  X_Sensitivity: 2
-  Y_Sensitivity: 2
+  head: {fileID: 0}
+  body: {fileID: 0}
+  headRotation_X_Sensitivity: 2
+  headRotation_Y_Sensitivity: 2
   clampVerticalRotation: 1
   clampHorizontalRotation: 1
-  MinimumX: -30
-  MaximumX: 30
+  headRotationClampMinX: -90
+  headRotationClampMaxX: 90
+  headRotationClampMinY: -90
+  headRotationClampMaxY: 90
+  UseSmoothHeadRotation: 0
+  HeadRotsmoothTime: 2
+  BodyAccelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  BodyRotationSpeed: 40
+  RotateBodySmooth: 1
+  SmoothBodyTime: 1
+  MaxWalkingSpeed: 1.4
   body_raw_X: 0
   body_raw_Y: 0
   head_raw_X: 0
   head_raw_Y: 0
+  desiredMove: {x: 0, y: 0, z: 0}
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   headTargetRotation: {x: 0, y: 0, z: 0, w: 1}
   sourceLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   sourceRotation: {x: 0, y: 0, z: 0, w: 1}
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 10
-    - time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 10
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!114 &11433330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1079,7 +1073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorOpaque: {r: 0.01, g: 0.01, b: 0.01, a: 1}
   colorTransparent: {r: 0.01, g: 0.01, b: 0.01, a: 0}
-  material: {fileID: 2100000, guid: 2ca7526820a800e41b84f4cc2601a5f4, type: 2}
+  material: {fileID: 2100000, guid: 6d93b589dd2da4e4fb95d6a1b2e69f30, type: 2}
 --- !u!114 &11433634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1264,13 +1258,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 0}
   body: {fileID: 0}
-  X_Sensitivity: 10
-  Y_Sensitivity: 10
+  X_Sensitivity: 2
+  Y_Sensitivity: 2
   clampVerticalRotation: 1
-  clampHorizontalRotation: 0
+  clampHorizontalRotation: 1
   MinimumX: -90
   MaximumX: 90
-  smooth: 1
+  smooth: 0
   smoothTime: 5
 --- !u!114 &11448562
 MonoBehaviour:
@@ -1389,8 +1383,8 @@ MonoBehaviour:
   Head: {fileID: 417132}
   HeadPerspective: {fileID: 2026578}
   reticle: {fileID: 11466292}
-  HeadController: Mouse Head Controller
-  BodyController: Keyboard
+  HeadController: KeyboardCombi
+  BodyController: KeyboardCombi
 --- !u!114 &11465472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1423,7 +1417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d3ced531afaea45b4a1689f3740e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DefaultDistance: 0.3
+  m_DefaultDistance: 5
   m_UseNormal: 0
   m_Image: {fileID: 11470896}
   m_ReticleTransform: {fileID: 22419912}
@@ -1525,32 +1519,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9e6e14ca5031e4683ae612826be1af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxWalkingSpeed: 0.8
+  MaxWalkingSpeed: 1.4
   accelerationCurve:
     serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: -0.0072393785
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 0.3996049
-      value: 0.99452424
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 0.99993944
-      value: 0.9959839
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
-  RotationSpeed: 19.4
+    m_RotationOrder: 4
+  RotationSpeed: 40
   RotateSmooth: 1
-  SmoothTime: 5
-  body: {fileID: 14352012}
+  SmoothTime: 1
+  body: {fileID: 0}
   body_raw_X: 0
   body_raw_Y: 0
 --- !u!114 &11473176
@@ -1586,6 +1565,74 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: A state description
+--- !u!114 &11473474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a07d22d4f58bd42bdbe814157ebd69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 0}
+  body: {fileID: 14352012}
+  headRotation_X_Sensitivity: 2
+  headRotation_Y_Sensitivity: 2
+  clampVerticalRotation: 1
+  clampHorizontalRotation: 0
+  headRotationClampMinX: -90
+  headRotationClampMaxX: 90
+  headRotationClampMinY: -90
+  headRotationClampMaxY: 90
+  UseSmoothHeadRotation: 0
+  HeadRotsmoothTime: 2
+  BodyAccelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  BodyRotationSpeed: 5
+  RotateBodySmooth: 0
+  SmoothBodyTime: 1
+  MaxWalkingSpeed: 1.4
+  body_raw_X: 0
+  body_raw_Y: 0
+  head_raw_X: 0
+  head_raw_Y: 0
+  desiredMove: {x: 0, y: 0, z: 0}
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  headTargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  sourceRotation: {x: 0, y: 0, z: 0, w: 1}
+  BodyRotationAccelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &11475224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1774,7 +1821,7 @@ MonoBehaviour:
   Heading: {fileID: 11484762}
   TextBesideImage: {fileID: 11403828}
   TextWide: {fileID: 11434564}
-  ImageLeftFromText: {fileID: 11472272}
+  ImageLeftFromText: {fileID: 11453866}
   CenterImage: {fileID: 11472272}
 --- !u!114 &11492670
 MonoBehaviour:
@@ -1820,12 +1867,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a86ff3347b0f8458e2e91450f582e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFog: 0
-  useRadialDistance: 1
+  distanceFog: 1
+  useRadialDistance: 0
   heightFog: 1
-  height: 7
-  heightDensity: 9
-  startDistance: 0.3
+  height: 1
+  heightDensity: 2
+  startDistance: 0
   fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
 --- !u!114 &11494558
 MonoBehaviour:
@@ -1893,20 +1940,20 @@ MonoBehaviour:
   edgeThreshold: 0.2
   edgeSharpness: 4
   dlaaSharp: 0
-  ssaaShader: {fileID: 4800000, guid: b3728d1488b02490cbd196c7941bf1f8, type: 3}
-  dlaaShader: {fileID: 4800000, guid: 017ca72b9e8a749058d13ebd527e98fa, type: 3}
-  nfaaShader: {fileID: 4800000, guid: ce0cb2621f6d84e21a87414e471a3cce, type: 3}
-  shaderFXAAPreset2: {fileID: 4800000, guid: 6f1418cffd12146f2a83be795f6fa5a7, type: 3}
-  shaderFXAAPreset3: {fileID: 4800000, guid: c182fa94a5a0a4c02870641efcd38cd5, type: 3}
-  shaderFXAAII: {fileID: 4800000, guid: cd5b323dcc592457790ff18b528f5e67, type: 3}
-  shaderFXAAIII: {fileID: 4800000, guid: c547503fff0e8482ea5793727057041c, type: 3}
+  ssaaShader: {fileID: 0}
+  dlaaShader: {fileID: 0}
+  nfaaShader: {fileID: 0}
+  shaderFXAAPreset2: {fileID: 0}
+  shaderFXAAPreset3: {fileID: 0}
+  shaderFXAAII: {fileID: 0}
+  shaderFXAAIII: {fileID: 0}
 --- !u!114 &11498526
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124712}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c80aec75e3694f4b8d0bf2454b245d1, type: 3}
   m_Name: 

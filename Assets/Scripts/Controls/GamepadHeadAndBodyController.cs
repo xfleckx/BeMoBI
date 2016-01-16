@@ -39,10 +39,10 @@ namespace Assets.BeMoBI.Scripts.Controls
             sourceRotation = Head.rotation;
             sourceLocalRotation = Head.localRotation;
 
-            if (smooth)
+            if (UseSmoothHeadRotation)
             {
                 Head.localRotation *= Quaternion.Slerp(sourceLocalRotation, headTargetRotation,
-                    smoothTime * Time.deltaTime);
+                    HeadRotsmoothTime * Time.deltaTime);
             }
             else
             {
