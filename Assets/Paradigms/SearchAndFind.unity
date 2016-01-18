@@ -224,6 +224,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 188249851}
   - 114: {fileID: 188249853}
+  - 114: {fileID: 188249856}
   - 114: {fileID: 188249849}
   - 114: {fileID: 188249852}
   - 114: {fileID: 188249850}
@@ -389,6 +390,17 @@ MonoBehaviour:
   StreamType: Unity3D.GlobalPositionVector
   ChannelCount: 3
   Subject: {fileID: 534861550}
+--- !u!114 &188249856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188249848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8977e0332010724a8f646c07c062447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &200460092
 GameObject:
   m_ObjectHideFlags: 0
