@@ -32,7 +32,7 @@ public class LSLEulerHeadOrientation : MonoBehaviour {
         }
     }
 
-    public void FixedUpdate()
+    public void LateUpdate()
     {
         if (outlet == null)
             return;
@@ -42,6 +42,6 @@ public class LSLEulerHeadOrientation : MonoBehaviour {
         currentSample[0] = rotation.x;
         currentSample[1] = rotation.y;
         currentSample[2] = rotation.z;
-        outlet.push_sample(currentSample);
+        outlet.push_sample(currentSample, LSLTimeSync.Instance.UpdateTimeStamp);
     }
 }

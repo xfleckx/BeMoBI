@@ -111,7 +111,7 @@ namespace Assets.Paradigms.SearchAndFind
                     SubjectID = ParadigmUtils.GetRandomSubjectName();
             }
             
-            // this is enables access to var}iables used by the logging framework
+            // this is enables access to variables used by the logging framework
             NLog.GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
 
             appLog.Info(string.Format("Using Subject Id: {0}", SubjectID));

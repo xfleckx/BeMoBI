@@ -34,17 +34,18 @@ public class LSLSubjectRelativePositionStream : MonoBehaviour {
             Debug.Log(e.Message);
         }
     }
-
-    public void FixedUpdate()
+    
+    void LateUpdate()
     {
         if (outlet == null || currentMaze == null)
             return;
 
-        var positionInMaze = currentMaze.transform.InverseTransformPoint( Subject.position );
-        
+        var positionInMaze = currentMaze.transform.InverseTransformPoint(Subject.position);
+
         currentSample[0] = positionInMaze.x;
         currentSample[1] = positionInMaze.y;
         currentSample[2] = positionInMaze.z;
-        outlet.push_sample(currentSample);
+
+        outlet.push_sample(currentSample, LSLTimeSync.Instance.UpdateTimeStamp);
     }
 }

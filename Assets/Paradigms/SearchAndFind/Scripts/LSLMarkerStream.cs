@@ -37,23 +37,23 @@ public class LSLMarkerStream : AMarkerStream {
 		lslOutlet = new LSL.liblsl.StreamOutlet(lslStreamInfo);
 	}
 	  
-	public override void Write(string name, float customTimeStamp)
+	public override void Write(string marker, float customTimeStamp)
 	{
-		sample[0] = name;
+		sample[0] = marker;
 
 		lslOutlet.push_sample(sample, customTimeStamp);
 
         if (LogAlsoToFile)
-            markerLog.Info(name);
+            markerLog.Info(string.Format("{0}\t{1}", customTimeStamp, marker));
     }
 
-	public override void Write(string name)
+	public override void Write(string marker)
 	{
-		sample[0] = name;
+		sample[0] = marker;
 
 		lslOutlet.push_sample(sample);
 
         if (LogAlsoToFile)
-            markerLog.Info(name);
+            markerLog.Info(marker);
 	}
 }

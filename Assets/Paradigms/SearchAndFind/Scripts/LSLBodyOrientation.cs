@@ -25,7 +25,7 @@ public class LSLBodyOrientation : MonoBehaviour {
         outlet = new liblsl.StreamOutlet(streamInfo);
     }
 
-    public void FixedUpdate()
+    void LateUpdate()
     {
         if (outlet == null)
             return;
@@ -36,6 +36,7 @@ public class LSLBodyOrientation : MonoBehaviour {
         currentSample[1] = rotation.y;
         currentSample[2] = rotation.z;
         currentSample[3] = rotation.w;
-        outlet.push_sample(currentSample);
+
+        outlet.push_sample(currentSample, LSLTimeSync.Instance.UpdateTimeStamp);
     }
 }
