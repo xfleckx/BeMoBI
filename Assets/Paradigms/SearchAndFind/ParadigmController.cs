@@ -99,6 +99,8 @@ namespace Assets.Paradigms.SearchAndFind
             hud.Clear();
 
             fading.StartFadeIn();
+
+            marker.LogAlsoToFile = config.logMarkerToFile;
         }
 
         private void First_GetTheSubjectName()
