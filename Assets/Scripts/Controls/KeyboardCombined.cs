@@ -39,7 +39,10 @@ namespace Assets.BeMoBI.Scripts.Controls
             {
                 var args = new RotationEventArgs();
                 args.state = RotationEventArgs.State.Begin;
-                OnBodyRotation.Invoke(args);
+
+                if (OnBodyRotation.GetPersistentEventCount() > 0)
+                    OnBodyRotation.Invoke(args);
+
                 isBodyRotating = true;
             }
 
@@ -47,7 +50,10 @@ namespace Assets.BeMoBI.Scripts.Controls
             {
                 var args = new RotationEventArgs();
                 args.state = RotationEventArgs.State.End;
-                OnBodyRotation.Invoke(args);
+
+                if (OnBodyRotation.GetPersistentEventCount() > 0)
+                    OnBodyRotation.Invoke(args);
+
                 isBodyRotating = false;
             }
             

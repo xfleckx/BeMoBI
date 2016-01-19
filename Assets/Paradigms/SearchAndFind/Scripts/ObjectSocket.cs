@@ -18,13 +18,14 @@ public class ObjectSocket : MonoBehaviour {
 
     public void PutIn(GameObject objectToPresent)
     {
-        objectToPresent.transform.SetParent(this.transform);
+        objectToPresent.transform.SetParent(this.transform, false);
         objectToPresent.transform.localPosition = Vector3.zero;
-         
+
         // Not working yet!
-        var targetPosition = objectLookAt.position;
-        targetPosition.y = transform.position.y;
-        transform.LookAt(targetPosition);
+        //var targetPosition = objectLookAt.position;
+        //targetPosition.y = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        //transform.LookAt(targetPosition);
+         
 
         if (AutoRescaleToFitTheBox) { 
 

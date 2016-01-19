@@ -40,7 +40,7 @@ public class ActionWaypoint : MonoBehaviour
     {
         var subject = other.GetComponent<VRSubjectController>();
 
-        if (subject != null)
+        if (subject != null && EnteredAt.GetPersistentEventCount() > 0)
             EnteredAt.Invoke(this);
     }
 
@@ -48,7 +48,7 @@ public class ActionWaypoint : MonoBehaviour
     {
         var subject = other.GetComponent<VRSubjectController>();
 
-        if (subject != null)
+        if (subject != null && EnteredAt.GetPersistentEventCount() > 0)
             LeaveFrom.Invoke(this);
     }
 }

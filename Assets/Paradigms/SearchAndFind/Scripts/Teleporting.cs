@@ -16,7 +16,6 @@ public class Teleporting : MonoBehaviour {
     public TeleportingDurationEvent BeforeTeleporting;
 
     public TeleportingDurationEvent AfterTeleporting;
-
     public void Teleport()
     {
         if (BeforeTeleporting.GetPersistentEventCount() > 0)
