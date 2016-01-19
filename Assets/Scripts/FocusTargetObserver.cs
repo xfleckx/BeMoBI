@@ -33,17 +33,18 @@ public class FocusTargetObserver : MonoBehaviour {
 
         if (rayHitSomething)
         {
-            if (hit.collider.tag.Equals(TagOfInterest) && objectInFocus != null)
+            if (hit.collider.tag.Equals(TagOfInterest) && objectInFocus == null)
             {
                 objectInFocus = hit.collider.gameObject;
-
-                if (OnGetInFocus != null)
+                
+                if (OnGetInFocus.GetPersistentEventCount() > 0)
                     OnGetInFocus.Invoke(objectInFocus);
             }
         }
         else if(objectInFocus != null)
         {
-            if(OnLostFocus != null)
+
+            if (OnLostFocus.GetPersistentEventCount() > 0)
                 OnLostFocus.Invoke(objectInFocus);
 
             //Reset
@@ -55,7 +56,7 @@ public class FocusTargetObserver : MonoBehaviour {
     {
         var color = rayHitSomething ? Color.green : Color.gray;
 
-        Debug.DrawRay(transform.position, transform.forward, color);
+        Debug.DrawRay(transform.position, transform.forward * maxRayDistance, color);
     }
 }
 

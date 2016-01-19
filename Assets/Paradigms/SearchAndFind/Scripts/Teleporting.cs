@@ -16,10 +16,10 @@ public class Teleporting : MonoBehaviour {
     public TeleportingDurationEvent BeforeTeleporting;
 
     public TeleportingDurationEvent AfterTeleporting;
-    
+
     public void Teleport()
     {
-        if (BeforeTeleporting != null)
+        if (BeforeTeleporting.GetPersistentEventCount() > 0)
             BeforeTeleporting.Invoke(ExpectedDuration);
 
         StartCoroutine(TeleportingProcess()); 
@@ -31,13 +31,14 @@ public class Teleporting : MonoBehaviour {
         
         ObjectToTeleport.transform.position = Target.position;
 
-        ObjectToTeleport.transform.LookAt( postTeleportLookAt );
-        
-        if (AfterTeleporting != null)
+        ObjectToTeleport.transform.LookAt(postTeleportLookAt);
+
+        if (AfterTeleporting.GetPersistentEventCount() > 0)
             AfterTeleporting.Invoke(ExpectedDuration);
 
         yield return null;
     }
+    
 }
 
 [Serializable]
