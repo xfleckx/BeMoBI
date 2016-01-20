@@ -57,11 +57,13 @@ namespace Assets.Paradigms.SearchAndFind
         
         public ParadigmConfiguration config;
 
-        public ActionWaypoint TrialEndPoint;
         public ParadigmInstanceDefinition InstanceDefinition;
+
+        public ActionWaypoint TrialEndPoint;
         public VirtualRealityManager VRManager;
         public StartPoint startingPoint;
         public HUD_Instruction hud;
+        public HUD_DEBUG debug_hud;
         public LSLMarkerStream marker;
         public GameObject objectPresenter;
         public ObjectPool objectPool;
@@ -220,6 +222,16 @@ namespace Assets.Paradigms.SearchAndFind
         {
             if (Input.GetKey(KeyCode.F5) && !IsRunning)
                 StartTheExperimentFromBeginning();
+
+            if (Input.GetKeyUp(KeyCode.F1))
+                ToogleDebugHUD();
+
+        }
+
+        private void ToogleDebugHUD()
+        {
+            if (debug_hud != null)
+                debug_hud.gameObject.SetActive(!debug_hud.gameObject.activeSelf);
         }
 
         #region Trials
