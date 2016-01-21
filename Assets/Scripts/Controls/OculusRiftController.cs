@@ -27,6 +27,8 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public OVRManager ovrManager;
 
+        public OVRDisplay ovrDisplay;
+
         public OVRCameraRig ovrRig;
         
         public string Identifier
@@ -62,7 +64,15 @@ namespace Assets.BeMoBI.Scripts.Controls
         public float IPD {
             get { return OVRPlugin.ipd; }
         }
-        
+
+        public float Latency
+        {
+            get
+            {
+                return ovrDisplay.latency.postPresent;
+            }
+        }
+
         public void ChangeIPDValue(float value)
         {
             originalIpd = OVRPlugin.ipd;
@@ -83,6 +93,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         void Awake()
         {
             ovrManager = OVRManager.instance;
+            ovrDisplay = OVRManager.display;
             ovrRig = gameObject.GetComponentInChildren<OVRCameraRig>();
         }
 
