@@ -477,8 +477,8 @@ MonoBehaviour:
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
   startingPoint: {fileID: 726889599}
-  hud: {fileID: 1477825551}
-  debug_hud: {fileID: 1646548129}
+  hud: {fileID: 1315420589}
+  debug_hud: {fileID: 2061524740}
   marker: {fileID: 188249850}
   objectPresenter: {fileID: 1941343821}
   objectPool: {fileID: 1208354559}
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dc77646ac096b94b903c6ec57f07cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hud: {fileID: 1646548129}
+  hud: {fileID: 2061524740}
   publishToLSL: 1
   StreamName: BeMoBI.Unity3D.AppStatistics
   StreamType: Unity3D.FPS.FT
@@ -1315,7 +1315,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 607204304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44b0ee5b9cb565244b29e94c968ce974, type: 3}
+  m_Script: {fileID: 11500000, guid: 027aeed48785a5446b626cec7b90172a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &607204307
@@ -3954,7 +3954,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1315420588}
-  - 114: {fileID: 1477825551}
+  - 114: {fileID: 1315420589}
   m_Layer: 0
   m_Name: HUD_INSTRUCTION
   m_TagString: Untagged
@@ -3975,6 +3975,23 @@ Transform:
   - {fileID: 2095572571}
   m_Father: {fileID: 1730063128}
   m_RootOrder: 0
+--- !u!114 &1315420589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1315420587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa2930e1607e91c459c64b11316f9819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 882442381}
+  Heading: {fileID: 1707709245}
+  TextBesideImage: {fileID: 1563530771}
+  TextWide: {fileID: 1661209999}
+  ImageLeftFromText: {fileID: 1585632900}
+  CenterImage: {fileID: 643992097}
 --- !u!114 &1319966507 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11489314, guid: 5fbb735a00a12a84da743506dbe42417,
@@ -4675,24 +4692,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 475846, guid: 5fbb735a00a12a84da743506dbe42417, type: 2}
   m_PrefabInternal: {fileID: 1474378240}
---- !u!114 &1477825551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11491000, guid: 5f5d86963667fec40a90b0572b217861,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1315420587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a2aed36195892749a93b50510ebd6f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 882442381}
-  Heading: {fileID: 1707709245}
-  TextBesideImage: {fileID: 1563530771}
-  TextWide: {fileID: 1661209999}
-  ImageLeftFromText: {fileID: 1585632900}
-  CenterImage: {fileID: 643992097}
 --- !u!1 &1491710466
 GameObject:
   m_ObjectHideFlags: 0
@@ -5188,20 +5187,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1995203289}
   m_RootOrder: 0
---- !u!114 &1646548129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11494558, guid: 5f5d86963667fec40a90b0572b217861,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2061524738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b2195bf52fbe5419cbeb74dd48ce4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FPS_LABEL: {fileID: 1824434277}
-  FT_Label: {fileID: 1296570730}
 --- !u!1 &1661209997
 GameObject:
   m_ObjectHideFlags: 0
@@ -5629,7 +5614,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1835636701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6a235e9e37cf344a5043e8144f4944, type: 3}
+  m_Script: {fileID: 11500000, guid: 299c47c3ac214524fad3eddfd717df00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MessageBufferSize: 7
@@ -7852,7 +7837,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1954452472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.52, y: 0.4, z: 1.927}
+  m_LocalPosition: {x: -3.5199997, y: 0.4, z: 1.927}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1944748665}
@@ -8414,7 +8399,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2061524739}
-  - 114: {fileID: 1646548129}
+  - 114: {fileID: 2061524740}
   m_Layer: 0
   m_Name: HUD_DEBUG
   m_TagString: Untagged
@@ -8435,6 +8420,19 @@ Transform:
   - {fileID: 2012122063}
   m_Father: {fileID: 1730063128}
   m_RootOrder: 1
+--- !u!114 &2061524740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2061524738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad46d88b54cb997459f783c2e5b060ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FPS_LABEL: {fileID: 1824434277}
+  FT_Label: {fileID: 1296570730}
 --- !u!1001 &2068861974
 Prefab:
   m_ObjectHideFlags: 0

@@ -72,7 +72,8 @@ namespace Assets.Paradigms.SearchAndFind
         public GameObject entrance;
         public FullScreenFade fading;
         public Teleporting teleporter;
-        
+        public VRSubjectController subject;
+
         public LSLSubjectRelativePositionStream relativePositionStream;
 
         void Awake()
@@ -85,6 +86,9 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (hud == null)
                 throw new MissingReferenceException("No HUD available, you are not able to give visual instructions");
+
+            if (subject == null)
+                subject = FindObjectOfType<VRSubjectController>();
         }
 
 

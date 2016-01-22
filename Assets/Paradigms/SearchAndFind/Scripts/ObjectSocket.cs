@@ -20,12 +20,13 @@ public class ObjectSocket : MonoBehaviour {
     {
         objectToPresent.transform.SetParent(this.transform, false);
         objectToPresent.transform.localPosition = Vector3.zero;
+        objectToPresent.transform.localRotation =Quaternion.identity;
 
         // Not working yet!
         //var targetPosition = objectLookAt.position;
         //targetPosition.y = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         //transform.LookAt(targetPosition);
-         
+
 
         if (AutoRescaleToFitTheBox) { 
 

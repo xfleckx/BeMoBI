@@ -157,7 +157,7 @@ namespace Assets.Paradigms.SearchAndFind
             objectToRemember.transform.localPosition = Vector3.zero;
             objectToRemember.transform.rotation = Quaternion.identity;
             objectToRemember.transform.localScale = Vector3.one;
-
+            objectToRemember.transform.LookAt(paradigm.subject.transform);
 
             this.objectName = objectName;
 
