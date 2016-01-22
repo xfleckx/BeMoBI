@@ -64,7 +64,7 @@ namespace Assets.Paradigms.SearchAndFind
         public StartPoint startingPoint;
         public HUD_Instruction hud;
         public HUD_DEBUG debug_hud;
-        public LSLMarkerStream marker;
+        public LSLSearchAndFindMarkerStream marker;
         public GameObject objectPresenter;
         public ObjectPool objectPool;
         public Transform objectPositionAtTrialStart;

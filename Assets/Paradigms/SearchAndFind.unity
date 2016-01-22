@@ -487,6 +487,7 @@ MonoBehaviour:
   entrance: {fileID: 866232739}
   fading: {fileID: 1410851483}
   teleporter: {fileID: 188249852}
+  subject: {fileID: 0}
   relativePositionStream: {fileID: 188249854}
   training: {fileID: 126849972}
   experiment: {fileID: 1353002344}
