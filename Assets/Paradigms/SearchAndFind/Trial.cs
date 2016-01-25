@@ -353,6 +353,27 @@ namespace Assets.Paradigms.SearchAndFind
                     );
         }
 
+        #region Write Marker at the end of a frame
+
+        private string pendingMarker;
+
+        IEnumerator WriteAfterPostPresent()
+        {
+            yield return new WaitForEndOfFrame();
+
+            paradigm.marker.Write(pendingMarker);
+
+            yield return null;
+        }
+
+        public void WriteOnLastPossibleMoment(string marker)
+        {
+            pendingMarker = marker;
+            StartCoroutine(WriteAfterPostPresent());
+        }
+
+        #endregion
+
         public virtual void LeavesStartPoint(VRSubjectController subject)
         {
             if (currentTrialState == Internal_Trial_State.Searching)

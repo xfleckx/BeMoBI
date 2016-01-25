@@ -3,7 +3,7 @@ using System.Collections;
 using NLog;
 using NLogger = NLog.Logger;
 
-public class LSLMarkerStream : AMarkerStream {
+public class LSLSearchAndFindMarkerStream : AMarkerStream {
 
     NLogger markerLog = LogManager.GetLogger("MarkerLog");
 
