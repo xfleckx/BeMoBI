@@ -1,0 +1,8 @@
+GlobalFog
+
+DistanceFog = true
+Use Radial Distance = false
+Height Fog = true
+Height = 16.08
+Height 4.52
+Start Distance = 1

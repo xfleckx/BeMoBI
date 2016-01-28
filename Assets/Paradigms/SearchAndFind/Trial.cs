@@ -191,7 +191,7 @@ namespace Assets.Paradigms.SearchAndFind
             foreach (var light in allLights)
             {
                 light.gameObject.transform.AllChildren().ForEach(l => {
-                    if (l.gameObject.name != "Light")
+                    //if (l.gameObject.name != "Light")
                         l.gameObject.SetActive(false);
                     }
                 );

@@ -56,7 +56,7 @@ namespace Assets.Paradigms.SearchAndFind
         public ParadigmConfiguration config;
 
         public ParadigmInstanceDefinition InstanceDefinition;
-
+        
         public ActionWaypoint TrialEndPoint;
         public VirtualRealityManager VRManager;
         public StartPoint startingPoint;
@@ -87,6 +87,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (subject == null)
                 subject = FindObjectOfType<VRSubjectController>();
+             
         }
 
 
