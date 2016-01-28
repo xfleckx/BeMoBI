@@ -106,7 +106,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             ActivatePathAndSetHidingSpot(pathID);
 
-            SwitchAllLightsOff(mazeInstance);
+            SwitchAllLightPanelsOff(mazeInstance);
             
             GatherObjectFromObjectPool(category, objectName);
             
@@ -157,7 +157,7 @@ namespace Assets.Paradigms.SearchAndFind
             objectToRemember.transform.localPosition = Vector3.zero;
             objectToRemember.transform.rotation = Quaternion.identity;
             objectToRemember.transform.localScale = Vector3.one;
-            objectToRemember.transform.LookAt(paradigm.subject.transform);
+            //objectToRemember.transform.LookAt(paradigm.subject.transform);
 
             this.objectName = objectName;
 
@@ -184,14 +184,17 @@ namespace Assets.Paradigms.SearchAndFind
             objectSocket.PutIn(objectToRemember);
         }
 
-        protected void SwitchAllLightsOff(beMobileMaze maze)
+        protected void SwitchAllLightPanelsOff(beMobileMaze maze)
         {
             var allLights = maze.GetComponentsInChildren<TopLighting>();
 
             foreach (var light in allLights)
             {
-                light.SwitchOff();
-                light.gameObject.transform.AllChildren().ForEach(l => l.gameObject.SetActive(false));
+                light.gameObject.transform.AllChildren().ForEach(l => {
+                    if (l.gameObject.name != "Light")
+                        l.gameObject.SetActive(false);
+                    }
+                );
             }
 
         }
@@ -243,7 +246,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                 ChangeLightningOn(topLight, currentElement.Value, globalRotation);
 
-                topLight.SwitchOn();
+               // topLight.SwitchOn();
                 
                 currentElement = currentElement.Next;
 

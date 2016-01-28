@@ -16,8 +16,6 @@ using Logger = NLog.Logger; // just aliasing
 
 namespace Assets.Paradigms.SearchAndFind
 {
-
-    [RequireComponent(typeof(LSLMarkerStream))]
     public class ParadigmController : MonoBehaviour
     {
         public const string STD_CONFIG_NAME = "SearchAndFind_Config.json";

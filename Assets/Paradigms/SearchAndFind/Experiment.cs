@@ -12,7 +12,7 @@ namespace Assets.Paradigms.SearchAndFind
         /// </summary>
         public override void SetReady()
         {
-            SwitchAllLightsOff(mazeInstance);
+            SwitchAllLightPanelsOff(mazeInstance);
 
             base.SetReady();
         }
