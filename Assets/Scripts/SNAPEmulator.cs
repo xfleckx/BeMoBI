@@ -30,7 +30,6 @@ namespace Assets.BeMoBI.Scripts
         // Update is called once per frame
         void Update()
         {
-
             tcpListener.Start();
 
             if (tcpListener.Pending())
@@ -48,11 +47,12 @@ namespace Assets.BeMoBI.Scripts
 
                 var result = UTF8Encoding.UTF8.GetString(receiveData);
 
-                Route(result);
+                if (result != null && result != String.Empty)
+                    Route(result);
             }
 
         }
-
+        
         private void Route(string result)
         {
             if (OnCommandRecieved != null && OnCommandRecieved.GetPersistentEventCount() > 0)
@@ -61,14 +61,5 @@ namespace Assets.BeMoBI.Scripts
     }
 
     [Serializable]
-    public class RemoteCommandRecievedEvent : UnityEvent<String>
-    {
-        private String command;
-        public String Command { get { return command; } }
-
-        public RemoteCommandRecievedEvent(String command)
-        {
-            this.command = command;
-        }
-    }
+    public class RemoteCommandRecievedEvent : UnityEvent<String> { }
 }

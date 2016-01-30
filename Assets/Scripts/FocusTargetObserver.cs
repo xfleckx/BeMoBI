@@ -61,19 +61,4 @@ public class FocusTargetObserver : MonoBehaviour {
 }
 
 [Serializable]
-public class TargetFocusEvent : UnityEvent<GameObject>
-{
-    private GameObject objectInFocus;
-    public GameObject ObjectInFocus
-    {
-        get
-        {
-            return objectInFocus;
-        }
-    }
-
-    public TargetFocusEvent(GameObject objectInFocus)
-    {
-        this.objectInFocus = objectInFocus;
-    }
-}
+public class TargetFocusEvent : UnityEvent<GameObject> { } 
