@@ -35,7 +35,7 @@ public class AppInit : MonoBehaviour {
         options = new StartUpOptions();
         
         hasOptions = Parser.Default.ParseArguments( args, options );
-
+        
         var stopWatch = new Stopwatch();
 
         stopWatch.Start();
