@@ -575,7 +575,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 13377606}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72a86ff3347b0f8458e2e91450f582e0, type: 3}
   m_Name: 
@@ -583,8 +583,8 @@ MonoBehaviour:
   distanceFog: 1
   useRadialDistance: 0
   heightFog: 1
-  height: 1
-  heightDensity: 2
+  height: 16
+  heightDensity: 4.5
   startDistance: 0
   fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
 --- !u!81 &13377611
@@ -35400,6 +35400,10 @@ GameObject:
   - 114: {fileID: 1460822097}
   - 114: {fileID: 1460822096}
   - 114: {fileID: 1460822095}
+  - 114: {fileID: 1460822102}
+  - 114: {fileID: 1460822101}
+  - 114: {fileID: 1460822100}
+  - 114: {fileID: 1460822099}
   - 114: {fileID: 1460822094}
   m_Layer: 0
   m_Name: LabStreamingLayer
@@ -35416,7 +35420,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1460822093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b84f95fe5971674ca1c974605c3ed14, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d77a09610253e647af31f55ba6dc180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lslStreamName: Unity_Paradigma
@@ -35476,6 +35480,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1460822099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460822093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6e9a0abb354a14da51dea260035b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity3D.BodyOrientation
+  StreamType: Unity3D.Euler
+  ChannelCount: 3
+  body: {fileID: 534861550}
+--- !u!114 &1460822100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460822093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7c9d92cf2a3d448a687266f24b4dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity3D.HeadOrientation
+  StreamType: Unity3D.Euler
+  ChannelCount: 4
+  head: {fileID: 1112819487}
+--- !u!114 &1460822101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460822093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0115e4cc8ac6243b2d1953e5eb4942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity.HeadOrientation
+  StreamType: Unity.Quaternion
+  ChannelCount: 4
+  head: {fileID: 1112819487}
+--- !u!114 &1460822102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460822093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3698830e838fb654598a03c850ba3ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: BeMoBI.Unity.BodyOrientation
+  StreamType: Unity.Quarternion
+  ChannelCount: 4
+  body: {fileID: 534861550}
 --- !u!1 &1468097788
 GameObject:
   m_ObjectHideFlags: 0
@@ -48880,10 +48944,7 @@ GameObject:
   - 114: {fileID: 2016469154}
   - 114: {fileID: 2016469153}
   - 114: {fileID: 2016469152}
-  - 114: {fileID: 2016469151}
-  - 114: {fileID: 2016469150}
   - 114: {fileID: 2016469148}
-  - 114: {fileID: 2016469149}
   m_Layer: 0
   m_Name: Subject_Fixed_HUD_Rectile
   m_TagString: Untagged
@@ -48899,60 +48960,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2016469147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7c9d92cf2a3d448a687266f24b4dbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fe2695b423d8a544969942635981ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity3D.HeadOrientation
-  StreamType: Unity3D.Euler
-  ChannelCount: 4
-  head: {fileID: 1112819487}
---- !u!114 &2016469149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2016469147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec6e9a0abb354a14da51dea260035b9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity3D.BodyOrientation
-  StreamType: Unity3D.Euler
-  ChannelCount: 3
-  body: {fileID: 534861550}
---- !u!114 &2016469150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11482548, guid: 5f5d86963667fec40a90b0572b217861,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2016469147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0115e4cc8ac6243b2d1953e5eb4942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity.HeadOrientation
-  StreamType: Unity.Quaternion
-  ChannelCount: 4
-  head: {fileID: 1112819487}
---- !u!114 &2016469151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11424050, guid: 5f5d86963667fec40a90b0572b217861,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2016469147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3698830e838fb654598a03c850ba3ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity.BodyOrientation
-  StreamType: Unity.Quarternion
-  ChannelCount: 4
-  body: {fileID: 534861550}
 --- !u!114 &2016469152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51054,8 +51064,8 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.5
-  m_Range: 2
-  m_SpotAngle: 30
+  m_Range: 1.5065659
+  m_SpotAngle: 110
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0

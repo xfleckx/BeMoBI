@@ -3,16 +3,16 @@ using System.Collections;
 using NLog;
 using NLogger = NLog.Logger;
 
-public class LSLSearchAndFindMarkerStream : AMarkerStream {
+public class LSLSearchAndFindMarkerStream : MonoBehaviour {
 
-    NLogger markerLog = LogManager.GetLogger("MarkerLog");
+	NLogger markerLog = LogManager.GetLogger("MarkerLog");
 
-    private const string unique_source_id = "D3F83BB699EB49AB94A9FA44B88882AB";
-    
-    public string lslStreamName = "Unity_Paradigma";
+	private const string unique_source_id = "D3F83BB699EB49AB94A9FA44B88882AB";
+	
+	public string lslStreamName = "Unity_Paradigma";
 	public string lslStreamType = "LSL_Marker_Strings";
 
-    public bool LogAlsoToFile = true;
+	public bool LogAlsoToFile = true;
 
 	private LSL.liblsl.StreamInfo lslStreamInfo;
 	private LSL.liblsl.StreamOutlet lslOutlet;
@@ -32,28 +32,28 @@ public class LSLSearchAndFindMarkerStream : AMarkerStream {
 				lslChannelCount,
 				nominalRate,
 				lslChannelFormat,
-                unique_source_id);
+				unique_source_id);
 
 		lslOutlet = new LSL.liblsl.StreamOutlet(lslStreamInfo);
 	}
 	  
-	public override void Write(string marker, float customTimeStamp)
+	public void Write(string marker, float customTimeStamp)
 	{
 		sample[0] = marker;
 
 		lslOutlet.push_sample(sample, customTimeStamp);
 
-        if (LogAlsoToFile)
-            markerLog.Info(string.Format("{0}\t{1}", customTimeStamp, marker));
-    }
+		if (LogAlsoToFile)
+			markerLog.Info(string.Format("{0}\t{1}", customTimeStamp, marker));
+	}
 
-	public override void Write(string marker)
+	public void Write(string marker)
 	{
 		sample[0] = marker;
 
 		lslOutlet.push_sample(sample);
 
-        if (LogAlsoToFile)
-            markerLog.Info(marker);
+		if (LogAlsoToFile)
+			markerLog.Info(marker);
 	}
 }
