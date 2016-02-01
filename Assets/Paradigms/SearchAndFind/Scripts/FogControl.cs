@@ -22,41 +22,50 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind.Scripts
         [Tooltip("Push fog away from the camera by this amount")]
         public float Source_startDistance = 0.0f;
 
-          
-        private float current_Height = 1.0f;
-        private float current_Density = 2.0f;
-        private float current_Distance = 0.0f;
 
 
         public void RaiseFog()
         {
-
+            StartCoroutine(RaiseToTargetValues());
         }
 
         IEnumerator RaiseToTargetValues()
         {
+            fogEffect.height += 0.1f;
+            fogEffect.heightDensity += 0.1f;
+            fogEffect.startDistance += 0.1f;
+            
             yield return new WaitWhile(FogHasRaisedCompletely);
         }
 
         bool FogHasRaisedCompletely()
         {
-            var result = current_Height == Target_Height &&
-                         current_Density == Target_heightDensity &&
-                         current_Distance == Target_startDistance;
+            var result = current_Height >= Target_Height &&
+                         current_Density >= Target_heightDensity &&
+                         current_Distance >= Target_startDistance;
 
             return result;
         }
 
         public void LetFogDisappeare()
         {
+            StartCoroutine(ReduceFogToTargetValues());
+        }
 
+        IEnumerator ReduceFogToTargetValues()
+        {
+            fogEffect.height -= 0.1f;
+            fogEffect.heightDensity -= 0.1f;
+            fogEffect.startDistance -= 0.1f;
+            
+            yield return new WaitWhile(FogHasDisappearedCompletely);
         }
 
         bool FogHasDisappearedCompletely()
         {
-            var result = current_Height == Source_Height &&
-                         current_Density == Source_heightDensity &&
-                         current_Distance == Source_startDistance;
+            var result = fogEffect.height <= Source_Height &&
+                         fogEffect.heightDensity <= Source_heightDensity &&
+                         fogEffect.startDistance <= Source_startDistance;
 
             return result;
         }
