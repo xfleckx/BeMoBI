@@ -10,9 +10,7 @@ public class Teleporting : MonoBehaviour {
     public GameObject ObjectToTeleport;
 
     public Transform Target;
-
-    public Transform postTeleportLookAt;
-
+    
     public TeleportingDurationEvent BeforeTeleporting;
 
     public TeleportingDurationEvent AfterTeleporting;
@@ -27,11 +25,11 @@ public class Teleporting : MonoBehaviour {
     IEnumerator TeleportingProcess()
     {
         yield return new WaitForSeconds(ExpectedDuration);
-        
+
+        yield return new WaitForEndOfFrame();
+
         ObjectToTeleport.transform.position = Target.position;
-
-        ObjectToTeleport.transform.LookAt(postTeleportLookAt);
-
+        
         if (AfterTeleporting.GetPersistentEventCount() > 0)
             AfterTeleporting.Invoke(ExpectedDuration);
 

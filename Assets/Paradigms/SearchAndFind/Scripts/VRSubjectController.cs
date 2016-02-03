@@ -50,11 +50,54 @@ public class VRSubjectController : MonoBehaviour
         }
         
     }
-
+    
     public void Change<C>(string controllerName) where C : IInputController
     {
         DisableAll<C>();
+
         Enable<C>(controllerName);
+
+        var controller = Get<C>(controllerName);
+
+        if (controller == null)
+            Debug.Log(string.Format("Expected {0} not found!", controllerName));
+
+        if(controller is IBodyMovementController)
+        {
+            var bodyController = controller as IBodyMovementController;
+
+            if (bodyController == null)
+                Debug.Log(string.Format("Expected {0} not found as BodyMovementController!", controllerName));
+
+            bodyController.Body = this.Body;
+        }
+
+        if(controller is IHeadMovementController)
+        {
+            var headController = controller as IHeadMovementController;
+
+            if (headController == null)
+                Debug.Log(string.Format("Expected {0} not found as HeadMovementController!", controllerName));
+
+            headController.Head = this.Head;
+        }
+        
+    }
+
+    public IInputController Get<C>(string ControllerName) where C : IInputController
+    {
+        var possibleController = GetComponents<C>();
+
+        IInputController expectedController = null;
+
+        Func<C, bool> withTheExpectedName = controller => controller.Identifier.Equals(ControllerName);
+
+        if (possibleController.Any(withTheExpectedName))
+        {
+            expectedController = possibleController.FirstOrDefault(withTheExpectedName);
+        } 
+
+        return expectedController;
     }
 
     private void DisableAll<C>() where C : IInputController

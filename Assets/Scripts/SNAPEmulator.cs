@@ -24,12 +24,17 @@ namespace Assets.BeMoBI.Scripts
 
         void Awake()
         {
-            tcpListener = new TcpListener(IPAddress.Any, PortToListenOn);
+            SetupTcpListener();
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(tcpListener == null)
+            {
+                SetupTcpListener();
+            }
+
             tcpListener.Start();
 
             if (tcpListener.Pending())
@@ -52,7 +57,12 @@ namespace Assets.BeMoBI.Scripts
             }
 
         }
-        
+
+        private void SetupTcpListener()
+        {
+            tcpListener = new TcpListener(IPAddress.Any, PortToListenOn);
+        }
+
         private void Route(string result)
         {
             if (OnCommandRecieved != null && OnCommandRecieved.GetPersistentEventCount() > 0)

@@ -9,65 +9,107 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind.Scripts
         public CustomGlobalFog fogEffect;
         
         [Tooltip("Fog top Y coordinate")]
-        public float Target_Height = 1.0f;
+        public float HeightWhenRaised = 1.0f;
         [Range(0.001f, 10.0f)]
-        public float Target_heightDensity = 2.0f;
+        public float HeightDensityWhenRaised = 2.0f;
         [Tooltip("Push fog away from the camera by this amount")]
-        public float Target_startDistance = 0.0f;
-        
-        [Tooltip("Fog top Y coordinate")]
-        public float Source_Height = 1.0f;
+        public float StartDistanceWhenRaised = 0.0f;
+
+        public float RaisingSpeed = 0.1f;
+
+        [Tooltip("Fog top Y coordinate when Fog disappeared")]
+        public float HeightWhenDisappeared = 1.0f;
         [Range(0.001f, 10.0f)]
-        public float Source_heightDensity = 2.0f;
+        public float DensityWhenDisappeared = 2.0f;
         [Tooltip("Push fog away from the camera by this amount")]
-        public float Source_startDistance = 0.0f;
+        public float StartDistanceWhenDisappeared = 0.0f;
 
-
+        public float Disappearingspeed = 0.1f;
 
         public void RaiseFog()
         {
+            StopCoroutine(ReduceFogToTargetValues());
             StartCoroutine(RaiseToTargetValues());
         }
 
         IEnumerator RaiseToTargetValues()
         {
-            fogEffect.height += 0.1f;
-            fogEffect.heightDensity += 0.1f;
-            fogEffect.startDistance += 0.1f;
-            
-            yield return new WaitWhile(FogHasRaisedCompletely);
+            while (true)
+            {
+                if(fogEffect.height < HeightWhenRaised)
+                    fogEffect.height += 1 * RaisingSpeed * Time.deltaTime;
+
+                if (fogEffect.heightDensity < HeightDensityWhenRaised)
+                    fogEffect.heightDensity += 1 * RaisingSpeed * Time.deltaTime;
+
+                if(fogEffect.startDistance < StartDistanceWhenRaised)
+                    fogEffect.startDistance += 1 * RaisingSpeed * Time.deltaTime;
+
+                yield return new WaitWhile(FogHasRaisedCompletely);
+            }
         }
 
         bool FogHasRaisedCompletely()
         {
-            var result = current_Height >= Target_Height &&
-                         current_Density >= Target_heightDensity &&
-                         current_Distance >= Target_startDistance;
+            var result = fogEffect.height >= HeightWhenRaised &&
+                         fogEffect.heightDensity >= HeightDensityWhenRaised &&
+                         fogEffect.startDistance >= StartDistanceWhenRaised;
 
             return result;
         }
 
         public void LetFogDisappeare()
         {
+            StopCoroutine(RaiseToTargetValues());
             StartCoroutine(ReduceFogToTargetValues());
         }
 
         IEnumerator ReduceFogToTargetValues()
         {
-            fogEffect.height -= 0.1f;
-            fogEffect.heightDensity -= 0.1f;
-            fogEffect.startDistance -= 0.1f;
-            
-            yield return new WaitWhile(FogHasDisappearedCompletely);
+            var state = FogHasDisappearedCompletely();
+
+            do
+            {
+                if (fogEffect.height > HeightWhenDisappeared)
+                    fogEffect.height -= 1 * Disappearingspeed * Time.deltaTime;
+
+                if (fogEffect.heightDensity > DensityWhenDisappeared)
+                    fogEffect.heightDensity -= 1 * Disappearingspeed * Time.deltaTime;
+
+                if (fogEffect.startDistance > StartDistanceWhenDisappeared)
+                    fogEffect.startDistance -= 1 * Disappearingspeed * Time.deltaTime;
+
+                yield return new WaitWhile(() => state);
+
+            } while (!state);
+
+            fogEffect.height = HeightWhenDisappeared;
+            fogEffect.startDistance = StartDistanceWhenDisappeared;
+            fogEffect.heightDensity = DensityWhenDisappeared;
+
         }
 
         bool FogHasDisappearedCompletely()
         {
-            var result = fogEffect.height <= Source_Height &&
-                         fogEffect.heightDensity <= Source_heightDensity &&
-                         fogEffect.startDistance <= Source_startDistance;
+            var result = fogEffect.height <= HeightWhenDisappeared &&
+                         fogEffect.heightDensity <= DensityWhenDisappeared &&
+                         fogEffect.startDistance <= StartDistanceWhenDisappeared;
 
             return result;
+        }
+
+        public void DisappeareImmediately()
+        {
+            fogEffect.height = HeightWhenDisappeared;
+            fogEffect.heightDensity = DensityWhenDisappeared;
+            fogEffect.startDistance = StartDistanceWhenDisappeared;
+        }
+
+        public void RaisedImmediately()
+        {
+            fogEffect.height = HeightWhenRaised;
+            fogEffect.heightDensity = HeightDensityWhenRaised;
+            fogEffect.startDistance = StartDistanceWhenRaised;
         }
     }
 

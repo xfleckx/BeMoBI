@@ -420,15 +420,16 @@ namespace Assets.Paradigms.SearchAndFind
         {
             var unit = evt.MazeUnit;
 
-            if(evt.MazeUnitEventType == MazeUnitEventType.Entering) { 
+            if (evt.MazeUnitEventType == MazeUnitEventType.Entering)
+            {
 
-                if(currentPathElement == null)
+                // special case entering the maze
+                if (currentPathElement == null)
                 {
                     if (path.PathAsLinkedList.First.Value.Unit.Equals(unit))
                     {
                         currentPathElement = path.PathAsLinkedList.First;
 
-                        // special case entering the maze
                         paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
 
                         paradigm.hud.Clear();
@@ -438,47 +439,42 @@ namespace Assets.Paradigms.SearchAndFind
                         UnityEngine.Debug.Log("Seems as something entered the maze on the wrong entrance!");
                     }
                 }
-                else
+                else if (path.PathAsLinkedList.Last.Value.Unit.Equals(unit)) // is the end of the path reached??
                 {
-                    // end of the path is reached
-                    if (path.PathAsLinkedList.Last.Value.Unit.Equals(unit))
+                    if (currentTrialState == Internal_Trial_State.Searching)
                     {
-                        if( currentTrialState == Internal_Trial_State.Searching) {
+                        paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
 
-                            paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+                        hidingSpotInstance.Reveal();
 
-                            hidingSpotInstance.Reveal();
+                        paradigm.marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
 
-                            paradigm.marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
+                        paradigm.TrialEndPoint.gameObject.SetActive(true);
 
-                            paradigm.TrialEndPoint.gameObject.SetActive(true);
+                        currentTrialState = Internal_Trial_State.Returning;
+                        
+                        if (paradigm.config.useTeleportation)
+                        {
+                            paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
 
-                            currentTrialState = Internal_Trial_State.Returning;
-
-
-                            if (paradigm.config.useTeleportation) {
-
-                                paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
-                                
-                                StartCoroutine(BeginTeleportation());
-
-                            }
-                            else
-                            {
-
-                                paradigm.hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
-
-                                path.InvertPath();
-
-                                currentPathElement = path.PathAsLinkedList.First;
-                            }
+                            StartCoroutine(BeginTeleportation());
 
                         }
+                        else
+                        {
+                            paradigm.hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
+
+                            path.InvertPath();
+
+                            currentPathElement = path.PathAsLinkedList.First;
+                        }
+
                     } // A correct turn is defined as entering the last correct or the next element of the path
                     else if (currentPathElement.Value.Unit.Equals(unit) || currentPathElement.Next.Value.Unit.Equals(unit))
                     {
                         // avoid write correct marker duplication
-                        if (!lastTurnWasIncorrect) {
+                        if (!lastTurnWasIncorrect)
+                        {
                             // Don't get confused here! From the current state of the trial we are actual one element behind!
                             paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
                         }
@@ -487,7 +483,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                         if (paradigm.hud.IsRendering)
                             paradigm.hud.Clear();
-                        
+
                         // now change the current state of the trial for the next unit event!
                         currentPathElement = currentPathElement.Next;
                     }
@@ -503,7 +499,7 @@ namespace Assets.Paradigms.SearchAndFind
             }
 
         }
-        
+
         IEnumerator BeginTeleportation()
         {
             yield return new WaitForSeconds(paradigm.config.offsetToTeleportation);

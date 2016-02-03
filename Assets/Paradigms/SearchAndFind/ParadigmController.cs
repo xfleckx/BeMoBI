@@ -13,6 +13,7 @@ using Assets.BeMoBI.Scripts;
 // Pittfall: You need to copy the NLog.config file to the *_DATA directory after the build!
 using NLog;
 using Logger = NLog.Logger; // just aliasing
+using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
 
 namespace Assets.Paradigms.SearchAndFind
 {
@@ -71,8 +72,9 @@ namespace Assets.Paradigms.SearchAndFind
         public FullScreenFade fading;
         public Teleporting teleporter;
         public VRSubjectController subject;
-
+        public FogControl fogControl;
         public LSLSubjectRelativePositionStream relativePositionStream;
+        public Transform FocusPointAtStart;
 
         void Awake()
         {
@@ -89,8 +91,7 @@ namespace Assets.Paradigms.SearchAndFind
                 subject = FindObjectOfType<VRSubjectController>();
              
         }
-
-
+        
         void Start()
         {
             First_GetTheSubjectName();
@@ -102,6 +103,8 @@ namespace Assets.Paradigms.SearchAndFind
             Third_LoadInstanceDefinitionAndSupplySubjectIDAndConfig();
 
             hud.Clear();
+
+            fogControl.DisappeareImmediately();
 
             fading.StartFadeIn();
 
@@ -390,6 +393,13 @@ namespace Assets.Paradigms.SearchAndFind
             entrance.SetActive(true);
 
             SetNextTrialPending();
+        }
+
+        public void AfterTeleportingToEndPoint()
+        {
+            Debug.Log("try reset orientation");
+            subject.transform.LookAt(FocusPointAtStart);
+            subject.transform.rotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
         }
 
         public void ForceSaveEnd()

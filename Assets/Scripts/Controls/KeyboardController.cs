@@ -4,12 +4,23 @@ using System;
 
 
 namespace Assets.BeMoBI.Scripts.Controls
-{
+{ 
 
     [RequireComponent(typeof(VRSubjectController))]
     public class KeyboardController : MonoBehaviour, IBodyMovementController
     {
+        private const string X_AXIS_NAME = "KBC_Horizontal";
+        private const string Y_AXIS_NAME = "KBC_Vertical";
+
         private Transform heading;
+
+        public bool useStrafing = false;
+
+        public AnimationCurve BodyRotationAccelerationCurve;
+
+        public bool rotateSmooth = true;
+
+        public float SmoothBodyTime = 2f;
 
         void Start()
         {
@@ -42,39 +53,46 @@ namespace Assets.BeMoBI.Scripts.Controls
         
         public float speed = 2.0f;
 
-        public void ApplyMovement(CharacterController controller)
+        private Quaternion expectedRotation;
+
+        public void Update()
         {
-            var inputVector = Vector3.zero;
+            var rawX = Input.GetAxis(X_AXIS_NAME);
 
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                inputVector += Vector3.right * speed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                inputVector += Vector3.left * speed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                inputVector += Vector3.forward * speed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                inputVector += Vector3.back * speed * Time.deltaTime;
-            }
+            var rawY = Input.GetAxis(Y_AXIS_NAME);
 
-            var m_Input = new Vector2(inputVector.x, inputVector.z);
+            var signX = Math.Sign(rawX);
 
-            if (m_Input.sqrMagnitude > 1)
+            var abs_body_raw_X = Math.Abs(rawX);
+            
+            // set to the last state
+            expectedRotation = Body.transform.rotation;
+
+            Vector3 desiredMove = Vector3.zero;
+
+            if (useStrafing)
+                desiredMove = transform.forward * rawX + transform.right;
+            else
+                desiredMove = transform.forward * rawY;
+            
+            var evaluated = BodyRotationAccelerationCurve.Evaluate(rawX);
+
+            var rotationDirection = evaluated * signX;
+
+            expectedRotation *= Quaternion.Euler(0f, rotationDirection * speed, 0f);
+
+            if (rotateSmooth)
             {
-                m_Input.Normalize();
+                Body.transform.rotation = Quaternion.Slerp(Body.transform.rotation, expectedRotation, SmoothBodyTime * Time.deltaTime);
             }
-
-            Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
+            else
+            {
+                Body.transform.rotation = expectedRotation;
+            }
 
             heading.transform.TransformDirection(desiredMove);
 
-            controller.Move(desiredMove);
+            Body.Move(desiredMove);
         }
 
         public void Enable()

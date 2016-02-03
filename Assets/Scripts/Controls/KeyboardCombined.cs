@@ -21,7 +21,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         void OnEnable()
         {
-            targetRotation = Quaternion.identity;
+            targetRotation = Body.transform.rotation;
         }
 
 
@@ -29,6 +29,8 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         void Update()
         {
+            targetRotation = Body.transform.rotation;
+
             body_raw_X = Input.GetAxis(X_AXIS_NAME);
 
             var sign = Math.Sign(body_raw_X);
