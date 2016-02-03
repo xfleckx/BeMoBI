@@ -22,7 +22,7 @@ namespace Assets.Paradigms.SearchAndFind
 
         void CleanUp();
     }
-    
+
     public class Trial : MonoBehaviour, ITrial
     {
         #region Dependencies 
@@ -37,13 +37,13 @@ namespace Assets.Paradigms.SearchAndFind
 
         public PathController pathController;
         public GameObject objectToRemember;
-        
+
         public int currentPathID = -1;
 
         public string currentMazeName = string.Empty;
 
         public CustomGlobalFog fog;
-        
+
         #endregion
 
         #region Trial state only interesting for the trial itself!
@@ -55,7 +55,9 @@ namespace Assets.Paradigms.SearchAndFind
         protected GameObject activeEnvironment;
 
         protected LinkedListNode<PathElement> currentPathElement;
-             
+
+        protected MazeUnit currentUnit;
+
         protected Internal_Trial_State currentTrialState;
 
         protected Stopwatch stopWatch;
@@ -63,6 +65,7 @@ namespace Assets.Paradigms.SearchAndFind
         protected Stopwatch unitStopWatch;
 
         bool lastTurnWasIncorrect = false;
+
         private bool isReady;
 
         #endregion
@@ -72,7 +75,7 @@ namespace Assets.Paradigms.SearchAndFind
         public virtual void Initialize(string mazeName, int pathID, string category, string objectName)
         {
             UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
-            
+
             var expectedWorld = paradigm.VRManager.ChangeWorld(mazeName);
 
             if (expectedWorld != null)
@@ -107,15 +110,15 @@ namespace Assets.Paradigms.SearchAndFind
             ActivatePathAndSetHidingSpot(pathID);
 
             SwitchAllLightPanelsOff(mazeInstance);
-            
+
             GatherObjectFromObjectPool(category, objectName);
-            
+
         }
 
         private void ResetStartConditions()
         {
-           paradigm.objectPresenter.SetActive(true);
-            
+            paradigm.objectPresenter.SetActive(true);
+
         }
 
         private void ActivatePathAndSetHidingSpot(int pathId)
@@ -125,7 +128,7 @@ namespace Assets.Paradigms.SearchAndFind
             currentPathID = pathId;
 
             path = pathController.EnablePathContaining(pathId);
-          
+
             var unitAtPathEnd = path.PathAsLinkedList.Last.Value.Unit;
 
             // hiding spot look at inactive (open wall)
@@ -135,7 +138,7 @@ namespace Assets.Paradigms.SearchAndFind
             hidingSpotHost.transform.SetParent(unitAtPathEnd.transform, false);
             hidingSpotHost.transform.localPosition = Vector3.zero;
             hidingSpotHost.transform.Rotate(targetRotation);
-            
+
             hidingSpotInstance = hidingSpotHost.GetComponent<HidingSpot>();
         }
 
@@ -143,7 +146,7 @@ namespace Assets.Paradigms.SearchAndFind
         {
             var objectCategory = paradigm.objectPool.Categories.Where(c => c.name.Equals(categoryName)).FirstOrDefault();
 
-            if(objectCategory == null)
+            if (objectCategory == null)
                 throw new ArgumentException(string.Format("Expected category \"{0}\" not found!", categoryName));
 
             var targetObject = objectCategory.GetObjectBy(objectName);
@@ -152,12 +155,19 @@ namespace Assets.Paradigms.SearchAndFind
                 throw new ArgumentException(string.Format("Expected Object \"{0}\" from category \"{1}\" not found!", objectName, categoryName));
 
             objectToRemember = Instantiate(targetObject);
-            
+
             objectToRemember.transform.SetParent(paradigm.objectPositionAtTrialStart, false);
             objectToRemember.transform.localPosition = Vector3.zero;
             objectToRemember.transform.rotation = Quaternion.identity;
             objectToRemember.transform.localScale = Vector3.one;
-            //objectToRemember.transform.LookAt(paradigm.subject.transform);
+
+            objectToRemember.transform.LookAt(paradigm.subject.transform);
+
+            var originalRotation = objectToRemember.transform.rotation;
+
+            var rotationWithFixed_XZ = new Vector3(0, originalRotation.eulerAngles.y, 0);
+
+            objectToRemember.transform.rotation = Quaternion.Euler(rotationWithFixed_XZ);
 
             this.objectName = objectName;
 
@@ -182,6 +192,8 @@ namespace Assets.Paradigms.SearchAndFind
             var objectSocket = socketAtThePathEnd.GetComponent<ObjectSocket>();
 
             objectSocket.PutIn(objectToRemember);
+
+            objectSocket.gameObject.SetActive(false);
         }
 
         protected void SwitchAllLightPanelsOff(beMobileMaze maze)
@@ -190,10 +202,11 @@ namespace Assets.Paradigms.SearchAndFind
 
             foreach (var light in allLights)
             {
-                light.gameObject.transform.AllChildren().ForEach(l => {
+                light.gameObject.transform.AllChildren().ForEach(l =>
+                {
                     //if (l.gameObject.name != "Light")
-                        l.gameObject.SetActive(false);
-                    }
+                    l.gameObject.SetActive(false);
+                }
                 );
             }
 
@@ -202,13 +215,13 @@ namespace Assets.Paradigms.SearchAndFind
         protected virtual void SetLightningOn(PathInMaze path, beMobileMaze maze)
         {
             // UnityEngine.Debug.Log(string.Format("Try enabling lights on Path: {0} in Maze: {1}",path.ID, maze.name));
-       
+
             var currentElement = path.PathAsLinkedList.First;
-            
+
             int globalRotation = 0;
 
             do
-            { 
+            {
 
                 // TODO: special case last element!
 
@@ -218,15 +231,16 @@ namespace Assets.Paradigms.SearchAndFind
 
                 if (previousElement == null)
                     previousElement = currentElement;
-                
-                if (nextElement == null) { 
+
+                if (nextElement == null)
+                {
                     nextElement = previousElement;
                 }
 
                 var previousElementsPosition = previousElement.Value.Unit.transform.position;
                 var currentElementsPosition = currentElement.Value.Unit.transform.position;
                 var nextPathElementsPosition = nextElement.Value.Unit.transform.position;
-                
+
                 var a = previousElementsPosition - currentElementsPosition;
 
                 Vector3 b = Vector3.zero;
@@ -238,7 +252,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                 var turningAngle = a.SignedAngle(b, Vector3.up);
 
-                globalRotation = (globalRotation + (int) turningAngle) % 360;
+                globalRotation = (globalRotation + (int)turningAngle) % 360;
 
                 //UnityEngine.Debug.Log(string.Format("From {2} to {3} ## Current Angle: {0} ## GlobalRotation {1}", turningAngle, globalRotation, currentElementsPosition, nextPathElementsPosition));
 
@@ -246,8 +260,8 @@ namespace Assets.Paradigms.SearchAndFind
 
                 ChangeLightningOn(topLight, currentElement.Value, globalRotation);
 
-               // topLight.SwitchOn();
-                
+                // topLight.SwitchOn();
+
                 currentElement = currentElement.Next;
 
             } while (currentElement != null);
@@ -260,11 +274,11 @@ namespace Assets.Paradigms.SearchAndFind
             var toDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation);
 
             int rotationOffset = 0;
-            if(current.Type == UnitType.L || current.Type == UnitType.T || current.Type == UnitType.X)
+            if (current.Type == UnitType.L || current.Type == UnitType.T || current.Type == UnitType.X)
             {
                 if (current.Turn == TurnType.LEFT)
                     rotationOffset = -90;
-                
+
                 if (current.Turn == TurnType.RIGHT)
                     rotationOffset = 90;
 
@@ -274,7 +288,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             if (current.Type == UnitType.I)
             {
-               rotationOffset = 180;
+                rotationOffset = 180;
             }
 
             var fromDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation + rotationOffset);
@@ -282,7 +296,7 @@ namespace Assets.Paradigms.SearchAndFind
             // UnityEngine.Debug.Log(string.Format("From Direction: {0} ## To direction: {1}", fromDirectionPanelName, toDirectionPanelName));
 
             // Enable only for open walls and the direction
-            
+
             foreach (var lightPanel in lightChildren)
             {
                 if (lightPanel.name.Equals("Center"))
@@ -291,8 +305,8 @@ namespace Assets.Paradigms.SearchAndFind
                 }
 
                 if (lightPanel.name.Equals(toDirectionPanelName) || lightPanel.name.Equals(fromDirectionPanelName))
-                { 
-                    lightPanel.SetActive( true );
+                {
+                    lightPanel.SetActive(true);
                 }
             }
 
@@ -336,7 +350,7 @@ namespace Assets.Paradigms.SearchAndFind
                 OnBeforeStart();
 
                 paradigm.marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
-                
+
                 stopWatch.Start();
 
                 ShowObjectAtStart();
@@ -384,6 +398,8 @@ namespace Assets.Paradigms.SearchAndFind
                 paradigm.startingPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
                 paradigm.hud.Clear();
+
+                paradigm.fogControl.RaiseFog();
             }
         }
 
@@ -402,7 +418,9 @@ namespace Assets.Paradigms.SearchAndFind
 
                 waypoint.HideInfoText();
 
-                paradigm.hud.ShowInstruction("Turn and go back to Start point for the next trial!","Task:");
+                paradigm.hud.ShowInstruction("Turn and go back to Start point for the next trial!", "Task:");
+
+                paradigm.fogControl.LetFogDisappeare();
 
                 OnFinished(stopWatch.Elapsed);
             }
@@ -412,21 +430,50 @@ namespace Assets.Paradigms.SearchAndFind
         {
             if (!this.isActiveAndEnabled || waypoint.WaypointId != 0)
                 return;
-
-
         }
+
+        #region semantical helper methods - Clean Code ;)
+
+        private bool SubjectEntersTheMaze()
+        {
+            return currentPathElement == null;
+        }
+
+        private bool SubjectReachedEndOfPath()
+        {
+            var unitOfTheLastPathElement = path.PathAsLinkedList.Last.Value.Unit;
+
+            return unitOfTheLastPathElement.Equals(currentUnit);
+        }
+
+        private bool SubjectEnteredThePath()
+        {
+            var unitOfTheFirstPathElement = path.PathAsLinkedList.First.Value.Unit;
+
+            return unitOfTheFirstPathElement.Equals(currentUnit);
+        }
+
+        private bool SubjectMoveToTheNextPathElement()
+        {
+            var newUnitIsThe_Last_CorrectUnit = currentPathElement.Value.Unit.Equals(currentUnit);
+
+            var newUnitIsThe_Next_CorrectUnit = currentPathElement.Next.Value.Unit.Equals(currentUnit);
+
+            return newUnitIsThe_Last_CorrectUnit || newUnitIsThe_Next_CorrectUnit;
+        }
+
+        #endregion
 
         public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
         {
-            var unit = evt.MazeUnit;
+            currentUnit = evt.MazeUnit;
 
             if (evt.MazeUnitEventType == MazeUnitEventType.Entering)
             {
-
                 // special case entering the maze
-                if (currentPathElement == null)
+                if (SubjectEntersTheMaze())
                 {
-                    if (path.PathAsLinkedList.First.Value.Unit.Equals(unit))
+                    if (SubjectEnteredThePath())
                     {
                         currentPathElement = path.PathAsLinkedList.First;
 
@@ -439,20 +486,28 @@ namespace Assets.Paradigms.SearchAndFind
                         UnityEngine.Debug.Log("Seems as something entered the maze on the wrong entrance!");
                     }
                 }
-                else if (path.PathAsLinkedList.Last.Value.Unit.Equals(unit)) // is the end of the path reached??
+                else if (SubjectReachedEndOfPath()) // is the end of the path reached??
                 {
                     if (currentTrialState == Internal_Trial_State.Searching)
                     {
                         paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
 
-                        hidingSpotInstance.Reveal();
+                        hidingSpotInstance.RevealImmediately();
+
+                        var socket = hidingSpotInstance.GetSocket();
+
+                        socket.transform.LookAt(paradigm.subject.transform);
+
+                        var originalRotation = socket.transform.rotation;
+
+                        socket.rotation = Quaternion.Euler(0, originalRotation.eulerAngles.y, 0);
 
                         paradigm.marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
 
                         paradigm.TrialEndPoint.gameObject.SetActive(true);
 
                         currentTrialState = Internal_Trial_State.Returning;
-                        
+
                         if (paradigm.config.useTeleportation)
                         {
                             paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
@@ -469,36 +524,35 @@ namespace Assets.Paradigms.SearchAndFind
                             currentPathElement = path.PathAsLinkedList.First;
                         }
 
-                    } // A correct turn is defined as entering the last correct or the next element of the path
-                    else if (currentPathElement.Value.Unit.Equals(unit) || currentPathElement.Next.Value.Unit.Equals(unit))
-                    {
-                        // avoid write correct marker duplication
-                        if (!lastTurnWasIncorrect)
-                        {
-                            // Don't get confused here! From the current state of the trial we are actual one element behind!
-                            paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
-                        }
-
-                        lastTurnWasIncorrect = false;
-
-                        if (paradigm.hud.IsRendering)
-                            paradigm.hud.Clear();
-
-                        // now change the current state of the trial for the next unit event!
-                        currentPathElement = currentPathElement.Next;
-                    }
-                    else
-                    {
-                        lastTurnWasIncorrect = true;
-
-                        paradigm.marker.Write(MarkerPattern.FormatIncorrectTurn(unit, currentPathElement.Value, currentPathElement.Next.Value));
-
-                        paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Task");
                     }
                 }
+                else if (SubjectMoveToTheNextPathElement())
+                { 
+                    paradigm.marker.Write(
+                        MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
+
+                    lastTurnWasIncorrect = false;
+
+                    if (paradigm.hud.IsRendering)
+                        paradigm.hud.Clear();
+
+                    // now change the current state of the trial for the next unit event!
+                    currentPathElement = currentPathElement.Next;
+                }
+                else
+                {
+                    lastTurnWasIncorrect = true;
+
+                    paradigm.marker.Write(
+                        MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
+
+                    paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Task");
+                }
+
             }
 
         }
+
 
         IEnumerator BeginTeleportation()
         {
@@ -519,14 +573,14 @@ namespace Assets.Paradigms.SearchAndFind
 
             OnFinished(stopWatch.Elapsed);
         }
-        
+
         public event Action BeforeStart;
         protected void OnBeforeStart()
         {
             if (BeforeStart != null)
                 BeforeStart();
         }
-         
+
         public event Action<Trial, TrialResult> Finished;
         protected void OnFinished(TimeSpan trialDuration)
         {
@@ -548,12 +602,13 @@ namespace Assets.Paradigms.SearchAndFind
         {
             currentPathElement = null;
 
-            if(path.Inverse)
+            if (path.Inverse)
                 path.InvertPath();
 
-            if(mazeInstance != null) { 
+            if (mazeInstance != null)
+            {
                 var lineRenderer = mazeInstance.GetComponent<LineRenderer>();
-            
+
                 Destroy(lineRenderer);
 
                 mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
@@ -563,12 +618,12 @@ namespace Assets.Paradigms.SearchAndFind
 
             paradigm.startingPoint.ClearSubscriptions();
 
-            if(hidingSpotInstance != null)
+            if (hidingSpotInstance != null)
             {
                 Destroy(hidingSpotInstance.gameObject);
             }
         }
-         
+
         #region Helper functions
 
         private Vector3 GetRotationFrom(MazeUnit unit)
@@ -601,7 +656,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             return Vector3.one;
         }
-        
+
         #endregion
     }
 
