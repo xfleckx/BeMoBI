@@ -397,7 +397,6 @@ namespace Assets.Paradigms.SearchAndFind
 
         public void AfterTeleportingToEndPoint()
         {
-            Debug.Log("try reset orientation");
             subject.transform.LookAt(FocusPointAtStart);
             subject.transform.rotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
         }

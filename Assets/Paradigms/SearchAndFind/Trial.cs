@@ -78,7 +78,7 @@ namespace Assets.Paradigms.SearchAndFind
 
         public virtual void Initialize(string mazeName, int pathID, string category, string objectName)
         {
-            UnityEngine.Debug.Log(string.Format("Initialize Trial: {0} {1} {2} {3}", mazeName, pathID, category, objectName));
+            UnityEngine.Debug.Log(string.Format("Initialize {0} Trial: {1} {2} {3} {4}", this.GetType().Name, mazeName, pathID, category, objectName));
 
             var expectedWorld = paradigm.VRManager.ChangeWorld(mazeName);
 
@@ -327,7 +327,6 @@ namespace Assets.Paradigms.SearchAndFind
             yield return new WaitForSeconds(waitingTime);
 
             HideSocketAndOpenEntranceAtStart();
-
         }
        
         #endregion
@@ -466,7 +465,6 @@ namespace Assets.Paradigms.SearchAndFind
 
             return lastUnitWas_Not_a_PathElement && currentUnitIsElementInPath;
         }
-
 
         #endregion
 

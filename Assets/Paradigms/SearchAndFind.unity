@@ -4629,7 +4629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogEffect: {fileID: 13377610}
-  HeightDensityWhenRaised: 8.95
+  HeightDensityWhenRaised: 8
   RaisingSpeed: 10
   DensityWhenDisappeared: 0.001
   Disappearingspeed: 15
@@ -31264,7 +31264,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 147426, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2348918, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
       propertyPath: m_Materials.Array.data[0]
@@ -31650,6 +31650,14 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7027c1720b277b042bded826ad6e4a85, type: 2}
+    - target: {fileID: 11420804, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11473930, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
   m_IsPrefabParent: 0
@@ -47745,7 +47753,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 166372, guid: a041b81c5a9c0ee4e93f3b9aa8b5748a, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a041b81c5a9c0ee4e93f3b9aa8b5748a, type: 2}
