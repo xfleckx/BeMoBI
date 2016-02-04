@@ -58,11 +58,15 @@ namespace Assets.Paradigms.SearchAndFind
 
         protected MazeUnit currentUnit;
 
+        protected MazeUnit lastUnit;
+
         protected Internal_Trial_State currentTrialState;
 
         protected Stopwatch stopWatch;
 
         protected Stopwatch unitStopWatch;
+
+        protected MazeUnit lastCorrectUnit;
 
         bool lastTurnWasIncorrect = false;
 
@@ -98,7 +102,7 @@ namespace Assets.Paradigms.SearchAndFind
 
             paradigm.relativePositionStream.currentMaze = mazeInstance;
 
-            mazeInstance.MazeUnitEventOccured += OnMazeUnitEvent;
+            mazeInstance.MazeUnitEventOccured += SubjectMovesWithinTheMaze;
 
             paradigm.startingPoint.EnterStartPoint += OnStartPointEntered;
             paradigm.startingPoint.LeaveStartPoint += OnStartPointLeaved;
@@ -174,15 +178,7 @@ namespace Assets.Paradigms.SearchAndFind
             this.categoryName = categoryName;
 
         }
-
-        IEnumerator DisplayObjectAtStartFor(float waitingTime)
-        {
-            yield return new WaitForSeconds(waitingTime);
-
-            HideSocketAndOpenEntranceAtStart();
-
-        }
-
+        
         private void HideSocketAndOpenEntranceAtStart()
         {
             paradigm.entrance.SetActive(false);
@@ -194,6 +190,8 @@ namespace Assets.Paradigms.SearchAndFind
             objectSocket.PutIn(objectToRemember);
 
             objectSocket.gameObject.SetActive(false);
+
+            paradigm.fogControl.RaiseFog();
         }
 
         protected void SwitchAllLightPanelsOff(beMobileMaze maze)
@@ -385,8 +383,6 @@ namespace Assets.Paradigms.SearchAndFind
                 paradigm.startingPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
                 paradigm.hud.Clear();
-
-                paradigm.fogControl.RaiseFog();
             }
         }
 
@@ -440,19 +436,47 @@ namespace Assets.Paradigms.SearchAndFind
             return unitOfTheFirstPathElement.Equals(currentUnit);
         }
 
-        private bool SubjectMoveToTheNextPathElement()
+        private bool SubjectFollowsPath()
         {
-            var newUnitIsThe_Last_CorrectUnit = currentPathElement.Value.Unit.Equals(currentUnit);
+            var nextPathElement = currentPathElement.Next;
+             
+            var unitOfNextPathElement = nextPathElement.Value.Unit;
+             
+            var newUnitIsThe_Next_CorrectUnit = unitOfNextPathElement.Equals(currentUnit);
 
-            var newUnitIsThe_Next_CorrectUnit = currentPathElement.Next.Value.Unit.Equals(currentUnit);
-
-            return newUnitIsThe_Last_CorrectUnit || newUnitIsThe_Next_CorrectUnit;
+            return newUnitIsThe_Next_CorrectUnit;
         }
+
+        private bool SubjectMoveToAWrongUnit()
+        {
+            var nextPathElement = currentPathElement.Next;
+
+            var nextPathElementsUnit = nextPathElement.Value.Unit;
+
+            var getBackToLastCorrectUnit = currentPathElement.Value.Unit.Equals(currentUnit);
+
+            return !nextPathElementsUnit.Equals(currentUnit) && !getBackToLastCorrectUnit;
+        }
+
+        private bool SubjectReturnsToPath()
+        {
+            var lastUnitWas_Not_a_PathElement = currentPathElement.Previous.Value.Unit.Equals(lastUnit) || currentPathElement.Value.Unit.Equals(lastUnit);
+
+            var currentUnitIsElementInPath = currentPathElement.Value.Unit.Equals(currentUnit);
+
+            return lastUnitWas_Not_a_PathElement && currentUnitIsElementInPath;
+        }
+
 
         #endregion
 
-        public virtual void OnMazeUnitEvent(MazeUnitEvent evt)
+        /// <summary>
+        /// This is the method of interest. It implements the behaviour whenever the subject moves from unit to unit.
+        /// </summary>
+        /// <param name="evt">Contians the information about trigger collisions within a maze</param>
+        public virtual void SubjectMovesWithinTheMaze(MazeUnitEvent evt)
         {
+            lastUnit = currentUnit;
             currentUnit = evt.MazeUnit;
 
             if (evt.MazeUnitEventType == MazeUnitEventType.Entering)
@@ -489,7 +513,9 @@ namespace Assets.Paradigms.SearchAndFind
 
                         socket.rotation = Quaternion.Euler(0, originalRotation.eulerAngles.y, 0);
 
-                        paradigm.marker.Write(MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName));
+                        var objectFoundMarker = MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName);
+
+                        paradigm.marker.WriteAtTheEndOfThisFrame(objectFoundMarker);
 
                         paradigm.TrialEndPoint.gameObject.SetActive(true);
 
@@ -513,34 +539,34 @@ namespace Assets.Paradigms.SearchAndFind
 
                     }
                 }
-                else if (SubjectMoveToTheNextPathElement())
-                { 
+                else if (SubjectFollowsPath())
+                {
+                    UnityEngine.Debug.Log("Subject moves to next path element");
+
                     paradigm.marker.Write(
                         MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
-
-                    lastTurnWasIncorrect = false;
-
+                     
                     if (paradigm.hud.IsRendering)
                         paradigm.hud.Clear();
-
-                    // now change the current state of the trial for the next unit event!
+                    
                     currentPathElement = currentPathElement.Next;
                 }
-                else
+                else if(SubjectMoveToAWrongUnit())
                 {
-                    lastTurnWasIncorrect = true;
-
                     paradigm.marker.Write(
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
 
-                    paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Task");
+                    paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Warning!");
+                }
+                else if(SubjectReturnsToPath())
+                {
+                    paradigm.hud.ShowInstruction("You`re back on track!", "Good");
                 }
 
             }
 
         }
-
-
+        
         IEnumerator BeginTeleportation()
         {
             yield return new WaitForSeconds(paradigm.config.offsetToTeleportation);
@@ -598,7 +624,7 @@ namespace Assets.Paradigms.SearchAndFind
 
                 Destroy(lineRenderer);
 
-                mazeInstance.MazeUnitEventOccured -= OnMazeUnitEvent;
+                mazeInstance.MazeUnitEventOccured -= SubjectMovesWithinTheMaze;
             }
 
             ClearCallbacks();
