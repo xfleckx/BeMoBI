@@ -51,9 +51,33 @@ public class LSLSearchAndFindMarkerStream : MonoBehaviour {
 	{
 		sample[0] = marker;
 
-		lslOutlet.push_sample(sample);
+        var timestamp = LSL.liblsl.local_clock();
+
+		lslOutlet.push_sample(sample, timestamp);
 
 		if (LogAlsoToFile)
-			markerLog.Info(marker);
+			markerLog.Info(string.Format("{0}\t{1}", timestamp, marker));
 	}
+
+
+    #region Write Marker at the end of a frame
+
+    private string pendingMarker;
+
+    IEnumerator WriteAfterPostPresent()
+    {
+        yield return new WaitForEndOfFrame();
+
+        Write(pendingMarker);
+
+        yield return null;
+    }
+
+    public void WriteAtTheEndOfThisFrame(string marker)
+    {
+        pendingMarker = marker;
+        StartCoroutine(WriteAfterPostPresent());
+    }
+
+    #endregion
 }
