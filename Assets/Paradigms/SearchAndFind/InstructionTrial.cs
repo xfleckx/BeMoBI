@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-namespace Assets.Paradigms.SearchAndFind
+
+namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class InstructionTrial : Trial
     {

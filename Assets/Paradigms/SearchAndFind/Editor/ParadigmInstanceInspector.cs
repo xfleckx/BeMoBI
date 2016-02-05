@@ -6,11 +6,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using Assets.BeMoBI.Paradigms.SearchAndFind;
 
-namespace Assets.Paradigms.SearchAndFind
+namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
     [CustomEditor(typeof(ParadigmController))]
-    public class ParadigmInstanceInspector : Editor
+    public class ParadigmInstanceInspector : UnityEditor.Editor
     {
         private ParadigmController instance;
         private ParadigmControlWindow controlWindow;

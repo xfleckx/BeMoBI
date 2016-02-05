@@ -6,94 +6,96 @@ using UnityEditor;
 using UnityEngine;
 
 using Assets.BeMoBI.Scripts.Controls;
-
-[CustomEditor(typeof(VRSubjectController))]
-public class VRSubjectInspector : Editor
+namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
-    VRSubjectController instance;
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(VRSubjectController))]
+    public class VRSubjectInspector : UnityEditor.Editor
     {
-        instance = target as VRSubjectController;
+        VRSubjectController instance;
 
-        base.OnInspectorGUI();
-
-        GUILayout.BeginVertical();
-
-
-        if (GUILayout.Button("Toggle Rectile"))
+        public override void OnInspectorGUI()
         {
-            instance.ToggleRectile();
-        }
+            instance = target as VRSubjectController;
 
-        if(GUILayout.Button("Toogle Fog"))
-        {
-            instance.ToggleFog();
-        }
+            base.OnInspectorGUI();
 
-        EditorGUILayout.Space();
+            GUILayout.BeginVertical();
 
-        var availableBodyController = instance.GetComponents<IBodyMovementController>().Where(c => !(c is CombinedController));
-        var availableHeadController = instance.GetComponents<IHeadMovementController>().Where(c => !(c is CombinedController));
-        var availableCombinedController = instance.GetComponents<CombinedController>();
 
-        EditorGUILayout.LabelField("Available Combi Controller");
-
-        if (!availableCombinedController.Any())
-            EditorGUILayout.HelpBox("No Combined Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
-
-        foreach (var combiController in availableCombinedController)
-        {
-            var nameOfController = combiController.Identifier;
-
-            if (GUILayout.Button(nameOfController))
+            if (GUILayout.Button("Toggle Rectile"))
             {
-                instance.HeadController = nameOfController;
-                instance.BodyController = nameOfController;
-                instance.Change<CombinedController>(nameOfController);
+                instance.ToggleRectile();
             }
-        }
 
-        EditorGUILayout.LabelField("Available Head Controller");
-
-        if (!availableHeadController.Any())
-            EditorGUILayout.HelpBox("No Head Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
-
-        foreach (var headController in availableHeadController)
-        {
-            var nameOfController = headController.Identifier;
-
-            if (GUILayout.Button(nameOfController))
+            if (GUILayout.Button("Toogle Fog"))
             {
-                instance.HeadController = nameOfController;
-                instance.Change<IHeadMovementController>(nameOfController);
+                instance.ToggleFog();
             }
-        }
-        
-        EditorGUILayout.LabelField("Available Body Controller");
 
-        if (!availableBodyController.Any())
-            EditorGUILayout.HelpBox("No Body Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+            EditorGUILayout.Space();
 
-        foreach (var bodyController in availableBodyController)
-        {
-            var nameOfController = bodyController.Identifier;
+            var availableBodyController = instance.GetComponents<IBodyMovementController>().Where(c => !(c is CombinedController));
+            var availableHeadController = instance.GetComponents<IHeadMovementController>().Where(c => !(c is CombinedController));
+            var availableCombinedController = instance.GetComponents<CombinedController>();
 
-            if (GUILayout.Button(nameOfController))
+            EditorGUILayout.LabelField("Available Combi Controller");
+
+            if (!availableCombinedController.Any())
+                EditorGUILayout.HelpBox("No Combined Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+
+            foreach (var combiController in availableCombinedController)
             {
-                instance.BodyController = nameOfController;
-                instance.Change<IBodyMovementController>(nameOfController);
+                var nameOfController = combiController.Identifier;
+
+                if (GUILayout.Button(nameOfController))
+                {
+                    instance.HeadController = nameOfController;
+                    instance.BodyController = nameOfController;
+                    instance.Change<CombinedController>(nameOfController);
+                }
             }
-        }
-        
-        EditorGUILayout.Space();
 
-        if (GUILayout.Button("Reset Controller"))
-        {
-            instance.ResetController();
-        }
-        
-        GUILayout.EndVertical();
+            EditorGUILayout.LabelField("Available Head Controller");
 
+            if (!availableHeadController.Any())
+                EditorGUILayout.HelpBox("No Head Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+
+            foreach (var headController in availableHeadController)
+            {
+                var nameOfController = headController.Identifier;
+
+                if (GUILayout.Button(nameOfController))
+                {
+                    instance.HeadController = nameOfController;
+                    instance.Change<IHeadMovementController>(nameOfController);
+                }
+            }
+
+            EditorGUILayout.LabelField("Available Body Controller");
+
+            if (!availableBodyController.Any())
+                EditorGUILayout.HelpBox("No Body Controller Implementations found! \n Attache them to this GameObject!", MessageType.Info);
+
+            foreach (var bodyController in availableBodyController)
+            {
+                var nameOfController = bodyController.Identifier;
+
+                if (GUILayout.Button(nameOfController))
+                {
+                    instance.BodyController = nameOfController;
+                    instance.Change<IBodyMovementController>(nameOfController);
+                }
+            }
+
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button("Reset Controller"))
+            {
+                instance.ResetController();
+            }
+
+            GUILayout.EndVertical();
+
+        }
     }
-} 
+}

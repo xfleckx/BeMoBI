@@ -14,10 +14,11 @@ using Assets.BeMoBI.Scripts;
 using NLog;
 using Logger = NLog.Logger; // just aliasing
 using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
+using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
 
-namespace Assets.Paradigms.SearchAndFind
+namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class ParadigmController : MonoBehaviour
+    public class ParadigmController : MonoBehaviour, IProvideRigidBodyFile
     {
         public const string STD_CONFIG_NAME = "SearchAndFind_Config.json";
         
@@ -523,6 +524,33 @@ namespace Assets.Paradigms.SearchAndFind
         public void LoadState()
         {
             throw new NotImplementedException("TODO");
+        }
+
+        public FileInfo GetRigidBodyDefinition()
+        {
+            var fileName = config.nameOfRigidBodyDefinition;
+
+            var expectedFilePath = Path.Combine(Application.dataPath, fileName);
+
+            if (File.Exists(expectedFilePath))
+            {
+                return new FileInfo(expectedFilePath);
+            }
+
+            return null;
+        }
+
+        public void SubjectTriesToSubmit()
+        {
+            if (currentTrial.acceptsASubmit)
+            {
+                currentTrial.RecieveSubmit();
+            }
+        }
+
+        public void ForceABreakInstantly()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

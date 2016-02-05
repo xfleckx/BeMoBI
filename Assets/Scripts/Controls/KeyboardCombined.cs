@@ -10,7 +10,7 @@ namespace Assets.BeMoBI.Scripts.Controls
     {
         private const string X_AXIS_NAME = "KBC_Horizontal";
         private const string Y_AXIS_NAME = "KBC_Vertical";
-
+        
         public override string Identifier
         {
             get

@@ -13,5 +13,5 @@
     "objectVisitationsInExperiment": 1,
     "useExactOnCategoryPerMaze": true,
     "groupByMazes": true,
-    "nameOfRigidBodyDefinition": "6_upperBody.rb"
+    "nameOfRigidBodyDefinition": ""
 }

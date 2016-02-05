@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Assets.Paradigms.SearchAndFind.ImageEffects;
 
-namespace Assets.Paradigms.SearchAndFind
+namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public enum Internal_Trial_State { Searching, Returning }
 
@@ -71,6 +71,7 @@ namespace Assets.Paradigms.SearchAndFind
         bool lastTurnWasIncorrect = false;
 
         private bool isReady;
+        internal bool acceptsASubmit;
 
         #endregion
 
@@ -337,7 +338,9 @@ namespace Assets.Paradigms.SearchAndFind
 
             paradigm.hud.Clear();
 
-            paradigm.hud.ShowInstruction("Please enter the pink start point to start the trial!", "Task");
+            paradigm.hud.ShowInstruction("Please enter the green start point to start the trial!", "Task");
+
+            acceptsASubmit = true;
         }
 
         private void OnStartPointEntered(Collider c)
@@ -555,16 +558,33 @@ namespace Assets.Paradigms.SearchAndFind
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
 
                     paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Warning!");
+
+                    acceptsASubmit = true;
                 }
                 else if(SubjectReturnsToPath())
                 {
                     paradigm.hud.ShowInstruction("You`re back on track!", "Good");
+
+                    acceptsASubmit = true;
                 }
 
             }
 
         }
-        
+
+        /// <summary>
+        /// When the subject presses a button for submit...
+        /// </summary>
+        public void RecieveSubmit()
+        {
+            if (paradigm.hud.IsRendering)
+                paradigm.hud.Clear();
+
+
+            //reset until the next opportunity
+            acceptsASubmit = false;
+        }
+
         IEnumerator BeginTeleportation()
         {
             yield return new WaitForSeconds(paradigm.config.offsetToTeleportation);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Paradigms.SearchAndFind
+namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     [Serializable]
     public class ParadigmConfiguration : ScriptableObject
@@ -51,6 +51,7 @@ namespace Assets.Paradigms.SearchAndFind
         [SerializeField]
         public bool groupByMazes = true;
 
-
+        [SerializeField]
+        public string nameOfRigidBodyDefinition = "";
     }
 }

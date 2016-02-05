@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Linq;
 
-namespace Assets.Paradigms.SearchAndFind
+namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class Experiment : Trial
     {

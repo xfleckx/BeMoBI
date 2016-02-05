@@ -8,8 +8,9 @@ using System.IO;
 using System.Diagnostics;
 using NLog;
 using NLogger = NLog.Logger;
+using Assets.BeMoBI.Paradigms.SearchAndFind;
 
-namespace Assets.Paradigms.SearchAndFind
+namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
     public class ConfigurationControl : EditorWindow
     {
