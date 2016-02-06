@@ -221,7 +221,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     }
                     else
                     {
-                        InstanceDefinition = factory.Generate(SubjectID);
+                        InstanceDefinition = factory.Generate(SubjectID, config.expectedConditions);
                         
                         var fileNameWoExt = string.Format("{0}/PreDefinitions/VP_{1}_Definition", Application.dataPath, InstanceDefinition.Subject);
 
@@ -273,6 +273,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private bool currentRunShouldEndAfterTrialFinished;
         private bool pauseActive;
+        private ConditionDefinition currentCondition;
 
         public bool IsRunning
         {
@@ -288,7 +289,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void StartTheExperimentFromBeginning()
         {
-            trials = new LinkedList<TrialDefinition>(InstanceDefinition.Trials);
+            //InitializeCondition(c)
+
+            trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
 
             appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
 
@@ -297,6 +300,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
 
             SetNextTrialPending();
+        }
+
+        public void InitializeCondition(string condition)
+        {
+
+            currentCondition = InstanceDefinition.Get(condition);
         }
 
         public void StartASubsetOfTrials<T>() where T : Trial
@@ -313,7 +322,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             SetNextTrialPending();
         }
-
+        
         /// <summary>
         /// Setup the next trial but wait until subject enters startpoint
         /// 

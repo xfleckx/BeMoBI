@@ -133,126 +133,130 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             enoughObjectsAreAvailable = false;
         }
 
-        public ParadigmInstanceDefinition Generate(string subjectID)
+        public ParadigmInstanceDefinition Generate(string subjectID, List<string> conditions)
         {
-            #region assert some preconditions for the algorithm
-
             mazeCategoryMap = new Dictionary<beMobileMaze, Category>();
 
-            var shuffledCategories = objectPool.Categories.OrderBy((i) => Guid.NewGuid()).ToList();
-
-            availableCategories = new Stack<Category>(shuffledCategories);
-
-            for (int i = 0; i < config.mazesToUse; i++)
-            {
-                var maze = mazeInstances[i];
-                ChooseCategoryFor(maze);
-            }
-
-            #endregion
-
-            #region create all possible trial configurations
-
-            var possibleTrials = new List<TrialConfig>();
-
-            foreach (var association in mazeCategoryMap)
-            {
-                var maze = association.Key;
-                var category = association.Value;
-
-                var configs = MapPathsToObjects(maze, category);
-                possibleTrials.AddRange(configs);
-            }
-
-            #endregion
-
-            #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
-
             var newConfig = UnityEngine.ScriptableObject.CreateInstance<ParadigmInstanceDefinition>();
+
             newConfig.Subject = subjectID;
+
             newConfig.name = string.Format("VP_Def_{0}", subjectID);
 
-            newConfig.Trials = new List<TrialDefinition>();
-
-            var trainingTrials = new List<TrialDefinition>();
-            var experimentalTrials = new List<TrialDefinition>();
-
-            foreach (var trialDefinition in possibleTrials)
+            foreach (var condition in conditions)
             {
-                for (int i = 0; i < config.objectVisitationsInTraining; i++)
-                {
-                    var newTrainingsTrialDefinition = new TrialDefinition()
-                    {
-                        TrialType = typeof(Training).Name,
-                        Category = trialDefinition.Category,
-                        MazeName = trialDefinition.MazeName,
-                        Path = trialDefinition.Path,
-                        ObjectName = trialDefinition.ObjectName
-                    };
+                var shuffledCategories = objectPool.Categories.OrderBy((i) => Guid.NewGuid()).ToList();
 
-                    trainingTrials.Add(newTrainingsTrialDefinition);
+                availableCategories = new Stack<Category>(shuffledCategories);
+
+                for (int i = 0; i < config.mazesToUse; i++)
+                {
+                    var maze = mazeInstances[i];
+                    ChooseCategoryFor(maze);
+                }
+                
+                #region create all possible trial configurations
+
+                var possibleTrials = new List<TrialConfig>();
+
+                foreach (var association in mazeCategoryMap)
+                {
+                    var maze = association.Key;
+                    var category = association.Value;
+
+                    var configs = MapPathsToObjects(maze, category);
+                    possibleTrials.AddRange(configs);
                 }
 
-                for (int i = 0; i < config.objectVisitationsInExperiment; i++)
+                #endregion
+
+                #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
+
+                var newCondition = new ConditionDefinition();
+
+                newCondition.Trials = new List<TrialDefinition>();
+
+                var trainingTrials = new List<TrialDefinition>();
+                var experimentalTrials = new List<TrialDefinition>();
+
+                foreach (var trialDefinition in possibleTrials)
                 {
-                    var newExperimentTrialDefinition = new TrialDefinition()
+                    for (int i = 0; i < config.objectVisitationsInTraining; i++)
                     {
-                        TrialType = typeof(Experiment).Name,
-                        Category = trialDefinition.Category,
-                        MazeName = trialDefinition.MazeName,
-                        Path = trialDefinition.Path,
-                        ObjectName = trialDefinition.ObjectName
-                    };
+                        var newTrainingsTrialDefinition = new TrialDefinition()
+                        {
+                            TrialType = typeof(Training).Name,
+                            Category = trialDefinition.Category,
+                            MazeName = trialDefinition.MazeName,
+                            Path = trialDefinition.Path,
+                            ObjectName = trialDefinition.ObjectName
+                        };
 
-                    experimentalTrials.Add(newExperimentTrialDefinition);
-
-                }
-            }
-
-            #endregion
-
-            if (config.groupByMazes)
-            {
-
-                var tempAllTrials = new List<TrialDefinition>();
-                tempAllTrials.AddRange(trainingTrials);
-                tempAllTrials.AddRange(experimentalTrials);
-
-                var groupedByMaze = tempAllTrials.GroupBy((td) => td.MazeName);
-
-                foreach (var group in groupedByMaze)
-                {
-                    var groupedByPath = group.GroupBy(td => td.Path).OrderBy(g => Guid.NewGuid());
-
-                    List<TrialDefinition> trainingPerMaze = new List<TrialDefinition>();
-                    List<TrialDefinition> experimentPerMaze = new List<TrialDefinition>();
-
-                    foreach (var pathGroup in groupedByPath)
-                    {
-                        var pathGroupTraining = pathGroup.Where(td => td.TrialType.Equals(typeof(Training).Name));
-                        trainingPerMaze.AddRange(pathGroupTraining);
-
-                        var pathGroupExperiment = pathGroup.Where(td => td.TrialType.Equals(typeof(Experiment).Name));
-                        experimentPerMaze.AddRange(pathGroupExperiment);
+                        trainingTrials.Add(newTrainingsTrialDefinition);
                     }
 
-                    // using Guid is a trick to randomly sort a set
-                    var shuffledTrainingPerMaze = trainingPerMaze.OrderBy(td => Guid.NewGuid());
-                    var shuffledExperimentPerMaze = experimentPerMaze.OrderBy(td => Guid.NewGuid());
+                    for (int i = 0; i < config.objectVisitationsInExperiment; i++)
+                    {
+                        var newExperimentTrialDefinition = new TrialDefinition()
+                        {
+                            TrialType = typeof(Experiment).Name,
+                            Category = trialDefinition.Category,
+                            MazeName = trialDefinition.MazeName,
+                            Path = trialDefinition.Path,
+                            ObjectName = trialDefinition.ObjectName
+                        };
 
-                    newConfig.Trials.AddRange(shuffledTrainingPerMaze);
-                    newConfig.Trials.AddRange(shuffledExperimentPerMaze);
+                        experimentalTrials.Add(newExperimentTrialDefinition);
+
+                    }
+                }
+
+                #endregion
+
+                if (config.groupByMazes)
+                {
+                    var tempAllTrials = new List<TrialDefinition>();
+                    tempAllTrials.AddRange(trainingTrials);
+                    tempAllTrials.AddRange(experimentalTrials);
+
+                    var groupedByMaze = tempAllTrials.GroupBy((td) => td.MazeName);
+
+                    foreach (var group in groupedByMaze)
+                    {
+                        var groupedByPath = group.GroupBy(td => td.Path).OrderBy(g => Guid.NewGuid());
+
+                        List<TrialDefinition> trainingPerMaze = new List<TrialDefinition>();
+                        List<TrialDefinition> experimentPerMaze = new List<TrialDefinition>();
+
+                        foreach (var pathGroup in groupedByPath)
+                        {
+                            var pathGroupTraining = pathGroup.Where(td => td.TrialType.Equals(typeof(Training).Name));
+                            trainingPerMaze.AddRange(pathGroupTraining);
+
+                            var pathGroupExperiment = pathGroup.Where(td => td.TrialType.Equals(typeof(Experiment).Name));
+                            experimentPerMaze.AddRange(pathGroupExperiment);
+                        }
+
+                        // using Guid is a trick to randomly sort a set
+                        var shuffledTrainingPerMaze = trainingPerMaze.OrderBy(td => Guid.NewGuid());
+                        var shuffledExperimentPerMaze = experimentPerMaze.OrderBy(td => Guid.NewGuid());
+
+                        newCondition.Trials.AddRange(shuffledTrainingPerMaze);
+                        newCondition.Trials.AddRange(shuffledExperimentPerMaze);
+                    }
+
+                }
+                else
+                {
+                    newCondition.Trials.AddRange(trainingTrials);
+
+                    var shuffledExperimentalTrials = experimentalTrials.OrderBy(trial => Guid.NewGuid());
+
+                    newCondition.Trials.AddRange(shuffledExperimentalTrials);
                 }
 
             }
-            else
-            {
-                newConfig.Trials.AddRange(trainingTrials);
-
-                var shuffledExperimentalTrials = experimentalTrials.OrderBy(trial => Guid.NewGuid());
-                newConfig.Trials.AddRange(shuffledExperimentalTrials);
-            }
-
+               
             return newConfig;
         }
 

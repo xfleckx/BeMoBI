@@ -53,5 +53,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         [SerializeField]
         public string nameOfRigidBodyDefinition = "";
+
+        [SerializeField]
+        public List<String> expectedConditions = new List<string>() { "default" };
     }
+
 }

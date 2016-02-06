@@ -155,7 +155,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                     instance.SubjectID = this.PreDefinedSubjectID;
                 }
 
-                lastGeneratedInstanceDefinition = factory.Generate(this.PreDefinedSubjectID);
+                lastGeneratedInstanceDefinition = factory.Generate(this.PreDefinedSubjectID, factory.config.expectedConditions);
                 lastGeneratedInstanceDefinition.Configuration = instance.config;
             }
 

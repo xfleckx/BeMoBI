@@ -6,11 +6,12 @@ using System;
 using System.Threading;
 using System.Text;
 using UnityEngine.Events;
-
+using NLog;
 namespace Assets.BeMoBI.Scripts
 {
     public class SNAPEmulator : MonoBehaviour
     {
+        NLog.Logger log = NLog.LogManager.GetLogger("App");
 
         [Range(1026, 65535)]
         public int PortToListenOn = 7897;
@@ -24,6 +25,7 @@ namespace Assets.BeMoBI.Scripts
 
         void Awake()
         {
+            log.Info(string.Format("SNAP Emulation online - listen to Port: {0}!", PortToListenOn));
             SetupTcpListener();
         }
 

@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59b6138dbbde1b498a6880be81d62c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DensityWhenRaised: 0.18
+  DensityWhenRaised: 0.58
   RaisingSpeed: 0.7
   DensityWhenDisappeared: 0.001
   Disappearingspeed: 2.11
@@ -2071,6 +2071,8 @@ MonoBehaviour:
   useExactOnCategoryPerMaze: 1
   groupByMazes: 1
   nameOfRigidBodyDefinition: 6_upperBody.rb
+  expectedConditions:
+  - default
 --- !u!1 &882442381
 GameObject:
   m_ObjectHideFlags: 0

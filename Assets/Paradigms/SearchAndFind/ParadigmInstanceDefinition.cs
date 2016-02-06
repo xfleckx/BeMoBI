@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System;
-
+using System.Linq;
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 { 
     public class ParadigmInstanceDefinition : ScriptableObject
@@ -15,15 +15,40 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         [SerializeField]
         public List<TrialDefinition> Trials;
 
+        [SerializeField]
+        public List<ConditionDefinition> Conditions;
+
+        public ConditionDefinition Get(string condition)
+        {
+            if(!Conditions.Any(c => c.Identifier.Equals(condition)))
+            {
+                throw new ArgumentException(string.Format("Expected condition '{0}' not found!", condition));
+            }
+
+            return Conditions.Where(c => c.Identifier.Equals(condition)).FirstOrDefault();
+        }
     }
-    
+
+
+    [Serializable]
+    public class ConditionDefinition
+    {
+        [SerializeField]
+        public string Identifier = "default";
+
+        [SerializeField]
+        public List<TrialDefinition> Trials;
+    }
+
     /// <summary>
     /// 
     /// </summary>
-    [DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName}")]
+    [DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName} {Condition}")]
     [Serializable]
     public class TrialDefinition
     {
+        [SerializeField]
+        public string Condition;
         [SerializeField]
         public string TrialType;
         [SerializeField]
