@@ -142,7 +142,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
                 if (GUILayout.Button("Save Config"))
                 {
-                    instance.SaveConfig(fileInfoForConfig, instance.config);
+                    ConfigUtil.SaveAsJson<ParadigmConfiguration>(fileInfoForConfig, instance.config);
                     AssetDatabase.Refresh();
                 }
             }

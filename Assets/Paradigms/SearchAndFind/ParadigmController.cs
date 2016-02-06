@@ -51,6 +51,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #endregion
 
+        #region dependencies
+
         public string SubjectID = String.Empty;
 
         public AppInit appInit;
@@ -75,9 +77,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public FullScreenFade fading;
         public Teleporting teleporter;
         public VRSubjectController subject;
-        public FogControl fogControl;
+        public BaseFogControl fogControl;
         public LSLSubjectRelativePositionStream relativePositionStream;
         public Transform FocusPointAtStart;
+        
+        #endregion
 
         void Awake()
         {
@@ -92,7 +96,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (subject == null)
                 subject = FindObjectOfType<VRSubjectController>();
-             
+            
+
         }
         
         void Start()
@@ -267,6 +272,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
         private bool currentRunShouldEndAfterTrialFinished;
+        private bool pauseActive;
 
         public bool IsRunning
         {
@@ -330,8 +336,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
             else
             {
-                // normal case the next trial is the follower of the current trial due to the definition
-                currentDefinition = currentDefinition.Next;
+                if (!resetTheLastTrial) { 
+                    // normal case the next trial is the follower of the current trial due to the definition
+                    currentDefinition = currentDefinition.Next;
+                }
+                else
+                {
+                    // current definition stays - e.g. when a pause was requested
+                    resetTheLastTrial = false;
+                }
             }
 
             var definitionForNextTrial = currentDefinition.Value;
@@ -404,7 +417,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             // TODO: replace with a more immersive door implementation
             entrance.SetActive(true);
 
-            SetNextTrialPending();
+            if(!pauseActive)
+                SetNextTrialPending();
         }
 
         public void AfterTeleportingToEndPoint()
@@ -443,18 +457,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         #endregion
 
         #region Public interface for controlling the paradigm remotely
-
-        public void SaveConfig(FileInfo pathToConfig, ParadigmConfiguration config)
-        {
-            var configAsJson = JsonUtility.ToJson(config, true);
-            
-            using (var streamWriter = new StreamWriter(pathToConfig.FullName))
-            {
-                streamWriter.Write(configAsJson);
-            }
-
-        }
-
+        
         /// <summary>
         /// Loads a predefined definition from a file
         /// May override already loaded config!
@@ -524,21 +527,30 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void SubjectTriesToSubmit()
         {
-            if (currentTrial.acceptsASubmit)
+            if (currentTrial != null && currentTrial.acceptsASubmit)
             {
                 currentTrial.RecieveSubmit();
+            }
+
+            if (pauseActive)
+            {
+                hud.ShowInstruction("Press the Submit Button to continue", "Break");
+
+                SetNextTrialPending();
             }
         }
 
         public void ForceABreakInstantly()
         {
-            Debug.Log("Forces Break");
+            if (currentTrial != null) {
 
-            resetTheLastTrial = true;
+                resetTheLastTrial = true;
+                pauseActive = true;
 
-            currentTrial.ForceTrialEnd();
+                currentTrial.ForceTrialEnd();
+            }
 
-            hud.ShowInstruction("Press the Submit Button to continue", "Break");
+            hud.ShowInstruction("Press the Submit Button to continue!\n Close your eyes and talk to the supervisor!", "Break");
         }
 
         #endregion
