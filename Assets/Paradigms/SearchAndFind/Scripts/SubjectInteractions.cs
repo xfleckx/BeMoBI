@@ -14,6 +14,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind {
 
         ParadigmController controller;
         
+        void Awake()
+        {
+            controller = FindObjectOfType<ParadigmController>();
+        }
+
 	    // Update is called once per frame
 	    void Update () {
 
