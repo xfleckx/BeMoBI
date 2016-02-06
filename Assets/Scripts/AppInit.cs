@@ -49,9 +49,16 @@ public class AppInit : MonoBehaviour {
         Debug.Log(string.Format("### Runtime ### Nlog config lookup took: {0}", stopWatch.Elapsed));
 
         log.Info(string.Format("Starting with Args: {0} {1} {2} {3}", options.subjectId, options.fileNameOfCustomConfig, options.fileNameOfParadigmDefinition, options.condition));
-         
-    }
 
+
+
+        var currentLevelIndex = QualitySettings.GetQualityLevel();
+        var allLevels = QualitySettings.names;
+        var currentLevel = allLevels[currentLevelIndex];
+
+        log.Info("Using quality level " + currentLevel);
+    }
+    
     private bool hasOptions;
     public bool HasOptions
     {
