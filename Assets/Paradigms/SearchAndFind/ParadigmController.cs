@@ -37,6 +37,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private ParadigmRunStatistics runStatistic;
 
+        private bool resetTheLastTrial = false;
+
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -144,13 +146,16 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     appLog.Info(string.Format("Load specific config: {0}!", configFile.FullName));
 
-                    LoadConfig(configFile, true);
+                    config = ConfigUtil.LoadConfig<ParadigmConfiguration>(configFile, true, 
+                        () => appLog.Error("Loading config failed, using default config + writing a default config"));
                 }
                 else if (pathOfDefaultConfig.Exists) 
                 {
                     appLog.Info(string.Format("Found default config at {0}", pathOfDefaultConfig.Name));
 
-                    LoadConfig(pathOfDefaultConfig, false);
+                    config = ConfigUtil.LoadConfig<ParadigmConfiguration>(pathOfDefaultConfig, false, () => {
+                        appLog.Error (string.Format("Load default config at {0} failed!", pathOfDefaultConfig.Name));
+                    });
                 }
                 else
                 { 
@@ -160,7 +165,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     appLog.Info(string.Format("New Config created will be saved to: {0}! Reason: No config file found!", pathOfDefaultConfig.FullName));
 
-                    SaveConfig(pathOfDefaultConfig, config);
+                    try
+                    {
+                        ConfigUtil.SaveAsJson<ParadigmConfiguration>(pathOfDefaultConfig, config);
+                    }
+                    catch (Exception e)
+                    {
+                        appLog.Info(string.Format("Config could not be saved to: {0}! Reason: {1}", pathOfDefaultConfig.FullName, e.Message));
+                    }
                 }
 
             }
@@ -168,7 +180,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 appLog.Info("Config not null!");
             }
-
 
         }
 
@@ -442,7 +453,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 streamWriter.Write(configAsJson);
             }
 
-            appLog.Info(string.Format("Config has been saved to: {0}!", pathToConfig.FullName));
         }
 
         /// <summary>
@@ -466,34 +476,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
         
-        public void LoadConfig(FileInfo expectedConfig, bool writeNewWhenNotFound)
-        {
-            string jsonAsText = String.Empty;
-
-            try
-            { 
-                using (var fileStream = new StreamReader(expectedConfig.FullName))
-                {
-                    jsonAsText = fileStream.ReadToEnd();
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                Debug.Log("No Config found");
-                appLog.Error(string.Format("No config file found at {0}! Using default values and write new config!", expectedConfig.FullName));
-
-                if (writeNewWhenNotFound) { 
-                    config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
-                }
-            }
-
-            if (jsonAsText == string.Empty)
-                appLog.Fatal("Loading config from JSON file failed for unkwnown reason!");
-
-            config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
-            JsonUtility.FromJsonOverwrite(jsonAsText, config);
-        }
-
         public void InjectPauseTrial()
         {
             var pauseTrial = new TrialDefinition()
@@ -550,76 +532,16 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void ForceABreakInstantly()
         {
-            throw new NotImplementedException();
+            Debug.Log("Forces Break");
+
+            resetTheLastTrial = true;
+
+            currentTrial.ForceTrialEnd();
+
+            hud.ShowInstruction("Press the Submit Button to continue", "Break");
         }
 
         #endregion
-    }
-
-    public static class MarkerPattern
-    {
-        public const string BeginTrial = "BeginTrial\t{0}\t{1}\t{2}\t{3}\t{4}";
-
-        public const string Unit = "{0}\tUnit\t{1}\t{2}";
-
-        public const string Enter = "Entering\t{0}\t{1}\t{2}";
-
-        public const string ShowObject = "ShowObject\t{0}\t{1}";
-
-        public const string ObjectFound = "ObjectFound\t{0}\t{1}\t{2}\t{3}";
-
-        // TODO: Grid ID's should not be renderered as float values
-        /// <summary>
-        /// From {0} to {1} TurnType {2} UnitType {3}
-        /// </summary>
-        public const string Turn = "Turn\tFrom:{0}\tTo:{1}\t{2}\t{3}";
-
-        /// <summary>
-        /// From {0} to {1} expected {2} TurnType {3} UnitType {4}
-        /// </summary>
-        public const string WrongTurn = "Incorrect\tFrom:{0}\tTo:{1}\tExp:{2}\t{3}\t{4}";
-
-        public const string EndTrial = "EndTrial\t{0}\t{1}\t{2}\t{3}\t{4}";
-
-        public static string FormatBeginTrial(string trialTypeName, string mazeName, int pathId, string objectName, string categoryName)
-        {
-            return string.Format(BeginTrial, trialTypeName, mazeName, pathId, objectName, categoryName);
-        }
-
-        public static string FormatCorrectTurn(PathElement lastPathElement, PathElement currentPathElement)
-        {
-            var lastGridId = lastPathElement.Unit.GridID;
-
-            var currentGridId = currentPathElement.Unit.GridID;
-
-            return string.Format(Turn, lastGridId, currentGridId, lastPathElement.Type, lastPathElement.Turn);
-        }
-
-        public static string FormatIncorrectTurn(MazeUnit wrongUnitEntered, PathElement lastPathElement, PathElement expectedUnit)
-        {
-            var wrongGridId = wrongUnitEntered.GridID;
-
-            var lastGridId = lastPathElement.Unit.GridID;
-
-            var expectedGridId = expectedUnit.Unit.GridID;
-
-            return string.Format(WrongTurn, lastGridId, wrongGridId, expectedGridId, lastPathElement.Type, lastPathElement.Turn);
-        }
-
-        public static string FormatFoundObject(string currentMazeName, int iD, string objectName, string categoryName)
-        {
-            return string.Format(ObjectFound, currentMazeName, iD, objectName, categoryName);
-        }
-
-        public static string FormatEndTrial(string trialTypeName, string mazeName, int pathId, string objectName, string categoryName)
-        {
-            return string.Format(EndTrial, trialTypeName, mazeName, pathId, objectName, categoryName);
-        }
-
-        public static string FormatDisplayObject(string objectName, string categoryName)
-        {
-            return string.Format(ShowObject, objectName, categoryName);
-        }
     }
 
     #region TODO: Save instance state (SaveGames)
@@ -635,73 +557,4 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
     }
 
     #endregion
-
-    public class ParadigmRunStatistics
-    {
-        private string subjectId = String.Empty;
-
-        public class TrialStatistic
-        {
-            private string mazeName;
-            private int path;
-            private double seconds;
-            private string trialType;
-
-            public TrialStatistic(string trialType, string mazeName, int path, double seconds)
-            {
-                this.trialType = trialType;
-                this.mazeName = mazeName;
-                this.path = path;
-                this.seconds = seconds;
-            }
-
-            public string MazeName
-            {
-                get
-                {
-                    return mazeName;
-                }
-            }
-
-            public int Path
-            {
-                get
-                {
-                    return path;
-                }
-            }
-
-            public double DurationInSeconds
-            {
-                get
-                {
-                    return seconds;
-                }
-            }
-
-            public string TrialType
-            {
-                get
-                {
-                    return trialType;
-                }
-            }
-        }
-
-        public List<TrialStatistic> Trials = new List<TrialStatistic>();
-
-        public string SubjectId
-        {
-            get
-            {
-                return subjectId;
-            }
-        }
-
-        public void Add(string trialType, string mazeName, int pathId, TrialResult result)
-        {
-            Trials.Add(new TrialStatistic(trialType, mazeName, pathId, result.Duration.TotalSeconds));
-        }
-    }
-
 }

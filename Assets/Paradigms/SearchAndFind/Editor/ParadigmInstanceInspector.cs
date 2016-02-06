@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
+using Assets.BeMoBI.Scripts;
 
 namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
@@ -92,7 +93,11 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 configFilePathToLoad = EditorUtility.OpenFilePanel("Load Config", Application.dataPath, "json");
 
                 if (configFilePathToLoad != null && configFilePathToLoad != string.Empty) { 
-                    instance.LoadConfig(new FileInfo(configFilePathToLoad), false);
+
+                    instance.config = ConfigUtil.LoadConfig<ParadigmConfiguration>(
+                        new FileInfo(configFilePathToLoad), 
+                        false, 
+                        () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
 
                     configName = Path.GetFileNameWithoutExtension(new FileInfo(configFilePathToLoad).Name);
                 }
@@ -121,7 +126,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 File.Exists(pathToConfigFile) &&
                 GUILayout.Button("Load config"))
             {
-                instance.LoadConfig(fileInfoForConfig, true);
+                instance.config = ConfigUtil.LoadConfig<ParadigmConfiguration>(fileInfoForConfig, true, () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
             }
 
             if (GUILayout.Button("Create plain config"))
