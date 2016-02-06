@@ -4,12 +4,10 @@ using Assets.Paradigms.SearchAndFind.ImageEffects;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind.Scripts
 {
-    public class FogControl : BaseFogControl
+    public class SceneLightingFogControl : BaseFogControl
     {
-        public CustomGlobalFog fogEffect;
-        
         [Range(0.001f, 10.0f)]
-        public float HeightDensityWhenRaised = 2.0f;
+        public float DensityWhenRaised = 2.0f;
         public float RaisingSpeed = 0.1f;
         
         [Range(0.001f, 10.0f)]
@@ -28,19 +26,19 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind.Scripts
 
             do
             {
-                if (fogEffect.heightDensity < HeightDensityWhenRaised)
-                    fogEffect.heightDensity += 1 * RaisingSpeed * Time.deltaTime;
+                if (RenderSettings.fogDensity < DensityWhenRaised)
+                    RenderSettings.fogDensity += 1 * RaisingSpeed * Time.deltaTime;
                 
                 yield return new WaitWhile(() => state);
 
             } while (!state) ;
 
-            fogEffect.heightDensity = HeightDensityWhenRaised;
+            RenderSettings.fogDensity = DensityWhenRaised;
         }
 
         bool FogHasRaisedCompletely()
         {
-            return fogEffect.heightDensity >= HeightDensityWhenRaised;
+            return RenderSettings.fogDensity >= DensityWhenRaised;
         }
 
         public override void LetFogDisappeare()
@@ -55,29 +53,29 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind.Scripts
 
             do
             {
-                if (fogEffect.heightDensity > DensityWhenDisappeared)
-                    fogEffect.heightDensity -= 1 * Disappearingspeed * Time.deltaTime;
+                if (RenderSettings.fogDensity > DensityWhenDisappeared)
+                    RenderSettings.fogDensity -= 1 * Disappearingspeed * Time.deltaTime;
                 
                 yield return new WaitWhile(() => state);
 
             } while (!state);
-             
-            fogEffect.heightDensity = DensityWhenDisappeared;
+
+            RenderSettings.fogDensity = DensityWhenDisappeared;
         }
 
         bool FogHasDisappearedCompletely()
-        {  
-            return fogEffect.heightDensity <= DensityWhenDisappeared;
+        {
+            return RenderSettings.fogDensity <= DensityWhenDisappeared;
         }
 
         public override void DisappeareImmediately()
         {
-            fogEffect.heightDensity = DensityWhenDisappeared;
+            RenderSettings.fogDensity = DensityWhenDisappeared;
         }
 
         public override void RaisedImmediately()
         {
-            fogEffect.heightDensity = HeightDensityWhenRaised; 
+            RenderSettings.fogDensity = DensityWhenRaised; 
         }
     }
 
