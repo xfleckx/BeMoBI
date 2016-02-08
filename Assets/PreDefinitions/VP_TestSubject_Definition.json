@@ -3,6 +3,13 @@
     "Configuration": {
         "instanceID": 0
     },
-    "Trials": [],
-    "Conditions": []
+    "Conditions": [
+        {
+            "Identifier": "default",
+            "Config": {
+                "instanceID": 0
+            },
+            "Trials": []
+        }
+    ]
 }

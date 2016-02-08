@@ -322,7 +322,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188249851}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &126849972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
+  conditionConfig: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -480,7 +481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
-  config: {fileID: 881337484}
+  conditionController: {fileID: 0}
+  Config: {fileID: 0}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -503,7 +505,6 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  currentTrial: {fileID: 0}
 --- !u!114 &188249850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,6 +531,7 @@ Transform:
   m_LocalPosition: {x: 0.15063047, y: -1.1544175, z: 0.83032084}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2120861124}
   - {fileID: 1208354558}
   - {fileID: 126849971}
   - {fileID: 1353002343}
@@ -1213,7 +1215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188249851}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!114 &470305384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,6 +1228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
+  conditionConfig: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -2045,34 +2048,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 866232739}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &881337484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useTeleportation: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  ifNoInstanceDefinitionCreateOne: 0
-  TimeToDisplayObjectToRememberInSeconds: 3
-  TimeToDisplayObjectWhenFoundInSeconds: 2
-  offsetToTeleportation: 2
-  categoriesPerMaze: 1
-  mazesToUse: 4
-  pathsToUsePerMaze: 4
-  objectVisitationsInTraining: 1
-  objectVisitationsInExperiment: 1
-  useExactOnCategoryPerMaze: 1
-  groupByMazes: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  expectedConditions:
-  - default
 --- !u!1 &882442381
 GameObject:
   m_ObjectHideFlags: 0
@@ -2679,7 +2654,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188249851}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!114 &1353002344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2692,6 +2667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
+  conditionConfig: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -4395,7 +4371,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188249851}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!114 &1761092156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4408,6 +4384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
+  conditionConfig: {fileID: 0}
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -5455,7 +5432,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
@@ -5683,6 +5660,48 @@ Transform:
   - {fileID: 167675043}
   m_Father: {fileID: 1995203289}
   m_RootOrder: 1
+--- !u!1 &2120861123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2120861124}
+  - 114: {fileID: 2120861125}
+  m_Layer: 0
+  m_Name: ConditionController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2120861124
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2120861123}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 188249851}
+  m_RootOrder: 0
+--- !u!114 &2120861125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2120861123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cb76cf487957148a2e2fbc49d5f43c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paradigm: {fileID: 0}
+  currentTrial: {fileID: 0}
+  conditionConfig: {fileID: 0}
 --- !u!1 &2143869663
 GameObject:
   m_ObjectHideFlags: 0

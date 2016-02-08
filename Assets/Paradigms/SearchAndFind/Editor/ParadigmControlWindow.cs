@@ -20,7 +20,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
         [SerializeField]
         private string subject_ID = "TestSubject";
         
-        private ParadigmInstanceDefinition lastGeneratedInstanceConfig;
+        private ParadigmModel lastGeneratedInstanceConfig;
 
         internal void Initialize(ParadigmController target)
         {
@@ -86,16 +86,11 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 return;
             }
 
-            if (!instance.IsRunning) {
+            if (!instance.conditionController.IsRunning) {
                 
                 if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
                 {
                     instance.StartTheExperimentFromBeginning();
-                }
-
-                if(GUILayout.Button("Run Training"))
-                {
-                    instance.StartASubsetOfTrials<Training>();
                 }
             }
             else
@@ -103,23 +98,23 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 EditorGUILayout.HelpBox("Paradigma is already running", MessageType.Info);
 
 
-                if(instance.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
+                if(instance.conditionController.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
                 { 
-                    instance.InjectPauseTrial();
+                    instance.conditionController.InjectPauseTrialAfterCurrentTrial();
                 }
 
-                if(instance.currentTrial == instance.pause && GUILayout.Button("End Pause"))
+                if(instance.conditionController.currentTrial == instance.pause && GUILayout.Button("End Pause"))
                 {
-                    instance.currentTrial.ForceTrialEnd();
+                    instance.conditionController.currentTrial.ForceTrialEnd();
                 }
                 
                 EditorGUILayout.Space();
                 
                 if (GUILayout.Button("End current run \n (stop playmode)", GUILayout.Height(25)))
                 {
-                    instance.ForceSaveEnd();
+                    // TODO force immediately safe shutdown
 
-                    instance.currentTrial.Finished += (t, ts) => {
+                    instance.conditionController.currentTrial.Finished += (t, ts) => {
                         EditorApplication.ExecuteMenuItem("Edit/Play"); // call Play a second time to stop it
                     };
 
@@ -151,10 +146,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             
             GUILayout.Label("Run definition:");
             
-            instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmInstanceDefinition), false) as ParadigmInstanceDefinition;
+            instance.InstanceDefinition = EditorGUILayout.ObjectField(instance.InstanceDefinition, typeof(ParadigmModel), false) as ParadigmModel;
 
-            if (instance.config != null) { 
-                instance.config.writeStatistics =  GUILayout.Toggle(instance.config.writeStatistics, "Write statistics?");
+            if (instance.Config != null) { 
+                instance.Config.writeStatistics =  GUILayout.Toggle(instance.Config.writeStatistics, "Write statistics?");
             }
 
             EditorGUILayout.EndVertical();

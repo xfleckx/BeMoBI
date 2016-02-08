@@ -16,7 +16,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
     {
         private ParadigmController instance;
         private ParadigmControlWindow controlWindow;
-        private List<ParadigmInstanceDefinition> availableDefinitions;
+        private List<ParadigmModel> availableDefinitions;
         private string configFilePathToLoad = string.Empty;
         private string configName = string.Empty;
 
@@ -26,7 +26,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
         {
             instance = target as ParadigmController;
 
-            availableDefinitions = new List<ParadigmInstanceDefinition>();
+            availableDefinitions = new List<ParadigmModel>();
 
             if (GUILayout.Button("Open Control Window", GUILayout.Height(40)))
             {
@@ -42,7 +42,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 controlWindow.Show();
             }
 
-            if (instance.config == null)
+            if (instance.Config == null)
             {
                 EditorGUILayout.HelpBox("To Generate Instance definitions please load or generate a paradigm config!", MessageType.Info);
             }
@@ -61,7 +61,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Lookup Instance definitions"))
             {
-                availableDefinitions = Resources.FindObjectsOfTypeAll<ParadigmInstanceDefinition>().ToList();
+                availableDefinitions = Resources.FindObjectsOfTypeAll<ParadigmModel>().ToList();
             }
 
             if (availableDefinitions.Any())
@@ -94,7 +94,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
                 if (configFilePathToLoad != null && configFilePathToLoad != string.Empty) { 
 
-                    instance.config = ConfigUtil.LoadConfig<ParadigmConfiguration>(
+                    instance.Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(
                         new FileInfo(configFilePathToLoad), 
                         false, 
                         () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
@@ -116,33 +116,34 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Clear Config"))
             {
-                DestroyImmediate(instance.config);
-                instance.config = null;
+                DestroyImmediate(instance.Config);
+                instance.Config = null;
                 configName = string.Empty;
                 GC.Collect();
             }
 
-            if (instance.config == null &&
+            if (instance.Config == null &&
                 File.Exists(pathToConfigFile) &&
                 GUILayout.Button("Load config"))
             {
-                instance.config = ConfigUtil.LoadConfig<ParadigmConfiguration>(fileInfoForConfig, true, () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
+                instance.Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(fileInfoForConfig, true, () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
             }
 
             if (GUILayout.Button("Create plain config"))
             {
-                instance.config = CreateInstance<ParadigmConfiguration>();
+                instance.Config = CreateInstance<ParadigmConfiguration>();
             }
 
-            if (instance.config != null)
+            if (instance.conditionController.conditionConfig != null)
             {
-                instance.config.useTeleportation = EditorGUILayout.Toggle(new GUIContent("Use Teleportation", "Teleport the subject to the startpoint on trial finished."), instance.config.useTeleportation);
+                if(instance.conditionController.conditionConfig != null)
+                    instance.conditionController.conditionConfig.useTeleportation = EditorGUILayout.Toggle(new GUIContent("Use Teleportation", "Teleport the subject to the startpoint on trial finished."), instance.conditionController.conditionConfig.useTeleportation);
 
-                instance.config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.config.writeStatistics);
+                instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
 
                 if (GUILayout.Button("Save Config"))
                 {
-                    ConfigUtil.SaveAsJson<ParadigmConfiguration>(fileInfoForConfig, instance.config);
+                    ConfigUtil.SaveAsJson<ParadigmConfiguration>(fileInfoForConfig, instance.Config);
                     AssetDatabase.Refresh();
                 }
             }

@@ -29,6 +29,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public ParadigmController paradigm;
 
+        public ConditionConfiguration conditionConfig;
+
         protected beMobileMaze mazeInstance;
 
         protected PathInMaze path;
@@ -319,7 +321,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             StartCoroutine(
                 DisplayObjectAtStartFor(
-                    paradigm.config.TimeToDisplayObjectToRememberInSeconds)
+                    conditionConfig.TimeToDisplayObjectToRememberInSeconds)
                     );
         }
         
@@ -522,7 +524,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                         currentTrialState = Internal_Trial_State.Returning;
 
-                        if (paradigm.config.useTeleportation)
+                        if (conditionConfig.useTeleportation)
                         {
                             paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
 
@@ -587,7 +589,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         IEnumerator BeginTeleportation()
         {
-            yield return new WaitForSeconds(paradigm.config.offsetToTeleportation);
+            yield return new WaitForSeconds(conditionConfig.offsetToTeleportation);
 
             paradigm.teleporter.Teleport();
 

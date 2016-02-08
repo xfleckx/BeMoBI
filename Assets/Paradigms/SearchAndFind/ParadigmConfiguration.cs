@@ -9,53 +9,33 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
     [Serializable]
     public class ParadigmConfiguration : ScriptableObject
     {
-        [SerializeField]
-        public bool useTeleportation = false;
+        public const string NAME_FOR_DEFAULT_CONFIG = "default";
+
+        public static ParadigmConfiguration GetDefault()
+        {
+            var config = CreateInstance<ParadigmConfiguration>();
+
+            config.conditionConfigurations.Add(ConditionConfiguration.GetDefault());
+
+            return config;
+        }
 
         [SerializeField]
-        public bool writeStatistics = false;
+        public bool ifNoInstanceDefinitionCreateOne = true;
+
+        [SerializeField]
+        public bool writeStatistics = true;
 
         [SerializeField]
         public bool logMarkerToFile = true;
 
         [SerializeField]
-        public bool ifNoInstanceDefinitionCreateOne = false;
-
-        [SerializeField]
-        public float TimeToDisplayObjectToRememberInSeconds = 3;
-
-        [SerializeField]
-        public float TimeToDisplayObjectWhenFoundInSeconds = 2;
-
-        [SerializeField]
-        public float offsetToTeleportation = 2;
-
-        [SerializeField]
-        public int categoriesPerMaze = 1;
-
-        [SerializeField]
-        public int mazesToUse;
-
-        [SerializeField]
-        public int pathsToUsePerMaze; // corresponds with the available objects - one distinct object per path per maze
-
-        [SerializeField]
-        public int objectVisitationsInTraining = 1; // how often an object should be visisted while trainings trial
-
-        [SerializeField]
-        public int objectVisitationsInExperiment = 1; // " while Experiment
-
-        [SerializeField]
-        public bool useExactOnCategoryPerMaze = true;
-
-        [SerializeField]
-        public bool groupByMazes = true;
-
-        [SerializeField]
         public string nameOfRigidBodyDefinition = "";
+        
+        [SerializeField]
+        public List<String> expectedConditions = new List<string>() { NAME_FOR_DEFAULT_CONFIG };
 
         [SerializeField]
-        public List<String> expectedConditions = new List<string>() { "default" };
+        public List<ConditionConfiguration> conditionConfigurations = new List<ConditionConfiguration>();
     }
-
 }

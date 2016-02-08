@@ -15,6 +15,7 @@ using NLog;
 using Logger = NLog.Logger; // just aliasing
 using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
 using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
+using UnityEngine.Assertions;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
@@ -32,13 +33,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private static Logger appLog = LogManager.GetLogger("App");
 
         private static Logger statistic = LogManager.GetLogger("Statistics");
-
-        private bool isRunning = false;
-
-        private ParadigmRunStatistics runStatistic;
-
-        private bool resetTheLastTrial = false;
-
+        
+        public ParadigmRunStatistics runStatistic;
+        
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -57,11 +54,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public AppInit appInit;
 
+        public ConditionController conditionController;
+        
         public FileInfo fileToLoadedConfig;
         
-        public ParadigmConfiguration config;
+        public ParadigmConfiguration Config;
 
-        public ParadigmInstanceDefinition InstanceDefinition;
+        public ParadigmModel InstanceDefinition;
         
         public ActionWaypoint TrialEndPoint;
         public VirtualRealityManager VRManager;
@@ -81,6 +80,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public LSLSubjectRelativePositionStream relativePositionStream;
         public Transform FocusPointAtStart;
         
+        public Training training;
+        public Experiment experiment;
+        public Pause pause;
+        public InstructionTrial instruction;
+        
         #endregion
 
         void Awake()
@@ -96,10 +100,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (subject == null)
                 subject = FindObjectOfType<VRSubjectController>();
-            
 
+            Assert.IsNotNull<ConditionController>(conditionController);
+
+            conditionController.OnLastConditionFinished += ParadigmInstanceFinished;
         }
-        
+
         void Start()
         {
             First_GetTheSubjectName();
@@ -107,8 +113,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             appLog.Info("Initializing Paradigm");
 
             Second_LoadOrGenerateAConfig();
+            
+            Third_LoadOrGenerateInstanceDefinition();
 
-            Third_LoadInstanceDefinitionAndSupplySubjectIDAndConfig();
+            Fourth_InitializeFirstOrDefaultCondition();
 
             hud.Clear();
 
@@ -116,7 +124,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             fading.StartFadeIn();
 
-            marker.LogAlsoToFile = config.logMarkerToFile;
+            marker.LogAlsoToFile = Config.logMarkerToFile;
         }
 
         private void First_GetTheSubjectName()
@@ -137,34 +145,34 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private void Second_LoadOrGenerateAConfig()
         {
-            var pathOfDefaultConfig = new FileInfo(Application.dataPath + @"\" + STD_CONFIG_NAME);
+            var pathOfDefaultConfig = new FileInfo(Application.dataPath + Path.AltDirectorySeparatorChar + STD_CONFIG_NAME);
 
-            if (config == null)
+            if (Config == null)
             {
                 appLog.Info("Load Config or create a new one!");
 
                 if (appInit.HasOptions &&
                     appInit.Options.fileNameOfCustomConfig != String.Empty &&
-                    File.Exists(Application.dataPath + @"\" + appInit.Options.fileNameOfCustomConfig))
+                    File.Exists(Application.dataPath + Path.AltDirectorySeparatorChar + appInit.Options.fileNameOfCustomConfig))
                 {
-                    var configFile = new FileInfo(Application.dataPath + @"\" + appInit.Options.fileNameOfCustomConfig);
+                    var configFile = new FileInfo(Application.dataPath + Path.AltDirectorySeparatorChar + appInit.Options.fileNameOfCustomConfig);
 
                     appLog.Info(string.Format("Load specific config: {0}!", configFile.FullName));
 
-                    config = ConfigUtil.LoadConfig<ParadigmConfiguration>(configFile, true, 
+                    Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(configFile, true, 
                         () => appLog.Error("Loading config failed, using default config + writing a default config"));
                 }
                 else if (pathOfDefaultConfig.Exists) 
                 {
                     appLog.Info(string.Format("Found default config at {0}", pathOfDefaultConfig.Name));
 
-                    config = ConfigUtil.LoadConfig<ParadigmConfiguration>(pathOfDefaultConfig, false, () => {
+                    Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(pathOfDefaultConfig, false, () => {
                         appLog.Error (string.Format("Load default config at {0} failed!", pathOfDefaultConfig.Name));
                     });
                 }
                 else
                 { 
-                    config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
+                    Config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
 
                     // TODO if cmd args available use them here
 
@@ -172,7 +180,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     try
                     {
-                        ConfigUtil.SaveAsJson<ParadigmConfiguration>(pathOfDefaultConfig, config);
+                        ConfigUtil.SaveAsJson<ParadigmConfiguration>(pathOfDefaultConfig, Config);
                     }
                     catch (Exception e)
                     {
@@ -187,8 +195,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
 
         }
-
-        private void Third_LoadInstanceDefinitionAndSupplySubjectIDAndConfig()
+        
+        private void Third_LoadOrGenerateInstanceDefinition()
         {
             if (InstanceDefinition == null)
             {
@@ -208,42 +216,62 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 }
                 else
                 {
-                    var factory = new InstanceDefinitionFactory();
+                    UnityEngine.Debug.Log("Create instance definition.");
 
-                    factory.config = config;
-                    
-                    factory.EstimateConfigBasedOnAvailableElements();
+                    var factory = new ParadigmModelFactory();
 
-                    if (!factory.IsAbleToGenerate)
+                    factory.config = Config;
+
+                    try
                     {
+                        factory.EstimateConfigBasedOnAvailableElements();
+                    }
+                    catch (Exception e)
+                    {
+                        appLog.Fatal(e, "Incorrect configuration!");
+
                         appLog.Fatal("Not able to create an instance definition based on the given configuration! Check the paradigm using the UnityEditor and rebuild the paradigm or change the expected configuration!");
+
                         Application.Quit();
+
+                        return;
                     }
-                    else
-                    {
-                        InstanceDefinition = factory.Generate(SubjectID, config.expectedConditions);
-                        
-                        var fileNameWoExt = string.Format("{0}/PreDefinitions/VP_{1}_Definition", Application.dataPath, InstanceDefinition.Subject);
+                     
+                    InstanceDefinition = factory.Generate(SubjectID, Config.expectedConditions, Config.conditionConfigurations);
 
-                        var jsonString = JsonUtility.ToJson(InstanceDefinition, true);
-
-                        var targetFileName = fileNameWoExt + ".json";
-
-                        appLog.Info(string.Format("Saving new definition at: {0}", targetFileName));
-
-                        using (var file = new StreamWriter(targetFileName))
-                        {
-                            file.Write(jsonString);
-                        }
-                    }
+                    Save(InstanceDefinition);
                 }
             }
 
         }
 
+        private void Fourth_InitializeFirstOrDefaultCondition()
+        {
+            conditionController.PendingConditions = InstanceDefinition.Conditions;
+            conditionController.FinishedConditions = new List<ConditionDefinition>();
+
+            conditionController.Initialize( InstanceDefinition.Conditions.First() );
+        }
+
+        private void Save(ParadigmModel instanceDefinition)
+        {
+            var fileNameWoExt = string.Format("{1}{0}PreDefinitions{0}VP_{2}_Definition", Path.AltDirectorySeparatorChar, Application.dataPath, instanceDefinition.Subject);
+
+            var jsonString = JsonUtility.ToJson(InstanceDefinition, true);
+
+            var targetFileName = fileNameWoExt + ".json";
+
+            appLog.Info(string.Format("Saving new definition at: {0}", targetFileName));
+
+            using (var file = new StreamWriter(targetFileName))
+            {
+                file.Write(jsonString);
+            }
+        }
+
         void Update()
         {
-            if (Input.GetKey(KeyCode.F5) && !IsRunning)
+            if (Input.GetKey(KeyCode.F5) && !conditionController.IsRunning)
                 StartTheExperimentFromBeginning();
 
             if (Input.GetKeyUp(KeyCode.F1))
@@ -257,194 +285,40 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 debug_hud.gameObject.SetActive(!debug_hud.gameObject.activeSelf);
         }
 
-        #region Trials
-
-        private LinkedList<TrialDefinition> trials;
-        private LinkedListNode<TrialDefinition> currentDefinition;
-
-        public Training training;
-        public Experiment experiment;
-        public Pause pause;
-        public InstructionTrial instruction;
-
-        public Trial currentTrial;
-
-        private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
-
-        private bool currentRunShouldEndAfterTrialFinished;
-        private bool pauseActive;
-        private ConditionDefinition currentCondition;
-
-        public bool IsRunning
-        {
-            get
-            {
-                return isRunning;
-            }
-        }
-
-        #endregion
-
-        #region Trial Management
-
         public void StartTheExperimentFromBeginning()
         {
-            //InitializeCondition(c)
-
-            trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
-
             appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
 
             runStatistic = new ParadigmRunStatistics();
 
             statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
 
-            SetNextTrialPending();
-        }
-
-        public void InitializeCondition(string condition)
-        {
-
-            currentCondition = InstanceDefinition.Get(condition);
-        }
-
-        public void StartASubsetOfTrials<T>() where T : Trial
-        {
-            var nameOfTrialsToSelect = typeof(T).Name;
-
-            appLog.Info(string.Format("Run only {0} trials!", nameOfTrialsToSelect));
-
-            var selectedTrials = InstanceDefinition.Trials.Where((def) => def.TrialType.Equals(nameOfTrialsToSelect));
-
-            trials = new LinkedList<TrialDefinition>(selectedTrials);
-
-            runStatistic = new ParadigmRunStatistics();
-
-            SetNextTrialPending();
+            conditionController.SetNextConditionPending();
         }
         
-        /// <summary>
-        /// Setup the next trial but wait until subject enters startpoint
-        /// 
-        /// Take into a account that the paradigm definition is a linked list!
-        /// </summary>
-        void SetNextTrialPending()
+        public void InitializeCondition(string condition)
         {
-            isRunning = true;
+            try
+            {
+                var requestedCondition =  InstanceDefinition.Get(condition);
 
-            if (currentDefinition == null)
-            {
-                // Special case: First Trial after experiment start
-                currentDefinition = trials.First;
+                conditionController.Initialize(requestedCondition);
             }
-            else if (currentRunShouldEndAfterTrialFinished || currentDefinition.Next == null)
+            catch (ArgumentException e)
             {
-                // Special case: Last Trial either the run was canceld or all trials done
-                ParadigmInstanceFinished();
-                return;
-            }
-            else
-            {
-                if (!resetTheLastTrial) { 
-                    // normal case the next trial is the follower of the current trial due to the definition
-                    currentDefinition = currentDefinition.Next;
-                }
-                else
-                {
-                    // current definition stays - e.g. when a pause was requested
-                    resetTheLastTrial = false;
-                }
+                appLog.Error(e, "Expected Condition could not be started implemented!");
             }
 
-            var definitionForNextTrial = currentDefinition.Value;
-
-            if (definitionForNextTrial.TrialType.Equals(typeof(Training).Name))
-            {
-                Begin(training, definitionForNextTrial);
-            }
-            else if (definitionForNextTrial.TrialType.Equals(typeof(Experiment).Name))
-            {
-                Begin(experiment, definitionForNextTrial);
-
-            }
-            else if (definitionForNextTrial.TrialType.Equals(typeof(Pause).Name))
-            {
-                Begin(pause, definitionForNextTrial);
-            }
         }
-
-        public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
-        {
-            if (!runCounter.ContainsKey(trial))
-                runCounter.Add(trial, 0);
-
-            currentTrial = trial;
-
-            Prepare(currentTrial);
-
-            currentTrial.SetReady();
-        }
-
-        private void Prepare(Trial currentTrial)
-        {
-            currentTrial.gameObject.SetActive(true);
-
-            currentTrial.enabled = true;
-
-            currentTrial.paradigm = this;
-
-            var def = currentDefinition.Value;
-
-            currentTrial.Initialize(def.MazeName, def.Path, def.Category, def.ObjectName);
-
-            // this sets a callback to Trials Finished event (it's an pointer to a function)
-            currentTrial.Finished += currentTrial_Finished;
-        }
-
-        /// <summary>
-        /// Callback method, should be called by the trial itself - cause only the trial knows when it's finished
-        /// </summary>
-        /// <param name="trial">the trial instance which has finished</param>
-        /// <param name="result">A collection of informations on the trial run</param>
-        void currentTrial_Finished(Trial trial, TrialResult result)
-        {
-            runCounter[trial]++;
-
-            var trialType = trial.GetType().Name;
-
-            if (config.writeStatistics)
-                statistic.Trace(string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}", "\t", trialType, trial.currentMazeName, trial.currentPathID, trial.objectToRemember.name, result.Duration.TotalMinutes));
-
-            runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
-
-            currentTrial.CleanUp();
-
-            currentTrial.enabled = false;
-
-            currentTrial.gameObject.SetActive(false);
-
-            // TODO: replace with a more immersive door implementation
-            entrance.SetActive(true);
-
-            if(!pauseActive)
-                SetNextTrialPending();
-        }
-
+        
         public void AfterTeleportingToEndPoint()
         {
             subject.transform.LookAt(FocusPointAtStart);
             subject.transform.rotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
         }
 
-        public void ForceSaveEnd()
-        {
-            this.currentRunShouldEndAfterTrialFinished = true;
-        }
-
         private void ParadigmInstanceFinished()
         {
-            isRunning = false;
-
             hud.ShowInstruction("You made it!\nThx for participation!", "Experiment finished!");
             var completeTime = runStatistic.Trials.Sum(t => t.DurationInSeconds) / 60;
 
@@ -463,8 +337,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             appLog.Info("Paradigma run finished");
         }
 
-        #endregion
-
         #region Public interface for controlling the paradigm remotely
         
         /// <summary>
@@ -478,7 +350,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 var jsonFromFile = reader.ReadToEnd();
 
-                InstanceDefinition = JsonUtility.FromJson<ParadigmInstanceDefinition>(jsonFromFile);
+                InstanceDefinition = JsonUtility.FromJson<ParadigmModel>(jsonFromFile);
 
                 if (InstanceDefinition == null)
                 {
@@ -488,22 +360,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
         
-        public void InjectPauseTrial()
-        {
-            var pauseTrial = new TrialDefinition()
-            {
-                TrialType = typeof(Pause).Name
-            };
-
-            trials.AddAfter(currentDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
-        }
-
-        public void ReturnFromPauseTrial()
-        {
-            if (currentTrial.Equals(pause))
-                currentTrial.ForceTrialEnd();
-        }
-
         public void PerformSaveInterupt()
         {
 
@@ -522,7 +378,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public FileInfo GetRigidBodyDefinition()
         {
-            var fileName = config.nameOfRigidBodyDefinition;
+            var fileName = Config.nameOfRigidBodyDefinition;
 
             var expectedFilePath = Path.Combine(Application.dataPath, fileName);
 
@@ -536,29 +392,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void SubjectTriesToSubmit()
         {
-            if (currentTrial != null && currentTrial.acceptsASubmit)
+            if (conditionController.currentTrial != null && conditionController.currentTrial.acceptsASubmit)
             {
-                currentTrial.RecieveSubmit();
+                conditionController.currentTrial.RecieveSubmit();
             }
 
-            if (pauseActive)
-            {
-                hud.ShowInstruction("Press the Submit Button to continue", "Break");
-
-                SetNextTrialPending();
-            }
         }
 
         public void ForceABreakInstantly()
         {
-            if (currentTrial != null) {
-
-                resetTheLastTrial = true;
-                pauseActive = true;
-
-                currentTrial.ForceTrialEnd();
-            }
-
+            //conditionController.InjectPauseTrial();
+            conditionController.ResetCurrentTrial();
             hud.ShowInstruction("Press the Submit Button to continue!\n Close your eyes and talk to the supervisor!", "Break");
         }
 

@@ -6,15 +6,12 @@ using System;
 using System.Linq;
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 { 
-    public class ParadigmInstanceDefinition : ScriptableObject
+    public class ParadigmModel : ScriptableObject
     {
         public string Subject;
 
         public ParadigmConfiguration Configuration;
-
-        [SerializeField]
-        public List<TrialDefinition> Trials;
-
+        
         [SerializeField]
         public List<ConditionDefinition> Conditions;
 
@@ -37,18 +34,16 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public string Identifier = "default";
 
         [SerializeField]
+        public ConditionConfiguration Config;
+
+        [SerializeField]
         public List<TrialDefinition> Trials;
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName} {Condition}")]
+    
+    [DebuggerDisplay("{TrialType} {MazeName} Path: {Path} {Category} {ObjectName}")]
     [Serializable]
     public class TrialDefinition
     {
-        [SerializeField]
-        public string Condition;
         [SerializeField]
         public string TrialType;
         [SerializeField]
@@ -59,30 +54,5 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public string Category;
         [SerializeField]
         public string ObjectName;
-    }
-
-    /// <summary>
-    /// A temporary configuration of values describing the configuration of a trial
-    /// </summary>
-    /// 
-    [DebuggerDisplay("{MazeName} {Path} {Category} {ObjectName}")]
-    public struct TrialConfig : ICloneable
-    {
-        public string MazeName;
-        public int Path;
-        public string Category;
-        public string ObjectName;
-
-        public object Clone()
-        {
-            return new TrialConfig()
-            {
-                MazeName = this.MazeName,
-                Path = this.Path,
-                Category = this.Category,
-                ObjectName = this.ObjectName
-            };
-        }
-    }
-
+    } 
 }

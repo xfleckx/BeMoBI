@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class InstanceDefinitionFactory
+    public class ParadigmModelFactory
     {
         public ParadigmConfiguration config;
         
-        public InstanceDefinitionFactory()
+        public ParadigmModelFactory()
         {
         }
 
@@ -28,28 +29,35 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             mazeInstances = vrManager.transform.AllChildren().Where(c => c.GetComponents<beMobileMaze>() != null).Select(c => c.GetComponent<beMobileMaze>()).ToList();
 
             var availableCategories = objectPool.Categories.Count;
-            
+
             var availableMazes = mazeInstances.Count;
 
+            foreach (var condConfig in config.conditionConfigurations)
+            {
+                if (condConfig.mazesToUse > availableMazes)
+                {
+                    var message = string.Format("Warning! You want to use more mazes {0} than available {1}", condConfig.mazesToUse, availableMazes);
 
-            if(config.mazesToUse > availableMazes) {
+                    throw new ArgumentException(message);
+                }
 
-                config.mazesToUse = availableMazes;
+                if (condConfig.useExactOnCategoryPerMaze)
+                {
+                    if (condConfig.mazesToUse > availableCategories) {
 
-                var warningMessage = string.Format("Warning! You want to use more mazes {0} than available {1}", config.mazesToUse, availableMazes);
+                        var message = string.Format("Error on 'useExactOnCategoryPerMaze! Not enough categories {0} than mazes {1}", condConfig.mazesToUse, availableCategories);
 
-                Debug.Log(warningMessage);
+                        throw new ArgumentException(message);
+                    }
+                } // warning no else condition defined! TODO... what should happen when multiple categories per maze are available?
+
+                CheckIfEnoughPathsAreAvailable(condConfig);
+
+                CheckIfEnoughObjectsAreAvailable(condConfig);
             }
 
-            if (config.useExactOnCategoryPerMaze)
-            {
-                if (config.mazesToUse > availableCategories)
-                    config.mazesToUse = availableCategories;
-            } // warning no else condition defined! TODO... what should happen when multiple categories per maze are available?
-            
-            CheckIfEnoughPathsAreAvailable();
 
-            CheckIfEnoughObjectsAreAvailable();
+            
         }
 
         #region Generator logic - bad code here... needs to be encapsulated
@@ -60,15 +68,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private Dictionary<beMobileMaze, Category> mazeCategoryMap;
         // use stack for asserting that every category will be used once
         private Stack<Category> availableCategories;
-
-        public bool IsAbleToGenerate {
-            get
-            {
-                return CheckGenerationConstraints();
-            }
-        }
-
-        public bool CheckGenerationConstraints()
+        
+        public bool CheckGenerationConstraints(ConditionConfiguration config)
         {
             var result = objectPool != null;
             result = mazeInstances.Count >= config.mazesToUse && (config.mazesToUse > 0) && result;
@@ -78,7 +79,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             return result;
         }
 
-        public void CheckIfEnoughPathsAreAvailable()
+        public void CheckIfEnoughPathsAreAvailable(ConditionConfiguration config)
         {
             var atLeastAvailablePaths = 0;
 
@@ -109,7 +110,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
 
-        public void CheckIfEnoughObjectsAreAvailable()
+        public void CheckIfEnoughObjectsAreAvailable(ConditionConfiguration config)
         {
             var atLeastAvailableObjectsPerCategory = 0;
 
@@ -129,27 +130,32 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 return;
             }
 
-            Debug.Log(string.Format("Max {0} objects available but expected {1}", atLeastAvailableObjectsPerCategory, config.pathsToUsePerMaze));
+            UnityEngine.Debug.Log(string.Format("Max {0} objects available but expected {1}", atLeastAvailableObjectsPerCategory, config.pathsToUsePerMaze));
             enoughObjectsAreAvailable = false;
         }
 
-        public ParadigmInstanceDefinition Generate(string subjectID, List<string> conditions)
+        public ParadigmModel Generate(string subjectID, List<string> conditionNames, List<ConditionConfiguration> availableConfigurations)
         {
             mazeCategoryMap = new Dictionary<beMobileMaze, Category>();
 
-            var newConfig = UnityEngine.ScriptableObject.CreateInstance<ParadigmInstanceDefinition>();
+            var newModel = UnityEngine.ScriptableObject.CreateInstance<ParadigmModel>();
 
-            newConfig.Subject = subjectID;
+            newModel.Subject = subjectID;
 
-            newConfig.name = string.Format("VP_Def_{0}", subjectID);
+            newModel.name = string.Format("Model_VP_{0}", subjectID);
 
-            foreach (var condition in conditions)
+            newModel.Conditions = new List<ConditionDefinition>();
+
+            foreach (var conditionName in conditionNames)
             {
+                // get the default config when the requested condition name could not be found
+                var conditionConfig = availableConfigurations.FirstOrDefault(c => c.ConditionID.Equals(conditionName)) ?? ConditionConfiguration.GetDefault();
+
                 var shuffledCategories = objectPool.Categories.OrderBy((i) => Guid.NewGuid()).ToList();
 
                 availableCategories = new Stack<Category>(shuffledCategories);
 
-                for (int i = 0; i < config.mazesToUse; i++)
+                for (int i = 0; i < conditionConfig.mazesToUse; i++)
                 {
                     var maze = mazeInstances[i];
                     ChooseCategoryFor(maze);
@@ -164,8 +170,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     var maze = association.Key;
                     var category = association.Value;
 
-                    var configs = MapPathsToObjects(maze, category);
-                    possibleTrials.AddRange(configs);
+                    var trialConfigs = MapPathsToObjects(maze, category, conditionConfig);
+                    possibleTrials.AddRange(trialConfigs);
                 }
 
                 #endregion
@@ -174,6 +180,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 var newCondition = new ConditionDefinition();
 
+                newCondition.Identifier = conditionName;
+
                 newCondition.Trials = new List<TrialDefinition>();
 
                 var trainingTrials = new List<TrialDefinition>();
@@ -181,7 +189,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 foreach (var trialDefinition in possibleTrials)
                 {
-                    for (int i = 0; i < config.objectVisitationsInTraining; i++)
+                    for (int i = 0; i < conditionConfig.objectVisitationsInTraining; i++)
                     {
                         var newTrainingsTrialDefinition = new TrialDefinition()
                         {
@@ -195,7 +203,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                         trainingTrials.Add(newTrainingsTrialDefinition);
                     }
 
-                    for (int i = 0; i < config.objectVisitationsInExperiment; i++)
+                    for (int i = 0; i < conditionConfig.objectVisitationsInExperiment; i++)
                     {
                         var newExperimentTrialDefinition = new TrialDefinition()
                         {
@@ -213,7 +221,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 #endregion
 
-                if (config.groupByMazes)
+                if (conditionConfig.groupByMazes)
                 {
                     var tempAllTrials = new List<TrialDefinition>();
                     tempAllTrials.AddRange(trainingTrials);
@@ -255,12 +263,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     newCondition.Trials.AddRange(shuffledExperimentalTrials);
                 }
 
+                newModel.Conditions.Add(newCondition);
             }
                
-            return newConfig;
+            return newModel;
         }
 
-        private IEnumerable<TrialConfig> MapPathsToObjects(beMobileMaze maze, Category category)
+        private IEnumerable<TrialConfig> MapPathsToObjects(beMobileMaze maze, Category category, ConditionConfiguration config)
         {
             var paths = maze.GetComponent<PathController>().Paths.Where(p => p.Available).ToArray();
             var resultConfigs = new List<TrialConfig>();
@@ -297,5 +306,30 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         }
 
         #endregion
+    }
+
+
+    /// <summary>
+    /// A temporary configuration of values describing the configuration of a trial
+    /// this is used during the generation process
+    /// </summary>
+    [DebuggerDisplay("{MazeName} {Path} {Category} {ObjectName}")]
+    public struct TrialConfig : ICloneable
+    {
+        public string MazeName;
+        public int Path;
+        public string Category;
+        public string ObjectName;
+
+        public object Clone()
+        {
+            return new TrialConfig()
+            {
+                MazeName = this.MazeName,
+                Path = this.Path,
+                Category = this.Category,
+                ObjectName = this.ObjectName
+            };
+        }
     }
 }
