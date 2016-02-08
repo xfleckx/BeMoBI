@@ -35,7 +35,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private static Logger statistic = LogManager.GetLogger("Statistics");
         
         public ParadigmRunStatistics runStatistic;
-        
+
+        public string PathToLoadedConfig = String.Empty;
+
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -86,6 +88,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public InstructionTrial instruction;
         
         #endregion
+        
 
         void Awake()
         {
@@ -161,6 +164,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(configFile, true, 
                         () => appLog.Error("Loading config failed, using default config + writing a default config"));
+
+                    PathToLoadedConfig = configFile.FullName;
                 }
                 else if (pathOfDefaultConfig.Exists) 
                 {
@@ -169,14 +174,18 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(pathOfDefaultConfig, false, () => {
                         appLog.Error (string.Format("Load default config at {0} failed!", pathOfDefaultConfig.Name));
                     });
+
+                    PathToLoadedConfig = pathOfDefaultConfig.FullName;
                 }
                 else
-                { 
-                    Config = ScriptableObject.CreateInstance<ParadigmConfiguration>();
+                {
+                    Config = ParadigmConfiguration.GetDefault();
 
                     // TODO if cmd args available use them here
 
-                    appLog.Info(string.Format("New Config created will be saved to: {0}! Reason: No config file found!", pathOfDefaultConfig.FullName));
+                    var customPath = pathOfDefaultConfig;
+
+                    appLog.Info(string.Format("New Config created will be saved to: {0}! Reason: No config file found!", customPath.FullName));
 
                     try
                     {
@@ -186,6 +195,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     {
                         appLog.Info(string.Format("Config could not be saved to: {0}! Reason: {1}", pathOfDefaultConfig.FullName, e.Message));
                     }
+
+                    PathToLoadedConfig = customPath.FullName;
                 }
 
             }
@@ -228,6 +239,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     }
                     catch (Exception e)
                     {
+                        Debug.LogException(e);
+
                         appLog.Fatal(e, "Incorrect configuration!");
 
                         appLog.Fatal("Not able to create an instance definition based on the given configuration! Check the paradigm using the UnityEditor and rebuild the paradigm or change the expected configuration!");
@@ -237,7 +250,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                         return;
                     }
                      
-                    InstanceDefinition = factory.Generate(SubjectID, Config.expectedConditions, Config.conditionConfigurations);
+                    InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
 
                     Save(InstanceDefinition);
                 }
@@ -249,8 +262,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             conditionController.PendingConditions = InstanceDefinition.Conditions;
             conditionController.FinishedConditions = new List<ConditionDefinition>();
-
-            conditionController.Initialize( InstanceDefinition.Conditions.First() );
         }
 
         private void Save(ParadigmModel instanceDefinition)
@@ -276,7 +287,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (Input.GetKeyUp(KeyCode.F1))
                 ToogleDebugHUD();
-
         }
 
         private void ToogleDebugHUD()
@@ -292,7 +302,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             runStatistic = new ParadigmRunStatistics();
 
             statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
-
+            
             conditionController.SetNextConditionPending();
         }
         

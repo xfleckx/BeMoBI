@@ -30,28 +30,37 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private bool currentRunShouldEndAfterTrialFinished;
         private bool pauseActive;
 
-        private bool isRunning = false;
+        private bool isTrialRunning = false;
         public bool IsRunning
         {
             get
             {
-                return isRunning;
+                return isTrialRunning;
             }
         }
 
         public List<ConditionDefinition> PendingConditions { get; internal set; }
         public List<ConditionDefinition> FinishedConditions { get; internal set; }
 
+        public bool IsConditionRunning
+        {
+            get
+            {
+                return isConditionRunning;
+            }
+        }
+
         private bool resetTheLastTrial = false;
+        private bool isConditionRunning;
 
         #endregion
-         
+
         public void Initialize(ConditionDefinition requestedCondition)
         {
-            if (isRunning)
+            if (IsConditionRunning)
                 throw new InvalidOperationException("A condition is already running!");
-
-            if(PendingConditions.Any(c => c.Equals(requestedCondition))){
+            
+            if (PendingConditions.Any(c => c.Equals(requestedCondition))){
                 currentCondition = requestedCondition;
                 PendingConditions.Remove(requestedCondition);
             }
@@ -63,6 +72,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             ApplyConditionSpecificConfiguration(currentCondition.Config);
 
             trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
+
+            isConditionRunning = true;
+
+            SetNextTrialPending();
         }
 
         public void ResetCurrentCondition()
@@ -120,7 +133,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         void SetNextTrialPending()
         {
-            isRunning = true;
+            isTrialRunning = true;
 
             if (currentDefinition == null)
             {
@@ -241,6 +254,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private void ConditionFinished()
         {
+            isConditionRunning = false;
+
             SetNextConditionPending();
         }
 

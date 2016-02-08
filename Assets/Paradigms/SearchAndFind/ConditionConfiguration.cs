@@ -1,15 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class ConditionConfiguration : ScriptableObject
+    [Serializable]
+    public class ConditionConfiguration : ICloneable
     {
         public static ConditionConfiguration GetDefault()
         {
-            var config = CreateInstance<ConditionConfiguration>();
+            var config = new ConditionConfiguration();
 
+            config.ConditionID = ParadigmConfiguration.NAME_FOR_DEFAULT_CONFIG;
+             
             return config;
+        }
+
+        public object Clone()
+        {
+
+            var originalProperties = this.GetType().GetProperties();
+
+            var clone = new ConditionConfiguration();
+            var cloneProperties = clone.GetType().GetProperties();
+
+            for (int i = 0; i < originalProperties.Length; i++)
+            {
+                var originalValue = originalProperties[i].GetValue(this, null);
+                cloneProperties[i].SetValue(clone, originalValue, null);
+            }
+
+            return clone;
         }
 
         public string ConditionID = ParadigmConfiguration.NAME_FOR_DEFAULT_CONFIG;
@@ -36,10 +57,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public int categoriesPerMaze = 1;
 
         [SerializeField]
-        public int mazesToUse;
+        public int mazesToUse = 1;
 
         [SerializeField]
-        public int pathsToUsePerMaze; // corresponds with the available objects - one distinct object per path per maze
+        public int pathsToUsePerMaze = 1; // corresponds with the available objects - one distinct object per path per maze
 
         [SerializeField]
         public int objectVisitationsInTraining = 1; // how often an object should be visisted while trainings trial

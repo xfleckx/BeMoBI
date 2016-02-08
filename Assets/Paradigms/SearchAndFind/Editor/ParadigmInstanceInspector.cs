@@ -42,6 +42,14 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 controlWindow.Show();
             }
 
+
+            if (instance.InstanceDefinition != null && GUILayout.Button("Delete Instance Definition"))
+            {
+                //DestroyImmediate(instance.InstanceDefinition);
+                instance.InstanceDefinition = null;
+            }
+
+
             if (instance.Config == null)
             {
                 EditorGUILayout.HelpBox("To Generate Instance definitions please load or generate a paradigm config!", MessageType.Info);
@@ -50,14 +58,25 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             {
                 if (GUILayout.Button("Open Configuration Window", GUILayout.Height(30)))
                 {
-                    var window = EditorWindow.GetWindow<ConfigurationControl>();
+                    var window = EditorWindow.GetWindow<ParadigmModelEditor>();
 
                     window.Initialize(instance);
 
                     window.Show();
                 }
             }
+            
+            if (GUILayout.Button("Create new default config"))
+            {
+                instance.PathToLoadedConfig = String.Empty;
+                instance.Config = ParadigmConfiguration.GetDefault();
+            }
 
+            if (instance.Config == null)
+            {
+                RenderLoadConfigOption();
+                return;
+            }
 
             if (GUILayout.Button("Lookup Instance definitions"))
             {
@@ -80,83 +99,129 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Configuration", EditorStyles.boldLabel);
+            
+            EditorGUILayout.BeginVertical();
+           
+            EditorGUILayout.LabelField("Config Name:");
 
+            if (configName == string.Empty && instance.PathToLoadedConfig != string.Empty)
+                configName = Path.GetFileNameWithoutExtension(instance.PathToLoadedConfig);
 
+            configName = EditorGUILayout.TextField(configName);
+
+            EditorGUILayout.LabelField("Path to Config");
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.LabelField(configFilePathToLoad);
+
+            EditorGUILayout.BeginHorizontal();
+
+            if(configName != String.Empty)
+            {
+                EditorGUILayout.BeginVertical();
+                RenderLoadAndSaveOptions();
+                EditorGUILayout.EndVertical();
+            }
+
+            if (instance.PathToLoadedConfig != String.Empty)
+            {
+                EditorGUILayout.BeginVertical();
+                RenderOverrideAndReloadOptions();
+                EditorGUILayout.EndVertical();
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Clear Config"))
+            {
+                DestroyImmediate(instance.Config);
+                instance.Config = null;
+                instance.PathToLoadedConfig = string.Empty;
+                configName = string.Empty;
+                GC.Collect();
+            }
+                         
+            if (instance.Config == null)
+            {
+                EditorGUILayout.HelpBox("Load a Config to see available config values!", MessageType.Info);
+            }
+            else
+            {
+                instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
+            }
+             
+            showDependencies = EditorGUILayout.Foldout(showDependencies, new GUIContent("Dependencies", "Shows all dependencies of this ParadigmController"));
+
+            if (showDependencies)
+                base.OnInspectorGUI();
+
+        }
+
+        private void RenderLoadAndSaveOptions()
+        {
             var pathToConfigFile = Application.dataPath + @"/" + configName + ".json";
 
-            EditorGUILayout.BeginVertical();
-            
+            var fileInfoForConfig = new FileInfo(pathToConfigFile);
+
+            if (fileInfoForConfig.Exists &&
+                GUILayout.Button("Load config"))
+            {
+                instance.Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(fileInfoForConfig, true, () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
+
+                if (instance.Config != null)
+                    instance.PathToLoadedConfig = pathToConfigFile;
+            }
+
+            if (GUILayout.Button("Save Config"))
+            {
+                ConfigUtil.SaveAsJson<ParadigmConfiguration>(fileInfoForConfig, instance.Config);
+
+                instance.PathToLoadedConfig = fileInfoForConfig.FullName;
+
+                AssetDatabase.Refresh();
+            }
+        }
+
+        private void RenderOverrideAndReloadOptions()
+        {
+            var fileInfoForConfig = new FileInfo(instance.PathToLoadedConfig);
+
+            if (fileInfoForConfig.Exists &&
+                GUILayout.Button("Reload config"))
+            {
+                instance.Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(fileInfoForConfig, true, () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
+
+                if (instance.Config != null)
+                    instance.PathToLoadedConfig = fileInfoForConfig.FullName;
+            }
+
+            if (fileInfoForConfig.Exists && GUILayout.Button("Override Config"))
+            {
+                ConfigUtil.SaveAsJson<ParadigmConfiguration>(fileInfoForConfig, instance.Config);
+                AssetDatabase.Refresh();
+            }
+        }
+
+        private void RenderLoadConfigOption()
+        {
             configFilePathToLoad = EditorGUILayout.TextField(configFilePathToLoad);
 
             if (GUILayout.Button("Load"))
             {
                 configFilePathToLoad = EditorUtility.OpenFilePanel("Load Config", Application.dataPath, "json");
 
-                if (configFilePathToLoad != null && configFilePathToLoad != string.Empty) { 
+                if (configFilePathToLoad != null && configFilePathToLoad != string.Empty)
+                {
 
                     instance.Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(
-                        new FileInfo(configFilePathToLoad), 
-                        false, 
+                        new FileInfo(configFilePathToLoad),
+                        false,
                         () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
 
                     configName = Path.GetFileNameWithoutExtension(new FileInfo(configFilePathToLoad).Name);
                 }
             }
-
-            EditorGUILayout.LabelField("Config Name:");
-
-            configName = EditorGUILayout.TextField(configName);
-
-            EditorGUILayout.LabelField("Path to Config");
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.LabelField(pathToConfigFile);
-
-            var fileInfoForConfig = new FileInfo(pathToConfigFile);
-
-            if (GUILayout.Button("Clear Config"))
-            {
-                DestroyImmediate(instance.Config);
-                instance.Config = null;
-                configName = string.Empty;
-                GC.Collect();
-            }
-
-            if (instance.Config == null &&
-                File.Exists(pathToConfigFile) &&
-                GUILayout.Button("Load config"))
-            {
-                instance.Config = ConfigUtil.LoadConfig<ParadigmConfiguration>(fileInfoForConfig, true, () => { EditorUtility.DisplayDialog("Error", "Config could not be loaded!", "Ok"); });
-            }
-
-            if (GUILayout.Button("Create plain config"))
-            {
-                instance.Config = CreateInstance<ParadigmConfiguration>();
-            }
-
-            if (instance.conditionController.conditionConfig != null)
-            {
-                if(instance.conditionController.conditionConfig != null)
-                    instance.conditionController.conditionConfig.useTeleportation = EditorGUILayout.Toggle(new GUIContent("Use Teleportation", "Teleport the subject to the startpoint on trial finished."), instance.conditionController.conditionConfig.useTeleportation);
-
-                instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
-
-                if (GUILayout.Button("Save Config"))
-                {
-                    ConfigUtil.SaveAsJson<ParadigmConfiguration>(fileInfoForConfig, instance.Config);
-                    AssetDatabase.Refresh();
-                }
-            }
-            else
-            {
-                EditorGUILayout.HelpBox("Load a Config to see available config values!", MessageType.Info);
-            }
-
-
-            showDependencies = EditorGUILayout.Foldout(showDependencies, new GUIContent("Dependencies", "Shows all dependencies of this ParadigmController"));
-
-            if (showDependencies)
-                base.OnInspectorGUI();
 
         }
     }

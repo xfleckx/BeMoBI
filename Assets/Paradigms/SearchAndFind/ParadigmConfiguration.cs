@@ -17,6 +17,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             config.conditionConfigurations.Add(ConditionConfiguration.GetDefault());
 
+            config.hideFlags = HideFlags.HideAndDontSave;
+
             return config;
         }
 
@@ -32,8 +34,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         [SerializeField]
         public string nameOfRigidBodyDefinition = "";
         
-        [SerializeField]
-        public List<String> expectedConditions = new List<string>() { NAME_FOR_DEFAULT_CONFIG };
+        //[SerializeField]
+        //public List<String> expectedConditions = new List<string>() { NAME_FOR_DEFAULT_CONFIG };
 
         [SerializeField]
         public List<ConditionConfiguration> conditionConfigurations = new List<ConditionConfiguration>();

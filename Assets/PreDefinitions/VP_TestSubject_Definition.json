@@ -7,9 +7,37 @@
         {
             "Identifier": "default",
             "Config": {
-                "instanceID": 0
+                "ConditionID": "default",
+                "useTeleportation": false,
+                "BodyControllerName": "KeyboardCombi",
+                "HeadControllerName": "KeyboardCombi",
+                "TimeToDisplayObjectToRememberInSeconds": 3.0,
+                "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+                "offsetToTeleportation": 2.0,
+                "categoriesPerMaze": 1,
+                "mazesToUse": 1,
+                "pathsToUsePerMaze": 1,
+                "objectVisitationsInTraining": 1,
+                "objectVisitationsInExperiment": 1,
+                "useExactOnCategoryPerMaze": true,
+                "groupByMazes": true
             },
-            "Trials": []
+            "Trials": [
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Category07",
+                    "ObjectName": "2_HP_FBX"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Category07",
+                    "ObjectName": "2_HP_FBX"
+                }
+            ]
         }
     ]
 }

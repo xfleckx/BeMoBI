@@ -1,20 +1,24 @@
 {
-    "useTeleportation": true,
+    "ifNoInstanceDefinitionCreateOne": true,
     "writeStatistics": true,
     "logMarkerToFile": true,
-    "ifNoInstanceDefinitionCreateOne": false,
-    "TimeToDisplayObjectToRememberInSeconds": 3.0,
-    "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
-    "offsetToTeleportation": 2.0,
-    "categoriesPerMaze": 1,
-    "mazesToUse": 0,
-    "pathsToUsePerMaze": 0,
-    "objectVisitationsInTraining": 1,
-    "objectVisitationsInExperiment": 1,
-    "useExactOnCategoryPerMaze": true,
-    "groupByMazes": true,
     "nameOfRigidBodyDefinition": "",
-    "expectedConditions": [
-        "default"
+    "conditionConfigurations": [
+        {
+            "ConditionID": "default",
+            "useTeleportation": false,
+            "BodyControllerName": "KeyboardCombi",
+            "HeadControllerName": "KeyboardCombi",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "mazesToUse": 1,
+            "pathsToUsePerMaze": 1,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
+            "useExactOnCategoryPerMaze": true,
+            "groupByMazes": true
+        }
     ]
 }

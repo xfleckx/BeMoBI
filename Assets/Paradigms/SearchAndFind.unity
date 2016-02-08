@@ -335,7 +335,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
-  conditionConfig: {fileID: 0}
+  conditionConfig:
+    ConditionID: default
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 0
+    pathsToUsePerMaze: 0
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -479,11 +493,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe3da5cd8218e49897ec9bd468bccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PathToLoadedConfig: 
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
-  conditionController: {fileID: 0}
+  conditionController: {fileID: 2120861125}
   Config: {fileID: 0}
-  InstanceDefinition: {fileID: 0}
+  InstanceDefinition: {fileID: 11400000, guid: e45ce2aa9079ea4408b630d1f959fa7d, type: 2}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
   startingPoint: {fileID: 726889599}
@@ -1228,7 +1243,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
-  conditionConfig: {fileID: 0}
+  conditionConfig:
+    ConditionID: default
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 0
+    pathsToUsePerMaze: 0
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -2667,7 +2696,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
-  conditionConfig: {fileID: 0}
+  conditionConfig:
+    ConditionID: default
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 0
+    pathsToUsePerMaze: 0
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -4384,7 +4427,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paradigm: {fileID: 0}
-  conditionConfig: {fileID: 0}
+  conditionConfig:
+    ConditionID: default
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 0
+    pathsToUsePerMaze: 0
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -5699,9 +5756,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75cb76cf487957148a2e2fbc49d5f43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paradigm: {fileID: 0}
+  paradigm: {fileID: 188249849}
   currentTrial: {fileID: 0}
-  conditionConfig: {fileID: 0}
+  conditionConfig:
+    ConditionID: CC
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 1
+    pathsToUsePerMaze: 1
+    objectVisitationsInTraining: 5
+    objectVisitationsInExperiment: 5
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
 --- !u!1 &2143869663
 GameObject:
   m_ObjectHideFlags: 0

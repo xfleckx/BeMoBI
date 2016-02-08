@@ -13,37 +13,43 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         public ParadigmModelFactory()
         {
+            objectPool = UnityEngine.Object.FindObjectOfType<ObjectPool>();
+
+            vrManager = UnityEngine.Object.FindObjectOfType<VirtualRealityManager>();
+
+            mazeInstances = vrManager.transform.AllChildren().Where(c => c.GetComponents<beMobileMaze>() != null).Select(c => c.GetComponent<beMobileMaze>()).ToList();
+
+            availableCategoriesCount = objectPool.Categories.Count;
+            availableMazesCount = mazeInstances.Count;
         }
 
         public int atLeastAvailblePathsPerMaze = 0;
 
         private bool enoughPathsAreAvailable = false;
         private bool enoughObjectsAreAvailable = false;
-        
+
+        private ObjectPool objectPool;
+        private List<beMobileMaze> mazeInstances;
+        private VirtualRealityManager vrManager;
+
+        int availableCategoriesCount;
+
+        int availableMazesCount;
+
         public void EstimateConfigBasedOnAvailableElements()
         {
-            objectPool = UnityEngine.Object.FindObjectOfType<ObjectPool>();
-
-            var vrManager = UnityEngine.Object.FindObjectOfType<VirtualRealityManager>();
-
-            mazeInstances = vrManager.transform.AllChildren().Where(c => c.GetComponents<beMobileMaze>() != null).Select(c => c.GetComponent<beMobileMaze>()).ToList();
-
-            var availableCategories = objectPool.Categories.Count;
-
-            var availableMazes = mazeInstances.Count;
-
             foreach (var condConfig in config.conditionConfigurations)
             {
-                if (condConfig.mazesToUse > availableMazes)
+                if (condConfig.mazesToUse > availableMazesCount)
                 {
-                    var message = string.Format("Warning! You want to use more mazes {0} than available {1}", condConfig.mazesToUse, availableMazes);
+                    var message = string.Format("Warning! You want to use more mazes {0} than available {1}", condConfig.mazesToUse, availableMazesCount);
 
                     throw new ArgumentException(message);
                 }
 
                 if (condConfig.useExactOnCategoryPerMaze)
                 {
-                    if (condConfig.mazesToUse > availableCategories) {
+                    if (condConfig.mazesToUse > availableCategoriesCount) {
 
                         var message = string.Format("Error on 'useExactOnCategoryPerMaze! Not enough categories {0} than mazes {1}", condConfig.mazesToUse, availableCategories);
 
@@ -62,8 +68,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #region Generator logic - bad code here... needs to be encapsulated
 
-        private ObjectPool objectPool;
-        private List<beMobileMaze> mazeInstances;
 
         private Dictionary<beMobileMaze, Category> mazeCategoryMap;
         // use stack for asserting that every category will be used once
@@ -134,7 +138,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             enoughObjectsAreAvailable = false;
         }
 
-        public ParadigmModel Generate(string subjectID, List<string> conditionNames, List<ConditionConfiguration> availableConfigurations)
+        public ParadigmModel Generate(string subjectID, List<ConditionConfiguration> availableConfigurations)
         {
             mazeCategoryMap = new Dictionary<beMobileMaze, Category>();
 
@@ -146,10 +150,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             newModel.Conditions = new List<ConditionDefinition>();
 
-            foreach (var conditionName in conditionNames)
+            foreach (var conditionConfig in availableConfigurations)
             {
                 // get the default config when the requested condition name could not be found
-                var conditionConfig = availableConfigurations.FirstOrDefault(c => c.ConditionID.Equals(conditionName)) ?? ConditionConfiguration.GetDefault();
+                //var conditionConfig = availableConfigurations.FirstOrDefault(c => c.ConditionID.Equals(conditionConfig)) ?? ConditionConfiguration.GetDefault();
 
                 var shuffledCategories = objectPool.Categories.OrderBy((i) => Guid.NewGuid()).ToList();
 
@@ -180,7 +184,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 var newCondition = new ConditionDefinition();
 
-                newCondition.Identifier = conditionName;
+                newCondition.Identifier = conditionConfig.ConditionID;
 
                 newCondition.Trials = new List<TrialDefinition>();
 
