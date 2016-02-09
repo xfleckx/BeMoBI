@@ -21,7 +21,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             paradigm.hud.Clear();
 
-            paradigm.hud.ShowInstruction("Retrieve the path to this object","Task");
+            paradigm.hud.ShowInstruction("Erinnere dich an den Pfad für das folgende Objekt und\nfinde es im Labyrinth wieder.","Aufgabe");
 
             base.ShowObjectAtStart();
         }

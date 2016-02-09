@@ -15,7 +15,16 @@ public class ConditionInspector : Editor {
     {
         instance = target as ConditionController;
 
-        base.OnInspectorGUI();
+        //base.OnInspectorGUI();
+
+        var currentCondition = instance.currentCondition == null ? "no condition" : instance.currentCondition.Identifier;
+
+        EditorGUILayout.LabelField("Current Condition", currentCondition);
+        
+        var currentTrial = instance.currentTrial == null ? "no trial" : instance.currentTrialDefinition.Value.ToString();
+
+        EditorGUILayout.LabelField("Current Condition", currentCondition);
+
 
         if (instance.paradigm == null)
         {

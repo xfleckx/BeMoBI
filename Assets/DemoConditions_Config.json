@@ -1,0 +1,40 @@
+{
+    "ifNoInstanceDefinitionCreateOne": true,
+    "writeStatistics": true,
+    "logMarkerToFile": true,
+    "nameOfRigidBodyDefinition": "6_upperBody.rb",
+    "conditionConfigurations": [
+        {
+            "ConditionID": "keyboard",
+            "useTeleportation": true,
+            "BodyControllerName": "KeyboardCombi",
+            "HeadControllerName": "KeyboardCombi",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "mazesToUse": 1,
+            "pathsToUsePerMaze": 1,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
+            "useExactOnCategoryPerMaze": true,
+            "groupByMazes": true
+        },
+        {
+            "ConditionID": "rift+mocap",
+            "useTeleportation": true,
+            "BodyControllerName": "PS_RigidBody",
+            "HeadControllerName": "Oculus Headset",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "mazesToUse": 1,
+            "pathsToUsePerMaze": 1,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
+            "useExactOnCategoryPerMaze": true,
+            "groupByMazes": true
+        }
+    ]
+}

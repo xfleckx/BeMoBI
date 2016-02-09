@@ -34,10 +34,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         [SerializeField]
         public string nameOfRigidBodyDefinition = "";
         
-        //[SerializeField]
-        //public List<String> expectedConditions = new List<string>() { NAME_FOR_DEFAULT_CONFIG };
-
         [SerializeField]
         public List<ConditionConfiguration> conditionConfigurations = new List<ConditionConfiguration>();
+
+        [SerializeField]
+        public bool waitForCommandOnConditionEnd = true;
     }
 }

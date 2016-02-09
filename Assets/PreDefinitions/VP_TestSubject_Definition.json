@@ -5,10 +5,10 @@
     },
     "Conditions": [
         {
-            "Identifier": "default",
+            "Identifier": "keyboard",
             "Config": {
-                "ConditionID": "default",
-                "useTeleportation": false,
+                "ConditionID": "keyboard",
+                "useTeleportation": true,
                 "BodyControllerName": "KeyboardCombi",
                 "HeadControllerName": "KeyboardCombi",
                 "TimeToDisplayObjectToRememberInSeconds": 3.0,
@@ -27,15 +27,50 @@
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Category07",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Category05",
+                    "ObjectName": "2_Filebinder"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Category07",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Category05",
+                    "ObjectName": "2_Filebinder"
+                }
+            ]
+        },
+        {
+            "Identifier": "rift+mocap",
+            "Config": {
+                "ConditionID": "rift+mocap",
+                "useTeleportation": true,
+                "BodyControllerName": "PS_RigidBody",
+                "HeadControllerName": "Oculus Headset",
+                "TimeToDisplayObjectToRememberInSeconds": 3.0,
+                "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+                "offsetToTeleportation": 2.0,
+                "categoriesPerMaze": 1,
+                "mazesToUse": 1,
+                "pathsToUsePerMaze": 1,
+                "objectVisitationsInTraining": 1,
+                "objectVisitationsInExperiment": 1,
+                "useExactOnCategoryPerMaze": true,
+                "groupByMazes": true
+            },
+            "Trials": [
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Category05",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Category05",
+                    "ObjectName": "2_Filebinder"
                 }
             ]
         }

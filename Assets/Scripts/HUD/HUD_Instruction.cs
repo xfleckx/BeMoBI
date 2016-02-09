@@ -73,6 +73,8 @@ public class HUD_Instruction : Singleton<HUD_Instruction> {
 
     public void ShowInstruction(string text, string heading)
     {
+        Clear();
+
         Heading.text = heading;
         Heading.gameObject.SetActive(true);
 
@@ -81,10 +83,20 @@ public class HUD_Instruction : Singleton<HUD_Instruction> {
 
     public void ShowInstruction(string text, string heading, Texture image)
     {
+        Clear();
+
+        panel.SetActive(true);
+        
+        Heading.text = heading;
+        Heading.gameObject.SetActive(true);
+
         ImageLeftFromText.texture = image;
         ImageLeftFromText.gameObject.SetActive(true);
 
-        ShowInstruction(text, heading);
+        TextBesideImage.text = text;
+        TextBesideImage.gameObject.SetActive(true);
+
+        isRendering = true;
     }
 
     public void Clear()
@@ -96,9 +108,7 @@ public class HUD_Instruction : Singleton<HUD_Instruction> {
         CenterImage.texture = null;
 
         isRendering = false;
-
-
-
+        
         var children = panel.transform.AllChildren();
 
         foreach (var item in children)

@@ -267,6 +267,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     newCondition.Trials.AddRange(shuffledExperimentalTrials);
                 }
 
+                newCondition.Config = conditionConfig;
                 newModel.Conditions.Add(newCondition);
             }
                

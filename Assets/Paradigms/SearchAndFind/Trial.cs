@@ -46,6 +46,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public CustomGlobalFog fog;
 
+        public Texture wrongTurnIcon;
+
         #endregion
 
         #region Trial state only interesting for the trial itself!
@@ -340,7 +342,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             paradigm.hud.Clear();
 
-            paradigm.hud.ShowInstruction("Please enter the green start point to start the trial!", "Task");
+            paradigm.hud.ShowInstruction("Bitte betretet den grünen Start Punkt um zu Beginnen!", "Aufgabe");
 
             acceptsASubmit = true;
         }
@@ -405,7 +407,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 waypoint.HideInfoText();
 
-                paradigm.hud.ShowInstruction("Turn and go back to Start point for the next trial!", "Task:");
+                paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
 
                 paradigm.fogControl.LetFogDisappeare();
 
@@ -526,14 +528,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                         if (conditionConfig.useTeleportation)
                         {
-                            paradigm.hud.ShowInstruction("You made it, you will be teleported back to the start point", "Yeah!");
+                            paradigm.hud.ShowInstruction("Geschafft! Entspann dich, du wirst zum Endpunkt teleportiert.", "Sehr gut!");
 
                             StartCoroutine(BeginTeleportation());
 
                         }
                         else
                         {
-                            paradigm.hud.ShowInstruction("You made it, please return to the start point!", "Yeah!");
+                            paradigm.hud.ShowInstruction("Geschafft! Kehre nun zurück zum Endpunkt!", "Aufgabe");
 
                             path.InvertPath();
 
@@ -544,8 +546,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 }
                 else if (SubjectFollowsPath())
                 {
-                    UnityEngine.Debug.Log("Subject moves to next path element");
-
                     paradigm.marker.Write(
                         MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
                      
@@ -559,13 +559,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     paradigm.marker.Write(
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
 
-                    paradigm.hud.ShowInstruction("You`re wrong! Please turn!", "Warning!");
+                    paradigm.hud.ShowInstruction("Du bist falsch abgebogen!\nKehre zurück zur letzten Kreuzung.", "Warnung", wrongTurnIcon);
 
                     acceptsASubmit = true;
                 }
                 else if(SubjectReturnsToPath())
                 {
-                    paradigm.hud.ShowInstruction("You`re back on track!", "Good");
+                    paradigm.hud.ShowInstruction("Du bist wieder auf dem richtigen Weg!", "Gut.");
 
                     acceptsASubmit = true;
                 }

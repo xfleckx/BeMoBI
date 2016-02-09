@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 
 using NLog;
+using Assets.BeMoBI.Scripts.Controls;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
@@ -19,10 +20,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         #region Condition state
 
         private LinkedList<TrialDefinition> trials;
-        private LinkedListNode<TrialDefinition> currentDefinition;
+        public LinkedListNode<TrialDefinition> currentTrialDefinition;
         public Trial currentTrial;
 
-        private ConditionDefinition currentCondition;
+        public ConditionDefinition currentCondition;
         public ConditionConfiguration conditionConfig;
 
         private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
@@ -49,6 +50,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 return isConditionRunning;
             }
         }
+
+        public bool PendingForNextCondition { get; private set; }
 
         private bool resetTheLastTrial = false;
         private bool isConditionRunning;
@@ -89,9 +92,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private void ApplyConditionSpecificConfiguration(ConditionConfiguration config)
         {
             conditionConfig = config;
-            // TODO Head Controller
-            // TODO Body Controller
 
+            paradigm.subject.Change<IBodyMovementController>(config.BodyControllerName);
+            paradigm.subject.Change<IHeadMovementController>(config.HeadControllerName);
         }
 
         /// <summary>
@@ -104,7 +107,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 TrialType = typeof(Pause).Name
             };
 
-            trials.AddAfter(currentDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
+            trials.AddAfter(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
         }
 
         /// <summary>
@@ -117,7 +120,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 TrialType = typeof(Pause).Name
             };
 
-            trials.AddBefore(currentDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
+            trials.AddBefore(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
         }
         
         public void ReturnFromPauseTrial()
@@ -135,12 +138,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             isTrialRunning = true;
 
-            if (currentDefinition == null)
+            if (currentTrialDefinition == null)
             {
                 // Special case: First Trial after experiment start
-                currentDefinition = trials.First;
+                currentTrialDefinition = trials.First;
             }
-            else if (currentRunShouldEndAfterTrialFinished || currentDefinition.Next == null)
+            else if (currentRunShouldEndAfterTrialFinished || currentTrialDefinition.Next == null)
             {
                 // Special case: Last Trial either the run was canceld or all trials done
                 ConditionFinished();
@@ -151,7 +154,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 if (!resetTheLastTrial)
                 {
                     // normal case the next trial is the follower of the current trial due to the definition
-                    currentDefinition = currentDefinition.Next;
+                    currentTrialDefinition = currentTrialDefinition.Next;
                 }
                 else
                 {
@@ -160,7 +163,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 }
             }
 
-            var definitionForNextTrial = currentDefinition.Value;
+            var definitionForNextTrial = currentTrialDefinition.Value;
 
             if (definitionForNextTrial.TrialType.Equals(typeof(Training).Name))
             {
@@ -199,12 +202,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentTrial.paradigm = this.paradigm;
 
-            var def = currentDefinition.Value;
+            var def = currentTrialDefinition.Value;
 
             currentTrial.Initialize(def.MazeName, def.Path, def.Category, def.ObjectName);
 
             // this sets a callback to Trials Finished event (it's an pointer to a function)
-            currentTrial.Finished += currentTrial_Finished;
+            currentTrial.Finished += CallWhenCurrentTrialFinished;
         }
 
         /// <summary>
@@ -212,7 +215,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         /// <param name="trial">the trial instance which has finished</param>
         /// <param name="result">A collection of informations on the trial run</param>
-        void currentTrial_Finished(Trial trial, TrialResult result)
+        void CallWhenCurrentTrialFinished(Trial trial, TrialResult result)
         {
             runCounter[trial]++;
 
@@ -244,17 +247,44 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
 
-        internal void SetNextConditionPending()
+        public void SetNextConditionPending()
         {
+            PendingForNextCondition = false;
+
             if (PendingConditions.Count > 0)
                 Initialize(PendingConditions.First());
             else
                 OnLastConditionFinished();
         }
 
+        public void SetSpecificConditionPending(string conditionName)
+        {
+            if(PendingConditions.Any(c => c.Identifier.Equals(conditionName)))
+            {
+                var requestedCondition = PendingConditions.First();
+
+                PendingForNextCondition = false;
+
+                Initialize(requestedCondition);
+            }
+                
+
+        }
+
+
         private void ConditionFinished()
         {
             isConditionRunning = false;
+
+            currentTrialDefinition = null;
+
+            GC.Collect();
+
+            if (paradigm.Config.waitForCommandOnConditionEnd)
+            {
+                PendingForNextCondition = true;
+                return;
+            }
 
             SetNextConditionPending();
         }

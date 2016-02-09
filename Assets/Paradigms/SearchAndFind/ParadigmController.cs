@@ -181,10 +181,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     Config = ParadigmConfiguration.GetDefault();
 
-                    // TODO if cmd args available use them here
-
                     var customPath = pathOfDefaultConfig;
 
+                    if (appInit.HasOptions && appInit.Options.fileNameOfCustomConfig != string.Empty)
+                    {
+                        customPath = new FileInfo(Application.dataPath + Path.AltDirectorySeparatorChar + appInit.Options.fileNameOfCustomConfig);
+                    }
+                    
                     appLog.Info(string.Format("New Config created will be saved to: {0}! Reason: No config file found!", customPath.FullName));
 
                     try
@@ -282,8 +285,16 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         void Update()
         {
-            if (Input.GetKey(KeyCode.F5) && !conditionController.IsRunning)
-                StartTheExperimentFromBeginning();
+            if (Input.GetKey(KeyCode.F5))
+            {
+                if( !conditionController.IsRunning )
+                    StartTheExperimentFromBeginning();
+
+                if (conditionController.IsRunning && conditionController.PendingForNextCondition)
+                    conditionController.SetNextConditionPending();
+
+
+            }
 
             if (Input.GetKeyUp(KeyCode.F1))
                 ToogleDebugHUD();

@@ -20,11 +20,22 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         protected override void ShowObjectAtStart()
         {
+            StartCoroutine(DisplayInstruction());
+        }
+
+        IEnumerator DisplayInstruction()
+        {
             paradigm.hud.Clear();
 
-            paradigm.hud.ShowInstruction("Remember the given path for this object!");
+            paradigm.hud.ShowInstruction("Merke dir das Objekt und den Pfad durch das Labyrinth!", "Aufgabe");
+
+            yield return new WaitForSeconds(2);
+
+            paradigm.hud.Clear();
 
             base.ShowObjectAtStart();
+
+            yield return null;
         }
     }
 }

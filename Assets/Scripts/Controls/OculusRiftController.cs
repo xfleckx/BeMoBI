@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,12 +108,25 @@ namespace Assets.BeMoBI.Scripts.Controls
         {
             ovrRig.enabled = true;
             ovrManager.enabled = true;
+
+            StartCoroutine(LookUpRift());
         }
          
+        IEnumerator LookUpRift()
+        {
+            yield return new WaitWhile(() => !OVRPlugin.hmdPresent);
+
+            VRSettings.enabled = true;
+
+            yield return null;
+        }
+
         void OnDisable()
         {
             ovrRig.enabled = false;
             ovrManager.enabled = false;
+
+            VRSettings.enabled = false;
         }
 
         public void Enable()

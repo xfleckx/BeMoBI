@@ -28,7 +28,9 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             availableDefinitions = new List<ParadigmModel>();
 
-            if (GUILayout.Button("Open Control Window", GUILayout.Height(40)))
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Open Control Window", GUILayout.Height(25)))
             {
                 var existingWindow = EditorWindow.GetWindow<ParadigmControlWindow>();
 
@@ -41,22 +43,14 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
                 controlWindow.Show();
             }
-
-
-            if (instance.InstanceDefinition != null && GUILayout.Button("Delete Instance Definition"))
-            {
-                //DestroyImmediate(instance.InstanceDefinition);
-                instance.InstanceDefinition = null;
-            }
-
-
+            
             if (instance.Config == null)
             {
                 EditorGUILayout.HelpBox("To Generate Instance definitions please load or generate a paradigm config!", MessageType.Info);
             }
             else
             {
-                if (GUILayout.Button("Open Configuration Window", GUILayout.Height(30)))
+                if (GUILayout.Button("Open Configuration Window", GUILayout.Height(25)))
                 {
                     var window = EditorWindow.GetWindow<ParadigmModelEditor>();
 
@@ -66,21 +60,105 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 }
             }
             
-            if (GUILayout.Button("Create new default config"))
+
+            EditorGUILayout.EndHorizontal();
+
+            if (instance.InstanceDefinition != null && GUILayout.Button("Delete Instance Definition"))
             {
-                instance.PathToLoadedConfig = String.Empty;
-                instance.Config = ParadigmConfiguration.GetDefault();
+                //DestroyImmediate(instance.InstanceDefinition);
+                instance.InstanceDefinition = null;
             }
+
+            EditorGUILayout.BeginHorizontal();
 
             if (instance.Config == null)
             {
+
+                if (GUILayout.Button("Create new default config"))
+                {
+                    instance.PathToLoadedConfig = String.Empty;
+                    instance.Config = ParadigmConfiguration.GetDefault();
+                    configName = ParadigmConfiguration.NAME_FOR_DEFAULT_CONFIG;
+                }
+
                 RenderLoadConfigOption();
+
                 return;
             }
+            
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.Space();
 
+            EditorGUILayout.LabelField("Current Configuration", EditorStyles.boldLabel);
+            
+            EditorGUILayout.BeginVertical();
+           
+            EditorGUILayout.LabelField("Config Name:");
+
+            if (configName == string.Empty && instance.PathToLoadedConfig != string.Empty)
+                configName = Path.GetFileNameWithoutExtension(instance.PathToLoadedConfig);
+
+            configName = EditorGUILayout.TextField(configName);
+            
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.LabelField("Path to Config");
+
+            EditorGUILayout.LabelField(configFilePathToLoad);
+
+            EditorGUILayout.BeginHorizontal();
+
+            if(configName != String.Empty)
+            {
+                EditorGUILayout.BeginVertical();
+
+                RenderLoadAndSaveOptions();
+
+                EditorGUILayout.EndVertical();
+            }
+
+            if (instance.PathToLoadedConfig != String.Empty && Path.GetFileNameWithoutExtension(instance.PathToLoadedConfig).Equals(configName))
+            {
+                EditorGUILayout.BeginVertical();
+
+                RenderOverrideAndReloadOptions();
+
+                EditorGUILayout.EndVertical();
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Clear Config"))
+            {
+                DestroyImmediate(instance.Config);
+
+                instance.Config = null;
+                instance.conditionController.conditionConfig = null;
+                instance.PathToLoadedConfig = string.Empty;
+
+                configName = string.Empty;
+
+                GC.Collect();
+            }
+                         
+            if (instance.Config == null)
+            {
+                EditorGUILayout.HelpBox("Load a Config to see available config values!", MessageType.Info);
+            }
+            else
+            {
+                instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
+            }
+            
             if (GUILayout.Button("Lookup Instance definitions"))
             {
                 availableDefinitions = Resources.FindObjectsOfTypeAll<ParadigmModel>().ToList();
+            }
+
+            if (instance.InstanceDefinition != null && GUILayout.Button("Clear Instance definition"))
+            {
+                DestroyImmediate(instance.InstanceDefinition);
             }
 
             if (availableDefinitions.Any())
@@ -96,61 +174,6 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 }
             }
 
-            EditorGUILayout.Space();
-
-            EditorGUILayout.LabelField("Configuration", EditorStyles.boldLabel);
-            
-            EditorGUILayout.BeginVertical();
-           
-            EditorGUILayout.LabelField("Config Name:");
-
-            if (configName == string.Empty && instance.PathToLoadedConfig != string.Empty)
-                configName = Path.GetFileNameWithoutExtension(instance.PathToLoadedConfig);
-
-            configName = EditorGUILayout.TextField(configName);
-
-            EditorGUILayout.LabelField("Path to Config");
-
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.LabelField(configFilePathToLoad);
-
-            EditorGUILayout.BeginHorizontal();
-
-            if(configName != String.Empty)
-            {
-                EditorGUILayout.BeginVertical();
-                RenderLoadAndSaveOptions();
-                EditorGUILayout.EndVertical();
-            }
-
-            if (instance.PathToLoadedConfig != String.Empty)
-            {
-                EditorGUILayout.BeginVertical();
-                RenderOverrideAndReloadOptions();
-                EditorGUILayout.EndVertical();
-            }
-
-            EditorGUILayout.EndHorizontal();
-
-            if (GUILayout.Button("Clear Config"))
-            {
-                DestroyImmediate(instance.Config);
-                instance.Config = null;
-                instance.PathToLoadedConfig = string.Empty;
-                configName = string.Empty;
-                GC.Collect();
-            }
-                         
-            if (instance.Config == null)
-            {
-                EditorGUILayout.HelpBox("Load a Config to see available config values!", MessageType.Info);
-            }
-            else
-            {
-                instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
-            }
-             
             showDependencies = EditorGUILayout.Foldout(showDependencies, new GUIContent("Dependencies", "Shows all dependencies of this ParadigmController"));
 
             if (showDependencies)
@@ -205,8 +228,6 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         private void RenderLoadConfigOption()
         {
-            configFilePathToLoad = EditorGUILayout.TextField(configFilePathToLoad);
-
             if (GUILayout.Button("Load"))
             {
                 configFilePathToLoad = EditorUtility.OpenFilePanel("Load Config", Application.dataPath, "json");

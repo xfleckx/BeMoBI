@@ -107,6 +107,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         private void InjectCmdArgs()
         {
+            
             instance.SubjectID = PreDefinedSubjectID;
         }
 
