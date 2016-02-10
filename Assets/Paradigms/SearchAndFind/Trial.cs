@@ -633,6 +633,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void CleanUp()
         {
+            paradigm.fogControl.DisappeareImmediately();
+
             currentPathElement = null;
 
             if (path.Inverse)

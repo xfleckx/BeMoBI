@@ -6,3 +6,21 @@ Height Fog = true
 Height = 16.08
 Height 4.52
 Start Distance = 1
+
+
+
+Issues to investigate
+
+instant focus on app
+
+
+Todos
+Offset für Türöffnen auf Tastendruck
+
+-> instruction für korrekte
+
+Tastatursteuerung korrigieren
+
+Feedback
+Falsch abgebogen - nur kurz einblenden
+nur Symbolisch... wenig bis kein Text

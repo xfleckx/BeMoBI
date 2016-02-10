@@ -1717,7 +1717,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  BodyRotationSpeed: 1.05
+  BodyRotationSpeed: 0.6
   RotateBodySmooth: 0
   SmoothBodyTime: 1
   MaxWalkingSpeed: 1.4

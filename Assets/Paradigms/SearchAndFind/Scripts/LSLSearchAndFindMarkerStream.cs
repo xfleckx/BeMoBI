@@ -10,7 +10,7 @@ public class LSLSearchAndFindMarkerStream : MonoBehaviour {
 	private const string unique_source_id = "D3F83BB699EB49AB94A9FA44B88882AB";
 	
 	public string lslStreamName = "Unity_Paradigma";
-	public string lslStreamType = "LSL_Marker_Strings";
+	public string lslStreamType = "markers"; // be aware that EEGLab expects 'markers' as name for the marker stream...
 
 	public bool LogAlsoToFile = true;
 
