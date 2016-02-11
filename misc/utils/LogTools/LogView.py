@@ -1,8 +1,17 @@
+"""Usage: logview [options]
+
+Options:
+	-h, --help			show this help message
+	-v, --verbose		print status messages
+	--ignore=loglevels	ignore logs of the specified levels
+"""
+
 import threading
 import socket
 import logging
 import os
 import colorama
+import docopt
 from termcolor import colored
 from collections import deque
 
