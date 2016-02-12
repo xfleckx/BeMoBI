@@ -1,4 +1,4 @@
-"""Usage: logview [options]
+"""Usage: logview [options] <port> 
 
 Options:
 	-h, --help			show this help message
@@ -42,7 +42,6 @@ class UdpListener():
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(('127.0.0.1', 4242))
-        self.clients_list = []
 
     def listen(self):
         while True:
@@ -55,8 +54,8 @@ class UdpListener():
         t.start()
 
 if __name__ == "__main__": 
-
-    print 'call'
+ 	
+ 	arguments = docopt(__doc__, version='Naval Fate 2.0')
     colorama.init()
     
 
