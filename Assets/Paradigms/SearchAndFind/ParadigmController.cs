@@ -358,6 +358,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             appLog.Info("Paradigma run finished");
         }
 
+        public void OnRotationEvent(RotationEventArgs args)
+        {
+            if (args.state == RotationEventArgs.State.Begin)
+                marker.Write("Begin Rotation", LSLTimeSync.Instance.UpdateTimeStamp);
+            
+            if (args.state == RotationEventArgs.State.End)
+                marker.Write("End Rotation", LSLTimeSync.Instance.UpdateTimeStamp);
+        }
+
         #region Public interface for controlling the paradigm remotely
         
         /// <summary>

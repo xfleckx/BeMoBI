@@ -18,6 +18,8 @@ public class HUD_Instruction : Singleton<HUD_Instruction> {
 	
 	public Text TextWide;
 
+    public Canvas WrongTurnIcon;
+
 	public RawImage ImageLeftFromText;
 
     public RawImage CenterImage;
@@ -61,6 +63,23 @@ public class HUD_Instruction : Singleton<HUD_Instruction> {
 			throw new MissingReferenceException(referenceError);		
 		} 
 	}
+
+    private float tempTimeToDisplay = 0f;
+    public void ShowWrongTurnIconFor(float seconds)
+    {
+        tempTimeToDisplay = seconds;
+        WrongTurnIcon.gameObject.SetActive(true);
+        StartCoroutine(AutoDisableWrongTurn());
+    }
+
+    IEnumerator AutoDisableWrongTurn()
+    {
+        yield return new WaitForSeconds(tempTimeToDisplay);
+
+        Clear();
+
+        yield return null;
+    }
 
     public void ShowInstruction(string text)
     {
@@ -106,6 +125,8 @@ public class HUD_Instruction : Singleton<HUD_Instruction> {
         TextBesideImage.text = String.Empty;
         ImageLeftFromText.texture = null;
         CenterImage.texture = null;
+
+        WrongTurnIcon.gameObject.SetActive(false);
 
         isRendering = false;
         

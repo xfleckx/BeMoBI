@@ -559,7 +559,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     paradigm.marker.Write(
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
 
-                    paradigm.hud.ShowInstruction("Du bist falsch abgebogen!\nKehre zurück zur letzten Kreuzung.", "Warnung", wrongTurnIcon);
+                    //paradigm.hud.ShowInstruction("Du bist falsch abgebogen!\nKehre zurück zur letzten Kreuzung.", "Warnung", wrongTurnIcon);
+                    paradigm.hud.ShowWrongTurnIconFor(1.5f);
 
                     acceptsASubmit = true;
                 }
