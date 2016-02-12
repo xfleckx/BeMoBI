@@ -1,4 +1,4 @@
-"""Usage: logview [options] <port> 
+__doc__="""Usage: logview [options] [<port>]
 
 Options:
 	-h, --help			show this help message
@@ -11,11 +11,11 @@ import socket
 import logging
 import os
 import colorama
-import docopt
+from docopt import docopt
 from termcolor import colored
 from collections import deque
 
-
+MAX_ELEMENTS_IN_QUEUE = 5
 markerStack = deque([''])
 
 def colorMessage(message):
@@ -54,8 +54,8 @@ class UdpListener():
         t.start()
 
 if __name__ == "__main__": 
- 	
- 	arguments = docopt(__doc__, version='Naval Fate 2.0')
+
+    arguments = docopt(__doc__, version='LogView 0.0.1')
     colorama.init()
     
 
