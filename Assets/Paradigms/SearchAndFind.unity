@@ -401,6 +401,7 @@ GameObject:
   - 114: {fileID: 188249850}
   - 114: {fileID: 188249854}
   - 114: {fileID: 188249855}
+  - 114: {fileID: 188249856}
   m_Layer: 0
   m_Name: ParadigmController
   m_TagString: Untagged
@@ -608,6 +609,17 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   observable: {fileID: 534861550}
   EventThreshold: 0.01
+--- !u!114 &188249856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188249848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5546aba0d39a8e345bc869f7a91f70b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &197498425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,7 +1724,18 @@ MonoBehaviour:
   PortToListenOn: 7897
   OnCommandRecieved:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 188249856}
+        m_MethodName: RecieveAndApply
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: Assets.BeMoBI.Scripts.RemoteCommandRecievedEvent, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &713506853

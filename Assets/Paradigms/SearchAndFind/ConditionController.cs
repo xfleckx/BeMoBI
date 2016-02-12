@@ -75,7 +75,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             ApplyConditionSpecificConfiguration(currentCondition.Config);
 
             trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
+        }
 
+        public void StartTheConditionWithFirstTrial()
+        {
             isConditionRunning = true;
 
             SetNextTrialPending();

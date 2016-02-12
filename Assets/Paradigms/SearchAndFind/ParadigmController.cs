@@ -19,7 +19,7 @@ using UnityEngine.Assertions;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class ParadigmController : MonoBehaviour, IProvideRigidBodyFile
+    public class ParadigmController : MonoBehaviour, IParadigmControl, IProvideRigidBodyFile
     {
         public const string STD_CONFIG_NAME = "SearchAndFind_Config.json";
         
@@ -88,8 +88,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public InstructionTrial instruction;
         
         #endregion
-        
-
+ 
         void Awake()
         {
             if (VRManager == null)
@@ -288,7 +287,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (Input.GetKey(KeyCode.F5))
             {
                 if( !conditionController.IsRunning )
-                    StartTheExperimentFromBeginning();
+                    StartExperimentFromBeginning();
 
                 if (conditionController.IsRunning && conditionController.PendingForNextCondition)
                     conditionController.SetNextConditionPending();
@@ -305,33 +304,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (debug_hud != null)
                 debug_hud.gameObject.SetActive(!debug_hud.gameObject.activeSelf);
         }
-
-        public void StartTheExperimentFromBeginning()
-        {
-            appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
-
-            runStatistic = new ParadigmRunStatistics();
-
-            statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
-            
-            conditionController.SetNextConditionPending();
-        }
-        
-        public void InitializeCondition(string condition)
-        {
-            try
-            {
-                var requestedCondition =  InstanceDefinition.Get(condition);
-
-                conditionController.Initialize(requestedCondition);
-            }
-            catch (ArgumentException e)
-            {
-                appLog.Error(e, "Expected Condition could not be started implemented!");
-            }
-
-        }
-        
         public void AfterTeleportingToEndPoint()
         {
             subject.transform.LookAt(FocusPointAtStart);
@@ -369,6 +341,33 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #region Public interface for controlling the paradigm remotely
         
+        public void StartExperimentFromBeginning()
+        {
+            appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
+
+            runStatistic = new ParadigmRunStatistics();
+
+            statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
+            
+            conditionController.SetNextConditionPending();
+            conditionController.StartTheConditionWithFirstTrial();
+        }
+        
+        public void InitializeCondition(string condition)
+        {
+            try
+            {
+                var requestedCondition =  InstanceDefinition.Get(condition);
+
+                conditionController.Initialize(requestedCondition);
+            }
+            catch (ArgumentException e)
+            {
+                appLog.Error(e, "Expected Condition could not be started implemented!");
+            }
+
+        }
+        
         /// <summary>
         /// Loads a predefined definition from a file
         /// May override already loaded config!
@@ -388,11 +387,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     Application.Quit();
                 }
             }
-        }
-        
-        public void PerformSaveInterupt()
-        {
-
         }
 
         public void SaveCurrentState()
@@ -435,6 +429,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             conditionController.ResetCurrentTrial();
             hud.ShowInstruction("Press the Submit Button to continue!\n Close your eyes and talk to the supervisor!", "Break");
         }
+          
+        public void StartExperimentWithCurrentPendingCondition()
+        {
+            conditionController.StartTheConditionWithFirstTrial();
+        } 
 
         #endregion
     }

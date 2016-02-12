@@ -90,7 +90,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 
                 if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
                 {
-                    instance.StartTheExperimentFromBeginning();
+                    instance.StartExperimentFromBeginning();
                 }
             }
             else
@@ -124,7 +124,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
                 if(GUILayout.Button("Save Paradigma State \n and Quit"))
                 {
-                    instance.PerformSaveInterupt();
+                    instance.ForceABreakInstantly();
                 }
 
 
