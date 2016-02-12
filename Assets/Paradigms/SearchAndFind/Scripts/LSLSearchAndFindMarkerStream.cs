@@ -37,7 +37,7 @@ public class LSLSearchAndFindMarkerStream : MonoBehaviour {
 		lslOutlet = new LSL.liblsl.StreamOutlet(lslStreamInfo);
 	}
 	  
-	public void Write(string marker, float customTimeStamp)
+	public void Write(string marker, double customTimeStamp)
 	{
 		sample[0] = marker;
 

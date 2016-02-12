@@ -37,28 +37,6 @@ namespace Assets.BeMoBI.Scripts.Controls
             
             var abs_body_raw_X = Math.Abs(body_raw_X);
             
-            if (abs_body_raw_X > 0 && !isBodyRotating)
-            {
-                var args = new RotationEventArgs();
-                args.state = RotationEventArgs.State.Begin;
-
-                if (OnBodyRotation.GetPersistentEventCount() > 0)
-                    OnBodyRotation.Invoke(args);
-
-                isBodyRotating = true;
-            }
-
-            if (abs_body_raw_X == 0 && isBodyRotating)
-            {
-                var args = new RotationEventArgs();
-                args.state = RotationEventArgs.State.End;
-
-                if (OnBodyRotation.GetPersistentEventCount() > 0)
-                    OnBodyRotation.Invoke(args);
-
-                isBodyRotating = false;
-            }
-            
             body_raw_Y = Input.GetAxis(Y_AXIS_NAME);
 
             desiredMove = Body.transform.forward * BodyAccelerationCurve.Evaluate(body_raw_Y) * Time.deltaTime * MaxWalkingSpeed;

@@ -119,7 +119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &62851499
 Transform:
   m_ObjectHideFlags: 0
@@ -341,10 +341,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 5
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -196.42859}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186864060
 MonoBehaviour:
@@ -400,6 +400,7 @@ GameObject:
   - 114: {fileID: 188249852}
   - 114: {fileID: 188249850}
   - 114: {fileID: 188249854}
+  - 114: {fileID: 188249855}
   m_Layer: 0
   m_Name: ParadigmController
   m_TagString: Untagged
@@ -562,6 +563,51 @@ MonoBehaviour:
   RaisingSpeed: 0.7
   DensityWhenDisappeared: 0.001
   Disappearingspeed: 2.11
+--- !u!114 &188249855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188249848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bfd691056659948aa0f5213336d22b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHeadRotation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 188249849}
+        m_MethodName: OnRotationEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnBodyRotation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 188249849}
+        m_MethodName: OnRotationEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  observable: {fileID: 534861550}
+  EventThreshold: 0.01
 --- !u!1 &197498425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,10 +1468,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 2
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -89.28572}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &660431129
 MonoBehaviour:
@@ -1548,10 +1594,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -17.857143}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &690865988
 MonoBehaviour:
@@ -2241,10 +2287,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -53.57143}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &912411337
 MonoBehaviour:
@@ -3087,10 +3133,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1958030511}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -100}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344630817
 MonoBehaviour:
@@ -4033,10 +4079,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 3
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -125}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1600997674
 MonoBehaviour:
@@ -5279,10 +5325,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 6
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -232.14288}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1968288555
 MonoBehaviour:
@@ -5675,16 +5721,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 0}
   body: {fileID: 0}
-  OnHeadRotation:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnBodyRotation:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   headRotation_X_Sensitivity: 2
   headRotation_Y_Sensitivity: 2
   clampVerticalRotation: 1
@@ -5728,16 +5764,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 1112819487}
   body: {fileID: 2016469148}
-  OnHeadRotation:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnBodyRotation:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   headRotation_X_Sensitivity: 2
   headRotation_Y_Sensitivity: 2
   clampVerticalRotation: 1
@@ -5841,10 +5867,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 482148167}
   m_RootOrder: 4
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -160.7143}
+  m_SizeDelta: {x: 250, y: 35.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2039274372
 MonoBehaviour:
