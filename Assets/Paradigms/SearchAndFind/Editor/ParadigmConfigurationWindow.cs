@@ -22,6 +22,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         public String PreDefinedSubjectID = "TestSubject";
 
+        public Action OnPostOnGUICommands;
+
         private bool previewDefinition;
 
         [SerializeField]
@@ -62,27 +64,91 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 factory.config = instance.Config;
             }
 
+            EditorGUILayout.LabelField("Configure a condition configuration", EditorStyles.largeLabel);
+
+            EditorGUILayout.BeginHorizontal();
+
             var conditionNames = instance.Config.conditionConfigurations.Select(cc => cc.ConditionID).ToArray();
 
-            indexOfSelectedCondition = EditorGUILayout.Popup(indexOfSelectedCondition, conditionNames);
+            if( conditionNames.Count() > indexOfSelectedCondition) { 
 
-            selectedConfiguration = instance.Config.conditionConfigurations[indexOfSelectedCondition];
+                indexOfSelectedCondition = EditorGUILayout.Popup(indexOfSelectedCondition, conditionNames);
 
-            EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                selectedConfiguration = instance.Config.conditionConfigurations[indexOfSelectedCondition];
 
-            EditorGUILayout.BeginVertical();
+                if (GUILayout.Button("Copy"))
+                {
+                    OnPostOnGUICommands += () =>
+                    {
+                        var cloneOfSelectedConfig = selectedConfiguration.Clone() as ConditionConfiguration;
+                        cloneOfSelectedConfig.ConditionID = cloneOfSelectedConfig.ConditionID + "_copy";
+                        instance.Config.conditionConfigurations.Add(cloneOfSelectedConfig); 
+                    };
+                }
 
-            RenderRunVariables();
+                if (GUILayout.Button("Remove"))
+                {
+                    OnPostOnGUICommands += () =>
+                    {
+                        instance.Config.conditionConfigurations.Remove(selectedConfiguration);
+                        selectedConfiguration = null;
 
-            RenderConfigurationGUI();
+                        var middleIndex = instance.Config.conditionConfigurations.Count / 2;
 
-            EditorGUILayout.EndVertical();
+                        if (indexOfSelectedCondition > middleIndex)
+                            indexOfSelectedCondition -= 1;
 
-            EditorGUILayout.EndHorizontal();
+                    };
+                }
 
-            RenderPreviewGUI();
+                RenderAddDefaultConfigOption();
 
-            EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
+                
+                selectedConfiguration.ConditionID = EditorGUILayout.TextField("Name of Condition Configuration:", selectedConfiguration.ConditionID);
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+
+                EditorGUILayout.BeginVertical();
+
+                RenderConfigurationOptions();
+
+                EditorGUILayout.EndVertical();
+
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.Space();
+
+                RenderInstanceDefinitionOptions();
+
+                RenderPreviewGUI();
+
+                EditorGUILayout.EndVertical();
+                
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("No Conditions available", MessageType.Info);
+                RenderAddDefaultConfigOption();
+            }
+
+            if(OnPostOnGUICommands != null)
+            {
+                OnPostOnGUICommands();
+                OnPostOnGUICommands = null;
+            }
+        }
+
+        private void RenderAddDefaultConfigOption()
+        {
+            if (GUILayout.Button("Add default"))
+            {
+                OnPostOnGUICommands += () =>
+                {
+                    var newDefaultCondition = ConditionConfiguration.GetDefault();
+                    instance.Config.conditionConfigurations.Add(newDefaultCondition);
+                };
+            }
         }
 
         private ParadigmController TryGetInstance()
@@ -107,20 +173,23 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         private void InjectCmdArgs()
         {
-            
             instance.SubjectID = PreDefinedSubjectID;
         }
 
-        private void RenderConfigurationGUI()
+        private void RenderConfigurationOptions()
         {
-            GUILayout.Label("Configuration", EditorStyles.largeLabel);
-
             if (factory.config == null)
             {
                 EditorGUILayout.HelpBox("Please Load or generate a Paradigm configuration first!", MessageType.Info);
 
                 return;
             }
+
+            EditorGUILayout.LabelField(new GUIContent("Expetected Controller Names", "See VR Subject Controller for possible options"), EditorStyles.largeLabel);
+
+            selectedConfiguration.HeadControllerName = EditorGUILayout.TextField("Head Controller", selectedConfiguration.HeadControllerName);
+
+            selectedConfiguration.BodyControllerName = EditorGUILayout.TextField("Body Controller", selectedConfiguration.BodyControllerName);
 
             selectedConfiguration.useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
                 new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
@@ -157,6 +226,17 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             selectedConfiguration.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", selectedConfiguration.objectVisitationsInExperiment);
 
+          
+
+        }
+
+        private void RenderInstanceDefinitionOptions()
+        {
+
+            EditorGUILayout.LabelField("Predefine a Instance Definition:", EditorStyles.boldLabel);
+
+            RenderRunVariables();
+
             if (GUILayout.Button("Generate Instance Definition", GUILayout.Height(35)))
             {
                 if (instance.SubjectID == null)
@@ -174,7 +254,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             {
                 lastGeneratedInstanceDefinition = instance.InstanceDefinition;
             }
-                 
+
             if (GUILayout.Button("Save Instance Definition"))
             {
                 var fileNameWoExt = string.Format("Assets/Paradigms/SearchAndFind/PreDefinitions/VP_{0}_Definition", lastGeneratedInstanceDefinition.Subject);
@@ -196,7 +276,6 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             {
                 instance.InstanceDefinition = lastGeneratedInstanceDefinition;
             }
-
         }
 
         int indexOfSelectedDefintionPreview = 0;
