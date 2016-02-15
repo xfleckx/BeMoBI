@@ -16,6 +16,7 @@ using Logger = NLog.Logger; // just aliasing
 using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
 using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
@@ -389,17 +390,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
 
-        public void SaveCurrentState()
-        {
-            // TODO serialize to JSON string...  JsonUtility.ToJson()
-            throw new NotImplementedException("TODO");
-        }
-
-        public void LoadState()
-        {
-            throw new NotImplementedException("TODO");
-        }
-
         public FileInfo GetRigidBodyDefinition()
         {
             var fileName = Config.nameOfRigidBodyDefinition;
@@ -433,8 +423,29 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public void StartExperimentWithCurrentPendingCondition()
         {
             conditionController.StartTheConditionWithFirstTrial();
-        } 
+        }
 
+        public void Restart(string condition = "")
+        {
+            if(condition == "") {
+
+                var currentScene = SceneManager.GetActiveScene();
+
+                SceneManager.LoadScene(currentScene.name, LoadSceneMode.Single);
+            }
+        }
+
+        public void SaveCurrentState()
+        {
+            // TODO serialize to JSON string...  JsonUtility.ToJson()
+            throw new NotImplementedException("TODO");
+        }
+
+        public void LoadState()
+        {
+            throw new NotImplementedException("TODO");
+        }
+        
         #endregion
     }
 

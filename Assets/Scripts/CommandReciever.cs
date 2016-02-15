@@ -28,6 +28,11 @@ namespace Assets.BeMoBI.Scripts
             {
                 paradigm.StartExperimentWithCurrentPendingCondition();
             }
+
+            if (command.Contains("restart"))
+            {
+                paradigm.Restart();
+            }
         }
 
     }

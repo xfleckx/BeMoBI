@@ -12,6 +12,8 @@ namespace Assets.BeMoBI.Scripts
 
         void ForceABreakInstantly();
 
+        void Restart(string condition = "");
+
     }
 }
 

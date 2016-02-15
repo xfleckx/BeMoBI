@@ -6,13 +6,16 @@ using System.Linq;
 
 using NLog;
 using Assets.BeMoBI.Scripts.Controls;
+using UnityEngine.SceneManagement;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class ConditionController : MonoBehaviour
     {
         private static NLog.Logger statistic = LogManager.GetLogger("Statistics");
-        
+
+        private static NLog.Logger appLog = LogManager.GetLogger("App");
+
         public ParadigmController paradigm;
 
         public Action OnLastConditionFinished;
@@ -75,8 +78,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             ApplyConditionSpecificConfiguration(currentCondition.Config);
 
             trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
-        }
 
+            var statusMessage = string.Format("Initialize Condition: \'{0}\'", currentCondition.Identifier);
+
+            appLog.Info(statusMessage);
+        }
+        
         public void StartTheConditionWithFirstTrial()
         {
             isConditionRunning = true;
@@ -260,6 +267,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 OnLastConditionFinished();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="conditionName"></param>
+        /// <exception cref="ArgumentException">Thrown If requested condition not available</exception>
         public void SetSpecificConditionPending(string conditionName)
         {
             if(PendingConditions.Any(c => c.Identifier.Equals(conditionName)))
@@ -270,8 +282,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 Initialize(requestedCondition);
             }
-                
-
+            else
+            {
+                throw new ArgumentException(string.Format("Condition '{0}' not found!", conditionName),conditionName);
+            }
         }
 
 
