@@ -34,7 +34,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private static Logger statistic = LogManager.GetLogger("Statistics");
         
-        public ParadigmRunStatistics runStatistic;
+        public BriefStatisticForParadigmRun runStatistic;
 
         public string PathToLoadedConfig = String.Empty;
 
@@ -345,7 +345,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
 
-            runStatistic = new ParadigmRunStatistics();
+            runStatistic = new BriefStatisticForParadigmRun();
 
             statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
             

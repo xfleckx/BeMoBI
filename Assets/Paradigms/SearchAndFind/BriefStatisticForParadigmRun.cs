@@ -3,13 +3,14 @@ using System;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class ParadigmRunStatistics
+    public class BriefStatisticForParadigmRun
     {
         private string subjectId = String.Empty;
 
         public class TrialStatistic
         {
             private string mazeName;
+            private string conditionId;
             private int path;
             private double seconds;
             private string trialType;
@@ -51,6 +52,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 get
                 {
                     return trialType;
+                }
+            }
+                         
+            public string ConditionID
+            {
+                get
+                {
+                    return conditionId;
                 }
             }
         }
