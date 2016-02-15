@@ -18,11 +18,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public object Clone()
         {
-
-            var originalProperties = this.GetType().GetProperties();
+            var originalProperties = this.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
             var clone = new ConditionConfiguration();
-            var cloneProperties = clone.GetType().GetProperties();
+            var cloneProperties = clone.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
             for (int i = 0; i < originalProperties.Length; i++)
             {
@@ -30,9 +29,19 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 cloneProperties[i].SetValue(clone, originalValue, null);
             }
 
+            var originalFields = this.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            
+            var cloneFields = clone.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            for (int i = 0; i < originalFields.Length; i++)
+            {
+                var originalFieldValue = originalFields[i].GetValue(this);
+                cloneFields[i].SetValue(clone, originalFieldValue);
+            }
             return clone;
         }
 
+        [SerializeField]
         public string ConditionID = ParadigmConfiguration.NAME_FOR_DEFAULT_CONFIG;
         
         [SerializeField]
