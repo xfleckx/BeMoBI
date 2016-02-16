@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 using System.Linq;
+
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 { 
     public class ParadigmModel : ScriptableObject

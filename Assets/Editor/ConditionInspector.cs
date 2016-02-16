@@ -23,9 +23,8 @@ public class ConditionInspector : Editor {
         
         var currentTrial = instance.currentTrial == null ? "no trial" : instance.currentTrialDefinition.Value.ToString();
 
-        EditorGUILayout.LabelField("Current Condition", currentCondition);
-
-
+        EditorGUILayout.LabelField("Current Trial", currentTrial);
+        
         if (instance.paradigm == null)
         {
             EditorGUILayout.HelpBox("Missing reference to paradigm controller instance", MessageType.Error);
