@@ -6,6 +6,8 @@ namespace Assets.BeMoBI.Scripts
 {
     public class RotationObserver : MonoBehaviour
     {
+        private enum RotationState { None, Onset, Peak, Offset }
+
         public RotationEvent OnHeadRotation;
         public RotationEvent OnBodyRotation;
         
@@ -13,50 +15,104 @@ namespace Assets.BeMoBI.Scripts
 
         public float EventThreshold = 0.01f;
 
+        public float AccelerationThreshold = 1;
+
+        private Queue<double> BufferOfAlphas;
+
+        private float lastAcceleration  = 0;
+        private float currentAcceleration = 0;
+        private float lastVelocity = 0;
+        private double currentVelocity = 0;
+
+        private RotationState currentState = RotationState.None;
+
+        /// <summary>
+        /// WindowSize aka Buffersize
+        /// </summary>
+        private int bufferSize = 0;
+
         void Start()
         {
             if (observable == null)
                 this.enabled = false;
+
+            bufferSize = (int) (2 / Time.fixedDeltaTime);
+
+            BufferOfAlphas = new Queue<double>(bufferSize);
+
+            lastRotationState = observable.rotation;
         }
 
         Quaternion lastRotationState = Quaternion.identity;
-        double lastRotationSpeed = 0;
 
-        void LateUpdate()
+        double lastRotationSpeed = 0;
+        double lastRotationVelocity = 0;
+
+        void FixedUpdate()
         {
-            var currentRotationState = observable.rotation; 
+            
+            var currentAcceleration = lastVelocity - currentVelocity;
+
+            if(currentAcceleration > AccelerationThreshold && currentState == RotationState.None)
+            {
+                currentState = RotationState.Onset;
+            }
+
+            if(currentAcceleration < -AccelerationThreshold && currentState == RotationState.Onset)
+            {
+                currentState = RotationState.Offset;
+            }
+
+            if (currentAcceleration < AccelerationThreshold &&
+                currentAcceleration > -AccelerationThreshold &&
+                currentState == RotationState.Offset)
+            {
+                currentState = RotationState.None;
+            }
+        }
+
+        private double GetCurrentRotationDelta()
+        {
+            var currentRotationState = observable.rotation;
 
             Quaternion relative = Quaternion.Inverse(lastRotationState) * currentRotationState;
 
             double deltaAngle = 2 * Math.Atan2(relative.eulerAngles.magnitude, relative.w);
+            
+            var rotationSpeed = deltaAngle * Time.fixedDeltaTime;
 
-            var rotationSpeed = deltaAngle * Time.deltaTime;
-
-            var velocity = lastRotationSpeed - rotationSpeed * Time.deltaTime;
-
-            if(Math.Abs(velocity) > EventThreshold)
-            {
-                if(velocity > 0)
-                {
-                    var args = new RotationEventArgs();
-                    args.state = RotationEventArgs.State.Begin;
-
-                    if (OnBodyRotation.GetPersistentEventCount() > 0)
-                        OnBodyRotation.Invoke(args);
-                }
-
-                if (velocity < 0)
-                {
-                    var args = new RotationEventArgs();
-                    args.state = RotationEventArgs.State.End;
-
-                    if (OnBodyRotation.GetPersistentEventCount() > 0)
-                        OnBodyRotation.Invoke(args);
-                }
-            }
-
+            currentVelocity = (lastRotationSpeed - rotationSpeed) * Time.fixedDeltaTime;
+            
             lastRotationSpeed = rotationSpeed;
             lastRotationState = currentRotationState;
+
+            return deltaAngle;
+        }
+
+        void LateUpdate()
+        {
+
+            //if(Math.Abs(velocity) > EventThreshold)
+            //{
+            //    if(velocity > 0)
+            //    {
+            //        var args = new RotationEventArgs();
+            //        args.state = RotationEventArgs.State.Begin;
+
+            //        if (OnBodyRotation.GetPersistentEventCount() > 0)
+            //            OnBodyRotation.Invoke(args);
+            //    }
+
+            //    if (velocity < 0)
+            //    {
+            //        var args = new RotationEventArgs();
+            //        args.state = RotationEventArgs.State.End;
+
+            //        if (OnBodyRotation.GetPersistentEventCount() > 0)
+            //            OnBodyRotation.Invoke(args);
+            //    }
+            //}
+
         }
 
 
@@ -115,7 +171,7 @@ namespace Assets.BeMoBI.Scripts
 
         //    var delta = averageDistanceOnRecentRotation - 
         //                averageDistanceOnCurrentRotation;
-            
+
         //    return Math.Abs(delta) >= EventThreshold;
         //}
         //private float AverageDistance(List<Quaternion> rotations)
@@ -130,6 +186,19 @@ namespace Assets.BeMoBI.Scripts
 
         //    }
         //}
+
+
+
+        //if (BufferOfAlphas.Count == bufferSize)
+        //{
+        //    BufferOfAlphas.Dequeue();
+        //}
+        //else
+        //{
+        //    BufferOfAlphas.Enqueue(GetCurrentRotationDelta());
+        //}
+
+        //var bufferAvg = BufferOfAlphas.Average();
     }
 
 }
