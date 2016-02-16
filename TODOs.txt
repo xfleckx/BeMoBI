@@ -1,0 +1,22 @@
+
+
+Issues to investigate
+
+instant focus on app
+
+
+Todos
+* Offset für Türöffnen auf Tastendruck
+* 
+** Fehler bei berechneten Turning Angle warum kommt da 450° raus??
+	Maze2 Path2
+	Maze4 Path3
+	Maze5 Path3 ähnlicher Fehler aber ohne Exception?
+
+* RedAirplane zu groß und etwas versetzt
+* Bucket etwas zu groß
+* Thrashcan schwebt in der Luft
+* an kann zu nahe ans Object laufen
+* Barrel ist auch zu groß
+* Ende der ersten oder einzigen Condition wird nicht korrekt behandelt, es bleibt eine Falsche Aufgabenstellung stehen
+-> instruction für korrekte
