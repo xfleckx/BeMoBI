@@ -22,7 +22,7 @@ MonoBehaviour:
     color: {r: 0, g: 1, b: 1, a: 1}
     index: 2
   - name: Note
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    color: {r: 0.86764705, g: 0.72071123, b: 0.14673442, a: 1}
     index: 3
   items:
   - owner:
@@ -61,4 +61,11 @@ MonoBehaviour:
       index: 1
     task: Ende der ersten oder einzigen Condition wird nicht korrekt behandelt, es
       bleibt eine Falsche Aufgabenstellung stehen
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: "Fehler bei berechneten Turning Angle warum kommt da 450\xB0 raus??\nMaze2
+      Path2 \nMaze4 Path3 \nMaze5 Path3 \xE4hnlicher Fehler aber ohne Exception?"
     isComplete: 0
