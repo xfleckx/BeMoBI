@@ -13,6 +13,8 @@ namespace Assets.BeMoBI.Scripts.Controls
     {
         string VERTICAL = "FW_Vertical";
 
+        string VERTICAL_WiiMote = "FW_WiiM_Vertical";
+
         public float ForwardSpeed = 1;
 
         OWLTracker tracker;
@@ -120,7 +122,9 @@ namespace Assets.BeMoBI.Scripts.Controls
                 
             }
 
-            tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
+            if(tracker != null) 
+                tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
+
         }
         
         IEnumerator WaitSecondsBeforeCreateRigidbody()
@@ -140,7 +144,7 @@ namespace Assets.BeMoBI.Scripts.Controls
             Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
             
                                   // forward only - only take positive value ignoring left or right button!
-            var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL));
+            var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL_WiiMote));
 
             var movementVector = Body.transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
 

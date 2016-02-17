@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+
 using System.Collections;
-using WiimoteApi;
+
 
 public class WiimoteControl : MonoBehaviour {
 
