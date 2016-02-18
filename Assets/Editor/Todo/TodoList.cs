@@ -168,16 +168,14 @@ public class TodoList : EditorWindow
 			_listData.AddTask(newOwner, _newTask);			
 			//EditorUtility.DisplayDialog("Task created for " + newOwner.name, _newTask, "Sweet");
 			_newTask = "";
-			GUI.FocusControl(null);				
+            
+            //Debug.Log("Save Data: " + _listData.items.Count);
+            EditorUtility.SetDirty(_listData);
+            EditorApplication.SaveAssets();
+            AssetDatabase.SaveAssets();
+
+            GUI.FocusControl(null);				
 		}
-		
-		if(GUI.changed)
-		{
-			//Debug.Log("Save Data: " + _listData.items.Count);
-			EditorUtility.SetDirty(_listData);
-			EditorApplication.SaveAssets();
-			AssetDatabase.SaveAssets();		
-		}	
 	}
 	
 	void OnDestroy()
