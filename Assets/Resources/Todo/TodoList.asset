@@ -29,38 +29,7 @@ MonoBehaviour:
       name: Normal
       color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
       index: 0
-    task: "RedAirplane zu gro\xDF und etwas versetzt"
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: "Bucket etwas zu gro\xDF"
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: Thrashcan schwebt in der Luft
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
     task: man kann zu nahe ans Object laufen
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: "Barrel ist auch zu gro\xDF"
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: Ende der ersten oder einzigen Condition wird nicht korrekt behandelt, es
-      bleibt eine Falsche Aufgabenstellung stehen
     isComplete: 0
   - owner:
       name: Urgent
@@ -73,5 +42,38 @@ MonoBehaviour:
       name: Urgent
       color: {r: 1, g: 0, b: 0, a: 1}
       index: 1
-    task: "Submit um die T\xFCr zu \xF6ffnen"
+    task: 'Ohne Teleportation testen
+
+      logischer Fehler nach Trial Ende'
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: "Config file auf integrit\xE4t testen? Was kommt f\xFCr ein Fehler?"
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: Meldung einblenden wenn Condition oder Paradigma zu Ende
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: "ordentliche Fehlermeldung wenn falsche COndition geladen und dann zur\xFCcka
+      uf Anfang springen\n"
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
+      index: 0
+    task: "Formatierung Zellen koordianten h\xFCbsch machen"
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
+      index: 0
+    task: Object Found wird -manchmal- 2x geschrieben warum?
     isComplete: 0
