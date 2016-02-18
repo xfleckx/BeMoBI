@@ -67,7 +67,7 @@ namespace Assets.BeMoBI.Scripts
 
         private void Route(string result)
         {
-            log.Info(string.Format("SNAPEmulator recieved: ", result));
+            log.Info(string.Format("SNAPEmulator recieved: {0}", result));
 
             if (OnCommandRecieved != null && OnCommandRecieved.GetPersistentEventCount() > 0)
                 OnCommandRecieved.Invoke(result);
