@@ -549,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56753b5765d039e4eb85b87862c659c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TestMode: 0
 --- !u!114 &188249854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +610,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   observable: {fileID: 534861550}
   EventThreshold: 0.01
+  AccelerationThreshold: 1
 --- !u!114 &188249856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1706,7 +1708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hud: {fileID: 2061524740}
   publishToLSL: 1
-  StreamName: BeMoBI.Unity3D.AppStatistics
+  StreamName: MoBIVR.AppStatistics
   StreamType: Unity3D.FPS.FT
   ChannelCount: 2
   FpsUpdateInterval: 0.5
@@ -3475,7 +3477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d77a09610253e647af31f55ba6dc180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lslStreamName: Unity_Paradigma
+  lslStreamName: MoBIVR.SearchAndFind
   lslStreamType: markers
   LogAlsoToFile: 1
 --- !u!114 &1460822095
@@ -3489,7 +3491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04cb4c6864e26644a8e049acaf2a018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity3D.SubjectPositionRelative
+  StreamName: MoBIVR.SubjectPositionRelative
   StreamType: Unity3D.LocalPositionVector
   ChannelCount: 3
   Subject: {fileID: 534861550}
@@ -3505,7 +3507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53504521e06e64243a7f918b4aa0035e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity3D.SubjectPosition
+  StreamName: MoBIVR.SubjectPosition
   StreamType: Unity3D.GlobalPositionVector
   ChannelCount: 3
   Subject: {fileID: 534861550}
@@ -3543,7 +3545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6e9a0abb354a14da51dea260035b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity3D.BodyOrientation
+  StreamName: MoBIVR.Unity3D.BodyOrientation
   StreamType: Unity3D.Euler
   ChannelCount: 3
   body: {fileID: 534861550}
@@ -3558,7 +3560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7c9d92cf2a3d448a687266f24b4dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity3D.HeadOrientation
+  StreamName: MoBIVR.Unity3D.HeadOrientation
   StreamType: Unity3D.Euler
   ChannelCount: 4
   head: {fileID: 1112819487}
@@ -3573,8 +3575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0115e4cc8ac6243b2d1953e5eb4942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity.HeadOrientation
-  StreamType: Unity.Quaternion
+  StreamName: MoBIVR.HeadOrientationAsQuatn
+  StreamType: Unity3D.Quaternion
   ChannelCount: 4
   head: {fileID: 1112819487}
 --- !u!114 &1460822102
@@ -3588,8 +3590,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3698830e838fb654598a03c850ba3ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: BeMoBI.Unity.BodyOrientation
-  StreamType: Unity.Quarternion
+  StreamName: MoBIVR.BodyOrientationAsQuatn
+  StreamType: Unity3D.Quarternion
   ChannelCount: 4
   body: {fileID: 534861550}
 --- !u!1001 &1474378240
