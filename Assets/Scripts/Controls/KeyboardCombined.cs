@@ -45,7 +45,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             var evaluated = BodyRotationAccelerationCurve.Evaluate(abs_body_raw_X);
 
-            var bodyRotation = evaluated * sign;
+            var bodyRotation = evaluated * sign * Time.deltaTime;
 
             targetRotation *= Quaternion.Euler(0f, bodyRotation * BodyRotationSpeed, 0f);
 

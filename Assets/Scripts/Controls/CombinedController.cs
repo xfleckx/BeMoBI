@@ -82,8 +82,8 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public AnimationCurve BodyAccelerationCurve;
 
-        [Range(0.01f, 2)]
-        public float BodyRotationSpeed = 0.2f;
+        [Range(1, 100)]
+        public float BodyRotationSpeed = 1f;
 
         public bool RotateBodySmooth = true;
         public float SmoothBodyTime = 1;
