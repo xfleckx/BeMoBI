@@ -184,9 +184,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         }
         
+
         private void HideSocketAndOpenEntranceAtStart()
         {
-            paradigm.entrance.SetActive(false);
+            OpenEntrance();
+
             paradigm.objectPresenter.SetActive(false);
             var socketAtThePathEnd = hidingSpotInstance.GetSocket();
 
@@ -197,6 +199,21 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             objectSocket.gameObject.SetActive(false);
 
             paradigm.fogControl.RaiseFog();
+        }
+
+        private void OpenEntrance()
+        {
+            var animator = paradigm.entrance.GetComponent<Animator>();
+
+            animator.SetTrigger("Open");
+
+        }
+
+        private void CloseEntrance()
+        {
+            var animator = paradigm.entrance.GetComponent<Animator>();
+
+            animator.SetTrigger("Close");
         }
 
         protected void SwitchAllLightPanelsOff(beMobileMaze maze)
@@ -407,6 +424,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 waypoint.HideInfoText();
 
+                if (!conditionConfig.useTeleportation)
+                {
+                    CloseEntrance();
+                }
+
                 paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
 
                 paradigm.fogControl.LetFogDisappeare();
@@ -414,7 +436,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 OnFinished(stopWatch.Elapsed);
             }
         }
-
+        
         public virtual void LeavesWaypoint(ActionWaypoint waypoint)
         {
             if (!this.isActiveAndEnabled || waypoint.WaypointId != 0)
@@ -508,40 +530,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                     {
                         paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
 
-                        hidingSpotInstance.RevealImmediately();
-
-                        var socket = hidingSpotInstance.GetSocket();
-
-                        socket.transform.LookAt(paradigm.subject.transform);
-
-                        var originalRotation = socket.transform.rotation;
-
-                        socket.rotation = Quaternion.Euler(0, originalRotation.eulerAngles.y, 0);
-
-                        var objectFoundMarker = MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName);
-
-                        paradigm.marker.WriteAtTheEndOfThisFrame(objectFoundMarker);
-
-                        paradigm.TrialEndPoint.gameObject.SetActive(true);
-
-                        currentTrialState = Internal_Trial_State.Returning;
-
-                        if (conditionConfig.useTeleportation)
-                        {
-                            paradigm.hud.ShowInstruction("Geschafft! Entspann dich, du wirst zum Endpunkt teleportiert.", "Sehr gut!");
-
-                            StartCoroutine(BeginTeleportation());
-
-                        }
-                        else
-                        {
-                            paradigm.hud.ShowInstruction("Geschafft! Kehre nun zurück zum Endpunkt!", "Aufgabe");
-
-                            path.InvertPath();
-
-                            currentPathElement = path.PathAsLinkedList.First;
-                        }
-
+                        StartCoroutine(WaitWithOpeningUntilButtonPress());
+                        
                     }
                 }
                 else if (SubjectFollowsPath())
@@ -558,8 +548,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     paradigm.marker.Write(
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
-
-                    //paradigm.hud.ShowInstruction("Du bist falsch abgebogen!\nKehre zurück zur letzten Kreuzung.", "Warnung", wrongTurnIcon);
+                    
                     paradigm.hud.ShowWrongTurnIconFor(1.5f);
 
                     acceptsASubmit = true;
@@ -575,6 +564,66 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         }
 
+        private IEnumerator WaitWithOpeningUntilButtonPress()
+        {
+            acceptsASubmit = true;
+
+            yield return new WaitWhile(() => acceptsASubmit);
+
+            yield return new WaitForSeconds(0.3f);
+
+            RevealObjectWhenSubjectReachesTheTarget();
+
+            yield return null;
+        }
+
+        private void RevealObjectWhenSubjectReachesTheTarget()
+        {
+            hidingSpotInstance.RevealImmediately();
+
+            var socket = hidingSpotInstance.GetSocket();
+
+            socket.transform.LookAt(paradigm.subject.transform);
+
+            var originalRotation = socket.transform.rotation;
+
+            socket.rotation = Quaternion.Euler(0, originalRotation.eulerAngles.y, 0);
+
+            var objectFoundMarker = MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName);
+
+            paradigm.marker.WriteAtTheEndOfThisFrame(objectFoundMarker);
+
+            paradigm.TrialEndPoint.gameObject.SetActive(true);
+
+            currentTrialState = Internal_Trial_State.Returning;
+
+            StartCoroutine(InitializeTrialEnd());
+        }
+
+        private IEnumerator InitializeTrialEnd()
+        {
+            yield return new WaitForSeconds(1f);
+
+            if (conditionConfig.useTeleportation)
+            {
+                paradigm.hud.ShowInstruction("Geschafft! Entspann dich, du wirst zum Endpunkt teleportiert.", "Sehr gut!");
+
+                StartCoroutine(BeginTeleportation());
+
+                CloseEntrance();
+            }
+            else
+            {
+                paradigm.hud.ShowInstruction("Geschafft! Kehre nun zurück zum Endpunkt!", "Aufgabe");
+
+                path.InvertPath();
+
+                currentPathElement = path.PathAsLinkedList.First;
+            }
+
+            yield return null;
+        }
+
         /// <summary>
         /// When the subject presses a button for submit...
         /// </summary>
@@ -587,7 +636,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             //reset until the next opportunity
             acceptsASubmit = false;
         }
-
+        
         IEnumerator BeginTeleportation()
         {
             yield return new WaitForSeconds(conditionConfig.offsetToTeleportation);
@@ -634,6 +683,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void CleanUp()
         {
+            paradigm.hud.Clear();
+
             paradigm.fogControl.DisappeareImmediately();
 
             currentPathElement = null;
