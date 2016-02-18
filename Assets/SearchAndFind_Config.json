@@ -12,13 +12,14 @@
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
-            "categoriesPerMaze": 2,
-            "mazesToUse": 2,
-            "pathsToUsePerMaze": 2,
-            "objectVisitationsInTraining": 2,
-            "objectVisitationsInExperiment": 2,
+            "categoriesPerMaze": 1,
+            "mazesToUse": 1,
+            "pathsToUsePerMaze": 1,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true
         }
-    ]
+    ],
+    "waitForCommandOnConditionEnd": true
 }

@@ -13,7 +13,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind {
 
         ParadigmController controller;
         
-
         public bool TestMode = false;
 
         private bool homeButtonIsDown = false;
