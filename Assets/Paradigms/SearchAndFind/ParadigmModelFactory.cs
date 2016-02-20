@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.BeMoBI.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -152,16 +153,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             foreach (var conditionConfig in availableConfigurations)
             {
-                // get the default config when the requested condition name could not be found
-                //var conditionConfig = availableConfigurations.FirstOrDefault(c => c.ConditionID.Equals(conditionConfig)) ?? ConditionConfiguration.GetDefault();
-
-                var shuffledCategories = objectPool.Categories.OrderBy((i) => Guid.NewGuid()).ToList();
+                var shuffledCategories = objectPool.Categories.Shuffle();
 
                 availableCategories = new Stack<Category>(shuffledCategories);
 
-                for (int i = 0; i < conditionConfig.mazesToUse; i++)
-                {
-                    var maze = mazeInstances[i];
+                var selectedMazes = mazeInstances.Take(conditionConfig.mazesToUse);
+                var shuffledMazes = selectedMazes.Shuffle();
+
+                foreach (var maze in shuffledMazes) { 
+                    
                     ChooseCategoryFor(maze);
                 }
                 
@@ -235,7 +235,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     foreach (var group in groupedByMaze)
                     {
-                        var groupedByPath = group.GroupBy(td => td.Path).OrderBy(g => Guid.NewGuid());
+                        var groupedByPath = group.GroupBy(td => td.Path).Shuffle();
 
                         List<TrialDefinition> trainingPerMaze = new List<TrialDefinition>();
                         List<TrialDefinition> experimentPerMaze = new List<TrialDefinition>();
@@ -250,8 +250,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                         }
 
                         // using Guid is a trick to randomly sort a set
-                        var shuffledTrainingPerMaze = trainingPerMaze.OrderBy(td => Guid.NewGuid());
-                        var shuffledExperimentPerMaze = experimentPerMaze.OrderBy(td => Guid.NewGuid());
+                        var shuffledTrainingPerMaze = trainingPerMaze.Shuffle();
+                        var shuffledExperimentPerMaze = experimentPerMaze.Shuffle();
 
                         newCondition.Trials.AddRange(shuffledTrainingPerMaze);
                         newCondition.Trials.AddRange(shuffledExperimentPerMaze);
@@ -262,7 +262,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     newCondition.Trials.AddRange(trainingTrials);
 
-                    var shuffledExperimentalTrials = experimentalTrials.OrderBy(trial => Guid.NewGuid());
+                    var shuffledExperimentalTrials = experimentalTrials.Shuffle();
 
                     newCondition.Trials.AddRange(shuffledExperimentalTrials);
                 }
