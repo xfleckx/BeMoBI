@@ -155,12 +155,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (currentTrialDefinition == null)
             {
-                // Special case: First Trial after experiment start
+                // Special case: First Trial after condition start
+                paradigm.marker.Write(string.Format("Begin Condition '{0}'", currentCondition.Identifier));
+
                 currentTrialDefinition = trials.First;
             }
             else if (currentRunShouldEndAfterTrialFinished || currentTrialDefinition.Next == null)
             {
                 // Special case: Last Trial either the run was canceld or all trials done
+
+                // Special case: First Trial after condition start
+                paradigm.marker.Write(string.Format("End Condition '{0}'", currentCondition.Identifier));
                 ConditionFinished();
                 return;
             }

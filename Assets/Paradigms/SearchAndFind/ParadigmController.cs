@@ -320,14 +320,21 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             appLog.Info(string.Format("Condition {0} has finished!", conditionId));
 
-            if (!conditionController.PendingConditions.Any())
+            if (!conditionController.PendingConditions.Any()) { 
+
                 ParadigmInstanceFinished();
+
+                return;
+            }
 
             if (Config.waitForCommandOnConditionEnd)
             {
                 appLog.Info(string.Format("Waiting for signal to start next condition...", conditionId));
 
+                hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
+
                 conditionController.SetNextConditionPending();
+
                 return;
             }
 
@@ -352,7 +359,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             statistic.Info(string.Format("Run took: {0} minutes, Avg Training: {1}     Avg Experiment {2}", completeTime, averageTimePerTraining, averageTimePerExperiment));
 
-            marker.Write("ExperimentFinished");
+            marker.Write("End Experiment");
 
             appLog.Info("Paradigma run finished");
         }

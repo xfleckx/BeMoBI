@@ -667,8 +667,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public event Action<Trial, TrialResult> Finished;
         protected void OnFinished(TimeSpan trialDuration)
         {
-            UnityEngine.Debug.Log("Trial report finished");
-
             if (Finished != null)
                 Finished(this, new TrialResult(trialDuration));
         }
