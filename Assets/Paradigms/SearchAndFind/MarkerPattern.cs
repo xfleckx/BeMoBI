@@ -1,4 +1,6 @@
-﻿namespace Assets.BeMoBI.Paradigms.SearchAndFind
+﻿using Assets.BeMoBI.Scripts;
+
+namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public static class MarkerPattern
     {
@@ -11,17 +13,16 @@
         public const string ShowObject = "ShowObject\t{0}\t{1}";
 
         public const string ObjectFound = "ObjectFound\t{0}\t{1}\t{2}\t{3}";
-
-        // TODO: Grid ID's should not be renderered as float values
+        
         /// <summary>
         /// From {0} to {1} TurnType {2} UnitType {3}
         /// </summary>
-        public const string Turn = "Turn\tFrom:{0}\tTo:{1}\t{2}\t{3}";
+        public const string Turn = "Turn\tFrom{0}\tTo{1}\t{2}\t{3}";
 
         /// <summary>
         /// From {0} to {1} expected {2} TurnType {3} UnitType {4}
         /// </summary>
-        public const string WrongTurn = "Incorrect\tFrom:{0}\tTo:{1}\tExp:{2}\t{3}\t{4}";
+        public const string WrongTurn = "Incorrect\tFrom{0}\tTo{1}\tExpected{2}\t{3}\t{4}";
 
         public const string EndTrial = "EndTrial\t{0}\t{1}\t{2}\t{3}\t{4}";
 
@@ -32,20 +33,20 @@
 
         public static string FormatCorrectTurn(PathElement lastPathElement, PathElement currentPathElement)
         {
-            var lastGridId = lastPathElement.Unit.GridID;
+            var lastGridId = lastPathElement.Unit.GridID.AsIntVector();
 
-            var currentGridId = currentPathElement.Unit.GridID;
+            var currentGridId = currentPathElement.Unit.GridID.AsIntVector();
 
             return string.Format(Turn, lastGridId, currentGridId, lastPathElement.Type, lastPathElement.Turn);
         }
 
         public static string FormatIncorrectTurn(MazeUnit wrongUnitEntered, PathElement lastPathElement, PathElement expectedUnit)
         {
-            var wrongGridId = wrongUnitEntered.GridID;
+            var wrongGridId = wrongUnitEntered.GridID.AsIntVector();
 
-            var lastGridId = lastPathElement.Unit.GridID;
+            var lastGridId = lastPathElement.Unit.GridID.AsIntVector();
 
-            var expectedGridId = expectedUnit.Unit.GridID;
+            var expectedGridId = expectedUnit.Unit.GridID.AsIntVector();
 
             return string.Format(WrongTurn, lastGridId, wrongGridId, expectedGridId, lastPathElement.Type, lastPathElement.Turn);
         }
