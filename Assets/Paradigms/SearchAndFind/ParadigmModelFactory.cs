@@ -157,10 +157,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 availableCategories = new Stack<Category>(shuffledCategories);
 
-                var selectedMazes = mazeInstances.Take(conditionConfig.mazesToUse);
-                var shuffledMazes = selectedMazes.Shuffle();
+                var shuffledMazes = mazeInstances.Shuffle();
+                var selectedMazes = shuffledMazes.Take(conditionConfig.mazesToUse); ;
 
-                foreach (var maze in shuffledMazes) { 
+                foreach (var maze in selectedMazes) { 
                     
                     ChooseCategoryFor(maze);
                 }
