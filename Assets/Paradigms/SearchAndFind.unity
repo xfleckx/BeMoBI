@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe3da5cd8218e49897ec9bd468bccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathToLoadedConfig: 
+  PathToLoadedConfig: C:\Users\markus\Documents\git_repos\BeMoBI\Assets\SearchAndFind_Config.json
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
@@ -4224,6 +4224,7 @@ GameObject:
   - 4: {fileID: 1615996664}
   - 114: {fileID: 1615996666}
   - 114: {fileID: 1615996665}
+  - 135: {fileID: 1615996667}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -4271,6 +4272,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1615996667
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1615996663}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1683745838
 Prefab:
   m_ObjectHideFlags: 0
@@ -5701,7 +5714,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.9
-  m_Radius: 0.2
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.1
   m_SkinWidth: 0.08
@@ -6139,7 +6152,21 @@ MonoBehaviour:
   nameOfRigidBodyDefinition: 
   conditionConfigurations:
   - ConditionID: default
-    useTeleportation: 1
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 1
+    pathsToUsePerMaze: 1
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+  - ConditionID: default2
+    useTeleportation: 0
     BodyControllerName: KeyboardCombi
     HeadControllerName: KeyboardCombi
     TimeToDisplayObjectToRememberInSeconds: 3

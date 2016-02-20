@@ -87,9 +87,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public Experiment experiment;
         public Pause pause;
         public InstructionTrial instruction;
-        
+        private bool waitingForSignalToStartNextCondition;
+
         #endregion
- 
+
         void Awake()
         {
             if (VRManager == null)
@@ -291,17 +292,25 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             if (Input.GetKey(KeyCode.F5))
             {
-                bool noConditionHasBeenInitialized = conditionController.PendingConditions.Count == Config.conditionConfigurations.Count;
-
-                if (!conditionController.IsRunning && noConditionHasBeenInitialized)
-                    StartExperimentFromBeginning();
-
-                if (!conditionController.IsRunning)
-                    conditionController.SetNextConditionPending();
+                StartExperimentOrNextCondition();
             }
 
             if (Input.GetKeyUp(KeyCode.F1))
                 ToogleDebugHUD();
+        }
+
+        public void StartExperimentOrNextCondition()
+        {
+            bool noConditionHasBeenInitialized = conditionController.PendingConditions.Count == Config.conditionConfigurations.Count;
+
+            if (waitingForSignalToStartNextCondition == true)
+                waitingForSignalToStartNextCondition = false;
+
+            if (!conditionController.IsRunning && noConditionHasBeenInitialized)
+                StartExperimentFromBeginning();
+
+            if (!conditionController.IsRunning)
+                conditionController.SetNextConditionPending();
         }
 
         private void ToogleDebugHUD()
@@ -333,14 +342,27 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
 
-                conditionController.SetNextConditionPending();
+                waitingForSignalToStartNextCondition = true;
+
+                StartCoroutine(WaitForCommandToStartNextCondition());
 
                 return;
             }
 
             conditionController.SetNextConditionPending(true);
         }
-        
+
+        private IEnumerator WaitForCommandToStartNextCondition()
+        {
+            yield return new WaitWhile(() => waitingForSignalToStartNextCondition);
+
+            waitingForSignalToStartNextCondition = false; // reset
+
+            conditionController.SetNextConditionPending(true);
+
+            yield return null;
+        }
+
         private void ParadigmInstanceFinished()
         {
             hud.ShowInstruction("You made it!\nThx for participation!", "Experiment finished!");
@@ -406,6 +428,37 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
 
         }
+
+        public void SubjectTriesToSubmit()
+        {
+            if (conditionController.currentTrial != null && conditionController.currentTrial.acceptsASubmit)
+            {
+                conditionController.currentTrial.RecieveSubmit();
+            }
+
+        }
+
+        public void ForceABreakInstantly()
+        {
+            //conditionController.InjectPauseTrial();
+            conditionController.ResetCurrentTrial();
+            hud.ShowInstruction("Press the Submit Button to continue!\n Close your eyes and talk to the supervisor!", "Break");
+        }
+          
+        public void StartExperimentWithCurrentPendingCondition()
+        {
+            conditionController.StartCurrentConditionWithFirstTrial();
+        }
+
+        public void Restart(string condition = "")
+        {
+            if(condition == "") {
+
+                var currentScene = SceneManager.GetActiveScene();
+
+                SceneManager.LoadScene(currentScene.name, LoadSceneMode.Single);
+            }
+        }
         
         /// <summary>
         /// Loads a predefined definition from a file
@@ -444,37 +497,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
 
             return null;
-        }
-
-        public void SubjectTriesToSubmit()
-        {
-            if (conditionController.currentTrial != null && conditionController.currentTrial.acceptsASubmit)
-            {
-                conditionController.currentTrial.RecieveSubmit();
-            }
-
-        }
-
-        public void ForceABreakInstantly()
-        {
-            //conditionController.InjectPauseTrial();
-            conditionController.ResetCurrentTrial();
-            hud.ShowInstruction("Press the Submit Button to continue!\n Close your eyes and talk to the supervisor!", "Break");
-        }
-          
-        public void StartExperimentWithCurrentPendingCondition()
-        {
-            conditionController.StartCurrentConditionWithFirstTrial();
-        }
-
-        public void Restart(string condition = "")
-        {
-            if(condition == "") {
-
-                var currentScene = SceneManager.GetActiveScene();
-
-                SceneManager.LoadScene(currentScene.name, LoadSceneMode.Single);
-            }
         }
 
         public void SaveCurrentState()
