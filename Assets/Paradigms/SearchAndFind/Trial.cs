@@ -506,6 +506,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             lastUnit = currentUnit;
             currentUnit = evt.MazeUnit;
 
+            paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, evt.MazeUnitEventType));
+
             if (evt.MazeUnitEventType == MazeUnitEventType.Entering)
             {
                 // special case entering the maze

@@ -8,7 +8,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public const string Unit = "{0}\tUnit\t{1}\t{2}";
 
-        public const string Enter = "Entering\t{0}\t{1}\t{2}";
+        public const string Enter = "Entering Unit\t{0}";
+        public const string Exit = "Exiting Unit\t{0}";
 
         public const string ShowObject = "ShowObject\t{0}\t{1}";
 
@@ -30,6 +31,19 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             return string.Format(BeginTrial, trialTypeName, mazeName, pathId, objectName, categoryName);
         }
+
+
+        public static string FormatMazeUnitEvent(MazeUnit unit, MazeUnitEventType type)
+        {  
+            if(type == MazeUnitEventType.Entering) { 
+                return string.Format(Enter, unit.GridID.AsIntVector());
+            }
+            else
+            {
+                return string.Format(Exit, unit.GridID.AsIntVector());
+            }
+        }
+
 
         public static string FormatCorrectTurn(PathElement lastPathElement, PathElement currentPathElement)
         {
