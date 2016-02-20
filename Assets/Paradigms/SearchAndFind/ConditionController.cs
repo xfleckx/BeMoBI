@@ -20,6 +20,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public Action OnLastConditionFinished;
 
+        public Action<string> OnConditionFinished;
+
         #region Condition state
 
         private LinkedList<TrialDefinition> trials;
@@ -46,6 +48,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public List<ConditionDefinition> PendingConditions { get; internal set; }
         public List<ConditionDefinition> FinishedConditions { get; internal set; }
 
+        private bool isConditionRunning;
         public bool IsConditionRunning
         {
             get
@@ -53,15 +56,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 return isConditionRunning;
             }
         }
-
-        public bool PendingForNextCondition { get; private set; }
-
+        
         private bool resetTheLastTrial = false;
-        private bool isConditionRunning;
 
         #endregion
 
-        public void Initialize(ConditionDefinition requestedCondition)
+        public void Initialize(ConditionDefinition requestedCondition, bool andStart = false)
         {
             if (IsConditionRunning)
                 throw new InvalidOperationException("A condition is already running!");
@@ -72,7 +72,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
             else
             {
-                throw new ArgumentException("Requested Condition not available!");
+                throw new ArgumentException(string.Format("Requested Condition '{0}' not available - maybe already done?", requestedCondition.Identifier));
             }
 
             ApplyConditionSpecificConfiguration(currentCondition.Config);
@@ -82,9 +82,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             var statusMessage = string.Format("Initialize Condition: \'{0}\'", currentCondition.Identifier);
 
             appLog.Info(statusMessage);
+
+            if (andStart)
+                StartCurrentConditionWithFirstTrial();
         }
         
-        public void StartTheConditionWithFirstTrial()
+        public void StartCurrentConditionWithFirstTrial()
         {
             isConditionRunning = true;
 
@@ -93,7 +96,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void ResetCurrentCondition()
         {
+            isConditionRunning = false;
             PendingConditions.Add(currentCondition);
+            Initialize(currentCondition);
         }
 
         #region Trial Management
@@ -257,12 +262,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
 
-        public void SetNextConditionPending()
+        public void SetNextConditionPending(bool andStart = false)
         {
-            PendingForNextCondition = false;
-
             if (PendingConditions.Count > 0)
-                Initialize(PendingConditions.First());
+                Initialize(PendingConditions.First(), andStart);
             else
                 OnLastConditionFinished();
         }
@@ -277,33 +280,25 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if(PendingConditions.Any(c => c.Identifier.Equals(conditionName)))
             {
                 var requestedCondition = PendingConditions.First();
-
-                PendingForNextCondition = false;
-
+                
                 Initialize(requestedCondition);
             }
             else
             {
-                throw new ArgumentException(string.Format("Condition '{0}' not found!", conditionName),conditionName);
+                throw new ArgumentException(string.Format("Condition '{0}' not found!", conditionName), conditionName);
             }
         }
-
-
+        
         private void ConditionFinished()
         {
             isConditionRunning = false;
 
             currentTrialDefinition = null;
-
+            
             GC.Collect();
 
-            if (paradigm.Config.waitForCommandOnConditionEnd)
-            {
-                PendingForNextCondition = true;
-                return;
-            }
-
-            SetNextConditionPending();
+            if (OnConditionFinished != null)
+                OnConditionFinished(currentCondition.Identifier);
         }
 
         #endregion

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using NLog;
 using NLogger = NLog.Logger;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
+using Assets.BeMoBI.Scripts;
 
 namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
@@ -199,6 +200,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 new GUIContent("Group by Mazes and Paths", "Trials are set as tuples of training and experiment trials per Maze and Path"),
                 selectedConfiguration.groupByMazes);
 
+            selectedConfiguration.useTeleportation = EditorGUILayout.Toggle(
+                new GUIContent("use Teleportaiton","Use Teleportation to bring the subject back to start after Trial ends"),
+                selectedConfiguration.useTeleportation);
+
             if (lastGeneratedInstanceDefinition == null)
                 EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
 
@@ -226,7 +231,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             selectedConfiguration.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", selectedConfiguration.objectVisitationsInExperiment);
 
-          
+            //if(GUILayout.Button("Save Configuration"))
+            //{
+            //    ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(instance.PathToLoadedConfig), instance.Config);
+            //}
 
         }
 

@@ -149,6 +149,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             else
             {
                 instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
+                instance.Config.waitForCommandOnConditionEnd = EditorGUILayout.Toggle(new GUIContent("Wait after Condition finished", "Wait on a command (button press or remote control)."), instance.Config.waitForCommandOnConditionEnd);
             }
             
             if (GUILayout.Button("Lookup Instance definitions"))

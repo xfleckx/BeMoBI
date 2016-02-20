@@ -20,7 +20,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             if(!Conditions.Any(c => c.Identifier.Equals(condition)))
             {
-                throw new ArgumentException(string.Format("Expected condition '{0}' not found!", condition));
+                throw new ArgumentException(string.Format("Expected condition '{0}' not found in paradigm model!", condition));
             }
 
             return Conditions.Where(c => c.Identifier.Equals(condition)).FirstOrDefault();

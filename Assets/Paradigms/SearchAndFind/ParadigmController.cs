@@ -119,6 +119,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             
             Third_LoadOrGenerateInstanceDefinition();
 
+            conditionController.OnConditionFinished += ConditionFinished;
+
             Fourth_InitializeFirstOrDefaultCondition();
 
             hud.Clear();
@@ -128,6 +130,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             fading.StartFadeIn();
 
             marker.LogAlsoToFile = Config.logMarkerToFile;
+
+
         }
 
         private void First_GetTheSubjectName()
@@ -287,13 +291,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             if (Input.GetKey(KeyCode.F5))
             {
-                if( !conditionController.IsRunning )
+                bool noConditionHasBeenInitialized = conditionController.PendingConditions.Count == Config.conditionConfigurations.Count;
+
+                if (!conditionController.IsRunning && noConditionHasBeenInitialized)
                     StartExperimentFromBeginning();
 
-                if (conditionController.IsRunning && conditionController.PendingForNextCondition)
+                if (!conditionController.IsRunning)
                     conditionController.SetNextConditionPending();
-
-
             }
 
             if (Input.GetKeyUp(KeyCode.F1))
@@ -305,15 +309,35 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (debug_hud != null)
                 debug_hud.gameObject.SetActive(!debug_hud.gameObject.activeSelf);
         }
+
         public void AfterTeleportingToEndPoint()
         {
             subject.transform.LookAt(FocusPointAtStart);
             subject.transform.rotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
         }
 
+        private void ConditionFinished(string conditionId)
+        {
+            appLog.Info(string.Format("Condition {0} has finished!", conditionId));
+
+            if (!conditionController.PendingConditions.Any())
+                ParadigmInstanceFinished();
+
+            if (Config.waitForCommandOnConditionEnd)
+            {
+                appLog.Info(string.Format("Waiting for signal to start next condition...", conditionId));
+
+                conditionController.SetNextConditionPending();
+                return;
+            }
+
+            conditionController.SetNextConditionPending(true);
+        }
+        
         private void ParadigmInstanceFinished()
         {
             hud.ShowInstruction("You made it!\nThx for participation!", "Experiment finished!");
+
             var completeTime = runStatistic.Trials.Sum(t => t.DurationInSeconds) / 60;
 
             double averageTimePerTraining = 0;
@@ -327,6 +351,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 averageTimePerExperiment = runStatistic.Trials.Where(t => t.TrialType.Equals(typeof(Experiment).Name)).Average(t => t.DurationInSeconds) / 60;
 
             statistic.Info(string.Format("Run took: {0} minutes, Avg Training: {1}     Avg Experiment {2}", completeTime, averageTimePerTraining, averageTimePerExperiment));
+
+            marker.Write("ExperimentFinished");
 
             appLog.Info("Paradigma run finished");
         }
@@ -349,13 +375,18 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             runStatistic = new BriefStatisticForParadigmRun();
 
             statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
-            
+
+            marker.Write("Start Experiment");
+
             conditionController.SetNextConditionPending();
-            conditionController.StartTheConditionWithFirstTrial();
+
+            conditionController.StartCurrentConditionWithFirstTrial();
         }
         
         public void InitializeCondition(string condition)
         {
+            appLog.Info(string.Format("Condition {0} requested", condition));
+
             try
             {
                 var requestedCondition =  InstanceDefinition.Get(condition);
@@ -364,7 +395,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
             catch (ArgumentException e)
             {
-                appLog.Error(e, "Expected Condition could not be started implemented!");
+                appLog.Error(e, "Expected Condition could not be started - maybe not implemented or has a wrong name?!");
             }
 
         }
@@ -380,13 +411,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 var jsonFromFile = reader.ReadToEnd();
 
-                InstanceDefinition = JsonUtility.FromJson<ParadigmModel>(jsonFromFile);
+                var loadedDefinition = JsonUtility.FromJson<ParadigmModel>(jsonFromFile);
+              
 
                 if (InstanceDefinition == null)
                 {
                     appLog.Fatal(string.Format("Loading {0} as Instance Definition failed!", file.FullName));
-                    Application.Quit();
+                    return;
                 }
+
+                InstanceDefinition = loadedDefinition;
+                Config = InstanceDefinition.Configuration;
             }
         }
 
@@ -422,7 +457,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
           
         public void StartExperimentWithCurrentPendingCondition()
         {
-            conditionController.StartTheConditionWithFirstTrial();
+            conditionController.StartCurrentConditionWithFirstTrial();
         }
 
         public void Restart(string condition = "")
