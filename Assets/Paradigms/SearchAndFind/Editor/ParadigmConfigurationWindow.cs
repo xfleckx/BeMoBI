@@ -10,6 +10,7 @@ using NLog;
 using NLogger = NLog.Logger;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
 using Assets.BeMoBI.Scripts;
+using Assets.BeMoBI.Scripts.Controls;
 
 namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
@@ -177,6 +178,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             instance.SubjectID = PreDefinedSubjectID;
         }
 
+        private int selectedBodyControllerIndex = 0;
+        private int selectedHeadControllerIndex = 0;
+        private int selectedCombiControllerIndex = 0;
+
         private void RenderConfigurationOptions()
         {
             if (factory.config == null)
@@ -187,6 +192,56 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             }
 
             EditorGUILayout.LabelField(new GUIContent("Expetected Controller Names", "See VR Subject Controller for possible options"), EditorStyles.largeLabel);
+
+            var subjectController = FindObjectOfType<VRSubjectController>();
+
+            if(subjectController != null)
+            {
+                var headControllerNames = subjectController.GetComponents<IHeadMovementController>().Select(hc => hc.Identifier).ToArray();
+                var bodyControllerNames = subjectController.GetComponents<IBodyMovementController>().Select(hc => hc.Identifier).ToArray();
+                var combiControllerNames = subjectController.GetComponents<CombinedController>().Select(hc => hc.Identifier).ToArray();
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.LabelField("Available HeadController:");
+
+                selectedHeadControllerIndex = EditorGUILayout.Popup(selectedHeadControllerIndex, headControllerNames);
+
+                if (GUILayout.Button("Select"))
+                {
+                    selectedConfiguration.HeadControllerName = headControllerNames[selectedHeadControllerIndex];
+                }
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.LabelField("Available BodyController:");
+
+                selectedBodyControllerIndex = EditorGUILayout.Popup(selectedBodyControllerIndex, bodyControllerNames);
+                
+                if (GUILayout.Button("Select"))
+                {
+                    selectedConfiguration.BodyControllerName = bodyControllerNames[selectedBodyControllerIndex];
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.LabelField("Available Combined Controller:");
+
+                selectedCombiControllerIndex = EditorGUILayout.Popup(selectedCombiControllerIndex, combiControllerNames);
+
+                if (GUILayout.Button("Select"))
+                {
+                    var selected = combiControllerNames[selectedBodyControllerIndex];
+                    selectedConfiguration.BodyControllerName = selected;
+                    selectedConfiguration.HeadControllerName = selected;
+                }
+
+                EditorGUILayout.EndHorizontal();
+                
+            }
 
             selectedConfiguration.HeadControllerName = EditorGUILayout.TextField("Head Controller", selectedConfiguration.HeadControllerName);
 
