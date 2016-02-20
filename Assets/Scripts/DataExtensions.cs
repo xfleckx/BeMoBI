@@ -35,6 +35,11 @@ namespace Assets.BeMoBI.Scripts
             this.x = x;
             this.y = y;
         }
+
+        public override string ToString()
+        {
+            return string.Format("({0} {1})", x, y);
+        }
     }
 
 
@@ -49,6 +54,11 @@ namespace Assets.BeMoBI.Scripts
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0} {1} {2})", x, y, z);
         }
     }
 }
