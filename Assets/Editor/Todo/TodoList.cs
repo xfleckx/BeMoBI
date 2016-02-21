@@ -28,7 +28,7 @@ public class TodoList : EditorWindow
     {
         // Get existing open window or if none, make a new one:
         _window = ( TodoList )EditorWindow.GetWindow (typeof ( TodoList ));
-		_window.title = "Todo List";
+		_window.titleContent = new GUIContent( "Todo List" );
 		_window.autoRepaintOnSceneChange = false;
     }
     
@@ -92,6 +92,7 @@ public class TodoList : EditorWindow
 					{
 						item.owner = _listData.owners[newOwnerIndex];
 						_listData.items[i] = item;
+                        SaveListData();
 					}											
 					EditorGUILayout.EndHorizontal();
 					EditorGUILayout.Space();
@@ -109,6 +110,7 @@ public class TodoList : EditorWindow
 						if(EditorGUILayout.Toggle(item.isComplete, GUILayout.Width(20)) == true)
 						{
 							_listData.items[i].isComplete = true;
+                            SaveListData();
 						}						
 						_listData.items[i].task = EditorGUILayout.TextField(item.task, itemStyle);
 						int newOwnerIndex = EditorGUILayout.Popup(adjustedIndex, ownersToSelect,GUILayout.Width(60));
@@ -116,6 +118,7 @@ public class TodoList : EditorWindow
 						{
 							item.owner = _listData.owners[newOwnerIndex];
 							_listData.items[i] = item;
+                            SaveListData();
 						}
 						EditorGUILayout.EndHorizontal();
 						EditorGUILayout.Space();
@@ -146,7 +149,8 @@ public class TodoList : EditorWindow
 					if(GUILayout.Button("x",GUILayout.Width(23)))
 					{
 						_listData.items.RemoveAt(i);
-					}	
+                        SaveListData();
+                    }	
 					EditorGUILayout.EndHorizontal();
 					EditorGUILayout.Space();
 				}					
@@ -168,16 +172,21 @@ public class TodoList : EditorWindow
 			_listData.AddTask(newOwner, _newTask);			
 			//EditorUtility.DisplayDialog("Task created for " + newOwner.name, _newTask, "Sweet");
 			_newTask = "";
-            
+
             //Debug.Log("Save Data: " + _listData.items.Count);
-            EditorUtility.SetDirty(_listData);
-            EditorApplication.SaveAssets();
-            AssetDatabase.SaveAssets();
+            SaveListData();
 
             GUI.FocusControl(null);				
 		}
 	}
-	
+
+    private void SaveListData()
+    {
+        EditorUtility.SetDirty(_listData);
+        EditorApplication.SaveAssets();
+        AssetDatabase.SaveAssets();
+    }
+
 	void OnDestroy()
 	{
 		EditorUtility.SetDirty(_listData);
