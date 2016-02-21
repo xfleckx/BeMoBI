@@ -4,11 +4,18 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-/*
+/* Original:
 
 This is a simple piece of todo software created by Will Stallwood of Cipher Prime.
 http://www.cipherprime.com
 
+*/
+
+/* Mods, fixes ands enhancements by Markus Fleck
+    * enable Multiline tasks
+    * Saving on specific actions instead of Gui.changed 
+      Reason: Saving Assets on GUI.changed causing lacks on the editor when EditorSettings.VerifySavingAssets is enabled!
+    * Change depricated code to newer API calls
 */
 
 public class TodoList : EditorWindow
