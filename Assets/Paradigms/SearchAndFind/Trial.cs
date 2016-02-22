@@ -498,7 +498,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             lastUnit = currentUnit;
             currentUnit = evt.MazeUnit;
 
-            paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, evt.MazeUnitEventType));
+            //paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, evt.MazeUnitEventType));
+            if(lastUnit != null)
+                paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(lastUnit, MazeUnitEventType.Exiting));
+
+            paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Entering));
 
             if (evt.MazeUnitEventType == MazeUnitEventType.Entering)
             {
