@@ -22,6 +22,8 @@ public class KeyboardCombiInspector : Editor {
 
         EditorGUILayout.FloatField("Body Raw Y:", instance.body_raw_Y);
 
+        EditorGUILayout.Vector3Field("Current Forward:", instance.currentForward);
+
         EditorGUILayout.Vector3Field("Desired Move:", new Vector3(instance.desiredMove.x, instance.desiredMove.y, instance.desiredMove.z));
 
         EditorGUILayout.Vector4Field("Head rot (Quat.):", new Vector4( instance.headTargetRotation.x, instance.headTargetRotation.y, instance.headTargetRotation.z, instance.headTargetRotation.w));

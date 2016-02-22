@@ -38,6 +38,7 @@ namespace Assets.BeMoBI.Scripts.Controls
             }
         }
 
+        protected VRSubjectController subject;
           
         public virtual string Identifier
         {
@@ -47,6 +48,11 @@ namespace Assets.BeMoBI.Scripts.Controls
             }
         }
         
+        void Awake()
+        {
+            subject = GetComponentInParent<VRSubjectController>();
+        }
+
         public void Enable()
         {
             enabled = true;

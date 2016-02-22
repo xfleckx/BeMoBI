@@ -1,0 +1,27 @@
+BeMoBI VR Experimental Protocol
+
+1. Prepare the (Wireless) EEG System
+	...
+
+2. For VR Conditions
+	- Make sure that the Oculus is attached HDMI and USB!
+	- [When using MoCap] Make sure that the PhaseSpace server is running
+		it should not need any kind of configuration
+	- Make sure that Bob is hosting the correct LED configuration on the backback 
+3. Setup the VR Notebook Software
+	- Make sure that it is connected to the Lab Wlan (...)
+	- Enable the Wiimote as a Bluetooth Device 
+		- Remove the old device
+		- use shortcut:
+		%windir%\explorer.exe shell:::{28803F59-3A75-4058-995F-4EE5503B023C}
+		and delete the existing 
+		- or use 
+		C:\Windows\System32\DevicePairingWizard.exe
+		to add a new one
+		press red button on the back of the Wiimote 
+		pair without a pin
+		finished
+	- 
+4. Prepare your subject
+	1. measuring IPD with the oculus
+	2. 

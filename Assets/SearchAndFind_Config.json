@@ -2,13 +2,13 @@
     "ifNoInstanceDefinitionCreateOne": true,
     "writeStatistics": true,
     "logMarkerToFile": true,
-    "nameOfRigidBodyDefinition": "",
+    "nameOfRigidBodyDefinition": "6_upperBody.rb",
     "conditionConfigurations": [
         {
             "ConditionID": "default",
             "useTeleportation": true,
-            "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "KeyboardCombi",
+            "BodyControllerName": "PS_RigidBody",
+            "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,

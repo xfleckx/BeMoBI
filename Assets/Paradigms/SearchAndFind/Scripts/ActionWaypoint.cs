@@ -10,6 +10,8 @@ public class ActionWaypoint : MonoBehaviour
 {
     public int WaypointId = 0;
 
+    public string TagOfInterest;
+
     public Text info;
 
     public Transform InfoText;
@@ -19,6 +21,7 @@ public class ActionWaypoint : MonoBehaviour
     public WaypointEvent EnteredAt;
 
     public WaypointEvent LeaveFrom;
+
 
     void Update() {
 
@@ -38,17 +41,13 @@ public class ActionWaypoint : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        var subject = other.GetComponent<VRSubjectController>();
-
-        if (subject != null && EnteredAt.GetPersistentEventCount() > 0)
+        if (other.tag == TagOfInterest && EnteredAt.GetPersistentEventCount() > 0)
             EnteredAt.Invoke(this);
     }
 
     public void OnTriggerExit(Collider other)
     {
-        var subject = other.GetComponent<VRSubjectController>();
-
-        if (subject != null && EnteredAt.GetPersistentEventCount() > 0)
+        if (other.tag == TagOfInterest && EnteredAt.GetPersistentEventCount() > 0)
             LeaveFrom.Invoke(this);
     }
 }

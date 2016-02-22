@@ -21,11 +21,15 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         void OnEnable()
         {
+            UnityEngine.VR.VRSettings.enabled = false;
+
             targetRotation = Body.transform.rotation;
         }
 
 
         public AnimationCurve BodyRotationAccelerationCurve;
+
+        public Vector3 currentForward;
 
         void Update()
         {
@@ -39,6 +43,8 @@ namespace Assets.BeMoBI.Scripts.Controls
             
             body_raw_Y = Input.GetAxis(Y_AXIS_NAME);
 
+            currentForward = Body.transform.forward;
+
             desiredMove = Body.transform.forward * BodyAccelerationCurve.Evaluate(body_raw_Y) * Time.deltaTime * MaxWalkingSpeed;
 
             // Problem here... Acceleration for rotation doesn't work :/ always the same direction
@@ -49,15 +55,19 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             targetRotation *= Quaternion.Euler(0f, bodyRotation * BodyRotationSpeed, 0f);
 
+            var resultRotation = Quaternion.identity;
+
             if (RotateBodySmooth)
             {
-                Body.transform.rotation = Quaternion.Slerp(Body.transform.rotation, targetRotation, SmoothBodyTime * Time.deltaTime);
+                resultRotation = Quaternion.Slerp(Body.transform.rotation, targetRotation, SmoothBodyTime * Time.deltaTime);
             }
             else {
-                Body.transform.rotation = targetRotation;
+                resultRotation = targetRotation;
             }
 
-            Body.Move(desiredMove);
+            subject.Rotate(resultRotation);
+
+            subject.Move(desiredMove);
         }
     }
 }

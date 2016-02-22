@@ -95,20 +95,15 @@ namespace Assets.BeMoBI.Scripts.Controls
         {
             ovrManager = OVRManager.instance;
             ovrDisplay = OVRManager.display;
-            ovrRig = gameObject.GetComponentInChildren<OVRCameraRig>();
+            ovrRig = FindObjectOfType<OVRCameraRig>();
         }
 
         void Start()
         {
-            ovrRig.enabled = true;
-            ovrManager.enabled = true;
         }
         
         void OnEnable()
         {
-            ovrRig.enabled = true;
-            ovrManager.enabled = true;
-
             StartCoroutine(LookUpRift());
         }
          
@@ -118,6 +113,12 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             VRSettings.enabled = true;
 
+            yield return new WaitForSeconds(0.1f);
+                
+            ovrRig.enabled = true;
+
+            ovrManager.enabled = true;
+            
             yield return null;
         }
 

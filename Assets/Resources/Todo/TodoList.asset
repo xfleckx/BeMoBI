@@ -42,21 +42,7 @@ MonoBehaviour:
       name: Urgent
       color: {r: 1, g: 0, b: 0, a: 1}
       index: 1
-    task: 'Ohne Teleportation testen
-
-      logischer Fehler nach Trial Ende'
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
     task: "Config file auf integrit\xE4t testen? Was kommt f\xFCr ein Fehler?"
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: Meldung einblenden wenn Condition oder Paradigma zu Ende
     isComplete: 0
   - owner:
       name: Urgent
@@ -69,11 +55,12 @@ MonoBehaviour:
       name: Normal
       color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
       index: 0
-    task: "Formatierung Zellen koordianten h\xFCbsch machen"
+    task: Object Found wird -manchmal- 2x geschrieben warum?
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: Object Found wird -manchmal- 2x geschrieben warum?
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: "Wenn UNity neu gestartet wird, wird aus irgend einem Grund die default
+      config geladen. \nDas f\xFChrt zu seltsamen Fehlern!"
     isComplete: 0

@@ -247,6 +247,25 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             selectedConfiguration.BodyControllerName = EditorGUILayout.TextField("Body Controller", selectedConfiguration.BodyControllerName);
 
+            EditorGUILayout.BeginHorizontal();
+            
+            factory.config.nameOfRigidBodyDefinition = EditorGUILayout.TextField("Name of Rigidbody file", factory.config.nameOfRigidBodyDefinition);
+
+            if (GUILayout.Button("Select"))
+            {
+                var filePath = EditorUtility.OpenFilePanelWithFilters("Choose rigidbody file", "Assets", new string[] { "PS_RigidBody", "rb" });
+
+                if (filePath != null && File.Exists(filePath))
+                {
+                    var fileName = Path.GetFileName(filePath);
+
+                    factory.config.nameOfRigidBodyDefinition = fileName;
+                }
+
+            }
+
+            EditorGUILayout.EndHorizontal();
+
             selectedConfiguration.useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
                 new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
                 selectedConfiguration.useExactOnCategoryPerMaze);

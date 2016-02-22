@@ -10,14 +10,17 @@ using VRStandardAssets.Utils;
 using Assets.Paradigms.SearchAndFind.ImageEffects;
 using Assets.BeMoBI.Scripts.Controls;
 
-[RequireComponent(typeof(CharacterController))]
 public class VRSubjectController : MonoBehaviour
 {
     public CharacterController Body;
     public Transform Head;
     public Camera HeadPerspective;
     public Reticle reticle;
-    
+    public HUD_DEBUG debug_hud;
+    public HUD_Instruction instruction_hud;
+
+    public float feetToHead = 1.76f;
+
     public event Action<float> ItemValueRequested;
 
     [SerializeField]
@@ -27,11 +30,19 @@ public class VRSubjectController : MonoBehaviour
 
     public void Start()
     {
-        Assert.IsNotNull<Camera>(HeadPerspective);
-
-        Body = GetComponent<CharacterController>(); 
+       Assert.IsNotNull<Camera>(HeadPerspective);
+       //Body = GetComponentInChildren<CharacterController>();
+       AdjustSubjectProperties();
     }
     
+    public void AdjustSubjectProperties()
+    {
+        Body.height = feetToHead;
+        Body.center = new Vector3(0, feetToHead / 2, 0);
+        instruction_hud.transform.localPosition = new Vector3(0, feetToHead, 0);
+
+    }
+
     public void EnableSubjectBehaviorControl()
     {
         Change<IHeadMovementController>(HeadController);
@@ -83,7 +94,7 @@ public class VRSubjectController : MonoBehaviour
         }
         
     }
-
+    
     public IInputController Get<C>(string ControllerName) where C : IInputController
     {
         var possibleController = GetComponents<C>();
@@ -121,7 +132,7 @@ public class VRSubjectController : MonoBehaviour
         Head.rotation = Quaternion.identity;
         Body.transform.rotation = Quaternion.identity;
     }
-
+    
     #region Options
 
     public void ToggleRectile()
@@ -157,11 +168,34 @@ public class VRSubjectController : MonoBehaviour
     
     void OnDrawGizmos()
     {
-        var bodyCenter = transform.position + new Vector3(0, 1, 0);
+        var bodyCenter = Body.transform.localPosition + new Vector3(0, 1, 0);
 
-        Gizmos.DrawWireCube(transform.position, new Vector3(0.4f, 0.001f, 0.4f));
-        Gizmos.DrawRay(bodyCenter, transform.forward * 0.5f);
+        Gizmos.DrawWireCube(Body.transform.localPosition, new Vector3(0.4f, 0.001f, 0.4f));
+        Gizmos.DrawRay(bodyCenter, Body.transform.forward * 0.5f);
         Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.1f));
 
+    }
+
+    public void Move(Vector3 movementVector)
+    {
+        Body.Move(movementVector);
+        UpdateHeadPosition();
+    }
+
+    public void SetPosition(Transform target)
+    {
+        Body.transform.position = target.position;
+        UpdateHeadPosition();
+    }
+
+    public void Rotate(Quaternion resultRotation)
+    {
+        Body.transform.rotation = resultRotation;
+        Head.transform.rotation = resultRotation;
+    }
+
+    private void UpdateHeadPosition()
+    {
+        Head.transform.position = new Vector3(Body.transform.position.x, feetToHead, Body.transform.position.z);
     }
 }

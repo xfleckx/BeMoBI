@@ -320,9 +320,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         }
 
         public void AfterTeleportingToEndPoint()
-        {
+        { 
             subject.transform.LookAt(FocusPointAtStart);
-            subject.transform.rotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
+            var resultRotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
+            subject.Rotate(resultRotation);
         }
 
         private void ConditionFinished(string conditionId)

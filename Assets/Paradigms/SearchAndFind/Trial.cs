@@ -366,22 +366,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private void OnStartPointEntered(Collider c)
         {
-            var subject = c.GetComponent<VRSubjectController>();
-
-            if (subject == null)
-                return;
-
-            EntersStartPoint(subject);
+            if (c.tag == "Subject")
+                EntersStartPoint(paradigm.subject);
         }
 
         private void OnStartPointLeaved(Collider c)
         {
-            var subject = c.GetComponent<VRSubjectController>();
-
-            if (subject == null)
-                return;
-
-            LeavesStartPoint(subject);
+            if (c.tag == "Subject")
+                LeavesStartPoint(paradigm.subject);
         }
 
         public virtual void EntersStartPoint(VRSubjectController subject)
@@ -585,7 +577,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             var socket = hidingSpotInstance.GetSocket();
 
-            socket.transform.LookAt(paradigm.subject.transform);
+            socket.transform.LookAt(paradigm.subject.Body.transform);
 
             var originalRotation = socket.transform.rotation;
 

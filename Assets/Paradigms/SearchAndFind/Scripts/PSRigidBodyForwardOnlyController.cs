@@ -11,6 +11,12 @@ namespace Assets.BeMoBI.Scripts.Controls
 {
     public class PSRigidBodyForwardOnlyController : MonoBehaviour, IBodyMovementController
     {
+        public Transform Head;
+
+        public VRSubjectController subject;
+
+        NLog.Logger appLog = NLog.LogManager.GetLogger("App");
+
         string VERTICAL = "FW_Vertical";
 
         string VERTICAL_WiiMote = "FW_WiiM_Vertical";
@@ -23,7 +29,8 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public int TimeOffsetTilRBcreation = 1;
 
-        public int AvailableRigidBodies {
+        public int AvailableRigidBodies
+        {
             get { return tracker.NumRigids; }
         }
         /// <summary>
@@ -67,14 +74,27 @@ namespace Assets.BeMoBI.Scripts.Controls
             }
         }
 
+        void Awake()
+        {
+            subject = GetComponent<VRSubjectController>();
+        }
+
         public void Disable()
         {
-            if(tracker != null)
-               tracker.Disconnect();
+            this.enabled = false;
+        }
+
+        private void CloseTrackerConnection()
+        {
+            if (tracker != null && tracker.Connected())
+            {
+                tracker.Disconnect();
+            } 
         }
 
         public void Enable()
         {
+            this.enabled = true;
             TryConnectToTracker();
         }
 
@@ -84,19 +104,21 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             var availableServers = tracker.GetServers();
 
-            if (tracker == null) {
+            if (tracker == null)
+            {
                 Debug.Log("No tracker found!");
                 this.enabled = false;
                 return;
             }
-            
+
             var firstServer = availableServers.FirstOrDefault();
 
-            if (firstServer != null) {
+            if (firstServer != null)
+            {
 
                 var result = tracker.Connect(firstServer.address, false, false);
 
-                if(result == false)
+                if (result == false)
                 {
                     Debug.Log("Establishing connection failed...");
                 }
@@ -115,18 +137,30 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             var fileInfo = fileProvider.GetRigidBodyDefinition();
 
-            if(fileInfo == null)
+            if (fileInfo == null)
             {
+                appLog.Fatal("An expected rigidbody file for configuring the phasespace server could not be found!");
+
                 Debug.Log("Missing RigidBodyFile!");
                 this.enabled = false;
-                
+
             }
 
-            if(tracker != null) 
-                tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
+            try
+            {
+
+                if (tracker != null)
+                    tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
+            }
+            catch (OWLException owle)
+            {
+                appLog.Fatal(owle.Message);
+
+                this.enabled = false;
+            }
 
         }
-        
+
         IEnumerator WaitSecondsBeforeCreateRigidbody()
         {
             yield return new WaitForSeconds(TimeOffsetTilRBcreation);
@@ -138,17 +172,17 @@ namespace Assets.BeMoBI.Scripts.Controls
         void Update()
         {
             UpdateFromTracker();
-            
+
             var y_rotation = prevRot.eulerAngles.y;
 
             Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
-            
-                                  // forward only - only take positive value ignoring left or right button!
+
+            // forward only - only take positive value ignoring left or right button!
             var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL_WiiMote));
 
             var movementVector = Body.transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
-
-            Body.Move(movementVector);
+            movementVector = new Vector3(movementVector.x, Body.transform.localPosition.y, movementVector.z);
+            subject.Move(movementVector);
 
         }
 
@@ -187,6 +221,15 @@ namespace Assets.BeMoBI.Scripts.Controls
                 interp_index = (interp_index + 1) % quaternions.Length;
             }
         }
-        
+
+        public void OnDestroy()
+        {
+            CloseTrackerConnection();
+        }
+
+        public void OnDisable()
+        {
+            CloseTrackerConnection();
+        }
     }
 }

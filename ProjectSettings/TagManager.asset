@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - ObjectOfInterest
+  - Subject
   layers:
   - Default
   - TransparentFX
