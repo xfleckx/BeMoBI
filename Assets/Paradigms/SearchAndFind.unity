@@ -261,8 +261,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 167675042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.335, y: 1.366, z: -0.02}
-  m_LocalScale: {x: 0.1, y: 2.7, z: 0.05}
+  m_LocalPosition: {x: -8.389, y: 1.366, z: -0}
+  m_LocalScale: {x: 0.1, y: 2.7, z: 0.01}
   m_Children: []
   m_Father: {fileID: 2111675461}
   m_RootOrder: 2
@@ -424,7 +424,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1423568191}
+  Config: {fileID: 1449427467}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -480,7 +480,7 @@ Transform:
   - {fileID: 1761092155}
   - {fileID: 470305383}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
 --- !u!114 &188249852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,8 +811,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 207143227}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.06, z: 0}
-  m_LocalScale: {x: 0.53, y: 0.79, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.23, y: 0.66, z: 0.42}
   m_Children: []
   m_Father: {fileID: 1954452473}
   m_RootOrder: 1
@@ -850,7 +850,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 207143227}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -1524,7 +1524,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &660431127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,7 +2647,7 @@ Transform:
   - {fileID: 1126025572}
   - {fileID: 62851499}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!143 &1070637004
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2660,7 +2660,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.72
-  m_Radius: 0.29
+  m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0
   m_SkinWidth: 0.08
@@ -3480,37 +3480,6 @@ MonoBehaviour:
   colorOpaque: {r: 0.01, g: 0.01, b: 0.01, a: 1}
   colorTransparent: {r: 0.01, g: 0.01, b: 0.01, a: 0}
   material: {fileID: 2100000, guid: 6d93b589dd2da4e4fb95d6a1b2e69f30, type: 2}
---- !u!114 &1423568191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  conditionConfigurations:
-  - ConditionID: default
-    useTeleportation: 1
-    BodyControllerName: KeyboardCombi
-    HeadControllerName: KeyboardCombi
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    mazesToUse: 1
-    pathsToUsePerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-  waitForCommandOnConditionEnd: 1
 --- !u!1 &1430436635 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 01c479466cd2cc64495245262dbcd117, type: 3}
@@ -3531,6 +3500,37 @@ MeshCollider:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 01c479466cd2cc64495245262dbcd117, type: 3}
   m_PrefabInternal: {fileID: 1794862766}
+--- !u!114 &1449427467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  conditionConfigurations:
+  - ConditionID: default
+    useTeleportation: 1
+    BodyControllerName: PS_RigidBody
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 1
+    pathsToUsePerMaze: 1
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+  waitForCommandOnConditionEnd: 1
 --- !u!1 &1456014605
 GameObject:
   m_ObjectHideFlags: 0
@@ -4414,7 +4414,7 @@ Transform:
   - {fileID: 1213329799}
   - {fileID: 1142857988}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &1615996665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4513,8 +4513,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1717358723}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.328, y: 1.366, z: -1.271}
-  m_LocalScale: {x: 0.1, y: 2.7, z: 0.05}
+  m_LocalPosition: {x: -8.389, y: 1.366, z: -1.29}
+  m_LocalScale: {x: 0.1, y: 2.7, z: 0.01}
   m_Children: []
   m_Father: {fileID: 2111675461}
   m_RootOrder: 1
@@ -5104,6 +5104,68 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1932561765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1932561766}
+  - 33: {fileID: 1932561768}
+  - 23: {fileID: 1932561767}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1932561766
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1932561765}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
+  m_LocalScale: {x: 0.49, y: 0.07, z: 0.48}
+  m_Children: []
+  m_Father: {fileID: 1954452473}
+  m_RootOrder: 2
+--- !u!23 &1932561767
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1932561765}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1932561768
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1932561765}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1941343821
 GameObject:
   m_ObjectHideFlags: 0
@@ -5249,7 +5311,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1944748664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.021, y: 0.846, z: 0.022}
+  m_LocalPosition: {x: 0.021, y: 0.725, z: 0.022}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1954452473}
@@ -5335,6 +5397,7 @@ Transform:
   m_Children:
   - {fileID: 1944748665}
   - {fileID: 207143228}
+  - {fileID: 1932561766}
   m_Father: {fileID: 1941343822}
   m_RootOrder: 1
 --- !u!23 &1954452474
@@ -5371,7 +5434,7 @@ BoxCollider:
   m_GameObject: {fileID: 1954452472}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -6082,7 +6145,7 @@ MonoBehaviour:
   reticle: {fileID: 2044601740}
   debug_hud: {fileID: 2061524740}
   instruction_hud: {fileID: 1315420589}
-  feetToHead: 1.76
+  feetToHead: 1.86
   HeadController: KeyboardCombi
   BodyController: KeyboardCombi
 --- !u!1 &2039274370

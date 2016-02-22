@@ -124,8 +124,11 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         void OnDisable()
         {
-            ovrRig.enabled = false;
-            ovrManager.enabled = false;
+            if(ovrRig != null)
+                ovrRig.enabled = false;
+
+            if(ovrRig != null)
+                ovrManager.enabled = false;
 
             VRSettings.enabled = false;
         }
