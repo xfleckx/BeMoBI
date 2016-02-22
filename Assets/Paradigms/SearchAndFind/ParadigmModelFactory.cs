@@ -248,10 +248,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                             var pathGroupExperiment = pathGroup.Where(td => td.TrialType.Equals(typeof(Experiment).Name));
                             experimentPerMaze.AddRange(pathGroupExperiment);
                         }
-
-                        // using Guid is a trick to randomly sort a set
-                        var shuffledTrainingPerMaze = trainingPerMaze.Shuffle();
-                        var shuffledExperimentPerMaze = experimentPerMaze.Shuffle();
+                        
+                        var shuffledTrainingPerMaze = trainingPerMaze.Shuffle().ToList();
+                        var shuffledExperimentPerMaze = experimentPerMaze.Shuffle().ToList();
 
                         newCondition.Trials.AddRange(shuffledTrainingPerMaze);
                         newCondition.Trials.AddRange(shuffledExperimentPerMaze);
@@ -270,20 +269,22 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 newCondition.Config = conditionConfig;
                 newModel.Conditions.Add(newCondition);
             }
-               
+            GC.Collect();
             return newModel;
         }
 
         private IEnumerable<TrialConfig> MapPathsToObjects(beMobileMaze maze, Category category, ConditionConfiguration config)
         {
-            var paths = maze.GetComponent<PathController>().Paths.Where(p => p.Available).ToArray();
+            var availablePaths = maze.GetComponent<PathController>().Paths.Where(p => p.Available);
+            var shuffledPaths = availablePaths.Shuffle().ToList();
+
             var resultConfigs = new List<TrialConfig>();
 
             // be aware that pathsToUsePerMaze must be up-to-date
             for (int i = 0; i < config.pathsToUsePerMaze; i++)
             {
                 var objectFromCategory = category.SampleWithoutReplacement();
-                var path = paths[i];
+                var path = shuffledPaths[i];
 
                 var trialConfig = new TrialConfig()
                 {
