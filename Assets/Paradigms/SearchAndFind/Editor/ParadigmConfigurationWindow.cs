@@ -261,7 +261,6 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
                     factory.config.nameOfRigidBodyDefinition = fileName;
                 }
-
             }
 
             EditorGUILayout.EndHorizontal();
@@ -278,11 +277,11 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 new GUIContent("use Teleportaiton","Use Teleportation to bring the subject back to start after Trial ends"),
                 selectedConfiguration.useTeleportation);
 
-            if (lastGeneratedInstanceDefinition == null)
-                EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
+            //if (lastGeneratedInstanceDefinition == null)
+            //    EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
 
-            if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
-                factory.EstimateConfigBasedOnAvailableElements();
+            //if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
+            //    factory.EstimateConfigBasedOnAvailableElements();
 
             selectedConfiguration.mazesToUse = EditorGUILayout.IntField("Mazes", selectedConfiguration.mazesToUse);
 
@@ -290,15 +289,15 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             selectedConfiguration.pathsToUsePerMaze = EditorGUILayout.IntField("Use Paths per Maze", selectedConfiguration.pathsToUsePerMaze);
 
+            // TODO here select paths per difficulty
+
             if (!selectedConfiguration.useExactOnCategoryPerMaze)
             {
                 selectedConfiguration.categoriesPerMaze = EditorGUILayout.IntField(
                     new GUIContent("Categories per Maze", "Declares the amount of categories \n from which objects are choosen."),
                     selectedConfiguration.categoriesPerMaze);
             }
-
-            EditorGUILayout.HelpBox("Remember that only one path per maze per object is allowed", MessageType.Info);
-
+            
             EditorGUILayout.LabelField("Count of object visitations");
 
             selectedConfiguration.objectVisitationsInTraining = EditorGUILayout.IntField("Training", selectedConfiguration.objectVisitationsInTraining);

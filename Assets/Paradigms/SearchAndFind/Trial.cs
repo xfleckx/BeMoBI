@@ -495,26 +495,22 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// <param name="evt">Contians the information about trigger collisions within a maze</param>
         public virtual void SubjectMovesWithinTheMaze(MazeUnitEvent evt)
         {
-            lastUnit = currentUnit;
-            currentUnit = evt.MazeUnit;
-
-            //paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, evt.MazeUnitEventType));
-            if(lastUnit != null)
-                paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(lastUnit, MazeUnitEventType.Exiting));
-
-            paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Entering));
-
             if (evt.MazeUnitEventType == MazeUnitEventType.Entering)
             {
-                // special case entering the maze
+                lastUnit = currentUnit;
+                currentUnit = evt.MazeUnit;
+                
+                if (lastUnit != null)
+                    paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(lastUnit, MazeUnitEventType.Exiting));
+
+                paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Entering));
+                
                 if (SubjectEntersTheMaze())
                 {
                     if (SubjectEnteredThePath())
                     {
                         currentPathElement = path.PathAsLinkedList.First;
-
-                        paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
-
+                        
                         paradigm.hud.Clear();
                     }
                     else
@@ -522,14 +518,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                         UnityEngine.Debug.Log("Seems as something entered the maze on the wrong entrance!");
                     }
                 }
-                else if (SubjectReachedEndOfPath()) // is the end of the path reached??
+                else if (SubjectReachedEndOfPath()) 
                 {
                     if (currentTrialState == Internal_Trial_State.Searching)
                     {
-                        paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Value));
+                        paradigm.marker.Write(MarkerPattern.FormatCorrectTurn(currentPathElement.Value, currentPathElement.Next.Value));
 
                         StartCoroutine(WaitWithOpeningUntilButtonPress());
-                        
                     }
                 }
                 else if (SubjectFollowsPath())

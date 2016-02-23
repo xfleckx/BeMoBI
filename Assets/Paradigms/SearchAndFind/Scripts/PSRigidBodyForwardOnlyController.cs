@@ -173,7 +173,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         {
             UpdateFromTracker();
 
-            var y_rotation = prevRot.eulerAngles.y;
+            var y_rotation = prevRot.eulerAngles.y +270;
 
             Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
 
@@ -181,7 +181,9 @@ namespace Assets.BeMoBI.Scripts.Controls
             var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL_WiiMote));
 
             var movementVector = Body.transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
+
             movementVector = new Vector3(movementVector.x, Body.transform.localPosition.y, movementVector.z);
+
             subject.Move(movementVector);
 
         }

@@ -420,12 +420,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe3da5cd8218e49897ec9bd468bccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathToLoadedConfig: C:\Users\markus\Documents\git_repos\BeMoBI\Assets\SearchAndFind_Config.json
+  PathToLoadedConfig: C:/Users/markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config.json
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1449427467}
-  InstanceDefinition: {fileID: 0}
+  Config: {fileID: 323994946}
+  InstanceDefinition: {fileID: 11400000, guid: eb633158b5869994cbc23224987c6939, type: 2}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
   startingPoint: {fileID: 726889599}
@@ -433,7 +433,7 @@ MonoBehaviour:
   debug_hud: {fileID: 2061524740}
   marker: {fileID: 1460822094}
   objectPresenter: {fileID: 1941343821}
-  objectPool: {fileID: 1208354559}
+  objectPool: {fileID: 2022117695}
   objectPositionAtTrialStart: {fileID: 1944748665}
   HidingSpotPrefab: {fileID: 127242, guid: b7f2253deabaee04ea25d40bbef55bd3, type: 2}
   entrance: {fileID: 866232739}
@@ -474,7 +474,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2120861124}
-  - {fileID: 1208354558}
+  - {fileID: 2022117694}
   - {fileID: 126849971}
   - {fileID: 1353002343}
   - {fileID: 1761092155}
@@ -1204,6 +1204,37 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318335564}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &323994946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  conditionConfigurations:
+  - ConditionID: default
+    useTeleportation: 1
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 4
+    pathsToUsePerMaze: 4
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+  waitForCommandOnConditionEnd: 1
 --- !u!4 &418026204 stripped
 Transform:
   m_PrefabParentObject: {fileID: 496388, guid: 1c3bff937b813864498cc79793d0af76, type: 2}
@@ -1601,52 +1632,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 660431127}
---- !u!1001 &675701002
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 188249851}
-    m_Modifications:
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -9.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 8.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.83032084
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 192334, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &681037771
 Prefab:
   m_ObjectHideFlags: 0
@@ -2855,16 +2840,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1208354558 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-  m_PrefabInternal: {fileID: 675701002}
---- !u!114 &1208354559 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11462590, guid: 60ce42ef1a8eb8f41ac315c6d969e358,
-    type: 2}
-  m_PrefabInternal: {fileID: 675701002}
-  m_Script: {fileID: 11500000, guid: 5fbbfcc57033cce4dbebb1eeb37e059c, type: 3}
 --- !u!1 &1213329798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3295,10 +3270,6 @@ Prefab:
       propertyPath: m_Name
       value: Maze1
       objectReference: {fileID: 0}
-    - target: {fileID: 147426, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
   m_IsPrefabParent: 0
@@ -3500,37 +3471,6 @@ MeshCollider:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 01c479466cd2cc64495245262dbcd117, type: 3}
   m_PrefabInternal: {fileID: 1794862766}
---- !u!114 &1449427467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  conditionConfigurations:
-  - ConditionID: default
-    useTeleportation: 1
-    BodyControllerName: PS_RigidBody
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    mazesToUse: 1
-    pathsToUsePerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-  waitForCommandOnConditionEnd: 1
 --- !u!1 &1456014605
 GameObject:
   m_ObjectHideFlags: 0
@@ -4216,6 +4156,48 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 475846, guid: 5fbb735a00a12a84da743506dbe42417, type: 2}
   m_PrefabInternal: {fileID: 1474378240}
+--- !u!1001 &1494049955
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 188249851}
+    m_Modifications:
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -9.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 13.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.83032084
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1515733032
 Prefab:
   m_ObjectHideFlags: 0
@@ -4304,6 +4286,10 @@ Prefab:
     - target: {fileID: 400000, guid: 2acfa7c86bdeb0c409e9ee9bc4139ea6, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 2acfa7c86bdeb0c409e9ee9bc4139ea6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2acfa7c86bdeb0c409e9ee9bc4139ea6, type: 3}
@@ -4484,6 +4470,10 @@ Prefab:
     - target: {fileID: 101368, guid: 2cb1d5aeb5bd253408e67926751b22d8, type: 2}
       propertyPath: m_Name
       value: Maze5
+      objectReference: {fileID: 0}
+    - target: {fileID: 101368, guid: 2cb1d5aeb5bd253408e67926751b22d8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2cb1d5aeb5bd253408e67926751b22d8, type: 2}
@@ -6100,7 +6090,7 @@ MonoBehaviour:
   BodyRotationSpeed: 50
   RotateBodySmooth: 0
   SmoothBodyTime: 1
-  MaxWalkingSpeed: 1.4
+  MaxWalkingSpeed: 0.9
   body_raw_X: 0
   body_raw_Y: 0
   head_raw_X: 0
@@ -6148,6 +6138,16 @@ MonoBehaviour:
   feetToHead: 1.86
   HeadController: KeyboardCombi
   BodyController: KeyboardCombi
+--- !u!4 &2022117694 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
+  m_PrefabInternal: {fileID: 1494049955}
+--- !u!114 &2022117695 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11462590, guid: 60ce42ef1a8eb8f41ac315c6d969e358,
+    type: 2}
+  m_PrefabInternal: {fileID: 1494049955}
+  m_Script: {fileID: 11500000, guid: 5fbbfcc57033cce4dbebb1eeb37e059c, type: 3}
 --- !u!1 &2039274370
 GameObject:
   m_ObjectHideFlags: 0

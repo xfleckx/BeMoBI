@@ -5,7 +5,7 @@
     "nameOfRigidBodyDefinition": "6_upperBody.rb",
     "conditionConfigurations": [
         {
-            "ConditionID": "default",
+            "ConditionID": "mobi",
             "useTeleportation": true,
             "BodyControllerName": "PS_RigidBody",
             "HeadControllerName": "Oculus Headset",
@@ -13,9 +13,9 @@
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "mazesToUse": 1,
-            "pathsToUsePerMaze": 1,
-            "objectVisitationsInTraining": 1,
+            "mazesToUse": 4,
+            "pathsToUsePerMaze": 3,
+            "objectVisitationsInTraining": 2,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true
