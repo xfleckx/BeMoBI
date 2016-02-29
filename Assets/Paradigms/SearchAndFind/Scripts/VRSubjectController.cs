@@ -9,18 +9,20 @@ using Assets.Paradigms.SearchAndFind;
 using VRStandardAssets.Utils;
 using Assets.Paradigms.SearchAndFind.ImageEffects;
 using Assets.BeMoBI.Scripts.Controls;
+using Assets.BeMoBI.Scripts;
+using NLog;
 
 public class VRSubjectController : MonoBehaviour
 {
+    private static NLog.ILogger appLog = LogManager.GetLogger("App");    
+
     public CharacterController Body;
     public Transform Head;
     public Camera HeadPerspective;
     public Reticle reticle;
     public HUD_DEBUG debug_hud;
     public HUD_Instruction instruction_hud;
-
-    public float feetToHead = 1.76f;
-
+    
     public event Action<float> ItemValueRequested;
 
     [SerializeField]
@@ -28,19 +30,28 @@ public class VRSubjectController : MonoBehaviour
     [SerializeField]
     public string BodyController;
 
+    private SubjectDescription description;
+
     public void Start()
     {
-       Assert.IsNotNull<Camera>(HeadPerspective);
-       //Body = GetComponentInChildren<CharacterController>();
-       AdjustSubjectProperties();
-    }
-    
-    public void AdjustSubjectProperties()
-    {
-        Body.height = feetToHead;
-        Body.center = new Vector3(0, feetToHead / 2, 0);
-        instruction_hud.transform.localPosition = new Vector3(0, feetToHead, 0);
+        Assert.IsNotNull<Camera>(HeadPerspective);
+        //Body = GetComponentInChildren<CharacterController>();
 
+        if (description == null)
+        {
+            appLog.Info("Subject Description not set! Using default...");
+            description = SubjectDescription.GetDefault();
+        }
+
+        SetSubjectProperties(description);
+    }
+
+    public void SetSubjectProperties(SubjectDescription description)
+    {
+        this.description = description;
+        Body.height = this.description.HeightFromFeetToEyes;
+        Body.center = new Vector3(0, this.description.HeightFromFeetToEyes / 2, 0);
+        instruction_hud.transform.localPosition = new Vector3(0, this.description.HeightFromFeetToEyes, 0);
     }
 
     public void EnableSubjectBehaviorControl()
@@ -196,6 +207,6 @@ public class VRSubjectController : MonoBehaviour
 
     private void UpdateHeadPosition()
     {
-        Head.transform.position = new Vector3(Body.transform.position.x, feetToHead, Body.transform.position.z);
+        Head.transform.position = new Vector3(Body.transform.position.x, description.HeightFromFeetToEyes, Body.transform.position.z);
     }
 }
