@@ -24,13 +24,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
     {
         public const string STD_CONFIG_NAME = "SearchAndFind_Config.json";
         
-        private const string COND_MOCAP = "mocap";
-        private const string COND_MOCAP_ROT = "mocap_rot";
-        private const string COND_DESKTOP = "desktop";
-        private const string COND_MONOSCOP = "monoscop";
-        private const string COND_STANDING = "standing";
-        private const string COND_SITTING = "sitting";
-
         private static Logger appLog = LogManager.GetLogger("App");
 
         private static Logger statistic = LogManager.GetLogger("Statistics");
@@ -131,8 +124,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             fading.StartFadeIn();
 
             marker.LogAlsoToFile = Config.logMarkerToFile;
-
-
         }
 
         private void First_GetTheSubjectName()
