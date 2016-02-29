@@ -21,7 +21,7 @@ namespace Assets.BeMoBI.Scripts
         private Socket client;
         TcpListener tcpListener;
 
-        private int HEADER_SIZE = 1024;
+        private int BufferSizeForIncomingData = 256;
 
         void Awake()
         {
@@ -46,16 +46,19 @@ namespace Assets.BeMoBI.Scripts
 
                 int bytesRead = 0;
                 SocketError err;
-                byte[] receiveData = new byte[HEADER_SIZE];
-                bytesRead = tcpClient.Client.Receive(receiveData, 0, HEADER_SIZE, SocketFlags.None, out err);
+                byte[] receiveData = new byte[BufferSizeForIncomingData];
+                bytesRead = tcpClient.Client.Receive(receiveData, 0, BufferSizeForIncomingData, SocketFlags.None, out err);
 
                 if (bytesRead == 0)
                     return;
 
-                var result = UTF8Encoding.UTF8.GetString(receiveData);
+                // we expecting values from python (LabRecorder) which default encoding is ascii
+                var incomingString = Encoding.ASCII.GetString(receiveData);
+                
+                var stringWithOutZeroBytes = incomingString.RemoveZeroBytes();
 
-                if (result != null && result != String.Empty)
-                    Route(result);
+                if (stringWithOutZeroBytes != String.Empty)
+                    Route(stringWithOutZeroBytes);
             }
 
         }

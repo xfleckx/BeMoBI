@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 { 
@@ -18,12 +19,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public ConditionDefinition Get(string condition)
         {
-            if(!Conditions.Any(c => c.Identifier.Equals(condition)))
+            if(Conditions.Any(c => c.Identifier.SequenceEqual(condition)))
             {
-                throw new ArgumentException(string.Format("Expected condition '{0}' not found in paradigm model!", condition));
+                return Conditions.Where(c => c.Identifier.Contains(condition)).FirstOrDefault();
             }
 
-            return Conditions.Where(c => c.Identifier.Equals(condition)).FirstOrDefault();
+            throw new ArgumentException(string.Format("Expected condition '{0}' not found in paradigm model!", condition));
         }
     }
 
