@@ -74,6 +74,9 @@ namespace Assets.BeMoBI.Scripts.Controls
             }
         }
 
+        [Range(-360, 360)]
+        public float y_rotation_correction = 270;
+
         void Awake()
         {
             subject = GetComponent<VRSubjectController>();
@@ -173,7 +176,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         {
             UpdateFromTracker();
 
-            var y_rotation = prevRot.eulerAngles.y +270;
+            var y_rotation = prevRot.eulerAngles.y + y_rotation_correction;
 
             Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
 
