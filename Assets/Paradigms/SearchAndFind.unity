@@ -424,8 +424,8 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 323994946}
-  InstanceDefinition: {fileID: 11400000, guid: eb633158b5869994cbc23224987c6939, type: 2}
+  Config: {fileID: 441155418}
+  InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
   startingPoint: {fileID: 726889599}
@@ -1204,37 +1204,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318335564}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &323994946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  conditionConfigurations:
-  - ConditionID: default
-    useTeleportation: 1
-    BodyControllerName: KeyboardCombi
-    HeadControllerName: KeyboardCombi
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    mazesToUse: 4
-    pathsToUsePerMaze: 4
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-  waitForCommandOnConditionEnd: 1
 --- !u!4 &418026204 stripped
 Transform:
   m_PrefabParentObject: {fileID: 496388, guid: 1c3bff937b813864498cc79793d0af76, type: 2}
@@ -1345,6 +1314,37 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 430103448}
+--- !u!114 &441155418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  conditionConfigurations:
+  - ConditionID: mobi
+    useTeleportation: 1
+    BodyControllerName: PS_RigidBody
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    mazesToUse: 4
+    pathsToUsePerMaze: 3
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+  waitForCommandOnConditionEnd: 1
 --- !u!1 &470305382
 GameObject:
   m_ObjectHideFlags: 0
@@ -3270,6 +3270,10 @@ Prefab:
       propertyPath: m_Name
       value: Maze1
       objectReference: {fileID: 0}
+    - target: {fileID: 147426, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d5ccb442d5a3fc4fbe93b2531e5fff4, type: 2}
   m_IsPrefabParent: 0
@@ -4470,10 +4474,6 @@ Prefab:
     - target: {fileID: 101368, guid: 2cb1d5aeb5bd253408e67926751b22d8, type: 2}
       propertyPath: m_Name
       value: Maze5
-      objectReference: {fileID: 0}
-    - target: {fileID: 101368, guid: 2cb1d5aeb5bd253408e67926751b22d8, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2cb1d5aeb5bd253408e67926751b22d8, type: 2}
@@ -5931,6 +5931,7 @@ MonoBehaviour:
   expectedRigidID: 1
   TimeOffsetTilRBcreation: 5
   Interp: 0
+  y_rotation_correction: 270
 --- !u!114 &2016469150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6135,7 +6136,6 @@ MonoBehaviour:
   reticle: {fileID: 2044601740}
   debug_hud: {fileID: 2061524740}
   instruction_hud: {fileID: 1315420589}
-  feetToHead: 1.86
   HeadController: KeyboardCombi
   BodyController: KeyboardCombi
 --- !u!4 &2022117694 stripped
