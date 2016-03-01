@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
@@ -82,5 +82,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         [SerializeField]
         public bool groupByMazes = true;
+
+        [SerializeField]
+        public List<string> NamesOfMazes = new List<string>();
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class ParadigmModelFactory
-    {
+    { 
         public ParadigmConfiguration config;
         
         public ParadigmModelFactory()
@@ -29,8 +29,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private bool enoughPathsAreAvailable = false;
         private bool enoughObjectsAreAvailable = false;
 
-        private ObjectPool objectPool;
-        private List<beMobileMaze> mazeInstances;
+        public ObjectPool objectPool;
+        public List<beMobileMaze> mazeInstances;
         private VirtualRealityManager vrManager;
 
         int availableCategoriesCount;

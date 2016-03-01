@@ -38,6 +38,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             titleContent = new GUIContent("Paradigm Control");
 
             log.Info("Initialize Paradigma Control Window");
+
         }
 
         private int indexOfSelectedCondition = 0;
@@ -158,11 +159,6 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             return FindObjectOfType<ParadigmController>();
         }
 
-        private string FormatSurveyRequest()
-        {
-            return @"http:\\localhost\limesurvey\index.php\197498?lang=en" + "?subject=test?pose=bla";
-        }
-
         private void RenderRunVariables()
         {
             EditorGUILayout.BeginVertical();
@@ -181,6 +177,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
         private int selectedBodyControllerIndex = 0;
         private int selectedHeadControllerIndex = 0;
         private int selectedCombiControllerIndex = 0;
+
+        private Dictionary<string, bool> selectedMazes = new Dictionary<string, bool>();
 
         private void RenderConfigurationOptions()
         {
@@ -283,7 +281,11 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             //if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
             //    factory.EstimateConfigBasedOnAvailableElements();
 
-            selectedConfiguration.mazesToUse = EditorGUILayout.IntField("Mazes", selectedConfiguration.mazesToUse);
+            EditorGUILayout.LabelField("Select the mazes to use:");
+
+            RenderMazeSelection();
+
+            //selectedConfiguration.mazesToUse = EditorGUILayout.IntField("Mazes", selectedConfiguration.mazesToUse);
 
             //config.atLeastAvailblePathsPerMaze = EditorGUILayout.IntField("Common available paths", factory.atLeastAvailblePathsPerMaze);
 
@@ -304,11 +306,38 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             selectedConfiguration.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", selectedConfiguration.objectVisitationsInExperiment);
 
-            //if(GUILayout.Button("Save Configuration"))
-            //{
-            //    ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(instance.PathToLoadedConfig), instance.Config);
-            //}
 
+            if (GUILayout.Button("Save Configuration") && File.Exists(instance.PathToLoadedConfig))
+            {
+                ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(instance.PathToLoadedConfig), instance.Config);
+            }
+
+        }
+
+        private void RenderMazeSelection()
+        {
+            foreach (var alreadySelectedMazeName in selectedConfiguration.NamesOfMazes)
+            {
+                if (!selectedMazes.ContainsKey(alreadySelectedMazeName))
+                {
+                    selectedMazes.Add(alreadySelectedMazeName, true);
+                }
+
+                selectedMazes[alreadySelectedMazeName] = true;
+            }
+
+            foreach (var availableMaze in factory.mazeInstances)
+            {
+                if (selectedMazes.ContainsKey(availableMaze.name))
+                    selectedMazes[availableMaze.name] = EditorGUILayout.Toggle(availableMaze.name, selectedMazes[availableMaze.name]);
+                else
+                {
+                    selectedMazes.Add(availableMaze.name, false);
+                }
+            }
+
+            selectedConfiguration.NamesOfMazes.Clear();
+            selectedConfiguration.NamesOfMazes.AddRange(selectedMazes.Where(kvp => kvp.Value == true).Select(kvp => kvp.Key));
         }
 
         private void RenderInstanceDefinitionOptions()
