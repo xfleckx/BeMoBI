@@ -20,7 +20,7 @@ namespace Assets.BeMoBI.Scripts
             if (command.Contains("config"))
             {
                 var parts = command.Split(' ');
-                var conditionName = parts[1];
+                var conditionName = parts[1].Replace("\n","").Trim();
                 paradigm.InitializeCondition(conditionName);
             }
 

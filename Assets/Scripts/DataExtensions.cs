@@ -13,7 +13,7 @@ namespace Assets.BeMoBI.Scripts
         {
             return collection.OrderBy((i) => Guid.NewGuid());
         }
-
+        
         public static IntVector2 AsIntVector(this Vector2 vector)
         {
             return new IntVector2((int)vector.x, (int)vector.y);
