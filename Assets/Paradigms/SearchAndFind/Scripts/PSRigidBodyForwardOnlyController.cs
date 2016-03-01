@@ -20,7 +20,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         string VERTICAL = "FW_Vertical";
 
         string VERTICAL_WiiMote = "FW_WiiM_Vertical";
-
+         
         public float ForwardSpeed = 1;
 
         OWLTracker tracker;
@@ -118,7 +118,6 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             if (firstServer != null)
             {
-
                 var result = tracker.Connect(firstServer.address, false, false);
 
                 if (result == false)
@@ -129,7 +128,6 @@ namespace Assets.BeMoBI.Scripts.Controls
             this.enabled = true;
 
             StartCoroutine(WaitSecondsBeforeCreateRigidbody());
-
         }
 
         private void TryCreateRigidBodyTracker()
@@ -225,6 +223,10 @@ namespace Assets.BeMoBI.Scripts.Controls
 
                 interp_index = (interp_index + 1) % quaternions.Length;
             }
+        }
+
+        public void ResetForward()
+        { 
         }
 
         public void OnDestroy()
