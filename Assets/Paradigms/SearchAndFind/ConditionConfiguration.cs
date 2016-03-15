@@ -38,6 +38,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 var originalFieldValue = originalFields[i].GetValue(this);
                 cloneFields[i].SetValue(clone, originalFieldValue);
             }
+            
             return clone;
         }
 
@@ -64,13 +65,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         [SerializeField]
         public int categoriesPerMaze = 1;
-
-        [SerializeField]
-        public int mazesToUse = 1;
-
-        [SerializeField]
-        public int pathsToUsePerMaze = 1; // corresponds with the available objects - one distinct object per path per maze
-
+        
         [SerializeField]
         public int objectVisitationsInTraining = 1; // how often an object should be visisted while trainings trial
 
@@ -84,6 +79,26 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public bool groupByMazes = true;
 
         [SerializeField]
-        public List<string> NamesOfMazes = new List<string>();
+        public List<ExpectedMazeWithPaths> ExpectedMazes = new List<ExpectedMazeWithPaths>();
+    }
+
+
+    [Serializable]
+    public class ExpectedMazeWithPaths : ICloneable  
+    {
+        [SerializeField]
+        public string Name;
+
+        [SerializeField]
+        public List<int> pathIds;
+
+        public object Clone()
+        {
+            return new ExpectedMazeWithPaths()
+            {
+                Name = this.Name,
+                pathIds = new List<int>(this.pathIds)
+            };
+        }
     }
 }
