@@ -38,6 +38,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 var originalFieldValue = originalFields[i].GetValue(this);
                 cloneFields[i].SetValue(clone, originalFieldValue);
             }
+            
             return clone;
         }
 
@@ -84,6 +85,26 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public bool groupByMazes = true;
 
         [SerializeField]
-        public List<string> NamesOfMazes = new List<string>();
+        public List<ExpectedMazeWithPaths> ExpectedMazes = new List<ExpectedMazeWithPaths>();
+    }
+
+
+    [Serializable]
+    public class ExpectedMazeWithPaths : ICloneable  
+    {
+        [SerializeField]
+        public string Name;
+
+        [SerializeField]
+        public List<int> pathIds;
+
+        public object Clone()
+        {
+            return new ExpectedMazeWithPaths()
+            {
+                Name = this.Name,
+                pathIds = new List<int>(this.pathIds)
+            };
+        }
     }
 }

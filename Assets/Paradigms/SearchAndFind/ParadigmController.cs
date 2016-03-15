@@ -29,9 +29,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private static Logger statistic = LogManager.GetLogger("Statistics");
         
         public BriefStatisticForParadigmRun runStatistic;
-
-        public string PathToLoadedConfig = String.Empty;
-
+        
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -81,6 +79,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public Pause pause;
         public InstructionTrial instruction;
         private bool waitingForSignalToStartNextCondition;
+
+        public string PathToLoadedConfig = string.Empty;
 
         #endregion
 

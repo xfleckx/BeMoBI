@@ -157,11 +157,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 availableCategories = new Stack<Category>(shuffledCategories);
 
-                var shuffledMazes = mazeInstances.Shuffle();
-                var selectedMazes = shuffledMazes.Take(conditionConfig.mazesToUse); ;
+                var selectedMazes = mazeInstances.Where(m => conditionConfig.ExpectedMazes.Exists( v => v.Name.Equals(m.name)));
 
-                foreach (var maze in selectedMazes) { 
-                    
+                var shuffledMazes = selectedMazes.Shuffle();
+
+                foreach (var maze in shuffledMazes) {
                     ChooseCategoryFor(maze);
                 }
                 
@@ -275,7 +275,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private IEnumerable<TrialConfig> MapPathsToObjects(beMobileMaze maze, Category category, ConditionConfiguration config)
         {
-            var availablePaths = maze.GetComponent<PathController>().Paths.Where(p => p.Available);
+            var expectedMaze = config.ExpectedMazes.First(m => m.Name.Equals(maze.name));
+
+            var availablePaths = maze.GetComponent<PathController>().Paths.Where(p => expectedMaze.pathIds.Exists( id => id == p.ID ));
             var shuffledPaths = availablePaths.Shuffle().ToList();
 
             var resultConfigs = new List<TrialConfig>();

@@ -7,14 +7,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public static class Utilities
     {
-        public static Dictionary<int, List<PathInMaze>> GetPathsGroupedByDifficulty(List<PathInMaze> paths)
+        public static Dictionary<int, List<PathInMaze>> GetGroupedByDifficulty(this List<PathInMaze> paths)
         {
-           var pathsAsSetOfPathElements = paths.GroupBy(p => p.GetDifficulty());
+           var pathsAsSetOfPathElements = paths.GroupBy(p => p.GetDifficultyCountByCountTJunctions());
 
             return pathsAsSetOfPathElements.ToDictionary(g => g.Key, g => g.ToList());
         }
 
-        private static int GetDifficulty(this PathInMaze path)
+        public static int GetDifficultyCountByCountTJunctions(this PathInMaze path)
         {
             var pathElements = path.PathAsLinkedList.ToList();
 
