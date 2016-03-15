@@ -234,24 +234,22 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     try
                     {
-                        factory.EstimateConfigBasedOnAvailableElements();
+                       InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
+
+                        Save(InstanceDefinition);
                     }
                     catch (Exception e)
                     {
                         Debug.LogException(e);
 
-                        appLog.Fatal(e, "Incorrect configuration!");
+                        appLog.Fatal(e, "Incorrect configuration! - Try to configure the paradigm in the editor!");
 
                         appLog.Fatal("Not able to create an instance definition based on the given configuration! Check the paradigm using the UnityEditor and rebuild the paradigm or change the expected configuration!");
 
                         Application.Quit();
-
-                        return;
                     }
                      
-                    InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
 
-                    Save(InstanceDefinition);
                 }
             }
 

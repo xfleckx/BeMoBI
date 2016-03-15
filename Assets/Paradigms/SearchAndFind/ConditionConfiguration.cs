@@ -65,13 +65,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         [SerializeField]
         public int categoriesPerMaze = 1;
-
-        [SerializeField]
-        public int mazesToUse = 1;
-
-        [SerializeField]
-        public int pathsToUsePerMaze = 1; // corresponds with the available objects - one distinct object per path per maze
-
+        
         [SerializeField]
         public int objectVisitationsInTraining = 1; // how often an object should be visisted while trainings trial
 

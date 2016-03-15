@@ -56,13 +56,13 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             factory.config = instance.Config;
 
-            model.AvailableMazes = new List<ViewOfSelectableMazes>();
+            model.SelectableMazes = new List<ViewOfSelectableMazes>();
 
             foreach (var maze in factory.mazeInstances)
             {
                 var pathController = maze.GetComponent<PathController>();
 
-                var selecteablePaths = pathController.Paths.Select(p => new SelectablePath(p.ID, p.GetDifficultyCountByCountTJunctions()));
+                var selecteablePaths = pathController.Paths.Select(p => new SelectablePath(p.ID, p.GetDifficultyByCountTJunctions()));
 
                 var mazeView = new ViewOfSelectableMazes()
                 {
@@ -71,7 +71,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                     SelectablePaths = selecteablePaths.ToList()
                 };
 
-                model.AvailableMazes.Add(mazeView);
+                model.SelectableMazes.Add(mazeView);
             }
 
             subjectController = FindObjectOfType<VRSubjectController>();
@@ -93,6 +93,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (instance == null && (instance = TryGetInstance()) == null)
             {
+                UnityEngine.Debug.Log("Try get instance for Configuration controller");
+
                 EditorGUILayout.HelpBox("No Paradigm Controller available! \n Open another scene or create a paradigm controller instance!", MessageType.Info);
                 EditorGUILayout.EndVertical();
                 return;
@@ -100,7 +102,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (instance != null && instance.Config == null)
             {
-                EditorGUILayout.HelpBox("No Configuration at the paradigm controller available! \n Loard or create one!", MessageType.Info);
+                EditorGUILayout.HelpBox("No Configuration at the paradigm controller available! \n Load or create one!", MessageType.Info);
                 EditorGUILayout.EndVertical();
                 return;
             }
@@ -194,12 +196,25 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         private void OnConditionSelectionChanged()
         {
+            if (selectedConditionConfig == null)
+                selectedConditionConfig = instance.Config.conditionConfigurations[0];
+
             model.indexOfSelectedBodyController = model.bodyControllerNames.ToList().IndexOf(selectedConditionConfig.BodyControllerName);
             model.indexOfSelectedHeadController = model.headControllerNames.ToList().IndexOf(selectedConditionConfig.HeadControllerName);
 
-            model.AvailableMazes.ApplyToAll(selectableMaze =>
+            model.SelectableMazes.ApplyToAll(selectableMaze =>
             {
                 selectableMaze.selected = selectedConditionConfig.ExpectedMazes.Any((expected) => expected.Name.Equals(selectableMaze.mazeName));
+            });
+
+            model.SelectableMazes.Where(m => m.selected).ApplyToAll(selectedMaze => {
+                selectedMaze.SelectablePaths.ApplyToAll(pathToSelect => {
+
+                    var maze = selectedConditionConfig.ExpectedMazes.First(expectedMaze => expectedMaze.Name == selectedMaze.mazeName);
+                    pathToSelect.selected = maze.pathIds.Contains(pathToSelect.Id);
+
+                });
+
             });
         }
 
@@ -322,9 +337,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             selectedConditionConfig.useTeleportation = EditorGUILayout.Toggle(
                 new GUIContent("use Teleportaiton", "Use Teleportation to bring the subject back to start after Trial ends"),
                 selectedConditionConfig.useTeleportation);
-
-            selectedConditionConfig.pathsToUsePerMaze = EditorGUILayout.IntField("Use Paths per Maze", selectedConditionConfig.pathsToUsePerMaze);
-
+            
             if (!selectedConditionConfig.useExactOnCategoryPerMaze)
             {
                 selectedConditionConfig.categoriesPerMaze = EditorGUILayout.IntField(
@@ -376,7 +389,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         private void ApplySettings(ConfigurationWindowModel model, ConditionConfiguration selectedConditionConfig)
         {
-            selectedConditionConfig.ExpectedMazes = model.AvailableMazes.Where(m => m.selected).Select(
+            selectedConditionConfig.ExpectedMazes = model.SelectableMazes.Where(m => m.selected).Select(
                 vm => new ExpectedMazeWithPaths()
                 {
                     Name = vm.mazeName,
@@ -394,7 +407,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             EditorGUILayout.LabelField("Select the mazes to use:", EditorStyles.boldLabel);
 
             EditorGUI.indentLevel++;
-            foreach (var selectableMaze in model.AvailableMazes)
+            foreach (var selectableMaze in model.SelectableMazes)
             {
                 selectableMaze.selected = EditorGUILayout.ToggleLeft(selectableMaze.mazeName, selectableMaze.selected);
 

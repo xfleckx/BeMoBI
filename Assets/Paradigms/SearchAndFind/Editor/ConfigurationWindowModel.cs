@@ -14,7 +14,7 @@ public class ConfigurationWindowModel : ScriptableObject {
 
     public int indexOfSelectedCombinedController;
 
-    public List<ViewOfSelectableMazes> AvailableMazes;
+    public List<ViewOfSelectableMazes> SelectableMazes;
 
     internal string[] headControllerNames;
     internal string[] bodyControllerNames;
