@@ -29,9 +29,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private static Logger statistic = LogManager.GetLogger("Statistics");
         
         public BriefStatisticForParadigmRun runStatistic;
-
-        public string PathToLoadedConfig = String.Empty;
-
+        
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -81,6 +79,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public Pause pause;
         public InstructionTrial instruction;
         private bool waitingForSignalToStartNextCondition;
+
+        public string PathToLoadedConfig = string.Empty;
 
         #endregion
 
@@ -234,24 +234,22 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     try
                     {
-                        factory.EstimateConfigBasedOnAvailableElements();
+                       InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
+
+                        Save(InstanceDefinition);
                     }
                     catch (Exception e)
                     {
                         Debug.LogException(e);
 
-                        appLog.Fatal(e, "Incorrect configuration!");
+                        appLog.Fatal(e, "Incorrect configuration! - Try to configure the paradigm in the editor!");
 
                         appLog.Fatal("Not able to create an instance definition based on the given configuration! Check the paradigm using the UnityEditor and rebuild the paradigm or change the expected configuration!");
 
                         Application.Quit();
-
-                        return;
                     }
                      
-                    InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
 
-                    Save(InstanceDefinition);
                 }
             }
 

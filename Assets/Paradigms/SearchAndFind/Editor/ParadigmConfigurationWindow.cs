@@ -22,6 +22,9 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         private ParadigmModelFactory factory;
 
+        private ConfigurationWindowModel model;
+        private VRSubjectController subjectController;
+
         public String PreDefinedSubjectID = "TestSubject";
 
         public Action OnPostOnGUICommands;
@@ -37,12 +40,52 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             titleContent = new GUIContent("Paradigm Control");
 
+            InitializeModel(instance);
+
             log.Info("Initialize Paradigma Control Window");
+
+        }
+
+        private void InitializeModel(ParadigmController instance)
+        {
+            model = ConfigurationWindowModel.Instance;
+
+            model.hideFlags = HideFlags.HideAndDontSave;
+
+            factory = new ParadigmModelFactory();
+
+            factory.config = instance.Config;
+
+            model.SelectableMazes = new List<ViewOfSelectableMazes>();
+
+            foreach (var maze in factory.mazeInstances)
+            {
+                var pathController = maze.GetComponent<PathController>();
+
+                var selecteablePaths = pathController.Paths.Select(p => new SelectablePath(p.ID, p.GetDifficultyByCountTJunctions()));
+
+                var mazeView = new ViewOfSelectableMazes()
+                {
+                    mazeName = maze.name,
+
+                    SelectablePaths = selecteablePaths.ToList()
+                };
+
+                model.SelectableMazes.Add(mazeView);
+            }
+
+            subjectController = FindObjectOfType<VRSubjectController>();
+
+            model.headControllerNames = subjectController.GetComponents<IHeadMovementController>().Select(hc => hc.Identifier).ToArray();
+            model.bodyControllerNames = subjectController.GetComponents<IBodyMovementController>().Select(bc => bc.Identifier).ToArray();
+            model.combiControllerNames = subjectController.GetComponents<CombinedController>().Select(cc => cc.Identifier).ToArray();
+
+            OnConditionSelectionChanged();
         }
 
         private int indexOfSelectedCondition = 0;
 
-        private ConditionConfiguration selectedConfiguration;
+        private ConditionConfiguration selectedConditionConfig;
 
         void OnGUI()
         {
@@ -50,20 +93,23 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (instance == null && (instance = TryGetInstance()) == null)
             {
+                UnityEngine.Debug.Log("Try get instance for Configuration controller");
+
                 EditorGUILayout.HelpBox("No Paradigm Controller available! \n Open another scene or create a paradigm controller instance!", MessageType.Info);
+                EditorGUILayout.EndVertical();
                 return;
             }
 
             if (instance != null && instance.Config == null)
             {
-                EditorGUILayout.HelpBox("No Configuration at the paradigm controller available! \n Loard or create one!", MessageType.Info);
+                EditorGUILayout.HelpBox("No Configuration at the paradigm controller available! \n Load or create one!", MessageType.Info);
+                EditorGUILayout.EndVertical();
                 return;
             }
-            
-            if (factory == null)
+
+            if (model == null || factory == null)
             {
-                factory = new ParadigmModelFactory();
-                factory.config = instance.Config;
+                InitializeModel(instance);
             }
 
             EditorGUILayout.LabelField("Configure a condition configuration", EditorStyles.largeLabel);
@@ -72,19 +118,25 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             var conditionNames = instance.Config.conditionConfigurations.Select(cc => cc.ConditionID).ToArray();
 
-            if( conditionNames.Count() > indexOfSelectedCondition) { 
-
+            if (conditionNames.Count() > indexOfSelectedCondition)
+            {
                 indexOfSelectedCondition = EditorGUILayout.Popup(indexOfSelectedCondition, conditionNames);
 
-                selectedConfiguration = instance.Config.conditionConfigurations[indexOfSelectedCondition];
+                selectedConditionConfig = instance.Config.conditionConfigurations[indexOfSelectedCondition];
+
+                if (indexOfSelectedCondition != model.lastSelectedCondition)
+                {
+                    OnConditionSelectionChanged();
+                    model.lastSelectedCondition = indexOfSelectedCondition;
+                }
 
                 if (GUILayout.Button("Copy"))
                 {
                     OnPostOnGUICommands += () =>
                     {
-                        var cloneOfSelectedConfig = selectedConfiguration.Clone() as ConditionConfiguration;
+                        var cloneOfSelectedConfig = selectedConditionConfig.Clone() as ConditionConfiguration;
                         cloneOfSelectedConfig.ConditionID = cloneOfSelectedConfig.ConditionID + "_copy";
-                        instance.Config.conditionConfigurations.Add(cloneOfSelectedConfig); 
+                        instance.Config.conditionConfigurations.Add(cloneOfSelectedConfig);
                     };
                 }
 
@@ -92,9 +144,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 {
                     OnPostOnGUICommands += () =>
                     {
-                        instance.Config.conditionConfigurations.Remove(selectedConfiguration);
-                        selectedConfiguration = null;
+                        instance.Config.conditionConfigurations.Remove(selectedConditionConfig);
+                        selectedConditionConfig = null;
 
+                        // correct the index - should not point to non existing element
                         var middleIndex = instance.Config.conditionConfigurations.Count / 2;
 
                         if (indexOfSelectedCondition > middleIndex)
@@ -106,8 +159,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 RenderAddDefaultConfigOption();
 
                 EditorGUILayout.EndHorizontal();
-                
-                selectedConfiguration.ConditionID = EditorGUILayout.TextField("Name of Condition Configuration:", selectedConfiguration.ConditionID);
+
+                selectedConditionConfig.ConditionID = EditorGUILayout.TextField("Name of Condition Configuration:", selectedConditionConfig.ConditionID);
 
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
 
@@ -126,7 +179,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 RenderPreviewGUI();
 
                 EditorGUILayout.EndVertical();
-                
+
             }
             else
             {
@@ -134,11 +187,35 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 RenderAddDefaultConfigOption();
             }
 
-            if(OnPostOnGUICommands != null)
+            if (OnPostOnGUICommands != null)
             {
                 OnPostOnGUICommands();
                 OnPostOnGUICommands = null;
             }
+        }
+
+        private void OnConditionSelectionChanged()
+        {
+            if (selectedConditionConfig == null)
+                selectedConditionConfig = instance.Config.conditionConfigurations[0];
+
+            model.indexOfSelectedBodyController = model.bodyControllerNames.ToList().IndexOf(selectedConditionConfig.BodyControllerName);
+            model.indexOfSelectedHeadController = model.headControllerNames.ToList().IndexOf(selectedConditionConfig.HeadControllerName);
+
+            model.SelectableMazes.ApplyToAll(selectableMaze =>
+            {
+                selectableMaze.selected = selectedConditionConfig.ExpectedMazes.Any((expected) => expected.Name.Equals(selectableMaze.mazeName));
+            });
+
+            model.SelectableMazes.Where(m => m.selected).ApplyToAll(selectedMaze => {
+                selectedMaze.SelectablePaths.ApplyToAll(pathToSelect => {
+
+                    var maze = selectedConditionConfig.ExpectedMazes.First(expectedMaze => expectedMaze.Name == selectedMaze.mazeName);
+                    pathToSelect.selected = maze.pathIds.Contains(pathToSelect.Id);
+
+                });
+
+            });
         }
 
         private void RenderAddDefaultConfigOption()
@@ -158,11 +235,6 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             return FindObjectOfType<ParadigmController>();
         }
 
-        private string FormatSurveyRequest()
-        {
-            return @"http:\\localhost\limesurvey\index.php\197498?lang=en" + "?subject=test?pose=bla";
-        }
-
         private void RenderRunVariables()
         {
             EditorGUILayout.BeginVertical();
@@ -177,9 +249,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
         {
             instance.SubjectID = PreDefinedSubjectID;
         }
-
-        private int selectedBodyControllerIndex = 0;
-        private int selectedHeadControllerIndex = 0;
+        
         private int selectedCombiControllerIndex = 0;
 
         private void RenderConfigurationOptions()
@@ -193,35 +263,21 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             EditorGUILayout.LabelField(new GUIContent("Expetected Controller Names", "See VR Subject Controller for possible options"), EditorStyles.largeLabel);
 
-            var subjectController = FindObjectOfType<VRSubjectController>();
-
-            if(subjectController != null)
+            if (subjectController != null)
             {
-                var headControllerNames = subjectController.GetComponents<IHeadMovementController>().Select(hc => hc.Identifier).ToArray();
-                var bodyControllerNames = subjectController.GetComponents<IBodyMovementController>().Select(hc => hc.Identifier).ToArray();
-                var combiControllerNames = subjectController.GetComponents<CombinedController>().Select(hc => hc.Identifier).ToArray();
                 EditorGUILayout.BeginHorizontal();
 
                 EditorGUILayout.LabelField("Available HeadController:");
 
-                selectedHeadControllerIndex = EditorGUILayout.Popup(selectedHeadControllerIndex, headControllerNames);
+                model.indexOfSelectedHeadController = EditorGUILayout.Popup(model.indexOfSelectedHeadController, model.headControllerNames);
 
-                if (GUILayout.Button("Select"))
-                {
-                    selectedConfiguration.HeadControllerName = headControllerNames[selectedHeadControllerIndex];
-                }
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
 
                 EditorGUILayout.LabelField("Available BodyController:");
 
-                selectedBodyControllerIndex = EditorGUILayout.Popup(selectedBodyControllerIndex, bodyControllerNames);
-                
-                if (GUILayout.Button("Select"))
-                {
-                    selectedConfiguration.BodyControllerName = bodyControllerNames[selectedBodyControllerIndex];
-                }
+                model.indexOfSelectedBodyController = EditorGUILayout.Popup(model.indexOfSelectedBodyController, model.bodyControllerNames);
 
                 EditorGUILayout.EndHorizontal();
 
@@ -230,25 +286,18 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
                 EditorGUILayout.LabelField("Available Combined Controller:");
 
-                selectedCombiControllerIndex = EditorGUILayout.Popup(selectedCombiControllerIndex, combiControllerNames);
-
-                if (GUILayout.Button("Select"))
-                {
-                    var selected = combiControllerNames[selectedBodyControllerIndex];
-                    selectedConfiguration.BodyControllerName = selected;
-                    selectedConfiguration.HeadControllerName = selected;
-                }
+                selectedCombiControllerIndex = EditorGUILayout.Popup(selectedCombiControllerIndex, model.combiControllerNames.ToArray());
 
                 EditorGUILayout.EndHorizontal();
-                
+
             }
 
-            selectedConfiguration.HeadControllerName = EditorGUILayout.TextField("Head Controller", selectedConfiguration.HeadControllerName);
+            selectedConditionConfig.HeadControllerName = EditorGUILayout.TextField("Head Controller", selectedConditionConfig.HeadControllerName);
 
-            selectedConfiguration.BodyControllerName = EditorGUILayout.TextField("Body Controller", selectedConfiguration.BodyControllerName);
+            selectedConditionConfig.BodyControllerName = EditorGUILayout.TextField("Body Controller", selectedConditionConfig.BodyControllerName);
 
             EditorGUILayout.BeginHorizontal();
-            
+
             factory.config.nameOfRigidBodyDefinition = EditorGUILayout.TextField("Name of Rigidbody file", factory.config.nameOfRigidBodyDefinition);
 
             if (GUILayout.Button("Select"))
@@ -265,55 +314,119 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             EditorGUILayout.EndHorizontal();
 
-            selectedConfiguration.useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.BeginVertical(GUILayout.Width(250));
+
+            RenderMazeSelection();
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("General Options:", EditorStyles.boldLabel);
+
+            selectedConditionConfig.useExactOnCategoryPerMaze = EditorGUILayout.Toggle(
                 new GUIContent("Use category exclusive", "A category will never be shared within multiple mazes"),
-                selectedConfiguration.useExactOnCategoryPerMaze);
+                selectedConditionConfig.useExactOnCategoryPerMaze);
 
-            selectedConfiguration.groupByMazes = EditorGUILayout.Toggle(
+            selectedConditionConfig.groupByMazes = EditorGUILayout.Toggle(
                 new GUIContent("Group by Mazes and Paths", "Trials are set as tuples of training and experiment trials per Maze and Path"),
-                selectedConfiguration.groupByMazes);
+                selectedConditionConfig.groupByMazes);
 
-            selectedConfiguration.useTeleportation = EditorGUILayout.Toggle(
-                new GUIContent("use Teleportaiton","Use Teleportation to bring the subject back to start after Trial ends"),
-                selectedConfiguration.useTeleportation);
-
-            //if (lastGeneratedInstanceDefinition == null)
-            //    EditorGUILayout.HelpBox("Try \"Find Possible Configuration\" ", MessageType.Info);
-
-            //if (GUILayout.Button(new GUIContent("Find Possible Configuration", "Search the current Scene for all necessary elements!")))
-            //    factory.EstimateConfigBasedOnAvailableElements();
-
-            selectedConfiguration.mazesToUse = EditorGUILayout.IntField("Mazes", selectedConfiguration.mazesToUse);
-
-            //config.atLeastAvailblePathsPerMaze = EditorGUILayout.IntField("Common available paths", factory.atLeastAvailblePathsPerMaze);
-
-            selectedConfiguration.pathsToUsePerMaze = EditorGUILayout.IntField("Use Paths per Maze", selectedConfiguration.pathsToUsePerMaze);
-
-            // TODO here select paths per difficulty
-
-            if (!selectedConfiguration.useExactOnCategoryPerMaze)
-            {
-                selectedConfiguration.categoriesPerMaze = EditorGUILayout.IntField(
-                    new GUIContent("Categories per Maze", "Declares the amount of categories \n from which objects are choosen."),
-                    selectedConfiguration.categoriesPerMaze);
-            }
+            selectedConditionConfig.useTeleportation = EditorGUILayout.Toggle(
+                new GUIContent("use Teleportaiton", "Use Teleportation to bring the subject back to start after Trial ends"),
+                selectedConditionConfig.useTeleportation);
             
+            if (!selectedConditionConfig.useExactOnCategoryPerMaze)
+            {
+                selectedConditionConfig.categoriesPerMaze = EditorGUILayout.IntField(
+                    new GUIContent("Categories per Maze", "Declares the amount of categories \n from which objects are choosen."),
+                    selectedConditionConfig.categoriesPerMaze);
+            }
+
             EditorGUILayout.LabelField("Count of object visitations");
 
-            selectedConfiguration.objectVisitationsInTraining = EditorGUILayout.IntField("Training", selectedConfiguration.objectVisitationsInTraining);
+            selectedConditionConfig.objectVisitationsInTraining = EditorGUILayout.IntField("Training", selectedConditionConfig.objectVisitationsInTraining);
 
-            selectedConfiguration.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", selectedConfiguration.objectVisitationsInExperiment);
+            selectedConditionConfig.objectVisitationsInExperiment = EditorGUILayout.IntField("Experiment", selectedConditionConfig.objectVisitationsInExperiment);
 
-            //if(GUILayout.Button("Save Configuration"))
-            //{
-            //    ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(instance.PathToLoadedConfig), instance.Config);
-            //}
+            EditorGUILayout.EndVertical();
 
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button(string.Format("Apply Settings to Condition '{0}'", selectedConditionConfig.ConditionID)))
+            {
+                ApplySettings(model, selectedConditionConfig);
+            }
+
+            if (GUILayout.Button("Save Configuration"))
+            {
+                if (!File.Exists(model.PathToCurrentConfig))
+                {
+                    model.PathToCurrentConfig = EditorUtility.OpenFilePanelWithFilters("Select a config file", "Assets", new string[] { "Json", "json" });
+
+                    if (model == null)
+                    {
+                        EditorGUILayout.EndHorizontal();
+                        return;
+                    }
+                }
+
+                ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(model.PathToCurrentConfig), instance.Config);
+
+                EditorApplication.delayCall += () =>
+                {
+                    AssetDatabase.SaveAssets();
+                };
+
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void ApplySettings(ConfigurationWindowModel model, ConditionConfiguration selectedConditionConfig)
+        {
+            selectedConditionConfig.ExpectedMazes = model.SelectableMazes.Where(m => m.selected).Select(
+                vm => new ExpectedMazeWithPaths()
+                {
+                    Name = vm.mazeName,
+                    pathIds = vm.SelectablePaths.Where(p => p.selected).Select(p => p.Id).ToList()
+
+                }).ToList();
+
+            selectedConditionConfig.HeadControllerName = model.headControllerNames[model.indexOfSelectedHeadController];
+
+            selectedConditionConfig.BodyControllerName = model.bodyControllerNames[model.indexOfSelectedBodyController];
+        }
+
+        private void RenderMazeSelection()
+        {
+            EditorGUILayout.LabelField("Select the mazes to use:", EditorStyles.boldLabel);
+
+            EditorGUI.indentLevel++;
+            foreach (var selectableMaze in model.SelectableMazes)
+            {
+                selectableMaze.selected = EditorGUILayout.ToggleLeft(selectableMaze.mazeName, selectableMaze.selected);
+
+                if (selectableMaze.selected)
+                {
+                    EditorGUI.indentLevel++;
+                    foreach (var selectedAblePath in selectableMaze.SelectablePaths)
+                    {
+                        selectedAblePath.selected = EditorGUILayout.ToggleLeft(String.Format("Path {0} -> Difficulty {1}", selectedAblePath.Id, selectedAblePath.Difficulty), selectedAblePath.selected);
+                    }
+                    EditorGUI.indentLevel--;
+                }
+
+            }
+            EditorGUI.indentLevel--;
         }
 
         private void RenderInstanceDefinitionOptions()
         {
-
             EditorGUILayout.LabelField("Predefine a Instance Definition:", EditorStyles.boldLabel);
 
             RenderRunVariables();
@@ -370,15 +483,15 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             previewDefinition = EditorGUILayout.Toggle("Show definition", previewDefinition);
 
             EditorGUILayout.LabelField("Preview:");
-            
+
             var definitionNames = lastGeneratedInstanceDefinition.Conditions.Select(cc => cc.Identifier).ToArray();
 
             indexOfSelectedDefintionPreview = EditorGUILayout.Popup(indexOfSelectedDefintionPreview, definitionNames);
 
             selectedConditionForPreview = lastGeneratedInstanceDefinition.Conditions[indexOfSelectedDefintionPreview];
-            
+
             EditorGUILayout.LabelField(string.Format("Condition {0} with {1} Trials", selectedConditionForPreview.Identifier, selectedConditionForPreview.Trials.Count));
-            
+
             configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
 
             if (selectedConditionForPreview.Trials != null && previewDefinition)
@@ -406,6 +519,12 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         const string DEFINITION_PREVIEW_PATTERN = "{0}: {1} -> {2} = {3} from {4}";
         private Vector2 configPreviewScrollState;
+
+        void OnDestroy()
+        {
+            DestroyImmediate(model);
+        }
+
 
     }
 }

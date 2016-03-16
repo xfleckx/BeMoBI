@@ -25441,10 +25441,13 @@ MonoBehaviour:
     Turn: 0
   - Unit: {fileID: 11434428}
     Type: 2
+    Turn: 2
+  - Unit: {fileID: 11470710}
+    Type: 0
     Turn: 0
   - Unit: {fileID: 11421680}
     Type: 2
-    Turn: 0
+    Turn: 1
   - Unit: {fileID: 11420084}
     Type: 1
     Turn: 2

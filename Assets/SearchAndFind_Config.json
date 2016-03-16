@@ -18,7 +18,10 @@
             "objectVisitationsInTraining": 2,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
-            "groupByMazes": true
+            "groupByMazes": true,
+            "NamesOfMazes": [
+                "Maze5"
+            ]
         }
     ],
     "waitForCommandOnConditionEnd": true

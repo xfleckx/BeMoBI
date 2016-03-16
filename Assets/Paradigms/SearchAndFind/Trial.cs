@@ -311,10 +311,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 rotationOffset = 180;
             }
 
-            var fromDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(globalRotation + rotationOffset);
+            var correctedDirection = (globalRotation + rotationOffset) % 360;
 
-            // UnityEngine.Debug.Log(string.Format("From Direction: {0} ## To direction: {1}", fromDirectionPanelName, toDirectionPanelName));
-
+            var fromDirectionPanelName = OrientationDefinition.Current.GetDirectionNameFromEuler(correctedDirection);
+            
             // Enable only for open walls and the direction
 
             foreach (var lightPanel in lightChildren)

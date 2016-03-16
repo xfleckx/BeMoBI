@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class ParadigmModelFactory
-    {
+    { 
         public ParadigmConfiguration config;
         
         public ParadigmModelFactory()
@@ -29,44 +29,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private bool enoughPathsAreAvailable = false;
         private bool enoughObjectsAreAvailable = false;
 
-        private ObjectPool objectPool;
-        private List<beMobileMaze> mazeInstances;
+        public ObjectPool objectPool;
+        public List<beMobileMaze> mazeInstances;
         private VirtualRealityManager vrManager;
 
         int availableCategoriesCount;
 
         int availableMazesCount;
-
-        public void EstimateConfigBasedOnAvailableElements()
-        {
-            foreach (var condConfig in config.conditionConfigurations)
-            {
-                if (condConfig.mazesToUse > availableMazesCount)
-                {
-                    var message = string.Format("Warning! You want to use more mazes {0} than available {1}", condConfig.mazesToUse, availableMazesCount);
-
-                    throw new ArgumentException(message);
-                }
-
-                if (condConfig.useExactOnCategoryPerMaze)
-                {
-                    if (condConfig.mazesToUse > availableCategoriesCount) {
-
-                        var message = string.Format("Error on 'useExactOnCategoryPerMaze! Not enough categories {0} than mazes {1}", condConfig.mazesToUse, availableCategories);
-
-                        throw new ArgumentException(message);
-                    }
-                } // warning no else condition defined! TODO... what should happen when multiple categories per maze are available?
-
-                CheckIfEnoughPathsAreAvailable(condConfig);
-
-                CheckIfEnoughObjectsAreAvailable(condConfig);
-            }
-
-
-            
-        }
-
+        
         #region Generator logic - bad code here... needs to be encapsulated
 
 
@@ -77,68 +47,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public bool CheckGenerationConstraints(ConditionConfiguration config)
         {
             var result = objectPool != null;
-            result = mazeInstances.Count >= config.mazesToUse && (config.mazesToUse > 0) && result;
             result = enoughPathsAreAvailable && result;
             result = enoughObjectsAreAvailable && result;
             
             return result;
         }
-
-        public void CheckIfEnoughPathsAreAvailable(ConditionConfiguration config)
-        {
-            var atLeastAvailablePaths = 0;
-
-            foreach (var maze in mazeInstances)
-            {
-                var pathController = maze.GetComponent<PathController>();
-
-                var availablePathsAtThisMaze = pathController.GetAvailablePathIDs().Length;
-
-                if (atLeastAvailablePaths == 0)
-                {
-                    atLeastAvailablePaths = availablePathsAtThisMaze;
-                }
-
-                if (availablePathsAtThisMaze < atLeastAvailablePaths)
-                {
-                    atLeastAvailablePaths = availablePathsAtThisMaze;
-                }
-            }
-
-            atLeastAvailblePathsPerMaze = atLeastAvailablePaths;
-
-            if (config.pathsToUsePerMaze > atLeastAvailblePathsPerMaze)
-                enoughPathsAreAvailable = false;
-            else
-            {
-                enoughPathsAreAvailable = true;
-            }
-        }
-
-        public void CheckIfEnoughObjectsAreAvailable(ConditionConfiguration config)
-        {
-            var atLeastAvailableObjectsPerCategory = 0;
-
-            foreach (var category in objectPool.Categories)
-            {
-                var availableObjectsFromThisCategory = category.AssociatedObjects.Count;
-
-                if (atLeastAvailableObjectsPerCategory == 0 || atLeastAvailableObjectsPerCategory > availableObjectsFromThisCategory) { 
-                    atLeastAvailableObjectsPerCategory = availableObjectsFromThisCategory;
-                }
-            }
-
-            // for the case that categories should be used exclusively
-            if(atLeastAvailableObjectsPerCategory >= config.pathsToUsePerMaze)
-            {
-                enoughObjectsAreAvailable = true;
-                return;
-            }
-
-            UnityEngine.Debug.Log(string.Format("Max {0} objects available but expected {1}", atLeastAvailableObjectsPerCategory, config.pathsToUsePerMaze));
-            enoughObjectsAreAvailable = false;
-        }
-
+         
         public ParadigmModel Generate(string subjectID, List<ConditionConfiguration> availableConfigurations)
         {
             mazeCategoryMap = new Dictionary<beMobileMaze, Category>();
@@ -157,11 +71,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 availableCategories = new Stack<Category>(shuffledCategories);
 
-                var shuffledMazes = mazeInstances.Shuffle();
-                var selectedMazes = shuffledMazes.Take(conditionConfig.mazesToUse); ;
+                var selectedMazes = mazeInstances.Where(m => conditionConfig.ExpectedMazes.Exists( v => v.Name.Equals(m.name)));
 
-                foreach (var maze in selectedMazes) { 
-                    
+                var shuffledMazes = selectedMazes.Shuffle();
+
+                foreach (var maze in shuffledMazes) {
                     ChooseCategoryFor(maze);
                 }
                 
@@ -275,17 +189,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private IEnumerable<TrialConfig> MapPathsToObjects(beMobileMaze maze, Category category, ConditionConfiguration config)
         {
-            var availablePaths = maze.GetComponent<PathController>().Paths.Where(p => p.Available);
+            var expectedMaze = config.ExpectedMazes.First(m => m.Name.Equals(maze.name));
+
+            var availablePaths = maze.GetComponent<PathController>().Paths.Where(p => expectedMaze.pathIds.Exists( id => id == p.ID ));
             var shuffledPaths = availablePaths.Shuffle().ToList();
 
             var resultConfigs = new List<TrialConfig>();
 
-            // be aware that pathsToUsePerMaze must be up-to-date
-            for (int i = 0; i < config.pathsToUsePerMaze; i++)
+            foreach (var path in shuffledPaths)
             {
                 var objectFromCategory = category.SampleWithoutReplacement();
-                var path = shuffledPaths[i];
-
+                
                 var trialConfig = new TrialConfig()
                 {
                     Category = category.name,
