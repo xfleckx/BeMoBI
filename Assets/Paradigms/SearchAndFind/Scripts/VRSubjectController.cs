@@ -208,7 +208,6 @@ public class VRSubjectController : MonoBehaviour
     public void SetPosition(Transform target)
     {
         Body.transform.position = target.position;
-        UpdateHeadPosition();
     }
 
     public void Rotate(Quaternion resultRotation)
