@@ -131,7 +131,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1919366321}
-  m_Father: {fileID: 1070637003}
+  m_Father: {fileID: 534861550}
   m_RootOrder: 1
 --- !u!4 &71957938 stripped
 Transform:
@@ -192,12 +192,11 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    mazesToUse: 0
-    pathsToUsePerMaze: 0
     objectVisitationsInTraining: 1
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -400,7 +399,6 @@ GameObject:
   - 114: {fileID: 188249852}
   - 114: {fileID: 188249850}
   - 114: {fileID: 188249854}
-  - 114: {fileID: 188249855}
   - 114: {fileID: 188249856}
   m_Layer: 0
   m_Name: ParadigmController
@@ -420,11 +418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe3da5cd8218e49897ec9bd468bccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathToLoadedConfig: C:/Users/markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config.json
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 441155418}
+  Config: {fileID: 1760489262}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -447,6 +444,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
+  PathToLoadedConfig: C:\Users\markus\Documents\git_repos\BeMoBI\Assets\SearchAndFind_Config.json
 --- !u!114 &188249850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,7 +478,7 @@ Transform:
   - {fileID: 1761092155}
   - {fileID: 470305383}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
 --- !u!114 &188249852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExpectedDuration: 2
-  ObjectToTeleport: {fileID: 1070637002}
+  ObjectToTeleport: {fileID: 0}
   Target: {fileID: 1474378241}
   BeforeTeleporting:
     m_PersistentCalls:
@@ -565,52 +563,6 @@ MonoBehaviour:
   RaisingSpeed: 0.7
   DensityWhenDisappeared: 0.001
   Disappearingspeed: 2.11
---- !u!114 &188249855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 188249848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98bfd691056659948aa0f5213336d22b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnHeadRotation:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 188249849}
-        m_MethodName: OnRotationEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnBodyRotation:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 188249849}
-        m_MethodName: OnRotationEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: Assets.BeMoBI.Scripts.RotationEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  observable: {fileID: 534861550}
-  EventThreshold: 0.01
-  AccelerationThreshold: 1
 --- !u!114 &188249856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,6 +906,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
@@ -1045,6 +998,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1314,37 +1268,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 430103448}
---- !u!114 &441155418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  conditionConfigurations:
-  - ConditionID: mobi
-    useTeleportation: 1
-    BodyControllerName: PS_RigidBody
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    mazesToUse: 4
-    pathsToUsePerMaze: 3
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-  waitForCommandOnConditionEnd: 1
 --- !u!1 &470305382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,12 +1317,11 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    mazesToUse: 0
-    pathsToUsePerMaze: 0
     objectVisitationsInTraining: 1
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -1541,6 +1463,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1551,9 +1474,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2016469147}
   m_LocalRotation: {x: 0, y: 0.68871146, z: 0, w: 0.72503555}
-  m_LocalPosition: {x: -7.488, y: 0, z: -0.449}
+  m_LocalPosition: {x: -7.13, y: 0, z: -0.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1126025572}
+  - {fileID: 62851499}
+  - {fileID: 1615996664}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!1 &660431127
@@ -1917,7 +1843,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
 --- !u!1 &726889597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2582,7 +2508,7 @@ Transform:
   - {fileID: 418026204}
   - {fileID: 2105610442}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
 --- !u!114 &1029432134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2603,54 +2529,6 @@ MonoBehaviour:
   - {fileID: 71957946}
   - {fileID: 418026212}
   - {fileID: 2105610433}
---- !u!1 &1070637002
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 185926, guid: 91e78591212158b4ba8435c897dbe74b, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1070637003}
-  - 143: {fileID: 1070637004}
-  m_Layer: 0
-  m_Name: Body
-  m_TagString: Subject
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1070637003
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 420752, guid: 91e78591212158b4ba8435c897dbe74b, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1070637002}
-  m_LocalRotation: {x: 0, y: 0.68871146, z: 0, w: 0.72503555}
-  m_LocalPosition: {x: -7.488, y: 0, z: -0.449}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1126025572}
-  - {fileID: 62851499}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
---- !u!143 &1070637004
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 14341424, guid: 91e78591212158b4ba8435c897dbe74b,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1070637002}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.72
-  m_Radius: 0.1
-  m_SlopeLimit: 45
-  m_StepOffset: 0
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!1 &1085387577
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,12 +2634,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1126025571}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.81, z: 0.11999991}
+  m_LocalPosition: {x: 0, y: 1.81, z: 0.11999991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 242785263}
   - {fileID: 1270590144}
-  m_Father: {fileID: 1070637003}
+  m_Father: {fileID: 534861550}
   m_RootOrder: 0
 --- !u!1 &1142857987
 GameObject:
@@ -3197,6 +3075,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
@@ -3427,12 +3306,11 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    mazesToUse: 0
-    pathsToUsePerMaze: 0
     objectVisitationsInTraining: 1
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -4397,14 +4275,14 @@ Transform:
   m_PrefabParentObject: {fileID: 468380, guid: 91e78591212158b4ba8435c897dbe74b, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1615996663}
-  m_LocalRotation: {x: 0, y: 0.68871146, z: 0, w: 0.72503555}
-  m_LocalPosition: {x: -7.488, y: 1.9, z: -0.449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1213329799}
   - {fileID: 1142857988}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 534861550}
+  m_RootOrder: 2
 --- !u!114 &1615996665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4699,6 +4577,38 @@ MonoBehaviour:
   Tracker: {fileID: 1756469718}
   OWLUpdateTook: 0
   showDeprecatedOnGUI: 0
+--- !u!114 &1760489262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  conditionConfigurations:
+  - ConditionID: mobi
+    useTeleportation: 1
+    BodyControllerName: PS_RigidBody
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 04000000
+  waitForCommandOnConditionEnd: 1
 --- !u!1 &1761092154
 GameObject:
   m_ObjectHideFlags: 0
@@ -4748,12 +4658,11 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    mazesToUse: 0
-    pathsToUsePerMaze: 0
     objectVisitationsInTraining: 1
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -4994,6 +4903,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5091,6 +5001,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5273,6 +5184,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5555,6 +5467,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5795,7 +5708,7 @@ Transform:
   - {fileID: 424577948}
   - {fileID: 318335565}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
 --- !u!1 &2014780175
 GameObject:
   m_ObjectHideFlags: 0
@@ -5888,6 +5801,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5899,6 +5813,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 534861550}
+  - 143: {fileID: 2016469148}
   - 114: {fileID: 2016469158}
   - 114: {fileID: 2016469154}
   - 114: {fileID: 2016469153}
@@ -5908,11 +5823,28 @@ GameObject:
   - 114: {fileID: 2016469149}
   m_Layer: 0
   m_Name: Subject
-  m_TagString: Untagged
+  m_TagString: Subject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!143 &2016469148
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2016469147}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2016469149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5930,8 +5862,8 @@ MonoBehaviour:
   ForwardSpeed: 1
   expectedRigidID: 1
   TimeOffsetTilRBcreation: 5
-  Interp: 0
-  y_rotation_correction: 270
+  Interp: 2
+  y_rotation_correction: 0
 --- !u!114 &2016469150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6061,7 +5993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 1615996664}
-  body: {fileID: 1070637004}
+  body: {fileID: 2016469148}
   headRotation_X_Sensitivity: 2
   headRotation_Y_Sensitivity: 2
   clampVerticalRotation: 1
@@ -6130,7 +6062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6edf3656e7f771245bc42076483292e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Body: {fileID: 1070637004}
+  Body: {fileID: 2016469148}
   Head: {fileID: 1615996664}
   HeadPerspective: {fileID: 2044601738}
   reticle: {fileID: 2044601740}
@@ -6262,9 +6194,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.2
   far clip plane: 100
-  field of view: 90
+  field of view: 100
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -6421,12 +6353,11 @@ MonoBehaviour:
       TimeToDisplayObjectWhenFoundInSeconds: 2
       offsetToTeleportation: 2
       categoriesPerMaze: 1
-      mazesToUse: 1
-      pathsToUsePerMaze: 1
       objectVisitationsInTraining: 1
       objectVisitationsInExperiment: 1
       useExactOnCategoryPerMaze: 1
       groupByMazes: 1
+      ExpectedMazes: []
     Trials: []
   conditionConfig:
     ConditionID: default
@@ -6437,9 +6368,8 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    mazesToUse: 1
-    pathsToUsePerMaze: 1
     objectVisitationsInTraining: 1
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
+    ExpectedMazes: []

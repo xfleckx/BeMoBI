@@ -35,13 +35,6 @@ MonoBehaviour:
       name: Urgent
       color: {r: 1, g: 0, b: 0, a: 1}
       index: 1
-    task: "Fehler bei berechneten Turning Angle warum kommt da 450\xB0 raus??\nMaze2
-      Path2 \nMaze4 Path3 \nMaze5 Path3 \xE4hnlicher Fehler aber ohne Exception?"
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
     task: "Config file auf integrit\xE4t testen? Was kommt f\xFCr ein Fehler?"
     isComplete: 0
   - owner:
@@ -70,25 +63,4 @@ MonoBehaviour:
       color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
       index: 0
     task: Fix the usage indicators for mazes and pathes.. specify exceptions
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: "Path availability besser in der Auswahl entscheiden, anstatt die im Pfad
-      selbst anzugeben\nHier m\xFCsste ne M\xF6glichkeit hin die Schwierigkeiten zu
-      definieren und entsprechend die Pfade auszuw\xE4hlen gibt Auswahl und Gruppierung
-      (Availabiltily ersetzen mit Sinnvoller auswahl)"
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: Zeige alle Pfade mit ihren Schwierigkeiten als Selection Grid im Configurationswindow
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
-      index: 0
-    task: Remove the hints from the paradigm configuration window
     isComplete: 0
