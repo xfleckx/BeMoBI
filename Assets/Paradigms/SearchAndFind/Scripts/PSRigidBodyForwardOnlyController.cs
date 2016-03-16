@@ -208,7 +208,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             var movementVector = Body.transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
 
-            movementVector = new Vector3(movementVector.x, Body.transform.localPosition.y, movementVector.z);
+            movementVector = new Vector3(movementVector.x, 0, movementVector.z);
 
             subject.Move(movementVector);
 
