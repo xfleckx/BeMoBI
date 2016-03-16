@@ -203,7 +203,6 @@ public class VRSubjectController : MonoBehaviour
     public void Move(Vector3 movementVector)
     {
         Body.Move(movementVector);
-        UpdateHeadPosition();
     }
 
     public void SetPosition(Transform target)
@@ -218,8 +217,4 @@ public class VRSubjectController : MonoBehaviour
         Head.transform.rotation = resultRotation;
     }
 
-    private void UpdateHeadPosition()
-    {
-        Head.transform.position = new Vector3(Body.transform.position.x, description.HeightFromFeetToEyes, Body.transform.position.z);
-    }
 }

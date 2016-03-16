@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
+using UnityEngine.Assertions;
 
 namespace Assets.BeMoBI.Scripts.Controls
 {
@@ -43,6 +44,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         /// </summary>
         public PhaseSpace.Rigid lastRigid = new PhaseSpace.Rigid();
 
+        private OVRCameraRig rig;
 
         protected Vector3 prevPos = new Vector3(0, 0, 0);
         protected Quaternion prevRot = new Quaternion(0, 0, 0, 1);
@@ -75,13 +77,34 @@ namespace Assets.BeMoBI.Scripts.Controls
         }
 
         [Range(-360, 360)]
-        public float y_rotation_correction = 270;
+        public float y_rotation_correction = 0;
 
         void Awake()
         {
             subject = GetComponent<VRSubjectController>();
-        }
+            rig = FindObjectOfType<OVRCameraRig>();
+            
+            Assert.IsNotNull(rig);
 
+            body = subject.GetComponent<CharacterController>();
+
+            rig.UpdatedAnchors += Rig_UpdatedAnchors;
+        }
+        
+        private void Rig_UpdatedAnchors(OVRCameraRig obj)
+        {
+            OVRPose pose = rig.centerEyeAnchor.ToOVRPose(true).Inverse();
+
+            //FIXME: concatenate your desired pose onto "pose".
+            //pose.orientation = pose.orientation * Quaternion.Inverse(body.transform.rotation); // eliminates body rotation completely
+            //pose.orientation = pose.orientation * Quaternion.Inverse(pose.orientation * Quaternion.Euler(0f, body.transform.rotation.eulerAngles.y, 0f)); // inverts the actual orientation
+            //pose.orientation = pose.orientation * Quaternion.Inverse(Quaternion.Inverse(pose.orientation) * Quaternion.Euler(0f, body.transform.rotation.eulerAngles.y, 0f)); // inverts the rotation with affecting the actual problem
+            // The following works
+            pose.orientation = Quaternion.Inverse(Quaternion.Euler(1, body.transform.rotation.eulerAngles.y, 1) * pose.orientation) * pose.orientation; 
+            
+            rig.trackingSpace.FromOVRPose(pose, true);
+        }
+        
         public void Disable()
         {
             this.enabled = false;
@@ -177,6 +200,8 @@ namespace Assets.BeMoBI.Scripts.Controls
             var y_rotation = prevRot.eulerAngles.y + y_rotation_correction;
 
             Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
+            // using the rotation of the rigid body at this point is not valid... causes strange woobling behavior
+            // Body.transform.rotation = Quaternion.Euler(prevRot.eulerAngles.x, y_rotation, prevRot.eulerAngles.z);
 
             // forward only - only take positive value ignoring left or right button!
             var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL_WiiMote));
