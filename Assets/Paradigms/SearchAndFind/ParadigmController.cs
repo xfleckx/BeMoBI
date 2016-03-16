@@ -411,10 +411,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 var requestedCondition =  InstanceDefinition.Get(condition);
 
                 conditionController.Initialize(requestedCondition);
-            }
-            catch (ArgumentException e)
+
+            }catch(InvalidOperationException ioe)
             {
-                appLog.Error(e, "Expected Condition could not be started - maybe not implemented or has a wrong name?!");
+                appLog.Error(string.Format("Initialize condition {0} failed! {1}", condition, ioe.Message));
+            }
+            catch (ArgumentException ae)
+            {
+                appLog.Error(ae, "Expected Condition could not be started - maybe not implemented or has a wrong name?!");
             }
 
         }

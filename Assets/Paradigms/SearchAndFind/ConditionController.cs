@@ -77,6 +77,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             ApplyConditionSpecificConfiguration(currentCondition.Config);
 
+            if (!currentCondition.Trials.Any())
+                throw new InvalidOperationException("Selected condition doesn't contain trials!");
+
             trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
 
             var statusMessage = string.Format("Initialize Condition: \'{0}\'", currentCondition.Identifier);
