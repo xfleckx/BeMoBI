@@ -93,14 +93,9 @@ namespace Assets.BeMoBI.Scripts.Controls
         
         private void Rig_UpdatedAnchors(OVRCameraRig obj)
         {
-            OVRPose pose = rig.centerEyeAnchor.ToOVRPose(true).Inverse();
-
-            //FIXME: concatenate your desired pose onto "pose".
-            //pose.orientation = pose.orientation * Quaternion.Inverse(body.transform.rotation); // eliminates body rotation completely
-            //pose.orientation = pose.orientation * Quaternion.Inverse(pose.orientation * Quaternion.Euler(0f, body.transform.rotation.eulerAngles.y, 0f)); // inverts the actual orientation
-            //pose.orientation = pose.orientation * Quaternion.Inverse(Quaternion.Inverse(pose.orientation) * Quaternion.Euler(0f, body.transform.rotation.eulerAngles.y, 0f)); // inverts the rotation with affecting the actual problem
-            // The following works
-            pose.orientation = Quaternion.Inverse(Quaternion.Euler(1, body.transform.rotation.eulerAngles.y, 1) * pose.orientation) * pose.orientation; 
+            OVRPose pose = rig.centerEyeAnchor.ToOVRPose(true);
+            
+            pose.orientation = Quaternion.Euler(0, -body.transform.rotation.eulerAngles.y, 0) * pose.Inverse().orientation * pose.orientation;
             
             rig.trackingSpace.FromOVRPose(pose, true);
         }
