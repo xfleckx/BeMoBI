@@ -13,7 +13,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public override void SetReady()
         {
             OnBeforeStart();
-            paradigm.marker.Write(string.Format(MarkerPattern.BeginTrial, GetType().Name, -1, -1, -1));
+            var marker = MarkerPattern.FormatBeginTrial(GetType().Name, string.Empty, -1, string.Empty, string.Empty);
+            paradigm.marker.Write(marker);
             stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Start();
 

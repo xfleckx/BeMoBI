@@ -88,7 +88,6 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             body = subject.GetComponent<CharacterController>();
 
-            rig.UpdatedAnchors += Rig_UpdatedAnchors;
         }
         
         private void Rig_UpdatedAnchors(OVRCameraRig obj)
@@ -103,6 +102,9 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void Disable()
         {
             this.enabled = false;
+
+
+            rig.UpdatedAnchors -= Rig_UpdatedAnchors;
         }
 
         private void CloseTrackerConnection()
@@ -117,6 +119,8 @@ namespace Assets.BeMoBI.Scripts.Controls
         {
             this.enabled = true;
             TryConnectToTracker();
+
+            rig.UpdatedAnchors += Rig_UpdatedAnchors;
         }
 
         private void TryConnectToTracker()

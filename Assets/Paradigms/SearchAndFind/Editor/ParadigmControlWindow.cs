@@ -30,10 +30,14 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             
             log.Info("Initialize Paradigma Control Window");
         }
-         
+
+        GUILayoutOption windowWidth;
+
         void OnGUI()
         {
-            EditorGUILayout.BeginVertical();
+            windowWidth = GUILayout.MinWidth(this.position.size.x - 10);
+
+            EditorGUILayout.BeginVertical(windowWidth);
 
             if (instance == null && (instance = TryGetInstance()) == null) { 
                 EditorGUILayout.HelpBox("No Paradigm Controller available! \n Open another scene or create a paradigm controller instance!", MessageType.Info);
@@ -92,44 +96,64 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 {
                     instance.StartExperimentFromBeginning();
                 }
+
             }
             else
             {
                 EditorGUILayout.HelpBox("Paradigma is already running", MessageType.Info);
-
-
-                if(instance.conditionController.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
-                { 
-                    instance.conditionController.InjectPauseTrialAfterCurrentTrial();
-                }
-
-                if(instance.conditionController.currentTrial == instance.pause && GUILayout.Button("End Pause"))
-                {
-                    instance.conditionController.currentTrial.ForceTrialEnd();
-                }
-                
-                EditorGUILayout.Space();
-                
-                if (GUILayout.Button("End current run \n (stop playmode)", GUILayout.Height(25)))
-                {
-                    // TODO force immediately safe shutdown
-
-                    instance.conditionController.currentTrial.Finished += (t, ts) => {
-                        EditorApplication.ExecuteMenuItem("Edit/Play"); // call Play a second time to stop it
-                    };
-
-                }
-
-                EditorGUILayout.Space();
-
-                if(GUILayout.Button("Save Paradigma State \n and Quit"))
-                {
-                    instance.ForceABreakInstantly();
-                }
-
+                RenderOptionsForRunningState();
 
             }
 
+        }
+
+        private void RenderOptionsForRunningState()
+        {
+            if(instance.conditionController.currentTrial != null)
+            {
+                var currentTrial = instance.conditionController.currentTrial;
+                var trialName = currentTrial.GetType().Name;
+
+                EditorGUILayout.LabelField("Current Trial: ", trialName, windowWidth);
+
+                var currentMaze = currentTrial.currentMazeName != null && currentTrial.currentMazeName != String.Empty ? currentTrial.currentMazeName : "none";
+                EditorGUILayout.LabelField("Maze: ", currentMaze);
+
+                var currentObject = currentTrial.objectToRemember != null ? currentTrial.objectToRemember.name : "none";
+                EditorGUILayout.LabelField("Object: ", currentObject, windowWidth);
+
+                var currentPath = currentTrial.currentPathID != -1 ? currentTrial.currentPathID.ToString() : "none";
+                EditorGUILayout.LabelField("Path: ", currentPath);
+            }
+
+
+            if (instance.conditionController.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
+            {
+                instance.conditionController.InjectPauseTrialAfterCurrentTrial();
+            }
+
+            if (instance.conditionController.currentTrial == instance.pause && GUILayout.Button("End Pause"))
+            {
+                instance.conditionController.currentTrial.ForceTrialEnd();
+            }
+
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button("End current run \n (stop playmode)", GUILayout.Height(25)))
+            {
+                // TODO force immediately safe shutdown
+
+                instance.conditionController.currentTrial.Finished += (t, ts) => {
+                    EditorApplication.ExecuteMenuItem("Edit/Play"); // call Play a second time to stop it
+                };
+            }
+
+            EditorGUILayout.Space();
+
+            if (GUILayout.Button("Save Paradigma State \n and Quit"))
+            {
+                instance.ForceABreakInstantly();
+            }
         }
 
         private string FormatSurveyRequest()

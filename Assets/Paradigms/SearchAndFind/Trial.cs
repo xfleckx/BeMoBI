@@ -680,7 +680,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentPathElement = null;
 
-            if (path.Inverse)
+            if (path != null && path.Inverse)
                 path.InvertPath();
 
             if (mazeInstance != null)
