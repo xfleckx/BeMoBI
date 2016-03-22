@@ -10,7 +10,7 @@ using UnityEngine.Assertions;
 
 namespace Assets.BeMoBI.Scripts.Controls
 {
-    public class PSRigidBodyForwardOnlyController : MonoBehaviour, IBodyMovementController
+    public class PSRigidBodyForwardOnlyController : MonoBehaviour, IBodyMovementController, IInputCanCalibrate
     {
         public Transform Head;
 
@@ -261,6 +261,13 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void OnDisable()
         {
             CloseTrackerConnection();
+        }
+
+        public void Calibrate()
+        {
+            var delta = Quaternion.FromToRotation(subject.Head.forward, Body.transform.forward);
+
+            y_rotation_correction = delta.eulerAngles.y;
         }
     }
 }

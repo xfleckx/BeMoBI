@@ -10,9 +10,11 @@ using VRStandardAssets.Utils;
 using Assets.Paradigms.SearchAndFind.ImageEffects;
 using Assets.BeMoBI.Scripts.Controls;
 using Assets.BeMoBI.Scripts;
+using Assets.BeMoBI.Scripts.SubjectRepresentation;
+
 using NLog;
 
-public class VRSubjectController : MonoBehaviour
+public class VRSubjectController : MonoBehaviour, ISubject
 {
     private static NLog.ILogger appLog = LogManager.GetLogger("App");    
 
@@ -216,4 +218,13 @@ public class VRSubjectController : MonoBehaviour
         Head.transform.rotation = resultRotation;
     }
 
+    public void Recalibrate()
+    {
+        var inputController = GetComponents<IInputCanCalibrate>();
+
+        foreach (var controller in inputController)
+        {
+            controller.Calibrate();
+        }
+    }
 }

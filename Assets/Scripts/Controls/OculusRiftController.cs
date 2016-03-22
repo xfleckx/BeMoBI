@@ -9,7 +9,7 @@ using UnityEngine.VR;
 
 namespace Assets.BeMoBI.Scripts.Controls
 {
-    public class OculusRiftController : MonoBehaviour, IHeadMovementController
+    public class OculusRiftController : MonoBehaviour, IHeadMovementController, IInputCanCalibrate
     {
         [SerializeField]
         private Transform head;
@@ -141,6 +141,11 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void Disable()
         {
             enabled = false;
+        }
+
+        public void Calibrate()
+        {
+            Recenter();
         }
     }
 }

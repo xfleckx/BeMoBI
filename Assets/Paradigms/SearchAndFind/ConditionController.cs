@@ -5,12 +5,13 @@ using System;
 using System.Linq;
 
 using NLog;
+using Assets.BeMoBI.Scripts.Paradigm;
 using Assets.BeMoBI.Scripts.Controls;
 using UnityEngine.SceneManagement;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class ConditionController : MonoBehaviour
+    public class ConditionController : MonoBehaviour, IConditionController
     {
         private static NLog.Logger statistic = LogManager.GetLogger("Statistics");
 
@@ -24,7 +25,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #region Condition state
 
-        private LinkedList<TrialDefinition> trials;
+        private LinkedList<TrialDefinition> currentLoadedTrialDefinitions;
         public LinkedListNode<TrialDefinition> currentTrialDefinition;
         public Trial currentTrial;
 
@@ -80,7 +81,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (!currentCondition.Trials.Any())
                 throw new InvalidOperationException("Selected condition doesn't contain trials!");
 
-            trials = new LinkedList<TrialDefinition>(currentCondition.Trials);
+            currentLoadedTrialDefinitions = new LinkedList<TrialDefinition>(currentCondition.Trials);
 
             var statusMessage = string.Format("Initialize Condition: \'{0}\'", currentCondition.Identifier);
 
@@ -105,8 +106,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         }
 
         #region Trial Management
-
-
+        
         private void ApplyConditionSpecificConfiguration(ConditionConfiguration config)
         {
             conditionConfig = config;
@@ -125,7 +125,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 TrialType = typeof(Pause).Name
             };
 
-            trials.AddAfter(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
+            if(currentTrialDefinition != null)
+                currentLoadedTrialDefinitions.AddAfter(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
         }
 
         /// <summary>
@@ -138,7 +139,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 TrialType = typeof(Pause).Name
             };
 
-            trials.AddBefore(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
+            currentLoadedTrialDefinitions.AddBefore(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
         }
         
         public void ReturnFromPauseTrial()
@@ -161,7 +162,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 // Special case: First Trial after condition start
                 paradigm.marker.Write(string.Format("Begin Condition '{0}'", currentCondition.Identifier));
 
-                currentTrialDefinition = trials.First;
+                currentTrialDefinition = currentLoadedTrialDefinitions.First;
             }
             else if (currentRunShouldEndAfterTrialFinished || currentTrialDefinition.Next == null)
             {
@@ -311,6 +312,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (OnConditionFinished != null)
                 OnConditionFinished(currentCondition.Identifier);
+        }
+
+        internal void ForceASaveEndOfCurrentCondition()
+        {
+            currentRunShouldEndAfterTrialFinished = true;
         }
 
         #endregion

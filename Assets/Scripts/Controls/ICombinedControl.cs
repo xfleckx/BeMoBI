@@ -17,4 +17,9 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         void Disable();
     }
+
+    public interface IInputCanCalibrate
+    {
+        void Calibrate();
+    }
 }

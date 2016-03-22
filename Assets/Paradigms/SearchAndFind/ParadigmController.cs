@@ -17,19 +17,20 @@ using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
 using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using Assets.BeMoBI.Scripts.Paradigm;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class ParadigmController : MonoBehaviour, IParadigmControl, IProvideRigidBodyFile
     {
         public const string STD_CONFIG_NAME = "SearchAndFind_Config.json";
-        
+
         private static Logger appLog = LogManager.GetLogger("App");
 
         private static Logger statistic = LogManager.GetLogger("Statistics");
-        
+
         public BriefStatisticForParadigmRun runStatistic;
-        
+
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -49,7 +50,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public AppInit appInit;
 
         public ConditionController conditionController;
-        
+        // TODO abstract from the implementation
+        public IConditionController ConditionController
+        {
+            get
+            {
+                return conditionController;
+            }
+        }
+
         public FileInfo fileToLoadedConfig;
         
         public ParadigmConfiguration Config;
@@ -503,7 +512,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             throw new NotImplementedException("TODO");
         }
-        
+
+        public void ForceSaveEndOfExperiment()
+        {
+            conditionController.PendingConditions.Clear();
+            conditionController.ForceASaveEndOfCurrentCondition();
+        }
+
         #endregion
     }
 
