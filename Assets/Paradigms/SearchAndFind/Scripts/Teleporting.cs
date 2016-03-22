@@ -8,7 +8,7 @@ public class Teleporting : MonoBehaviour {
     public float ExpectedDuration = 2f;
 
     public GameObject ObjectToTeleport;
-
+    public float OffsetToFloor = 0.0001f;
     public Transform Target;
     
     public TeleportingDurationEvent BeforeTeleporting;
@@ -28,7 +28,7 @@ public class Teleporting : MonoBehaviour {
 
         yield return new WaitForEndOfFrame();
 
-        ObjectToTeleport.transform.position = Target.position;
+        ObjectToTeleport.transform.position = new Vector3(Target.position.x, Target.position.y + OffsetToFloor, Target.position.z);
         
         if (AfterTeleporting.GetPersistentEventCount() > 0)
             AfterTeleporting.Invoke(ExpectedDuration);
