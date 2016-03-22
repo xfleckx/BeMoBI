@@ -488,7 +488,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         }
 
         #endregion
-
+          
         /// <summary>
         /// This is the method of interest. It implements the behaviour whenever the subject moves from unit to unit.
         /// </summary>
@@ -499,7 +499,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 lastUnit = currentUnit;
                 currentUnit = evt.MazeUnit;
-                
+
                 if (lastUnit != null)
                     paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(lastUnit, MazeUnitEventType.Exiting));
 
@@ -600,6 +600,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (conditionConfig.useTeleportation)
             {
                 paradigm.hud.ShowInstruction("Geschafft! Entspann dich, du wirst zum Endpunkt teleportiert.", "Sehr gut!");
+                
+                // important here... to get rid of the last MazeUnitEvent when the subject gets teleported!
+                // It's to late - so do it here!
+                mazeInstance.MazeUnitEventOccured -= SubjectMovesWithinTheMaze;
+                paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Exiting));
 
                 StartCoroutine(BeginTeleportation());
 
@@ -677,6 +682,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             paradigm.hud.Clear();
 
             paradigm.fogControl.DisappeareImmediately();
+
+            currentUnit = null;
+            lastUnit = null;
 
             currentPathElement = null;
 
