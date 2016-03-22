@@ -421,7 +421,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1760489262}
+  Config: {fileID: 290111483}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -574,6 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5546aba0d39a8e345bc869f7a91f70b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subject: {fileID: 0}
 --- !u!1 &197498425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,6 +1078,44 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 277288350}
+--- !u!114 &290111483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  conditionConfigurations:
+  - ConditionID: mobi
+    useTeleportation: 1
+    BodyControllerName: PS_RigidBody
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 000000000200000004000000
+    - Name: Maze2
+      pathIds: 010000000300000004000000
+    - Name: Maze3
+      pathIds: 000000000200000004000000
+    - Name: Maze4
+      pathIds: 000000000200000004000000
+  waitForCommandOnConditionEnd: 1
 --- !u!114 &307021767 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11416508, guid: 5fbb735a00a12a84da743506dbe42417,
@@ -1108,7 +1147,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318335564}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.001, z: 0}
+  m_LocalPosition: {x: 0, y: -0.0001, z: 0}
   m_LocalScale: {x: 3.16, y: 1, z: 2.86}
   m_Children: []
   m_Father: {fileID: 1995203289}
@@ -1474,7 +1513,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2016469147}
   m_LocalRotation: {x: 0, y: 0.68871146, z: 0, w: 0.72503555}
-  m_LocalPosition: {x: -7.13, y: 0, z: -0.37}
+  m_LocalPosition: {x: -7.17, y: 0, z: -0.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1126025572}
@@ -1870,7 +1909,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 726889597}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5000001, w: 0.49999994}
-  m_LocalPosition: {x: -5.55, y: 0.001, z: -0.5}
+  m_LocalPosition: {x: -5.55, y: -0.0001, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 265783582}
@@ -4577,38 +4616,6 @@ MonoBehaviour:
   Tracker: {fileID: 1756469718}
   OWLUpdateTook: 0
   showDeprecatedOnGUI: 0
---- !u!114 &1760489262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  conditionConfigurations:
-  - ConditionID: mobi
-    useTeleportation: 1
-    BodyControllerName: PS_RigidBody
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 04000000
-  waitForCommandOnConditionEnd: 1
 --- !u!1 &1761092154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5863,7 +5870,7 @@ MonoBehaviour:
   expectedRigidID: 1
   TimeOffsetTilRBcreation: 5
   Interp: 2
-  y_rotation_correction: 0
+  y_rotation_correction: 4
 --- !u!114 &2016469150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5992,7 +5999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a07d22d4f58bd42bdbe814157ebd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 1615996664}
+  head: {fileID: 1112819487}
   body: {fileID: 2016469148}
   headRotation_X_Sensitivity: 2
   headRotation_Y_Sensitivity: 2
