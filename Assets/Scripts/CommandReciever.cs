@@ -26,10 +26,11 @@ namespace Assets.BeMoBI.Scripts
             {
                 var parts = command.Split(' ');
                 var conditionName = parts[1].Replace("\n","").Trim();
+                
                 paradigm.InitializeCondition(conditionName);
             }
 
-            if (command.Contains("start"))
+            if (command.Equals("start"))
             {
                 paradigm.StartExperimentWithCurrentPendingCondition();
             }

@@ -11,6 +11,8 @@ namespace Assets.BeMoBI.Scripts
 {
     public class SNAPEmulator : MonoBehaviour
     {
+        static readonly char[] commandSeparator = new char[] { '\n' };
+
         NLog.Logger log = NLog.LogManager.GetLogger("App");
 
         [Range(1026, 65535)]
@@ -58,7 +60,7 @@ namespace Assets.BeMoBI.Scripts
                 var stringWithOutZeroBytes = incomingString.RemoveZeroBytes();
 
                 if (stringWithOutZeroBytes != String.Empty)
-                    Route(stringWithOutZeroBytes);
+                    RouteToSubscriber(stringWithOutZeroBytes);
             }
 
         }
@@ -68,12 +70,18 @@ namespace Assets.BeMoBI.Scripts
             tcpListener = new TcpListener(IPAddress.Any, PortToListenOn);
         }
 
-        private void Route(string result)
+        private void RouteToSubscriber(string result)
         {
             log.Info(string.Format("SNAPEmulator recieved: {0}", result));
 
-            if (OnCommandRecieved != null && OnCommandRecieved.GetPersistentEventCount() > 0)
-                OnCommandRecieved.Invoke(result);
+            var recievedCommands = result.Split(commandSeparator);
+
+            foreach (var command in recievedCommands)
+            {
+                if (OnCommandRecieved != null && OnCommandRecieved.GetPersistentEventCount() > 0)
+                    OnCommandRecieved.Invoke(result);
+            }
+
         }
     }
 
