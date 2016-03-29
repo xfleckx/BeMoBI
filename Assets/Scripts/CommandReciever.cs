@@ -28,37 +28,45 @@ namespace Assets.BeMoBI.Scripts
                 var conditionName = parts[1].Replace("\n","").Trim();
                 
                 paradigm.InitializeCondition(conditionName);
+                return;
             }
 
             if (command.Equals("start"))
             {
                 paradigm.StartExperimentWithCurrentPendingCondition();
+                return;
             }
 
             if (command.Equals("pause"))
             {
                 paradigm.ConditionController.InjectPauseTrialAfterCurrentTrial();
+                return;
             }
 
             if(command.Equals("pause end"))
             {
                 paradigm.ConditionController.ReturnFromPauseTrial();
+                return;
             }
 
             if (command.Equals("recalibrate_SubjectsOrientation"))
             {
                 if (subject != null)
                     subject.Recalibrate();
+
+                return;
             }
 
             if (command.Equals("force_end_of_experiment"))
             {
                 paradigm.ForceSaveEndOfExperiment();
+                return;
             }
 
             if (command.Contains("restart"))
             {
                 paradigm.Restart();
+                return;
             }
         }
 

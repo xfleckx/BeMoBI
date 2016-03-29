@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using UnityEngine; 
+using UnityEngine.Events;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
-using System;
-using System.Threading;
+using System; 
 using System.Text;
-using UnityEngine.Events;
+using System.Linq;
 using NLog;
 namespace Assets.BeMoBI.Scripts
 {
@@ -62,7 +62,6 @@ namespace Assets.BeMoBI.Scripts
                 if (stringWithOutZeroBytes != String.Empty)
                     RouteToSubscriber(stringWithOutZeroBytes);
             }
-
         }
 
         private void SetupTcpListener()
@@ -74,14 +73,17 @@ namespace Assets.BeMoBI.Scripts
         {
             log.Info(string.Format("SNAPEmulator recieved: {0}", result));
 
-            var recievedCommands = result.Split(commandSeparator);
+            var splittedStrings = result.Split(commandSeparator);
 
-            foreach (var command in recievedCommands)
+            var tempList = new List<string>(splittedStrings);
+            // just to avoid unnecessary function calls for empty strings in the array after splitting
+            var allNoneEmptyCommands = tempList.Where((s) => !string.IsNullOrEmpty(s));
+            
+            foreach (var commandText in allNoneEmptyCommands)
             {
                 if (OnCommandRecieved != null && OnCommandRecieved.GetPersistentEventCount() > 0)
-                    OnCommandRecieved.Invoke(result);
+                    OnCommandRecieved.Invoke(commandText);
             }
-
         }
     }
 
