@@ -22,6 +22,9 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public float SmoothBodyTime = 2f;
 
+
+        public float ForwardSpeed = 10f;
+
         void Start()
         {
             var subject = GetComponent<VRSubjectController>();
@@ -36,6 +39,8 @@ namespace Assets.BeMoBI.Scripts.Controls
             }
         }
         
+        
+
         [SerializeField]
         private CharacterController body;
         public CharacterController Body
@@ -73,9 +78,9 @@ namespace Assets.BeMoBI.Scripts.Controls
             if (useStrafing)
                 desiredMove = transform.forward * rawX + transform.right;
             else
-                desiredMove = transform.forward * rawY;
+                desiredMove = transform.forward * rawY * ForwardSpeed * Time.deltaTime;
             
-            var evaluated = BodyRotationAccelerationCurve.Evaluate(rawX);
+            var evaluated = BodyRotationAccelerationCurve.Evaluate(abs_body_raw_X);
 
             var rotationDirection = evaluated * signX;
 
