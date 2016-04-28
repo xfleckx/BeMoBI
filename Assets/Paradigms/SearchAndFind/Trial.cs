@@ -72,8 +72,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         protected MazeUnit lastCorrectUnit;
 
-        bool lastTurnWasIncorrect = false;
-
         private bool isReady;
         internal bool acceptsASubmit;
 
@@ -541,8 +539,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     paradigm.marker.Write(
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
-                    
-                    paradigm.hud.ShowWrongTurnIconFor(1.5f);
+                    paradigm.audioInstructions.play("wrongTurn");
+                    //paradigm.hud.ShowWrongTurnIconFor(1.5f);
 
                     acceptsASubmit = true;
                 }
