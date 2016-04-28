@@ -28,8 +28,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
         public String PreDefinedSubjectID = "TestSubject";
 
         public Action OnPostOnGUICommands;
-
-        private bool previewDefinition;
+         
 
         [SerializeField]
         private ParadigmModel lastGeneratedInstanceDefinition;
@@ -471,54 +470,19 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 instance.InstanceDefinition = lastGeneratedInstanceDefinition;
             }
         }
-
-        int indexOfSelectedDefintionPreview = 0;
-        ConditionDefinition selectedConditionForPreview;
-
+           
         private void RenderPreviewGUI()
         {
             if (lastGeneratedInstanceDefinition == null)
                 return;
-
-            previewDefinition = EditorGUILayout.Toggle("Show definition", previewDefinition);
-
-            EditorGUILayout.LabelField("Preview:");
-
-            var definitionNames = lastGeneratedInstanceDefinition.Conditions.Select(cc => cc.Identifier).ToArray();
-
-            indexOfSelectedDefintionPreview = EditorGUILayout.Popup(indexOfSelectedDefintionPreview, definitionNames);
-
-            selectedConditionForPreview = lastGeneratedInstanceDefinition.Conditions[indexOfSelectedDefintionPreview];
-
-            EditorGUILayout.LabelField(string.Format("Condition {0} with {1} Trials", selectedConditionForPreview.Identifier, selectedConditionForPreview.Trials.Count));
-
-            configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
-
-            if (selectedConditionForPreview.Trials != null && previewDefinition)
+             
+            if (GUILayout.Button("Preview"))
             {
-                string lastMazeName = string.Empty;
-
-                foreach (var tdef in selectedConditionForPreview.Trials)
-                {
-                    if (!lastMazeName.Equals(tdef.MazeName))
-                        EditorGUILayout.Space();
-
-                    EditorGUILayout.LabelField(
-                        string.Format(DEFINITION_PREVIEW_PATTERN,
-                        tdef.TrialType,
-                        tdef.MazeName,
-                        tdef.Path,
-                        tdef.ObjectName,
-                        tdef.Category));
-                    lastMazeName = tdef.MazeName;
-                }
+                ParadigmDefinitionPreview.ShowFor(lastGeneratedInstanceDefinition);
             }
 
-            EditorGUILayout.EndScrollView();
         }
 
-        const string DEFINITION_PREVIEW_PATTERN = "{0}: {1} -> {2} = {3} from {4}";
-        private Vector2 configPreviewScrollState;
 
         void OnDestroy()
         {

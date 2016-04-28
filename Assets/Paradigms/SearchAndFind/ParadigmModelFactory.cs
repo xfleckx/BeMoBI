@@ -19,40 +19,18 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             vrManager = UnityEngine.Object.FindObjectOfType<VirtualRealityManager>();
 
             mazeInstances = vrManager.transform.AllChildren().Where(c => c.GetComponents<beMobileMaze>() != null).Select(c => c.GetComponent<beMobileMaze>()).ToList();
-
-            availableCategoriesCount = objectPool.Categories.Count;
-            availableMazesCount = mazeInstances.Count;
         }
 
         public int atLeastAvailblePathsPerMaze = 0;
 
-        private bool enoughPathsAreAvailable = false;
-        private bool enoughObjectsAreAvailable = false;
-
         public ObjectPool objectPool;
         public List<beMobileMaze> mazeInstances;
-        private VirtualRealityManager vrManager;
-
-        int availableCategoriesCount;
-
-        int availableMazesCount;
+        private VirtualRealityManager vrManager; 
         
-        #region Generator logic - bad code here... needs to be encapsulated
-
-
         private Dictionary<beMobileMaze, Category> mazeCategoryMap;
         // use stack for asserting that every category will be used once
         private Stack<Category> availableCategories;
         
-        public bool CheckGenerationConstraints(ConditionConfiguration config)
-        {
-            var result = objectPool != null;
-            result = enoughPathsAreAvailable && result;
-            result = enoughObjectsAreAvailable && result;
-            
-            return result;
-        }
-         
         public ParadigmModel Generate(string subjectID, List<ConditionConfiguration> availableConfigurations)
         {
             mazeCategoryMap = new Dictionary<beMobileMaze, Category>();
@@ -67,33 +45,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             foreach (var conditionConfig in availableConfigurations)
             {
-                var shuffledCategories = objectPool.Categories.Shuffle();
-
-                availableCategories = new Stack<Category>(shuffledCategories);
-
-                var selectedMazes = mazeInstances.Where(m => conditionConfig.ExpectedMazes.Exists( v => v.Name.Equals(m.name)));
-
-                var shuffledMazes = selectedMazes.Shuffle();
-
-                foreach (var maze in shuffledMazes) {
-                    ChooseCategoryFor(maze);
-                }
+                List<TrialConfig> possibleTrials = GetAllPossibleTrialConfigurations(conditionConfig);
                 
-                #region create all possible trial configurations
-
-                var possibleTrials = new List<TrialConfig>();
-
-                foreach (var association in mazeCategoryMap)
-                {
-                    var maze = association.Key;
-                    var category = association.Value;
-
-                    var trialConfigs = MapPathsToObjects(maze, category, conditionConfig);
-                    possibleTrials.AddRange(trialConfigs);
-                }
-
-                #endregion
-
                 #region now create the actual Paradigma instance defintion by duplicating the possible configurations for trianing and experiment
 
                 var newCondition = new ConditionDefinition();
@@ -141,35 +94,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 if (conditionConfig.groupByMazes)
                 {
-                    var tempAllTrials = new List<TrialDefinition>();
-                    tempAllTrials.AddRange(trainingTrials);
-                    tempAllTrials.AddRange(experimentalTrials);
-
-                    var groupedByMaze = tempAllTrials.GroupBy((td) => td.MazeName);
-
-                    foreach (var group in groupedByMaze)
-                    {
-                        var groupedByPath = group.GroupBy(td => td.Path).Shuffle();
-
-                        List<TrialDefinition> trainingPerMaze = new List<TrialDefinition>();
-                        List<TrialDefinition> experimentPerMaze = new List<TrialDefinition>();
-
-                        foreach (var pathGroup in groupedByPath)
-                        {
-                            var pathGroupTraining = pathGroup.Where(td => td.TrialType.Equals(typeof(Training).Name));
-                            trainingPerMaze.AddRange(pathGroupTraining);
-
-                            var pathGroupExperiment = pathGroup.Where(td => td.TrialType.Equals(typeof(Experiment).Name));
-                            experimentPerMaze.AddRange(pathGroupExperiment);
-                        }
-                        
-                        var shuffledTrainingPerMaze = trainingPerMaze.Shuffle().ToList();
-                        var shuffledExperimentPerMaze = experimentPerMaze.Shuffle().ToList();
-
-                        newCondition.Trials.AddRange(shuffledTrainingPerMaze);
-                        newCondition.Trials.AddRange(shuffledExperimentPerMaze);
-                    }
-
+                    GroupTrialsPerMaze(newCondition, trainingTrials, experimentalTrials);
                 }
                 else
                 {
@@ -187,6 +112,67 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             return newModel;
         }
 
+        private List<TrialConfig> GetAllPossibleTrialConfigurations(ConditionConfiguration conditionConfig)
+        {
+            var shuffledCategories = objectPool.Categories.Shuffle();
+
+            availableCategories = new Stack<Category>(shuffledCategories);
+
+            var selectedMazes = mazeInstances.Where(m => conditionConfig.ExpectedMazes.Exists(v => v.Name.Equals(m.name)));
+
+            var shuffledMazes = selectedMazes.Shuffle();
+
+            foreach (var maze in shuffledMazes)
+            {
+                ChooseCategoryFor(maze);
+            }
+
+            var possibleTrials = new List<TrialConfig>();
+
+            foreach (var association in mazeCategoryMap)
+            {
+                var maze = association.Key;
+                var category = association.Value;
+
+                var trialConfigs = MapPathsToObjects(maze, category, conditionConfig);
+                possibleTrials.AddRange(trialConfigs);
+            }
+
+            return possibleTrials;
+        }
+
+        private static void GroupTrialsPerMaze(ConditionDefinition newCondition, List<TrialDefinition> trainingTrials, List<TrialDefinition> experimentalTrials)
+        {
+            var tempAllTrials = new List<TrialDefinition>();
+            tempAllTrials.AddRange(trainingTrials);
+            tempAllTrials.AddRange(experimentalTrials);
+
+            var groupedByMaze = tempAllTrials.GroupBy((td) => td.MazeName);
+
+            foreach (var group in groupedByMaze)
+            {
+                var groupedByPath = group.GroupBy(td => td.Path).Shuffle();
+
+                List<TrialDefinition> trainingPerMaze = new List<TrialDefinition>();
+                List<TrialDefinition> experimentPerMaze = new List<TrialDefinition>();
+
+                foreach (var pathGroup in groupedByPath)
+                {
+                    var pathGroupTraining = pathGroup.Where(td => td.TrialType.Equals(typeof(Training).Name));
+                    trainingPerMaze.AddRange(pathGroupTraining);
+
+                    var pathGroupExperiment = pathGroup.Where(td => td.TrialType.Equals(typeof(Experiment).Name));
+                    experimentPerMaze.AddRange(pathGroupExperiment);
+                }
+
+                var shuffledTrainingPerMaze = trainingPerMaze.Shuffle().ToList();
+                var shuffledExperimentPerMaze = experimentPerMaze.Shuffle().ToList();
+
+                newCondition.Trials.AddRange(shuffledTrainingPerMaze);
+                newCondition.Trials.AddRange(shuffledExperimentPerMaze);
+            }
+        }
+
         private IEnumerable<TrialConfig> MapPathsToObjects(beMobileMaze maze, Category category, ConditionConfiguration config)
         {
             var expectedMaze = config.ExpectedMazes.First(m => m.Name.Equals(maze.name));
@@ -195,6 +181,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             var shuffledPaths = availablePaths.Shuffle().ToList();
 
             var resultConfigs = new List<TrialConfig>();
+
+            category.AutoResetSequence = false;
 
             foreach (var path in shuffledPaths)
             {
@@ -224,8 +212,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 mazeCategoryMap.Add(m, availableCategories.Pop());
             }
         }
-
-        #endregion
+        
     }
 
 
