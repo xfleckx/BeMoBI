@@ -13,12 +13,18 @@
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "mazesToUse": 5,
-            "pathsToUsePerMaze": 4,
             "objectVisitationsInTraining": 1,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
-            "groupByMazes": true
+            "groupByMazes": true,
+            "ExpectedMazes": [
+                {
+                    "Name": "Maze1",
+                    "pathIds": [
+                        0
+                    ]
+                }
+            ]
         }
     ],
     "waitForCommandOnConditionEnd": true

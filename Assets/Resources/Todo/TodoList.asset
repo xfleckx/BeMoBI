@@ -64,3 +64,9 @@ MonoBehaviour:
       index: 0
     task: Fix the usage indicators for mazes and pathes.. specify exceptions
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
+      index: 0
+    task: Audiofeedback for Wrong Turns
+    isComplete: 0

@@ -421,13 +421,14 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1483380382}
+  Config: {fileID: 290111483}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
   startingPoint: {fileID: 726889599}
   hud: {fileID: 1315420589}
   debug_hud: {fileID: 2061524740}
+  audioInstructions: {fileID: 1021378915}
   marker: {fileID: 1460822094}
   objectPresenter: {fileID: 1941343821}
   objectPool: {fileID: 2022117695}
@@ -444,7 +445,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: 
+  PathToLoadedConfig: C:\Users\markus\Documents\git_repos\BeMoBI\Assets\SearchAndFind_Config.json
 --- !u!114 &188249850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,6 +1080,46 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 277288350}
+--- !u!114 &290111483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  conditionConfigurations:
+  - ConditionID: mobi
+    useTeleportation: 1
+    BodyControllerName: PS_RigidBody
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 0000000001000000020000000300000004000000
+    - Name: Maze2
+      pathIds: 0000000001000000020000000300000004000000
+    - Name: Maze3
+      pathIds: 0000000001000000020000000300000004000000
+    - Name: Maze4
+      pathIds: 0000000001000000020000000300000004000000
+    - Name: Maze5
+      pathIds: 000000000100000002000000030000000400000005000000
+  waitForCommandOnConditionEnd: 1
 --- !u!114 &307021767 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11416508, guid: 5fbb735a00a12a84da743506dbe42417,
@@ -1482,6 +1523,7 @@ Transform:
   - {fileID: 1126025572}
   - {fileID: 62851499}
   - {fileID: 1615996664}
+  - {fileID: 1021378912}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!1 &660431127
@@ -2478,6 +2520,131 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1213329799}
   m_RootOrder: 2
+--- !u!1 &1021378911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1021378912}
+  - 81: {fileID: 1021378914}
+  - 82: {fileID: 1021378913}
+  - 114: {fileID: 1021378915}
+  m_Layer: 0
+  m_Name: AudioInstructions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1021378912
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021378911}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 534861550}
+  m_RootOrder: 3
+--- !u!82 &1021378913
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021378911}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!81 &1021378914
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021378911}
+  m_Enabled: 1
+--- !u!114 &1021378915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021378911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ed3c291f108c64d82dc1ee1f32cec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipMap:
+  - Name: 
+    clip: {fileID: 0}
 --- !u!1 &1029432132
 GameObject:
   m_ObjectHideFlags: 0
@@ -4040,61 +4207,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 475846, guid: 5fbb735a00a12a84da743506dbe42417, type: 2}
   m_PrefabInternal: {fileID: 1474378240}
---- !u!114 &1483380382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  conditionConfigurations:
-  - ConditionID: sitting
-    useTeleportation: 1
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 3
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 00000000020000000300000004000000
-    - Name: Maze2
-      pathIds: 00000000010000000200000004000000
-    - Name: Maze3
-      pathIds: 01000000020000000300000004000000
-  - ConditionID: standing
-    useTeleportation: 1
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 3
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 00000000020000000300000004000000
-    - Name: Maze2
-      pathIds: 00000000010000000200000004000000
-    - Name: Maze3
-      pathIds: 01000000020000000300000004000000
-  waitForCommandOnConditionEnd: 1
 --- !u!1001 &1494049955
 Prefab:
   m_ObjectHideFlags: 0
@@ -4353,7 +4465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   queueAhead: 1
-  _trackingOriginType: 0
   usePositionTracking: 1
   resetTrackerOnLoad: 1
 --- !u!114 &1615996666
@@ -4751,6 +4862,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7027c1720b277b042bded826ad6e4a85, type: 2}
+    - target: {fileID: 100000, guid: 01c479466cd2cc64495245262dbcd117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9500000, guid: 01c479466cd2cc64495245262dbcd117, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 01c479466cd2cc64495245262dbcd117, type: 3}

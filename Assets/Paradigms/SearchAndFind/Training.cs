@@ -27,7 +27,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             paradigm.hud.Clear();
 
-            paradigm.hud.ShowInstruction("Merke dir das Objekt und den Pfad durch das Labyrinth!", "Aufgabe");
+          //  paradigm.hud.ShowInstruction("Merke dir das Objekt und den Pfad durch das Labyrinth!", "Aufgabe");
 
             yield return new WaitForSeconds(2);
 

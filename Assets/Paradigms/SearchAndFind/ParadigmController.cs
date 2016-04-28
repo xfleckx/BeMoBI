@@ -70,6 +70,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public StartPoint startingPoint;
         public HUD_Instruction hud;
         public HUD_DEBUG debug_hud;
+        public AudioInstructions audioInstructions;
         public LSLSearchAndFindMarkerStream marker;
         public GameObject objectPresenter;
         public ObjectPool objectPool;

@@ -35,7 +35,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
         private bool currentRunShouldEndAfterTrialFinished;
-        private bool pauseActive;
+        private bool pauseActive = false;
 
         private bool isTrialRunning = false;
         public bool IsRunning
