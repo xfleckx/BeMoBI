@@ -4130,12 +4130,9 @@ MonoBehaviour:
   Categories:
   - {fileID: 11479826}
   - {fileID: 11471536}
-  - {fileID: 0}
   - {fileID: 11491550}
-  - {fileID: 0}
   - {fileID: 11471028}
   - {fileID: 11433410}
-  - {fileID: 0}
 --- !u!114 &11471028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4167,9 +4164,7 @@ MonoBehaviour:
   - {fileID: 184664}
   - {fileID: 174880}
   - {fileID: 155072}
-  - {fileID: 0}
   - {fileID: 138966}
-  - {fileID: 0}
 --- !u!114 &11479826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4199,10 +4194,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AssociatedObjects:
   - {fileID: 155864}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 128108}
+  - {fileID: 190594}
+  - {fileID: 124980}
 --- !u!135 &13501182
 SphereCollider:
   m_ObjectHideFlags: 1

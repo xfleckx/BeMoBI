@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections;
-
 using UnityEngine;
 
 public class StartPoint : MonoBehaviour {
@@ -29,6 +27,6 @@ public class StartPoint : MonoBehaviour {
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position, transform.forward * 3);
+        Gizmos.DrawRay(transform.position, -1 * transform.forward * 3);
     }
 }
