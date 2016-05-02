@@ -6,7 +6,7 @@
     "conditionConfigurations": [
         {
             "ConditionID": "keyboard",
-            "useTeleportation": true,
+            "useTeleportation": false,
             "BodyControllerName": "KeyboardCombi",
             "HeadControllerName": "KeyboardCombi",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
@@ -24,7 +24,8 @@
                         0
                     ]
                 }
-            ]
+            ],
+            "UseShortWayBack": true
         }
     ],
     "waitForCommandOnConditionEnd": true
