@@ -336,7 +336,11 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             selectedConditionConfig.useTeleportation = EditorGUILayout.Toggle(
                 new GUIContent("use Teleportaiton", "Use Teleportation to bring the subject back to start after Trial ends"),
                 selectedConditionConfig.useTeleportation);
-            
+
+            selectedConditionConfig.UseShortWayBack = EditorGUILayout.Toggle(
+                new GUIContent("use short way back", "Disables the maze and let the subject move directly to the entrance area."),
+                selectedConditionConfig.UseShortWayBack);
+
             if (!selectedConditionConfig.useExactOnCategoryPerMaze)
             {
                 selectedConditionConfig.categoriesPerMaze = EditorGUILayout.IntField(

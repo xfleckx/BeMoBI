@@ -258,8 +258,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                         Application.Quit();
                     }
-                     
-
                 }
             }
 
@@ -340,7 +338,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 appLog.Info(string.Format("Waiting for signal to start next condition...", conditionId));
 
-                hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
+                //hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
 
                 waitingForSignalToStartNextCondition = true;
 
@@ -365,7 +363,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private void ParadigmInstanceFinished()
         {
-            hud.ShowInstruction("You made it!\nThx for participation!", "Experiment finished!");
+            //hud.ShowInstruction("You made it!\nThx for participation!", "Experiment finished!");
 
             var completeTime = runStatistic.Trials.Sum(t => t.DurationInSeconds) / 60;
 

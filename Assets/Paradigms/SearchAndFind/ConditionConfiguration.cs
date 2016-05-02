@@ -79,6 +79,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public bool groupByMazes = true;
 
         [SerializeField]
+        public bool UseShortWayBack = false;
+
+        [SerializeField]
         public List<ExpectedMazeWithPaths> ExpectedMazes = new List<ExpectedMazeWithPaths>();
     }
 
