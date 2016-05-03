@@ -196,8 +196,8 @@ MonoBehaviour:
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
-    ExpectedMazes: []
     UseShortWayBack: 0
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -1325,8 +1325,8 @@ MonoBehaviour:
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
-    ExpectedMazes: []
     UseShortWayBack: 0
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -1951,7 +1951,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 726889597}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5000001, w: 0.49999994}
-  m_LocalPosition: {x: -5.55, y: -0.0001, z: -0.5}
+  m_LocalPosition: {x: -5.55, y: 0.0001, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 265783582}
@@ -3843,8 +3843,8 @@ MonoBehaviour:
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
-    ExpectedMazes: []
     UseShortWayBack: 0
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -4189,7 +4189,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 475846, guid: 5fbb735a00a12a84da743506dbe42417, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.21
+      value: -7.83
       objectReference: {fileID: 0}
     - target: {fileID: 475846, guid: 5fbb735a00a12a84da743506dbe42417, type: 2}
       propertyPath: m_LocalPosition.y
@@ -5294,8 +5294,8 @@ MonoBehaviour:
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
-    ExpectedMazes: []
     UseShortWayBack: 0
+    ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
   objectToRemember: {fileID: 0}
@@ -5496,6 +5496,7 @@ MonoBehaviour:
   writeStatistics: 1
   logMarkerToFile: 1
   nameOfRigidBodyDefinition: 6_upperBody.rb
+  waitForCommandOnConditionEnd: 1
   conditionConfigurations:
   - ConditionID: keyboard
     useTeleportation: 0
@@ -5509,11 +5510,10 @@ MonoBehaviour:
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
+    UseShortWayBack: 1
     ExpectedMazes:
     - Name: Maze1
       pathIds: 00000000
-    UseShortWayBack: 0
-  waitForCommandOnConditionEnd: 1
 --- !u!1 &1919366320
 GameObject:
   m_ObjectHideFlags: 0
@@ -6907,7 +6907,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2082082209}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.89, y: 1.79, z: -0.533}
+  m_LocalPosition: {x: -7.79, y: 1.79, z: -0.533}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1299912297}
@@ -6923,7 +6923,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 3
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -7026,8 +7026,8 @@ MonoBehaviour:
       objectVisitationsInExperiment: 1
       useExactOnCategoryPerMaze: 1
       groupByMazes: 1
-      ExpectedMazes: []
       UseShortWayBack: 0
+      ExpectedMazes: []
     Trials: []
   conditionConfig:
     ConditionID: default
@@ -7042,5 +7042,5 @@ MonoBehaviour:
     objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
-    ExpectedMazes: []
     UseShortWayBack: 0
+    ExpectedMazes: []
