@@ -245,15 +245,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             var trialType = trial.GetType().Name;
 
-            if (this.paradigm.Config.writeStatistics)
-                statistic.Trace(string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}", "\t", 
-                    trialType, trial.currentMazeName, 
-                    trial.currentPathID, 
-                    trial.objectToRemember ? trial.objectToRemember.name : "none", 
-                    result.Duration.TotalMinutes));
-
-            paradigm.runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
-
             currentTrial.CleanUp();
 
             currentTrial.enabled = false;

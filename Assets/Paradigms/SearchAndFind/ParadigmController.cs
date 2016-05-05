@@ -27,10 +27,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private static Logger appLog = LogManager.GetLogger("App");
 
-        private static Logger statistic = LogManager.GetLogger("Statistics");
-
-        public BriefStatisticForParadigmRun runStatistic;
-
         #region Constants
 
         private const string ParadgimConfigDirectoryName = "ParadigmConfig";
@@ -364,21 +360,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private void ParadigmInstanceFinished()
         {
             //hud.ShowInstruction("You made it!\nThx for participation!", "Experiment finished!");
-
-            var completeTime = runStatistic.Trials.Sum(t => t.DurationInSeconds) / 60;
-
-            double averageTimePerTraining = 0;
-
-            if (runStatistic.Trials.Any(t => t.TrialType.Equals(typeof(Training).Name)))
-                averageTimePerTraining = runStatistic.Trials.Where(t => t.TrialType.Equals(typeof(Training).Name)).Average(t => t.DurationInSeconds) / 60;
-
-            double averageTimePerExperiment = 0;
-
-            if (runStatistic.Trials.Any(t => t.TrialType.Equals(typeof(Experiment).Name)))
-                averageTimePerExperiment = runStatistic.Trials.Where(t => t.TrialType.Equals(typeof(Experiment).Name)).Average(t => t.DurationInSeconds) / 60;
-
-            statistic.Info(string.Format("Run took: {0} minutes, Avg Training: {1}     Avg Experiment {2}", completeTime, averageTimePerTraining, averageTimePerExperiment));
-
+            
             marker.Write("End Experiment");
 
             appLog.Info("Paradigma run finished");
@@ -398,11 +380,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public void StartExperimentFromBeginning()
         {
             appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
-
-            runStatistic = new BriefStatisticForParadigmRun();
-
-            statistic.Info(string.Format("Starting new Paradigm Instance: VP_{0}", InstanceDefinition.Subject));
-
+            
             marker.Write("Start Experiment");
 
             conditionController.SetNextConditionPending();

@@ -3,6 +3,7 @@
     "writeStatistics": true,
     "logMarkerToFile": true,
     "nameOfRigidBodyDefinition": "6_upperBody.rb",
+    "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
             "ConditionID": "keyboard",
@@ -17,6 +18,7 @@
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
+            "UseShortWayBack": true,
             "ExpectedMazes": [
                 {
                     "Name": "Maze1",
@@ -24,9 +26,7 @@
                         0
                     ]
                 }
-            ],
-            "UseShortWayBack": true
+            ]
         }
-    ],
-    "waitForCommandOnConditionEnd": true
+    ]
 }
