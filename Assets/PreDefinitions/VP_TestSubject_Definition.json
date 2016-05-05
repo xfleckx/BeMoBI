@@ -34,15 +34,15 @@
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Tools_2",
-                    "ObjectName": "2_Hacksaw"
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Tools_2",
-                    "ObjectName": "2_Hacksaw"
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
                 }
             ]
         }

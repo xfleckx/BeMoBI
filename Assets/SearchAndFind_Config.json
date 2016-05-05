@@ -3,10 +3,11 @@
     "writeStatistics": true,
     "logMarkerToFile": true,
     "nameOfRigidBodyDefinition": "6_upperBody.rb",
+    "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
             "ConditionID": "mobi",
-            "useTeleportation": true,
+            "useTeleportation": false,
             "BodyControllerName": "KeyboardCombi",
             "HeadControllerName": "KeyboardCombi",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
@@ -17,6 +18,7 @@
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
+            "UseShortWayBack": true,
             "ExpectedMazes": [
                 {
                     "Name": "Maze1",
@@ -52,6 +54,5 @@
                 }
             ]
         }
-    ],
-    "waitForCommandOnConditionEnd": true
+    ]
 }
