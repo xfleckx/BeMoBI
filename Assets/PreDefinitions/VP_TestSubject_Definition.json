@@ -35,14 +35,14 @@
                     "MazeName": "Maze1",
                     "Path": 0,
                     "Category": "Tools",
-                    "ObjectName": "2_ScrewDriverM"
+                    "ObjectName": "1_Hammer"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
                     "Category": "Tools",
-                    "ObjectName": "2_ScrewDriverM"
+                    "ObjectName": "1_Hammer"
                 }
             ]
         }

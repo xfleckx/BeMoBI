@@ -104,6 +104,67 @@ MonoBehaviour:
   heightDensity: 8.97
   startDistance: 1
   fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
+--- !u!1 &56572919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 56572920}
+  - 108: {fileID: 56572921}
+  m_Layer: 0
+  m_Name: Point light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &56572920
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 56572919}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.206, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1536788343}
+  m_RootOrder: 3
+--- !u!108 &56572921
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 56572919}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_Type: 2
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
 --- !u!1 &62851498
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +483,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1891321467}
+  Config: {fileID: 2141406338}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -446,7 +507,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: G:/Documents/git_repos/BeMoBI/Assets/DemoConditions_Config.json
+  PathToLoadedConfig: C:\Users\markus\Documents\git_repos\BeMoBI\Assets\DemoConditions_Config.json
 --- !u!114 &188249850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1488,6 +1549,60 @@ Transform:
   - {fileID: 1021378912}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1001 &653638832
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1995203289}
+    m_Modifications:
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.058
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.481
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8b0c9045a3c1ad24cabbfc1a01330313, type: 2}
+    - target: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 106.9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+  m_IsPrefabParent: 0
 --- !u!1 &660431127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3668,7 +3783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1299912297
 Transform:
   m_ObjectHideFlags: 0
@@ -4644,6 +4759,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c3bff937b813864498cc79793d0af76, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &1536788343 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+  m_PrefabInternal: {fileID: 653638832}
 --- !u!1001 &1584787820
 Prefab:
   m_ObjectHideFlags: 0
@@ -5481,39 +5600,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1891321467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  waitForCommandOnConditionEnd: 1
-  conditionConfigurations:
-  - ConditionID: keyboard
-    useTeleportation: 0
-    BodyControllerName: KeyboardCombi
-    HeadControllerName: KeyboardCombi
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-    UseShortWayBack: 1
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 00000000
 --- !u!1 &1919366320
 GameObject:
   m_ObjectHideFlags: 0
@@ -6314,6 +6400,7 @@ Transform:
   - {fileID: 424577948}
   - {fileID: 318335565}
   - {fileID: 1299912297}
+  - {fileID: 1536788343}
   m_Father: {fileID: 0}
   m_RootOrder: 6
 --- !u!1 &2014780175
@@ -7044,3 +7131,36 @@ MonoBehaviour:
     groupByMazes: 1
     UseShortWayBack: 0
     ExpectedMazes: []
+--- !u!114 &2141406338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  waitForCommandOnConditionEnd: 1
+  conditionConfigurations:
+  - ConditionID: keyboard
+    useTeleportation: 0
+    BodyControllerName: KeyboardCombi
+    HeadControllerName: KeyboardCombi
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+    UseShortWayBack: 1
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 00000000
