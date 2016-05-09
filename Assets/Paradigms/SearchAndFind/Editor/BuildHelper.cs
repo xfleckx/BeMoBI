@@ -21,7 +21,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             var targetExecutable = path + "/" + executableName + ".exe";
 
             // Build player.
-            BuildPipeline.BuildPlayer(levels, targetExecutable, BuildTarget.StandaloneWindows, BuildOptions.None);
+            BuildPipeline.BuildPlayer(levels, targetExecutable, BuildTarget.StandaloneWindows64, BuildOptions.None);
 
             var nlogConfigFile = "NLog.config";
             var configFileName = "SearchAndFind_Config.json";

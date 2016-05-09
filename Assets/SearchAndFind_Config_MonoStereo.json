@@ -3,20 +3,23 @@
     "writeStatistics": true,
     "logMarkerToFile": true,
     "nameOfRigidBodyDefinition": "6_upperBody.rb",
+    "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
             "ConditionID": "mono",
-            "useTeleportation": true,
+            "useTeleportation": false,
             "BodyControllerName": "Keyboard",
             "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "objectVisitationsInTraining": 2,
-            "objectVisitationsInExperiment": 3,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
+            "UseShortWayBack": true,
+            "UseMonoscopicViewOnVRHeadset": true,
             "ExpectedMazes": [
                 {
                     "Name": "Maze1",
@@ -28,17 +31,19 @@
         },
         {
             "ConditionID": "stereo",
-            "useTeleportation": true,
+            "useTeleportation": false,
             "BodyControllerName": "Keyboard",
             "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "objectVisitationsInTraining": 2,
-            "objectVisitationsInExperiment": 3,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
+            "UseShortWayBack": true,
+            "UseMonoscopicViewOnVRHeadset": false,
             "ExpectedMazes": [
                 {
                     "Name": "Maze2",
@@ -48,6 +53,5 @@
                 }
             ]
         }
-    ],
-    "waitForCommandOnConditionEnd": true
+    ]
 }

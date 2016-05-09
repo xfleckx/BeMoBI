@@ -5,21 +5,22 @@
     },
     "Conditions": [
         {
-            "Identifier": "keyboard",
+            "Identifier": "mono",
             "Config": {
-                "ConditionID": "keyboard",
-                "useTeleportation": false,
-                "BodyControllerName": "KeyboardCombi",
-                "HeadControllerName": "KeyboardCombi",
+                "ConditionID": "mono",
+                "useTeleportation": true,
+                "BodyControllerName": "Keyboard",
+                "HeadControllerName": "Oculus Headset",
                 "TimeToDisplayObjectToRememberInSeconds": 3.0,
                 "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
                 "offsetToTeleportation": 2.0,
                 "categoriesPerMaze": 1,
-                "objectVisitationsInTraining": 1,
-                "objectVisitationsInExperiment": 1,
+                "objectVisitationsInTraining": 2,
+                "objectVisitationsInExperiment": 3,
                 "useExactOnCategoryPerMaze": true,
                 "groupByMazes": true,
-                "UseShortWayBack": true,
+                "UseShortWayBack": false,
+                "UseMonoscopicViewOnVRHeadset": false,
                 "ExpectedMazes": [
                     {
                         "Name": "Maze1",
@@ -34,15 +35,100 @@
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Tools",
-                    "ObjectName": "1_Hammer"
+                    "Category": "Boxes",
+                    "ObjectName": "1_CargoFBX"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Boxes",
+                    "ObjectName": "1_CargoFBX"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Tools",
-                    "ObjectName": "1_Hammer"
+                    "Category": "Boxes",
+                    "ObjectName": "1_CargoFBX"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Boxes",
+                    "ObjectName": "1_CargoFBX"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Boxes",
+                    "ObjectName": "1_CargoFBX"
+                }
+            ]
+        },
+        {
+            "Identifier": "stereo",
+            "Config": {
+                "ConditionID": "stereo",
+                "useTeleportation": true,
+                "BodyControllerName": "Keyboard",
+                "HeadControllerName": "Oculus Headset",
+                "TimeToDisplayObjectToRememberInSeconds": 3.0,
+                "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+                "offsetToTeleportation": 2.0,
+                "categoriesPerMaze": 1,
+                "objectVisitationsInTraining": 2,
+                "objectVisitationsInExperiment": 3,
+                "useExactOnCategoryPerMaze": true,
+                "groupByMazes": true,
+                "UseShortWayBack": false,
+                "UseMonoscopicViewOnVRHeadset": false,
+                "ExpectedMazes": [
+                    {
+                        "Name": "Maze2",
+                        "pathIds": [
+                            1
+                        ]
+                    }
+                ]
+            },
+            "Trials": [
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "2_Rocket"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "2_Rocket"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "2_Rocket"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "2_Rocket"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "2_Rocket"
                 }
             ]
         }

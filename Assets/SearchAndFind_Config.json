@@ -2,54 +2,53 @@
     "ifNoInstanceDefinitionCreateOne": true,
     "writeStatistics": true,
     "logMarkerToFile": true,
-    "nameOfRigidBodyDefinition": "6_upperBody.rb",
+    "nameOfRigidBodyDefinition": "",
     "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
-            "ConditionID": "mobi",
+            "ConditionID": "mono",
             "useTeleportation": false,
             "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "KeyboardCombi",
+            "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "objectVisitationsInTraining": 2,
+            "objectVisitationsInTraining": 1,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
             "UseShortWayBack": true,
+            "UseMonoscopicViewOnVRHeadset": true,
             "ExpectedMazes": [
                 {
                     "Name": "Maze1",
                     "pathIds": [
-                        0,
-                        2,
-                        4
+                        0
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "ConditionID": "stereo",
+            "useTeleportation": false,
+            "BodyControllerName": "KeyboardCombi",
+            "HeadControllerName": "Oculus Headset",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
+            "useExactOnCategoryPerMaze": true,
+            "groupByMazes": true,
+            "UseShortWayBack": true,
+            "UseMonoscopicViewOnVRHeadset": false,
+            "ExpectedMazes": [
                 {
                     "Name": "Maze2",
                     "pathIds": [
-                        1,
-                        3,
-                        4
-                    ]
-                },
-                {
-                    "Name": "Maze3",
-                    "pathIds": [
-                        0,
-                        2,
-                        4
-                    ]
-                },
-                {
-                    "Name": "Maze4",
-                    "pathIds": [
-                        0,
-                        2,
-                        4
+                        0
                     ]
                 }
             ]

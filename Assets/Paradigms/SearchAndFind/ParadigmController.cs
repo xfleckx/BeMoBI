@@ -240,13 +240,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     try
                     {
-                       InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
+                        InstanceDefinition = factory.Generate(SubjectID, Config.conditionConfigurations);
 
                         Save(InstanceDefinition);
                     }
                     catch (Exception e)
                     {
-                        Debug.LogException(e);
+                        Debug.LogException(e, this);
 
                         appLog.Fatal(e, "Incorrect configuration! - Try to configure the paradigm in the editor!");
 

@@ -341,6 +341,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 new GUIContent("use short way back", "Disables the maze and let the subject move directly to the entrance area."),
                 selectedConditionConfig.UseShortWayBack);
 
+            selectedConditionConfig.UseMonoscopicViewOnVRHeadset = EditorGUILayout.Toggle(
+               new GUIContent("Use monoscopic perspective", "An option for the vr headset to get monoscopic perspective instead of stereo perspective"),
+               selectedConditionConfig.UseMonoscopicViewOnVRHeadset);
+
             if (!selectedConditionConfig.useExactOnCategoryPerMaze)
             {
                 selectedConditionConfig.categoriesPerMaze = EditorGUILayout.IntField(
@@ -367,9 +371,12 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Save Configuration"))
             {
+
+
                 if (!File.Exists(model.PathToCurrentConfig))
                 {
-                    model.PathToCurrentConfig = EditorUtility.OpenFilePanelWithFilters("Select a config file", "Assets", new string[] { "Json", "json" });
+                    //model.PathToCurrentConfig = EditorUtility.OpenFilePanelWithFilters("Select a config file", "Assets", new string[] { "Json", "json" });
+                    model.PathToCurrentConfig = EditorUtility.SaveFilePanelInProject("Select a config file", "config", "json", "Save a new config file" );
 
                     if (model == null)
                     {
@@ -378,7 +385,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                     }
                 }
 
-                ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(model.PathToCurrentConfig), instance.Config);
+                if(model.PathToCurrentConfig != null)
+                    ConfigUtil.SaveAsJson<ParadigmConfiguration>(new FileInfo(model.PathToCurrentConfig), instance.Config);
 
                 EditorApplication.delayCall += () =>
                 {

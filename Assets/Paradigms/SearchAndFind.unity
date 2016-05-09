@@ -258,6 +258,7 @@ MonoBehaviour:
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
     UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -483,7 +484,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 2141406338}
+  Config: {fileID: 1673802177}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -493,7 +494,7 @@ MonoBehaviour:
   audioInstructions: {fileID: 1021378915}
   marker: {fileID: 1460822094}
   objectPresenter: {fileID: 1941343821}
-  objectPool: {fileID: 2022117695}
+  objectPool: {fileID: 1186845343}
   objectPositionAtTrialStart: {fileID: 1944748665}
   HidingSpotPrefab: {fileID: 127242, guid: b7f2253deabaee04ea25d40bbef55bd3, type: 2}
   entrance: {fileID: 866232739}
@@ -507,7 +508,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: C:\Users\markus\Documents\git_repos\BeMoBI\Assets\DemoConditions_Config.json
+  PathToLoadedConfig: C:/Users/markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config_MonoStereo.json
 --- !u!114 &188249850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,8 +535,8 @@ Transform:
   m_LocalPosition: {x: 0.15063047, y: -1.1544175, z: 0.83032084}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1186845344}
   - {fileID: 2120861124}
-  - {fileID: 2022117694}
   - {fileID: 126849971}
   - {fileID: 1353002343}
   - {fileID: 1761092155}
@@ -1387,6 +1388,7 @@ MonoBehaviour:
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
     UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -3256,6 +3258,58 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1178138405}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1186845342
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 188249851}
+    m_Modifications:
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -9.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 13.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.83032084
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+  m_IsPrefabParent: 0
+--- !u!114 &1186845343 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11433680, guid: 52c38a8f942143441b1945ec3f621cf1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1186845342}
+  m_Script: {fileID: 11500000, guid: 5fbbfcc57033cce4dbebb1eeb37e059c, type: 3}
+--- !u!4 &1186845344 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 405510, guid: 52c38a8f942143441b1945ec3f621cf1, type: 2}
+  m_PrefabInternal: {fileID: 1186845342}
 --- !u!1 &1213329798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3959,6 +4013,7 @@ MonoBehaviour:
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
     UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -4667,48 +4722,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 475846, guid: 5fbb735a00a12a84da743506dbe42417, type: 2}
   m_PrefabInternal: {fileID: 1474378240}
---- !u!1001 &1494049955
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 188249851}
-    m_Modifications:
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -9.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 13.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.83032084
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &1515733032
 Prefab:
   m_ObjectHideFlags: 0
@@ -4929,6 +4942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   queueAhead: 1
+  _trackingOriginType: 0
   usePositionTracking: 1
   resetTrackerOnLoad: 1
 --- !u!114 &1615996666
@@ -4943,6 +4957,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1673802177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  waitForCommandOnConditionEnd: 1
+  conditionConfigurations:
+  - ConditionID: mono
+    useTeleportation: 1
+    BodyControllerName: Keyboard
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 3
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+    UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 00000000
+  - ConditionID: stereo
+    useTeleportation: 1
+    BodyControllerName: Keyboard
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 3
+    useExactOnCategoryPerMaze: 1
+    groupByMazes: 1
+    UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
+    ExpectedMazes:
+    - Name: Maze2
+      pathIds: 01000000
 --- !u!1001 &1683745838
 Prefab:
   m_ObjectHideFlags: 0
@@ -5414,6 +5479,7 @@ MonoBehaviour:
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
     UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -6587,9 +6653,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  rotateSmooth: 1
+  rotateSmooth: 0
   SmoothBodyTime: 2
-  ForwardSpeed: 10
+  ForwardSpeed: 1.2
   body: {fileID: 0}
   speed: 2
 --- !u!114 &2016469151
@@ -6632,6 +6698,7 @@ MonoBehaviour:
   head: {fileID: 0}
   ovrManager: {fileID: 0}
   ovrRig: {fileID: 0}
+  currentIPD: 0
 --- !u!114 &2016469153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6765,16 +6832,6 @@ MonoBehaviour:
   instruction_hud: {fileID: 1315420589}
   HeadController: KeyboardCombi
   BodyController: KeyboardCombi
---- !u!4 &2022117694 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 468634, guid: 60ce42ef1a8eb8f41ac315c6d969e358, type: 2}
-  m_PrefabInternal: {fileID: 1494049955}
---- !u!114 &2022117695 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11462590, guid: 60ce42ef1a8eb8f41ac315c6d969e358,
-    type: 2}
-  m_PrefabInternal: {fileID: 1494049955}
-  m_Script: {fileID: 11500000, guid: 5fbbfcc57033cce4dbebb1eeb37e059c, type: 3}
 --- !u!1 &2039274370
 GameObject:
   m_ObjectHideFlags: 0
@@ -7084,7 +7141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188249851}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &2120861125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7114,6 +7171,7 @@ MonoBehaviour:
       useExactOnCategoryPerMaze: 1
       groupByMazes: 1
       UseShortWayBack: 0
+      UseMonoscopicViewOnVRHeadset: 0
       ExpectedMazes: []
     Trials: []
   conditionConfig:
@@ -7130,37 +7188,5 @@ MonoBehaviour:
     useExactOnCategoryPerMaze: 1
     groupByMazes: 1
     UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
     ExpectedMazes: []
---- !u!114 &2141406338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  waitForCommandOnConditionEnd: 1
-  conditionConfigurations:
-  - ConditionID: keyboard
-    useTeleportation: 0
-    BodyControllerName: KeyboardCombi
-    HeadControllerName: KeyboardCombi
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    groupByMazes: 1
-    UseShortWayBack: 1
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 00000000

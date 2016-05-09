@@ -113,6 +113,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             paradigm.subject.Change<IBodyMovementController>(config.BodyControllerName);
             paradigm.subject.Change<IHeadMovementController>(config.HeadControllerName);
+
+            var vrHeadSetController = FindObjectOfType<OculusRiftController>();
+
+            vrHeadSetController.UseMonoscopigRendering = conditionConfig.UseMonoscopicViewOnVRHeadset;
         }
 
         /// <summary>
