@@ -72,8 +72,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         protected MazeUnit lastCorrectUnit;
 
-        bool lastTurnWasIncorrect = false;
-
         private bool isReady;
         internal bool acceptsASubmit;
 
@@ -359,7 +357,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             paradigm.hud.Clear();
 
-            paradigm.hud.ShowInstruction("Bitte betretet den grünen Start Punkt um zu Beginnen!", "Aufgabe");
+            // paradigm.hud.ShowInstruction("Bitte betretet den grünen Start Punkt um zu Beginnen!", "Aufgabe");
 
             acceptsASubmit = true;
         }
@@ -420,10 +418,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     CloseEntrance();
                 }
-
-                paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
+                else if (conditionConfig.UseShortWayBack)
+                {
+                   
+                }
 
                 paradigm.fogControl.LetFogDisappeare();
+
+                //paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
+
 
                 OnFinished(stopWatch.Elapsed);
             }
@@ -541,16 +544,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     paradigm.marker.Write(
                         MarkerPattern.FormatIncorrectTurn(currentUnit, currentPathElement.Value, currentPathElement.Next.Value));
-                    
-                    paradigm.hud.ShowWrongTurnIconFor(1.5f);
 
-                    acceptsASubmit = true;
+                    paradigm.audioInstructions.play("wrongTurn");
+
+                    //paradigm.hud.ShowWrongTurnIconFor(1.5f);
+                    //acceptsASubmit = true;
                 }
                 else if(SubjectReturnsToPath())
                 {
-                    paradigm.hud.ShowInstruction("Du bist wieder auf dem richtigen Weg!", "Gut.");
+                    //paradigm.hud.ShowInstruction("Du bist wieder auf dem richtigen Weg!", "Gut.");
 
-                    acceptsASubmit = true;
+                    //acceptsASubmit = true;
                 }
 
             }
@@ -602,7 +606,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 paradigm.hud.ShowInstruction("Geschafft! Entspann dich, du wirst zum Endpunkt teleportiert.", "Sehr gut!");
                 
                 // important here... to get rid of the last MazeUnitEvent when the subject gets teleported!
-                // It's to late - so do it here!
+                // It's too late - so do it here!
                 mazeInstance.MazeUnitEventOccured -= SubjectMovesWithinTheMaze;
                 paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Exiting));
 
@@ -612,11 +616,18 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
             else
             {
-                paradigm.hud.ShowInstruction("Geschafft! Kehre nun zurück zum Endpunkt!", "Aufgabe");
+                //paradigm.hud.ShowInstruction("Geschafft! Kehre nun zurück zum Endpunkt!", "Aufgabe");
 
-                path.InvertPath();
+                if (conditionConfig.UseShortWayBack) {
+                    mazeInstance.gameObject.SetActive(false);
+                    paradigm.fogControl.LetFogDisappeare();
+                }
+                else
+                {
+                    path.InvertPath();
 
-                currentPathElement = path.PathAsLinkedList.First;
+                    currentPathElement = path.PathAsLinkedList.First;
+                }
             }
 
             yield return null;

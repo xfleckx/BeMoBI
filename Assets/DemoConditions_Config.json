@@ -3,23 +3,30 @@
     "writeStatistics": true,
     "logMarkerToFile": true,
     "nameOfRigidBodyDefinition": "6_upperBody.rb",
+    "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
             "ConditionID": "keyboard",
-            "useTeleportation": true,
+            "useTeleportation": false,
             "BodyControllerName": "KeyboardCombi",
             "HeadControllerName": "KeyboardCombi",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "mazesToUse": 5,
-            "pathsToUsePerMaze": 4,
             "objectVisitationsInTraining": 1,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
-            "groupByMazes": true
+            "groupByMazes": true,
+            "UseShortWayBack": true,
+            "ExpectedMazes": [
+                {
+                    "Name": "Maze1",
+                    "pathIds": [
+                        0
+                    ]
+                }
+            ]
         }
-    ],
-    "waitForCommandOnConditionEnd": true
+    ]
 }

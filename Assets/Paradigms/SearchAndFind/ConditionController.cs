@@ -35,7 +35,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
         private bool currentRunShouldEndAfterTrialFinished;
-        private bool pauseActive;
+        private bool pauseActive = false;
 
         private bool isTrialRunning = false;
         public bool IsRunning
@@ -113,6 +113,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             paradigm.subject.Change<IBodyMovementController>(config.BodyControllerName);
             paradigm.subject.Change<IHeadMovementController>(config.HeadControllerName);
+
+            var vrHeadSetController = FindObjectOfType<OculusRiftController>();
+
+            vrHeadSetController.UseMonoscopigRendering = conditionConfig.UseMonoscopicViewOnVRHeadset;
         }
 
         /// <summary>
@@ -244,15 +248,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             runCounter[trial]++;
 
             var trialType = trial.GetType().Name;
-
-            if (this.paradigm.Config.writeStatistics)
-                statistic.Trace(string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}", "\t", 
-                    trialType, trial.currentMazeName, 
-                    trial.currentPathID, 
-                    trial.objectToRemember ? trial.objectToRemember.name : "none", 
-                    result.Duration.TotalMinutes));
-
-            paradigm.runStatistic.Add(trialType, trial.currentMazeName, trial.currentPathID, result);
 
             currentTrial.CleanUp();
 

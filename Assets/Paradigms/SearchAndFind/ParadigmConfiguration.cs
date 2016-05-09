@@ -33,11 +33,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         [SerializeField]
         public string nameOfRigidBodyDefinition = "";
-        
-        [SerializeField]
-        public List<ConditionConfiguration> conditionConfigurations = new List<ConditionConfiguration>();
 
         [SerializeField]
         public bool waitForCommandOnConditionEnd = true;
+        
+        [SerializeField]
+        public List<ConditionConfiguration> conditionConfigurations = new List<ConditionConfiguration>();
     }
 }

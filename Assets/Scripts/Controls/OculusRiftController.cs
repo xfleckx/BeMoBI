@@ -30,6 +30,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         public OVRDisplay ovrDisplay;
 
+
         public OVRCameraRig ovrRig;
         
         public string Identifier
@@ -41,11 +42,20 @@ namespace Assets.BeMoBI.Scripts.Controls
         }
 
         private bool monoscopicRendering = false;
+
         private float originalIpd = 0;
+
+        public float currentIPD = 0;
 
         public void Recenter()
         {
             InputTracking.Recenter();
+        }
+
+        public void SetIPDValue(float newIpdValue)
+        {
+            currentIPD = newIpdValue;
+
         }
 
         public bool UseMonoscopigRendering {
@@ -61,11 +71,7 @@ namespace Assets.BeMoBI.Scripts.Controls
                 }
             }
         }
-
-        public float IPD {
-            get { return OVRPlugin.ipd; }
-        }
-
+        
         public float Latency
         {
             get
@@ -79,11 +85,19 @@ namespace Assets.BeMoBI.Scripts.Controls
             originalIpd = OVRPlugin.ipd;
 
             OVRPlugin.ipd = value;
+
+            currentIPD = OVRPlugin.ipd;
         }
 
         public void RestoreOriginalIpd()
         {
             OVRPlugin.ipd = originalIpd;
+            currentIPD = OVRPlugin.ipd;
+        }
+
+        public void RequestConfigValues()
+        {
+            currentIPD = OVRPlugin.ipd;
         }
 
         private void OnMonoscopicRenderingChanged()
