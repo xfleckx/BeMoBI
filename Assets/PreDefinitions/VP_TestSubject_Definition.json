@@ -5,18 +5,18 @@
     },
     "Conditions": [
         {
-            "Identifier": "mobi",
+            "Identifier": "sitting",
             "Config": {
-                "ConditionID": "mobi",
+                "ConditionID": "sitting",
                 "useTeleportation": true,
-                "BodyControllerName": "KeyboardCombi",
-                "HeadControllerName": "KeyboardCombi",
+                "BodyControllerName": "Keyboard",
+                "HeadControllerName": "Oculus Headset",
                 "TimeToDisplayObjectToRememberInSeconds": 3.0,
                 "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
                 "offsetToTeleportation": 2.0,
                 "categoriesPerMaze": 1,
                 "objectVisitationsInTraining": 2,
-                "objectVisitationsInExperiment": 1,
+                "objectVisitationsInExperiment": 3,
                 "useExactOnCategoryPerMaze": true,
                 "groupByMazes": true,
                 "ExpectedMazes": [
@@ -25,30 +25,25 @@
                         "pathIds": [
                             0,
                             2,
+                            3,
                             4
                         ]
                     },
                     {
                         "Name": "Maze2",
                         "pathIds": [
+                            0,
                             1,
-                            3,
+                            2,
                             4
                         ]
                     },
                     {
                         "Name": "Maze3",
                         "pathIds": [
-                            0,
+                            1,
                             2,
-                            4
-                        ]
-                    },
-                    {
-                        "Name": "Maze4",
-                        "pathIds": [
-                            0,
-                            2,
+                            3,
                             4
                         ]
                     }
@@ -57,150 +52,618 @@
             "Trials": [
                 {
                     "TrialType": "Training",
-                    "MazeName": "Maze4",
-                    "Path": 2,
-                    "Category": "Container",
-                    "ObjectName": "1_Barrel"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze4",
-                    "Path": 4,
-                    "Category": "Container",
-                    "ObjectName": "4_TrashCan"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze4",
-                    "Path": 0,
-                    "Category": "Container",
-                    "ObjectName": "3_CarboardBox"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze4",
-                    "Path": 2,
-                    "Category": "Container",
-                    "ObjectName": "1_Barrel"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze4",
-                    "Path": 0,
-                    "Category": "Container",
-                    "ObjectName": "3_CarboardBox"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze4",
-                    "Path": 4,
-                    "Category": "Container",
-                    "ObjectName": "4_TrashCan"
-                },
-                {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze4",
-                    "Path": 4,
-                    "Category": "Container",
-                    "ObjectName": "4_TrashCan"
-                },
-                {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze4",
-                    "Path": 2,
-                    "Category": "Container",
-                    "ObjectName": "1_Barrel"
-                },
-                {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze4",
-                    "Path": 0,
-                    "Category": "Container",
-                    "ObjectName": "3_CarboardBox"
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze3",
-                    "Path": 0,
-                    "Category": "Tools",
-                    "ObjectName": "4_Tong"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze3",
-                    "Path": 0,
-                    "Category": "Tools",
-                    "ObjectName": "4_Tong"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze3",
-                    "Path": 4,
-                    "Category": "Tools",
-                    "ObjectName": "5_Wrench"
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze3",
                     "Path": 2,
-                    "Category": "Tools",
-                    "ObjectName": "3_ScrewDriverS"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "4_Train"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze3",
-                    "Path": 2,
-                    "Category": "Tools",
-                    "ObjectName": "3_ScrewDriverS"
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze3",
                     "Path": 4,
-                    "Category": "Tools",
-                    "ObjectName": "5_Wrench"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
                 },
                 {
-                    "TrialType": "Experiment",
+                    "TrialType": "Training",
                     "MazeName": "Maze3",
-                    "Path": 0,
-                    "Category": "Tools",
-                    "ObjectName": "4_Tong"
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
                 },
                 {
-                    "TrialType": "Experiment",
+                    "TrialType": "Training",
                     "MazeName": "Maze3",
                     "Path": 2,
-                    "Category": "Tools",
-                    "ObjectName": "3_ScrewDriverS"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "4_Train"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze3",
                     "Path": 4,
-                    "Category": "Tools",
-                    "ObjectName": "5_Wrench"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "4_Train"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "4_Train"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "4_Train"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 4,
-                    "Category": "Office",
-                    "ObjectName": "4_Toughbook"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze1",
-                    "Path": 4,
-                    "Category": "Office",
-                    "ObjectName": "4_Toughbook"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze1",
-                    "Path": 0,
                     "Category": "Office",
                     "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "2_ScrewDriverM"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                }
+            ]
+        },
+        {
+            "Identifier": "standing",
+            "Config": {
+                "ConditionID": "standing",
+                "useTeleportation": true,
+                "BodyControllerName": "Keyboard",
+                "HeadControllerName": "Oculus Headset",
+                "TimeToDisplayObjectToRememberInSeconds": 3.0,
+                "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+                "offsetToTeleportation": 2.0,
+                "categoriesPerMaze": 1,
+                "objectVisitationsInTraining": 2,
+                "objectVisitationsInExperiment": 3,
+                "useExactOnCategoryPerMaze": true,
+                "groupByMazes": true,
+                "ExpectedMazes": [
+                    {
+                        "Name": "Maze1",
+                        "pathIds": [
+                            0,
+                            2,
+                            3,
+                            4
+                        ]
+                    },
+                    {
+                        "Name": "Maze2",
+                        "pathIds": [
+                            0,
+                            1,
+                            2,
+                            4
+                        ]
+                    },
+                    {
+                        "Name": "Maze3",
+                        "pathIds": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
+                    }
+                ]
+            },
+            "Trials": [
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "1_Van"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "1_Van"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 3,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "2_RedAirplane"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 1,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "6_Car"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "1_Van"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "1_Van"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 2,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze3",
+                    "Path": 4,
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "1_Van"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
                 },
                 {
                     "TrialType": "Training",
@@ -224,6 +687,34 @@
                     "ObjectName": "3_Printer"
                 },
                 {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 2,
@@ -245,67 +736,207 @@
                     "ObjectName": "4_Toughbook"
                 },
                 {
-                    "TrialType": "Training",
-                    "MazeName": "Maze2",
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
                     "Path": 3,
-                    "Category": "Tools_2",
-                    "ObjectName": "1_Drill"
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Office",
+                    "ObjectName": "3_Printer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 4,
+                    "Category": "Office",
+                    "ObjectName": "4_Toughbook"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 2,
+                    "Category": "Office",
+                    "ObjectName": "1_Book"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 3,
+                    "Category": "Office",
+                    "ObjectName": "2_Filebinder"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze2",
-                    "Path": 3,
-                    "Category": "Tools_2",
-                    "ObjectName": "1_Drill"
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "3_ScrewDriverS"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "3_ScrewDriverS"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 4,
-                    "Category": "Tools_2",
-                    "ObjectName": "6_Wrench"
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze2",
-                    "Path": 1,
-                    "Category": "Tools_2",
-                    "ObjectName": "2_Hacksaw"
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 4,
-                    "Category": "Tools_2",
-                    "ObjectName": "6_Wrench"
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Tools_2",
-                    "ObjectName": "2_Hacksaw"
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
-                    "Path": 1,
-                    "Category": "Tools_2",
-                    "ObjectName": "2_Hacksaw"
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "3_ScrewDriverS"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 0,
+                    "Category": "Tools",
+                    "ObjectName": "1_Hammer"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
                     "Path": 4,
-                    "Category": "Tools_2",
-                    "ObjectName": "6_Wrench"
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
-                    "Path": 3,
-                    "Category": "Tools_2",
-                    "ObjectName": "1_Drill"
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 4,
+                    "Category": "Tools",
+                    "ObjectName": "4_Tong"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "3_ScrewDriverS"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Tools",
+                    "ObjectName": "5_Wrench"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 2,
+                    "Category": "Tools",
+                    "ObjectName": "3_ScrewDriverS"
                 }
             ]
         }

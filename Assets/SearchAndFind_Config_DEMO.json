@@ -7,8 +7,8 @@
         {
             "ConditionID": "mobi",
             "useTeleportation": true,
-            "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "KeyboardCombi",
+            "BodyControllerName": "Keyboard",
+            "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
@@ -22,7 +22,8 @@
                     "Name": "Maze1",
                     "pathIds": [
                         0,
-                        2
+                        2,
+                        4
                     ]
                 }
             ]

@@ -88,7 +88,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         private void OnMonoscopicRenderingChanged()
         {
-            ovrManager.monoscopic = true;
+            ovrManager.monoscopic = monoscopicRendering;
         }
 
         void Awake()
