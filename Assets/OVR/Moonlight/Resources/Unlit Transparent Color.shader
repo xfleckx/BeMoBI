@@ -6,6 +6,7 @@ Properties {
 SubShader {
     Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
     LOD 100
+    Fog {Mode Off}
 
     ZWrite Off
     Blend SrcAlpha OneMinusSrcAlpha

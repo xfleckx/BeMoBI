@@ -2,14 +2,14 @@
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.2 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculusvr.com/licenses/LICENSE-3.2
+http://www.oculus.com/licenses/LICENSE-3.3
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,10 +26,9 @@ using System.Collections;
 /// <summary>
 /// This is a simple behavior that can be attached to a parent of the CameraRig in order
 /// to provide movement via the gamepad. This is useful when testing an application in
-/// the Unity editor without the Head-Mounted Tracker.
+/// the Unity editor without the HMD.
 /// To use it, create a game object in your scene and drag your CameraRig to be a child
 /// of the game object. Then, add the OVRDebugHeadController behavior to the game object.
-/// You must also have an OVRGamepadController somewhere in your scene.
 /// Alternatively, this behavior can be placed directly on the OVRCameraRig object, but
 /// that is not guaranteed to work if OVRCameraRig functionality changes in the future.
 /// In the parent case, the object with OVRDebugHeadController can be thougt of as a 
@@ -83,8 +82,8 @@ public class OVRDebugHeadController : MonoBehaviour
 	{
 		if ( AllowMovement )
 		{
-			float gamePad_FwdAxis = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.LeftYAxis );
-			float gamePad_StrafeAxis = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.LeftXAxis );
+			float gamePad_FwdAxis = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick).y;
+			float gamePad_StrafeAxis = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick).x;
 			
 			Vector3 fwdMove = ( CameraRig.centerEyeAnchor.rotation * Vector3.forward ) * gamePad_FwdAxis * Time.deltaTime * ForwardSpeed;
 			Vector3 strafeMove = ( CameraRig.centerEyeAnchor.rotation * Vector3.right ) * gamePad_StrafeAxis * Time.deltaTime * StrafeSpeed;
@@ -96,14 +95,14 @@ public class OVRDebugHeadController : MonoBehaviour
 			Quaternion r = transform.rotation;
 			if ( AllowYawLook )
 			{
-				float gamePadYaw = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.RightXAxis );
+				float gamePadYaw = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).x;
 				float yawAmount = gamePadYaw * Time.deltaTime * GamePad_YawDegreesPerSec;
 				Quaternion yawRot = Quaternion.AngleAxis( yawAmount, Vector3.up );
 				r = yawRot * r;
 			}
 			if ( AllowPitchLook )
 			{
-				float gamePadPitch = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.RightYAxis );
+				float gamePadPitch = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).y;
 				if ( Mathf.Abs( gamePadPitch ) > 0.0001f )
 				{
 					if ( InvertPitch )

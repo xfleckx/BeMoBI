@@ -1,15 +1,15 @@
-﻿/************************************************************************************
+/************************************************************************************
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.2 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculusvr.com/licenses/LICENSE-3.2
+http://www.oculus.com/licenses/LICENSE-3.3
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ public class OVRChromaticAberration : MonoBehaviour
 	/// <summary>
 	/// The button that will toggle chromatic aberration correction.
 	/// </summary>
-	public OVRGamepadController.Button			toggleButton = OVRGamepadController.Button.X;	
+	public OVRInput.RawButton			toggleButton = OVRInput.RawButton.X;	
 
 	private bool								chromatic = false;
 
@@ -42,8 +42,8 @@ public class OVRChromaticAberration : MonoBehaviour
 
 	void Update()
 	{
-		// NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
-		if (OVRGamepadController.GPC_GetButtonDown(toggleButton))
+		// NOTE: some of the buttons defined in OVRInput.RawButton are not available on the Android game pad controller
+		if (OVRInput.GetDown(toggleButton))
 		{
 			//*************************
 			// toggle chromatic aberration correction
