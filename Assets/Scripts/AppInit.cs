@@ -15,7 +15,7 @@ public class AppInit : MonoBehaviour {
     public const string DEFINTION_DIR_NAME = "PreDefinitions";
     
     public DirectoryInfo DirectoryForInstanceDefinitions;
-
+    
     // Use this for initialization
     void Start () {
 
@@ -29,7 +29,7 @@ public class AppInit : MonoBehaviour {
         {
             DirectoryForInstanceDefinitions = new DirectoryInfo(pathToInstanceDefinitions);
         }
-
+        
         var args = Environment.GetCommandLineArgs();
 
         options = new StartUpOptions();
@@ -42,7 +42,7 @@ public class AppInit : MonoBehaviour {
 
         LogManager.Configuration = new XmlLoggingConfiguration(Application.dataPath + @"\NLog.config");
 
-        LogManager.ReconfigExistingLoggers();
+        UpdateLoggingConfiguration();
 
         stopWatch.Stop();
 
@@ -77,6 +77,10 @@ public class AppInit : MonoBehaviour {
         }
     }
 
+    public void UpdateLoggingConfiguration()
+    {
+        LogManager.ReconfigExistingLoggers();
+    }
 }
 
 /// <summary>

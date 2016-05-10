@@ -182,6 +182,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
         private void InjectCmdArgs()
         {
             instance.SubjectID = subject_ID;
+            instance.appInit.UpdateLoggingConfiguration();
         }
         
         const string DEFINITION_PREVIEW_PATTERN = "{0}: {1} -> {2} = {3} from {4}";

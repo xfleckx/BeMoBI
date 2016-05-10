@@ -145,6 +145,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             // this is enables access to variables used by the logging framework
             NLog.GlobalDiagnosticsContext.Set("subject_Id", SubjectID);
 
+            appInit.UpdateLoggingConfiguration();
+
             appLog.Info(string.Format("Using Subject Id: {0}", SubjectID));
         }
 
