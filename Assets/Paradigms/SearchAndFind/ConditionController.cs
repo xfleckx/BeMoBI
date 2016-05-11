@@ -34,6 +34,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private Dictionary<ITrial, int> runCounter = new Dictionary<ITrial, int>();
 
+        private int currentTrialIndex = 0;
+
         private bool currentRunShouldEndAfterTrialFinished;
         private bool pauseActive = false;
 
@@ -108,6 +110,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #region Trial Management
         
+        /// <summary>
+        /// Bad code here... semantic is paradigm specific... :/ not abstract enough on this point.. should be moved to trials??
+        /// </summary>
+        /// <param name="config"></param>
         private void ApplyConditionSpecificConfiguration(ConditionConfiguration config)
         {
             conditionConfig = config;
@@ -211,6 +217,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
         {
+            if (!(trial is Pause))
+                currentTrialIndex++;
+
+            appLog.Info(string.Format("Starting Trial {0} of {1}", currentTrialIndex, currentLoadedTrialDefinitions.Count));
+
             if (!runCounter.ContainsKey(trial))
                 runCounter.Add(trial, 0);
 
@@ -308,7 +319,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             isConditionRunning = false;
 
             currentTrialDefinition = null;
-            
+
+            currentTrialIndex = 0;
+
             GC.Collect();
 
             if (OnConditionFinished != null)
