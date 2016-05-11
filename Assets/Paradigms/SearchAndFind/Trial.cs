@@ -690,6 +690,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void CleanUp()
         {
+            paradigm.entrance.SetActive(true);
+
             paradigm.hud.Clear();
 
             paradigm.fogControl.DisappeareImmediately();

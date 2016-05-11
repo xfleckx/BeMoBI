@@ -248,17 +248,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             runCounter[trial]++;
 
-            var trialType = trial.GetType().Name;
-
             currentTrial.CleanUp();
 
             currentTrial.enabled = false;
 
             currentTrial.gameObject.SetActive(false);
-
-            // TODO: replace with a more immersive door implementation
-            paradigm.entrance.SetActive(true);
-
+            
             if (!pauseActive)
                 SetNextTrialPending();
         }
