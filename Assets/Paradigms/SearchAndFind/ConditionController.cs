@@ -70,6 +70,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (PendingConditions.Any(c => c.Equals(requestedCondition))){
                 currentCondition = requestedCondition;
                 PendingConditions.Remove(requestedCondition);
+                FinishedConditions.Add(requestedCondition);
             }
             else
             {
@@ -283,18 +284,28 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         /// <param name="conditionName"></param>
         /// <exception cref="ArgumentException">Thrown If requested condition not available</exception>
-        public void SetSpecificConditionPending(string conditionName)
+        public void SetSpecificConditionPending(string conditionName, bool attempReRun = false)
         {
             if(PendingConditions.Any(c => c.Identifier.Equals(conditionName)))
             {
-                var requestedCondition = PendingConditions.First();
+                var requestedCondition = PendingConditions.First(c => c.Identifier.Equals(conditionName));
                 
                 Initialize(requestedCondition);
+                return;
             }
-            else
+
+
+            if(FinishedConditions.Any(c => c.Identifier.Equals(conditionName)) && attempReRun)
             {
-                throw new ArgumentException(string.Format("Condition '{0}' not found!", conditionName), conditionName);
+                Initialize(FinishedConditions.First(c => c.Identifier.Equals(conditionName)));
+                return;
+            }else
+            {
+                appLog.Error(string.Format("Requested condition '{0}' has been done already - force by using rerun=true!", conditionName));
+                return;
             }
+            
+            throw new ArgumentException(string.Format("Requested Condition '{0}' not found!", conditionName), conditionName);
         }
         
         private void ConditionFinished()
