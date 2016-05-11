@@ -46,7 +46,7 @@ public void controlEvent(ControlEvent theEvent) {
 
 public void Send() { 
   String logType = "Info"; 
-  udp.send(new Date() + logType + " Buzz ", GetTargetHostName(), GetTargetPortName());
+  udp.send(new Date() + logType + " Buzz ", "localhost", 4242);
 }
 
 String GetTargetHostName(){

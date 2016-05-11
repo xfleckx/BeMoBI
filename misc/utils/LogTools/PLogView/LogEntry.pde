@@ -13,10 +13,16 @@ public class LogEntry{
     pushMatrix();
     pushStyle();
     
+    translate(pos.x, pos.y);
+    
+    rect(0, h, 0, h);
+    
     fill(textColor);
     
     textSize(fontSize);
-    text(content, pos.x, pos.y + fontSize, w, h);
+    rectMode(CORNERS);
+    
+    text(content, 0, 0 + fontSize);
     
     popStyle();
     popMatrix();
