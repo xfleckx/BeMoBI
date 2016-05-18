@@ -156,11 +156,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (Config == null)
             {
-                appLog.Info("Load Config or create a new one!");
+                appLog.Trace("Try Loading Config...");
 
-                if (appInit.HasOptions &&
-                    appInit.Options.fileNameOfCustomConfig != String.Empty &&
-                    File.Exists(Application.dataPath + Path.AltDirectorySeparatorChar + appInit.Options.fileNameOfCustomConfig))
+                appLog.Trace("Custom Config: " + appInit.Options.fileNameOfCustomConfig);
+
+                var pathToCustomConfig = Application.dataPath + Path.AltDirectorySeparatorChar + appInit.Options.fileNameOfCustomConfig;
+
+                appLog.Trace("Custom Config Path: " + pathToCustomConfig.Trim());
+
+                bool customConfigFileExists = File.Exists(pathToCustomConfig);
+
+                if (customConfigFileExists)
                 {
                     var configFile = new FileInfo(Application.dataPath + Path.AltDirectorySeparatorChar + appInit.Options.fileNameOfCustomConfig);
 
@@ -209,7 +215,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
             else
             {
-                appLog.Info("Config not null!");
+                appLog.Warn("A configuration instance already exist before loading one!");
             }
 
         }

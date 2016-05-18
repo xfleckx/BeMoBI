@@ -19,7 +19,7 @@ int y_margin = 30;
 int fontSize = 16;
 
 int entryMargin = 3;
-
+int initialOffset = 5;
 void setup() {
   udp= new UDP(this, PORT_RX, HOST_IP);
   udp.log(false);
@@ -33,7 +33,9 @@ void setup() {
      
   size(1024, 350);
   
-  history = new LogHistory(20);
+  int logHistoryCount = (350 - (2 * y_margin) - entryMargin - initialOffset) / fontSize;
+  
+  history = new LogHistory(logHistoryCount);
 }
 
 void draw() {
@@ -41,23 +43,24 @@ void draw() {
   background(0);
 
   int y_offset = 0;
+  pushStyle();
   pushMatrix();
   translate(x_margin, y_margin);
   ListIterator<LogEntry> iterator = history.listIterator();
-  int initialOffset = 5;
-  while(iterator.hasPrevious()) {
+  initialOffset = 5;
+  while(iterator.hasPrevious() && y_offset < height) {
      LogEntry current = iterator.previous();
      current.render(new PVector(0, y_offset), width - x_margin, 50);
      y_offset += fontSize + entryMargin + initialOffset;
      initialOffset = 0;
   }
   popMatrix();
+  popStyle();
 }
 
 
 void receive(byte[] data, String HOST_IP, int PORT_RX) {
   String message = new String(data);
-  println(message);
   LogEntry value = GetFrom( message );
   history.add(value);
 }
@@ -65,9 +68,7 @@ void receive(byte[] data, String HOST_IP, int PORT_RX) {
 public LogEntry GetFrom(String s) {
   LogEntry e = new LogEntry();
   e.content = s;
-  
-  
-  
+    
   if (match(s, "Info") != null) {
     e.textColor = color( 113, 224, 138 );
   }
@@ -84,6 +85,9 @@ public LogEntry GetFrom(String s) {
     e.textColor = color( 245, 175, 44 );
   }
   
+  if (match(s, "Warn") != null) {
+    e.textColor = color( 245, 175, 44 );
+  }
   return e;
 }
 
