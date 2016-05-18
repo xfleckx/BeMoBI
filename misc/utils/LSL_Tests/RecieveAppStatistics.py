@@ -1,7 +1,8 @@
 """Example program to show how to read a multi-channel time series from LSL."""
-
-from pylsl import StreamInlet, resolve_stream
 import sys
+sys.path.append('./pylsl') # help python find pylsl relative to this example program
+from pylsl import StreamInlet, resolve_stream
+ 
 # first resolve an EEG stream on the lab network
 print("looking for an Unity3D.AppStatistics stream...")
 streams = resolve_stream('type', 'Unity3D.FPS.FT')

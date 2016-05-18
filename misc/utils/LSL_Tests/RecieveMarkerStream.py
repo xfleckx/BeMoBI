@@ -1,7 +1,8 @@
 """Example program to show how to read a marker time series from LSL."""
-
-from pylsl import StreamInlet, resolve_stream
 import sys
+sys.path.append('./pylsl') # help python find pylsl relative to this example program
+from pylsl import StreamInlet, resolve_stream
+
 import os
 from collections import deque
 
