@@ -29,6 +29,7 @@ public class AppRuntimeStatistics : MonoBehaviour {
     private int frameCount = 0;
     private float fps = 0;
     private float avgFrameTime;
+    private float timeSpendToCompleteLastFrame;
 
     private float timeLeft = 0.5f;
     private float timePassed = 0;
@@ -95,7 +96,7 @@ public class AppRuntimeStatistics : MonoBehaviour {
             return;
         
         currentSample[0] = fps;
-        currentSample[1] = avgFrameTime;
+        currentSample[1] = timeSpendToCompleteLastFrame;
         outlet.push_sample(currentSample, LSLTimeSync.Instance.UpdateTimeStamp);
     }
     
