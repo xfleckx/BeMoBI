@@ -18,6 +18,7 @@ using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using Assets.BeMoBI.Scripts.Paradigm;
+using Assets.LSL4Unity.Scripts;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
