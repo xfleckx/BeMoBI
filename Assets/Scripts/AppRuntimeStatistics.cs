@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using LSL;
+using Assets.LSL4Unity.Scripts;
+
 public class AppRuntimeStatistics : MonoBehaviour {
 
     public HUD_DEBUG hud;

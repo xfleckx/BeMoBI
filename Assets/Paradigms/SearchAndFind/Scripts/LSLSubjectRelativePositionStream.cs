@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using LSL;
+using Assets.LSL4Unity.Scripts;
 
 public class LSLSubjectRelativePositionStream : MonoBehaviour {
     
