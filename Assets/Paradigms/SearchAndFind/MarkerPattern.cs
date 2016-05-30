@@ -18,12 +18,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// <summary>
         /// From {0} to {1} TurnType {2} UnitType {3}
         /// </summary>
-        public const string Turn = "Turn\tFrom{0}\tTo{1}\t{2}\t{3}";
+        public const string Turn = "Turn\tCorrect\tFrom{0}\tTo{1}\t{2}\t{3}";
 
         /// <summary>
         /// From {0} to {1} expected {2} TurnType {3} UnitType {4}
         /// </summary>
-        public const string WrongTurn = "Incorrect\tFrom{0}\tTo{1}\tExpected{2}\t{3}\t{4}";
+        public const string WrongTurn = "Turn\tIncorrect\tFrom{0}\tTo{1}\tExpected{2}\t{3}\t{4}";
 
         public const string EndTrial = "EndTrial\t{0}\t{1}\t{2}\t{3}\t{4}";
 
