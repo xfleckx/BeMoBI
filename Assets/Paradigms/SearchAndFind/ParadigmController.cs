@@ -400,9 +400,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public void InitializeCondition(string condition)
         {
             appLog.Info(string.Format("Condition {0} requested", condition));
-
+            
             try
             {
+                if (conditionController.currentCondition != null && conditionController.currentCondition.Identifier.Equals(condition))
+                {
+                    var msg = string.Format("Requested condition {0} already initialized! Just starting...", condition);
+                    appLog.Info(msg);
+                    return;
+                }
+                      
+
                 var requestedCondition =  InstanceDefinition.Get(condition);
 
                 conditionController.Initialize(requestedCondition);

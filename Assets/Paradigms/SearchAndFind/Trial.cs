@@ -418,14 +418,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 waypoint.HideInfoText();
 
-                if (!conditionConfig.useTeleportation)
-                {
-                    CloseEntrance();
-                }
-                else if (conditionConfig.UseShortWayBack)
-                {
-                    CloseEntrance();
-                }
+                CloseEntrance();
 
                 paradigm.fogControl.LetFogDisappeare();
 
@@ -667,13 +660,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             currentTrialState = Internal_Trial_State.Returning;
 
-            paradigm.fading.StartFadeOut();
+            paradigm.TrialEndPoint.gameObject.SetActive(true);
 
-            paradigm.teleporter.Teleport();
-
-            //stopWatch.Stop();
-
-            //OnFinished(stopWatch.Elapsed);
+            StartCoroutine(BeginTeleportation());
         }
 
         public event Action BeforeStart;
