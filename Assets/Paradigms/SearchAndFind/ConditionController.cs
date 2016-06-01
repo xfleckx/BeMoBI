@@ -79,8 +79,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             
             if (PendingConditions.Any(c => c.Equals(requestedCondition))){
                 currentCondition = requestedCondition;
-                PendingConditions.Remove(requestedCondition);
-                FinishedConditions.Add(requestedCondition);
             }
             else
             {
@@ -179,7 +177,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         void SetNextTrialPending()
         {
-            isTrialRunning = true;
 
             if (currentTrialDefinition == null)
             {
@@ -242,6 +239,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             Prepare(currentTrial);
 
+            isTrialRunning = true;
+
             currentTrial.SetReady();
         }
 
@@ -270,6 +269,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// <param name="result">A collection of informations on the trial run</param>
         void CallWhenCurrentTrialFinished(Trial trial, TrialResult result)
         {
+            isTrialRunning = false;
+
             runCounter[trial]++;
 
             currentTrial.CleanUp();
@@ -277,7 +278,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             currentTrial.enabled = false;
 
             currentTrial.gameObject.SetActive(false);
-            
+
+            if (currentRunShouldEndAfterTrialFinished) {
+                isConditionRunning = false;
+                return;
+            }
+
             if (!pauseActive)
                 SetNextTrialPending();
         }
@@ -330,6 +336,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private void ConditionFinished()
         {
             isConditionRunning = false;
+
+            PendingConditions.Remove(currentCondition);
+            FinishedConditions.Add(currentCondition);
+
 
             currentTrialDefinition = null;
 
