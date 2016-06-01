@@ -14,12 +14,12 @@ namespace Assets.BeMoBI.Scripts
 
         void InitializeCondition(string conditionName);
 
-        void ForceSaveEndOfExperiment();
+        void ForceSaveEndOfExperiment();  
 
         void ForceABreakInstantly();
 
         void Restart(string condition = "");
-
+        void TryToPerformSaveInterruption();
     }
 }
 

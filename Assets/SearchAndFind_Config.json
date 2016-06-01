@@ -6,16 +6,16 @@
     "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
-            "ConditionID": "mono",
+            "ConditionID": "default",
             "useTeleportation": false,
             "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "Oculus Headset",
+            "HeadControllerName": "KeyboardCombi",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "objectVisitationsInTraining": 1,
-            "objectVisitationsInExperiment": 1,
+            "objectVisitationsInTraining": 2,
+            "objectVisitationsInExperiment": 2,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
             "UseShortWayBack": true,
@@ -30,16 +30,16 @@
             ]
         },
         {
-            "ConditionID": "stereo",
+            "ConditionID": "fizz",
             "useTeleportation": false,
             "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "Oculus Headset",
+            "HeadControllerName": "KeyboardCombi",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
-            "objectVisitationsInTraining": 1,
-            "objectVisitationsInExperiment": 1,
+            "objectVisitationsInTraining": 2,
+            "objectVisitationsInExperiment": 2,
             "useExactOnCategoryPerMaze": true,
             "groupByMazes": true,
             "UseShortWayBack": true,
@@ -47,6 +47,30 @@
             "ExpectedMazes": [
                 {
                     "Name": "Maze2",
+                    "pathIds": [
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "ConditionID": "buzz",
+            "useTeleportation": false,
+            "BodyControllerName": "KeyboardCombi",
+            "HeadControllerName": "KeyboardCombi",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "objectVisitationsInTraining": 2,
+            "objectVisitationsInExperiment": 2,
+            "useExactOnCategoryPerMaze": true,
+            "groupByMazes": true,
+            "UseShortWayBack": true,
+            "UseMonoscopicViewOnVRHeadset": false,
+            "ExpectedMazes": [
+                {
+                    "Name": "Maze3",
                     "pathIds": [
                         0
                     ]

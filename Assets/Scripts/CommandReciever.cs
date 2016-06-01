@@ -43,7 +43,13 @@ namespace Assets.BeMoBI.Scripts
                 return;
             }
 
-            if(command.Equals("pause end"))
+            if (command.Equals("stop"))
+            {
+                paradigm.TryToPerformSaveInterruption();
+                return;
+            }
+
+            if (command.Equals("pause end"))
             {
                 paradigm.ConditionController.ReturnFromPauseTrial();
                 return;

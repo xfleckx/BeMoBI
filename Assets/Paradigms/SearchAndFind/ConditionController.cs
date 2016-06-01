@@ -64,6 +64,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #endregion
 
+        void Awake()
+        {
+            // need to be reseted Unity serializes always a default implementation
+            if(currentCondition != null) { 
+                currentCondition = null;
+            }
+        }
+
         public void Initialize(ConditionDefinition requestedCondition, bool andStart = false)
         {
             if (IsConditionRunning)
@@ -94,6 +102,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 StartCurrentConditionWithFirstTrial();
         }
         
+        public bool HasConditionPending()
+        {
+            return currentCondition != null;
+        }
+
         public void StartCurrentConditionWithFirstTrial()
         {
             isConditionRunning = true;
@@ -331,6 +344,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         internal void ForceASaveEndOfCurrentCondition()
         {
             currentRunShouldEndAfterTrialFinished = true;
+
+            currentTrial.ForceTrialEnd();
         }
 
         #endregion

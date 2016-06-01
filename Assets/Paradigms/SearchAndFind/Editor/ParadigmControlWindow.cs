@@ -112,7 +112,12 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             if(instance.conditionController.currentTrial != null)
             {
                 var currentTrial = instance.conditionController.currentTrial;
+
+                var currentCondition = instance.conditionController.currentCondition;
+
                 var trialName = currentTrial.GetType().Name;
+
+                EditorGUILayout.LabelField("Current Condition: ", currentCondition.Identifier, windowWidth);
 
                 EditorGUILayout.LabelField("Current Trial: ", trialName, windowWidth);
 

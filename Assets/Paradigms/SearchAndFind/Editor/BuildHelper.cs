@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using System.Diagnostics;
+using System.IO;
 
 namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
@@ -25,11 +26,16 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             var nlogConfigFile = "NLog.config";
             var configFileName = "SearchAndFind_Config.json";
+            var appConfigFileName = "AppConfig.json";
+
+            var sep = Path.PathSeparator;
+            var assets = "Assets";
 
             // Copy a file from the project folder to the build folder, alongside the built game.
-            FileUtil.CopyFileOrDirectory("Assets/" + nlogConfigFile, path + "/" + dataFolderName + "/" + nlogConfigFile);
-            FileUtil.CopyFileOrDirectory("Assets/" + configFileName, path + "/" + dataFolderName + "/" + configFileName);
+            FileUtil.CopyFileOrDirectory(assets + sep + nlogConfigFile, path + sep + dataFolderName + sep + nlogConfigFile);
+            FileUtil.CopyFileOrDirectory(assets + sep + configFileName, path + sep + dataFolderName + sep + configFileName);
 
+            FileUtil.CopyFileOrDirectory(assets + sep + appConfigFileName, path + sep + dataFolderName + sep + appConfigFileName);
             // open the target directory
             Process.Start(path);
 

@@ -7,15 +7,20 @@ using NLog.Config;
 using Debug = UnityEngine.Debug;
 using CommandLine;
 using System.IO;
+using Assets.BeMoBI.Scripts;
 
 public class AppInit : MonoBehaviour {
 
-    NLog.Logger log = NLog.LogManager.GetLogger("App");
+    NLog.Logger appLog = NLog.LogManager.GetLogger("App");
 
     public const string DEFINTION_DIR_NAME = "PreDefinitions";
     
     public DirectoryInfo DirectoryForInstanceDefinitions;
-    
+
+    public AppConfig appConfig;
+
+    public Action<AppConfig> OnAppConfigLoaded;
+
     // Use this for initialization
     void Start () {
 
@@ -48,15 +53,22 @@ public class AppInit : MonoBehaviour {
 
         Debug.Log(string.Format("### Runtime ### Nlog config lookup took: {0}", stopWatch.Elapsed));
 
-        log.Info(string.Format("Starting with Args: {0} {1} {2} {3}", options.subjectId, options.fileNameOfCustomConfig, options.fileNameOfParadigmDefinition, options.condition));
+        appLog.Info(string.Format("Starting with Args: {0} {1} {2} {3}", options.subjectId, options.fileNameOfCustomConfig, options.fileNameOfParadigmDefinition, options.condition));
 
+        var expectedAppConfig = Path.Combine(Application.dataPath, options.fileNameAppConfig);
 
+        appConfig = ConfigUtil.LoadConfig<AppConfig>(new FileInfo(expectedAppConfig), true, () => {
+            appLog.Fatal("Something is wrong with the AppConfig. Was not found and I was not able to create one!");
+        });
+        
+        if (OnAppConfigLoaded != null)
+            OnAppConfigLoaded(appConfig);
 
         var currentLevelIndex = QualitySettings.GetQualityLevel();
         var allLevels = QualitySettings.names;
         var currentLevel = allLevels[currentLevelIndex];
 
-        log.Info("Using quality level " + currentLevel);
+        appLog.Info("Using quality level " + currentLevel);
     }
     
     private bool hasOptions;
@@ -102,5 +114,7 @@ public class StartUpOptions
     public string fileNameOfCustomConfig { get; set; }
 
 
-
+    [Option('a', "appConfig", DefaultValue = "AppConfig.json", HelpText = "A file name of app config file", Required = false)]
+    public string fileNameAppConfig { get; set; }
+    
 }

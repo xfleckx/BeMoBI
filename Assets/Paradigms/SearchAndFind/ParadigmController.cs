@@ -436,7 +436,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
           
         public void StartExperimentWithCurrentPendingCondition()
         {
-            conditionController.StartCurrentConditionWithFirstTrial();
+            if (conditionController.HasConditionPending())
+                conditionController.StartCurrentConditionWithFirstTrial();
+            else
+                appLog.Error("Try starting a condition but none has been configured");
         }
 
         public void Restart(string condition = "")
@@ -499,10 +502,26 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             throw new NotImplementedException("TODO");
         }
 
+        /// <summary>
+        /// It ends the complete experiment!
+        /// </summary>
         public void ForceSaveEndOfExperiment()
         {
             conditionController.PendingConditions.Clear();
             conditionController.ForceASaveEndOfCurrentCondition();
+        }
+
+        /// <summary>
+        /// It ends just the current condition, so another condition could be started.
+        /// </summary>
+        public void TryToPerformSaveInterruption()
+        {
+            appLog.Info("Try performing save interruption of current condition.");
+
+            if (conditionController.IsConditionRunning)
+            {
+                conditionController.ForceASaveEndOfCurrentCondition();
+            }
         }
 
         #endregion

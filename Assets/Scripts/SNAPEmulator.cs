@@ -13,7 +13,7 @@ namespace Assets.BeMoBI.Scripts
     {
         static readonly char[] commandSeparator = new char[] { '\n' };
 
-        NLog.Logger log = NLog.LogManager.GetLogger("App");
+        NLog.Logger appLog = NLog.LogManager.GetLogger("App");
 
         [Range(1026, 65535)]
         public int PortToListenOn = 7897;
@@ -27,16 +27,36 @@ namespace Assets.BeMoBI.Scripts
 
         void Awake()
         {
-            log.Info(string.Format("SNAP Emulation online - listen to Port: {0}!", PortToListenOn));
-            SetupTcpListener();
+            var appInit = FindObjectOfType<AppInit>();
+
+            appInit.OnAppConfigLoaded += (c) =>
+            {
+                PortToListenOn = c.SNAP_Emulation_Port;
+                Initialize();
+            };
+
         }
 
-        // Update is called once per frame
+        private void Initialize()
+        {
+            try
+            {
+                tcpListener = new TcpListener(IPAddress.Any, PortToListenOn);
+            }
+            catch (Exception)
+            {
+                var message = string.Format("SNAP emulation (Remote Control) could be initialized on TCP Port: {0}", PortToListenOn);
+                appLog.Fatal(message);
+            }
+
+            appLog.Info(string.Format("SNAP Emulation online - listen to Port: {0}!", PortToListenOn));
+        }
+
         void Update()
         {
             if(tcpListener == null)
             {
-                SetupTcpListener();
+                Initialize();
             }
 
             tcpListener.Start();
@@ -62,16 +82,11 @@ namespace Assets.BeMoBI.Scripts
                 if (stringWithOutZeroBytes != String.Empty)
                     RouteToSubscriber(stringWithOutZeroBytes);
             }
-        }
-
-        private void SetupTcpListener()
-        {
-            tcpListener = new TcpListener(IPAddress.Any, PortToListenOn);
-        }
+        } 
 
         private void RouteToSubscriber(string result)
         {
-            log.Info(string.Format("SNAPEmulator recieved: {0}", result));
+            appLog.Info(string.Format("SNAPEmulator recieved: {0}", result));
 
             var splittedStrings = result.Split(commandSeparator);
 

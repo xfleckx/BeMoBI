@@ -126,6 +126,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             paradigm.objectPresenter.SetActive(true);
 
+            paradigm.startingPoint.gameObject.SetActive(true);
         }
 
         private void ActivatePathAndSetHidingSpot(int pathId)
@@ -399,6 +400,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
         }
 
+        /// <summary>
+        /// This initializes the actual Trial end
+        /// under every circumstance the subject must enter the Waypoint
+        /// </summary>
+        /// <param name="waypoint"></param>
         public virtual void EntersWaypoint(ActionWaypoint waypoint)
         {
             if (!this.isActiveAndEnabled || waypoint.WaypointId != 0)
@@ -407,9 +413,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (currentTrialState == Internal_Trial_State.Returning)
             {
                 paradigm.marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
-
-                paradigm.startingPoint.gameObject.SetActive(true);
-
+                
                 stopWatch.Stop();
 
                 waypoint.HideInfoText();
@@ -420,7 +424,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 }
                 else if (conditionConfig.UseShortWayBack)
                 {
-                   
+                    CloseEntrance();
                 }
 
                 paradigm.fogControl.LetFogDisappeare();
@@ -661,9 +665,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         public virtual void ForceTrialEnd()
         {
-            stopWatch.Stop();
+            currentTrialState = Internal_Trial_State.Returning;
 
-            OnFinished(stopWatch.Elapsed);
+            paradigm.fading.StartFadeOut();
+
+            paradigm.teleporter.Teleport();
+
+            //stopWatch.Stop();
+
+            //OnFinished(stopWatch.Elapsed);
         }
 
         public event Action BeforeStart;
