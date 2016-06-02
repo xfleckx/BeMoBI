@@ -26,8 +26,9 @@ namespace Assets.BeMoBI.Scripts
             {
                 var parts = command.Split(' ');
                 var conditionName = parts[1].Replace("\n","").Trim();
-                
-                paradigm.InitializeCondition(conditionName);
+                var alsoReRun = true;
+
+                paradigm.ConditionController.SetSpecificConditionPending(conditionName, alsoReRun);
                 return;
             }
 

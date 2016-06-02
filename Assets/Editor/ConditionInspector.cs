@@ -21,7 +21,7 @@ public class ConditionInspector : Editor {
 
         EditorGUILayout.LabelField("Current Condition", currentCondition);
         
-        var currentTrial = instance.currentTrial == null ? "no trial" : instance.currentTrialDefinition.Value.ToString();
+        var currentTrial = instance.currentTrial == null ? "no trial" : instance.currentTrial.name;
 
         EditorGUILayout.LabelField("Current Trial", currentTrial);
         

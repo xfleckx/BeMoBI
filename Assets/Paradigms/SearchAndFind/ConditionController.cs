@@ -75,29 +75,36 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public void Initialize(ConditionDefinition requestedCondition, bool andStart = false)
         {
             if (IsConditionRunning)
-                throw new InvalidOperationException("A condition is already running!");
+                throw new InvalidOperationException(string.Format("A condition '{0}' is already running!",currentCondition.Identifier));
             
             if (PendingConditions.Any(c => c.Equals(requestedCondition))){
                 currentCondition = requestedCondition;
             }
+            else if(FinishedConditions.Any(c => c.Equals(requestedCondition)))
+            {
+                currentCondition = requestedCondition;
+            }
             else
             {
-                throw new ArgumentException(string.Format("Requested Condition '{0}' not available - maybe already done?", requestedCondition.Identifier));
+                throw new ArgumentException(string.Format("Requested Condition '{0}' not available - maybe wrong Name or Configuration?", requestedCondition.Identifier));
             }
 
-            ApplyConditionSpecificConfiguration(currentCondition.Config);
 
             if (!currentCondition.Trials.Any())
                 throw new InvalidOperationException("Selected condition doesn't contain trials!");
 
             currentLoadedTrialDefinitions = new LinkedList<TrialDefinition>(currentCondition.Trials);
 
+            ApplyConditionSpecificConfiguration(currentCondition.Config);
+
             var statusMessage = string.Format("Initialize Condition: \'{0}\'", currentCondition.Identifier);
 
             appLog.Info(statusMessage);
 
-            if (andStart)
+            if (andStart) {
+                appLog.Info("Autostart condition after initialization");
                 StartCurrentConditionWithFirstTrial();
+            }
         }
         
         public bool HasConditionPending()
@@ -177,7 +184,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         void SetNextTrialPending()
         {
-
             if (currentTrialDefinition == null)
             {
                 // Special case: First Trial after condition start
@@ -279,8 +285,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentTrial.gameObject.SetActive(false);
 
-            if (currentRunShouldEndAfterTrialFinished) {
-                isConditionRunning = false;
+            if (currentRunShouldEndAfterTrialFinished) { 
+                ConditionFinished();
                 return;
             }
 
@@ -299,7 +305,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public void SetNextConditionPending(bool andStart = false)
         {
             if (PendingConditions.Count > 0)
-                Initialize(PendingConditions.First(), andStart);
+            {
+                var nextCondition = PendingConditions.First();
+
+                appLog.Info("Initialize next pending condition " + nextCondition.Identifier);
+
+                Initialize(nextCondition, andStart);
+            }
             else
                 OnLastConditionFinished();
         }
@@ -318,11 +330,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 Initialize(requestedCondition);
                 return;
             }
-
-
+             
             if(FinishedConditions.Any(c => c.Identifier.Equals(conditionName)) && attempReRun)
             {
-                Initialize(FinishedConditions.First(c => c.Identifier.Equals(conditionName)));
+                appLog.Info("Run an already finished condition + " + conditionName);
+
+                var requestButAlreadyFinishedCondition = FinishedConditions.First(c => c.Identifier.Equals(conditionName));
+
+                Initialize(requestButAlreadyFinishedCondition);
                 return;
             }else
             {
@@ -337,9 +352,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             isConditionRunning = false;
 
+            currentRunShouldEndAfterTrialFinished = false;
+
             PendingConditions.Remove(currentCondition);
+
             FinishedConditions.Add(currentCondition);
 
+            var nameOfFinishedCondition = currentCondition.Identifier;
+
+            currentCondition = null;
 
             currentTrialDefinition = null;
 
@@ -348,7 +369,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             GC.Collect();
 
             if (OnConditionFinished != null)
-                OnConditionFinished(currentCondition.Identifier);
+                OnConditionFinished(nameOfFinishedCondition);
         }
 
         internal void ForceASaveEndOfCurrentCondition()

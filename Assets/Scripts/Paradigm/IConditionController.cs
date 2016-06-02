@@ -7,6 +7,8 @@ namespace Assets.BeMoBI.Scripts.Paradigm
 {
     public interface IConditionController
     {
+        void SetSpecificConditionPending(string conditionName, bool attempReRun = false);
+
         void InjectPauseTrialAfterCurrentTrial();
 
         void ReturnFromPauseTrial();

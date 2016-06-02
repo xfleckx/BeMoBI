@@ -327,34 +327,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             var resultRotation = Quaternion.Euler(0, subject.transform.rotation.eulerAngles.y, 0);
             subject.Rotate(resultRotation);
         }
-
-        private void ConditionFinished(string conditionId)
-        {
-            appLog.Info(string.Format("Condition {0} has finished!", conditionId));
-
-            if (!conditionController.PendingConditions.Any()) { 
-
-                ParadigmInstanceFinished();
-
-                return;
-            }
-
-            if (Config.waitForCommandOnConditionEnd)
-            {
-                appLog.Info(string.Format("Waiting for signal to start next condition...", conditionId));
-
-                //hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
-
-                waitingForSignalToStartNextCondition = true;
-
-                StartCoroutine(WaitForCommandToStartNextCondition());
-
-                return;
-            }
-
-            conditionController.SetNextConditionPending(true);
-        }
-
+        
         private IEnumerator WaitForCommandToStartNextCondition()
         {
             yield return new WaitWhile(() => waitingForSignalToStartNextCondition);
@@ -405,11 +378,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 if (conditionController.currentCondition != null && conditionController.currentCondition.Identifier.Equals(condition))
                 {
-                    var msg = string.Format("Requested condition {0} already initialized! Just starting...", condition);
+                    var msg = string.Format("Requested condition '{0}' already initialized! Just start it.", condition);
                     appLog.Info(msg);
+
                     return;
                 }
-                      
+
 
                 var requestedCondition =  InstanceDefinition.Get(condition);
 
@@ -448,6 +422,58 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 conditionController.StartCurrentConditionWithFirstTrial();
             else
                 appLog.Error("Try starting a condition but none has been configured");
+        }
+        
+        public bool AutoStartNextCondition = false;
+
+        private void ConditionFinished(string conditionId)
+        {
+            appLog.Info(string.Format("Condition {0} has finished!", conditionId));
+
+            if (!conditionController.PendingConditions.Any())
+            {
+                ParadigmInstanceFinished();
+                return;
+            }
+
+            if (Config.waitForCommandOnConditionEnd)
+            {
+                appLog.Info(string.Format("Waiting for signal to start next condition...", conditionId));
+
+                //hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
+
+                waitingForSignalToStartNextCondition = true;
+
+                StartCoroutine(WaitForCommandToStartNextCondition());
+
+                return;
+            }
+
+            if(AutoStartNextCondition)
+                conditionController.SetNextConditionPending();
+        }
+
+        /// <summary>
+        /// It ends the complete experiment!
+        /// </summary>
+        public void ForceSaveEndOfExperiment()
+        {
+            conditionController.PendingConditions.Clear();
+            conditionController.ForceASaveEndOfCurrentCondition();
+        }
+
+        /// <summary>
+        /// It ends just the current condition, so another condition could be started.
+        /// </summary>
+        public void TryToPerformSaveInterruption()
+        {
+            appLog.Info("Try performing save interruption of current condition.");
+
+            if (conditionController.IsConditionRunning)
+            {
+                AutoStartNextCondition = false;
+                conditionController.ForceASaveEndOfCurrentCondition();
+            }
         }
 
         public void Restart(string condition = "")
@@ -508,28 +534,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public void LoadState()
         {
             throw new NotImplementedException("TODO");
-        }
-
-        /// <summary>
-        /// It ends the complete experiment!
-        /// </summary>
-        public void ForceSaveEndOfExperiment()
-        {
-            conditionController.PendingConditions.Clear();
-            conditionController.ForceASaveEndOfCurrentCondition();
-        }
-
-        /// <summary>
-        /// It ends just the current condition, so another condition could be started.
-        /// </summary>
-        public void TryToPerformSaveInterruption()
-        {
-            appLog.Info("Try performing save interruption of current condition.");
-
-            if (conditionController.IsConditionRunning)
-            {
-                conditionController.ForceASaveEndOfCurrentCondition();
-            }
         }
 
         #endregion
