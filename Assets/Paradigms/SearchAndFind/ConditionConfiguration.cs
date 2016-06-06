@@ -74,7 +74,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         [SerializeField]
         public bool useExactOnCategoryPerMaze = true;
-        
+
+        [SerializeField]
+        public float forwardMovementSpeed = 0.9f;
+
+        [SerializeField]
+        public float rotationSpeed = 50;
+
         [SerializeField]
         public bool groupByMazes = true;
 

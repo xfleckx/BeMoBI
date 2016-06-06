@@ -140,6 +140,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             paradigm.subject.Change<IHeadMovementController>(config.HeadControllerName);
 
             var vrHeadSetController = FindObjectOfType<OculusRiftController>();
+            var keyboardMovement = FindObjectOfType<KeyboardCombined>();
+
+            keyboardMovement.BodyRotationSpeed = conditionConfig.rotationSpeed;
+            keyboardMovement.MaxWalkingSpeed = conditionConfig.forwardMovementSpeed;
 
             vrHeadSetController.UseMonoscopigRendering = conditionConfig.UseMonoscopicViewOnVRHeadset;
         }
