@@ -15,15 +15,15 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
   m_Fog: 1
-  m_FogColor: {r: 0.9044118, g: 0.9044118, b: 0.9044118, a: 1}
+  m_FogColor: {r: 0.72794116, g: 0.72794116, b: 0.72794116, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.001
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
-  m_AmbientEquatorColor: {r: 1, g: 1, b: 1, a: 1}
+  m_AmbientSkyColor: {r: 0.72794116, g: 0.8986816, b: 1, a: 1}
+  m_AmbientEquatorColor: {r: 0.8455882, g: 0.83937067, b: 0.83937067, a: 1}
   m_AmbientGroundColor: {r: 0.2794118, g: 0.2794118, b: 0.2794118, a: 1}
-  m_AmbientIntensity: 1.272
+  m_AmbientIntensity: 0.509
   m_AmbientMode: 1
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -780,7 +780,7 @@ Transform:
   m_LocalRotation: {x: -0.000000022173731, y: -0.8617838, z: 0.5072758, w: -0.000000037669764}
   m_LocalPosition: {x: 0.008, y: 2.908, z: 0.721}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60.9651, y: -180, z: 0}
   m_Children: []
   m_Father: {fileID: 1941343822}
   m_RootOrder: 0
@@ -3168,17 +3168,17 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1142857988
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 485252, guid: 91e78591212158b4ba8435c897dbe74b, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1142857987}
-  m_LocalRotation: {x: 0.4878381, y: -0.00000008940697, z: -0.000000029802322, w: 0.87293416}
-  m_LocalPosition: {x: 0, y: 0.735, z: -0.28399983}
+  m_LocalRotation: {x: 0.2836826, y: -0.00000010079053, z: -0.000000045521876, w: 0.9589183}
+  m_LocalPosition: {x: -0.000000011175871, y: 0.735, z: -0.28399983}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 32.960197, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1615996664}
   m_RootOrder: 1
@@ -3193,9 +3193,9 @@ Light:
   serializedVersion: 6
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.8
-  m_Range: 1.49
-  m_SpotAngle: 128.2
+  m_Intensity: 0.68
+  m_Range: 4.2678666
+  m_SpotAngle: 89.4
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -5045,7 +5045,7 @@ MonoBehaviour:
   waitForCommandOnConditionEnd: 1
   conditionConfigurations:
   - ConditionID: mono
-    useTeleportation: 1
+    useTeleportation: 0
     BodyControllerName: Keyboard
     HeadControllerName: Oculus Headset
     TimeToDisplayObjectToRememberInSeconds: 3
@@ -5058,7 +5058,7 @@ MonoBehaviour:
     forwardMovementSpeed: 0.9
     rotationSpeed: 50
     groupByMazes: 1
-    UseShortWayBack: 0
+    UseShortWayBack: 1
     UseMonoscopicViewOnVRHeadset: 0
     ExpectedMazes:
     - Name: Maze1
@@ -6089,8 +6089,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.36, z: 0}
+  m_Size: {x: 0.75624084, y: 1, z: 1}
+  m_Center: {x: 0.35607275, y: 0.36, z: 0.0000000018626451}
 --- !u!95 &1944748668
 Animator:
   serializedVersion: 3
@@ -6142,7 +6142,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1954452472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.74, z: 0}
+  m_LocalPosition: {x: -0.177, y: 0.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -6580,7 +6580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2014780176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6697,7 +6697,7 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2016469149
