@@ -28,7 +28,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             var configFileName = "SearchAndFind_Config.json";
             var appConfigFileName = "AppConfig.json";
 
-            var sep = Path.PathSeparator;
+            var sep = Path.DirectorySeparatorChar;
             var assets = "Assets";
 
             // Copy a file from the project folder to the build folder, alongside the built game.
