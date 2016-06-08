@@ -91,7 +91,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public bool UseMonoscopicViewOnVRHeadset = false;
 
         [SerializeField]
+        public bool UseNoseInVRView = false;
+
+        [SerializeField]
         public List<ExpectedMazeWithPaths> ExpectedMazes = new List<ExpectedMazeWithPaths>();
+
+        [SerializeField]
+        public bool UseTextInstructions = false;
     }
 
 
