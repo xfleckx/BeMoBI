@@ -343,7 +343,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 Initialize(requestButAlreadyFinishedCondition);
                 return;
-            }else
+            }else if(!attempReRun && FinishedConditions.Any(c => c.Identifier.Equals(conditionName)))
             {
                 appLog.Error(string.Format("Requested condition '{0}' has been done already - force by using rerun=true!", conditionName));
                 return;
