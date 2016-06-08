@@ -71,16 +71,19 @@ public class AppRuntimeStatistics : MonoBehaviour {
 
     IEnumerator GetFPS()
     {
-        while (true)
+        do
         {
-            //int currentFrameCount = Time.renderedFrameCount;
-            //fps = currentFrameCount - lastFrameCount;
-            //lastFrameCount = currentFrameCount;
-
-            fps = 1 / Time.deltaTime;
-
             yield return new WaitForSeconds(fixedFPSIntervall);
-        }
+
+            int currentFrameCount = Time.frameCount;
+            fps = currentFrameCount - lastFrameCount;
+            lastFrameCount = currentFrameCount;
+
+            // fps = 1 / Time.deltaTime;
+            //fps = Time.renderedFrameCount;
+
+
+        } while (true);
     }
 
     IEnumerator GetAvgFrameTime()
