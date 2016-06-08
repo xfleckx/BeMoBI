@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 62851498}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.89, z: 0.20000002}
+  m_LocalPosition: {x: -0.014, y: 1.89, z: -0.063}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -264,6 +264,7 @@ MonoBehaviour:
     groupByMazes: 1
     UseShortWayBack: 0
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -492,7 +493,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1673802177}
+  Config: {fileID: 1621562898}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -516,7 +517,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: C:/Users/markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config_MonoStereo.json
+  PathToLoadedConfig: G:\Documents\git_repos\BeMoBI\Assets\SearchAndFind_Config_Exp.json
   AutoStartNextCondition: 0
 --- !u!114 &188249850
 MonoBehaviour:
@@ -622,7 +623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56753b5765d039e4eb85b87862c659c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestMode: 0
 --- !u!114 &188249854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1412,6 +1412,7 @@ MonoBehaviour:
     groupByMazes: 1
     UseShortWayBack: 0
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -1894,10 +1895,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hud: {fileID: 2061524740}
   publishToLSL: 1
+  frameTimeAvgInterval: 0.5
   StreamName: MoBIVR.AppStatistics
   StreamType: Unity3D.FPS.FT
   ChannelCount: 2
-  FpsUpdateInterval: 0.5
 --- !u!114 &699533154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2576,7 +2577,7 @@ GameObject:
   - 136: {fileID: 955855799}
   - 23: {fileID: 955855798}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3691,6 +3692,7 @@ MonoBehaviour:
     groupByMazes: 1
     UseShortWayBack: 0
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -4639,7 +4641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1673802177
+--- !u!114 &1621562898
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -4656,7 +4658,7 @@ MonoBehaviour:
   nameOfRigidBodyDefinition: 6_upperBody.rb
   waitForCommandOnConditionEnd: 1
   conditionConfigurations:
-  - ConditionID: mono
+  - ConditionID: test
     useTeleportation: 0
     BodyControllerName: Keyboard
     HeadControllerName: Oculus Headset
@@ -4664,18 +4666,19 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 3
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 0.9
-    rotationSpeed: 50
+    forwardMovementSpeed: 1.4
+    rotationSpeed: 35
     groupByMazes: 1
     UseShortWayBack: 1
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes:
     - Name: Maze1
-      pathIds: 00000000
-  - ConditionID: stereo
+      pathIds: 04000000
+  - ConditionID: test2
     useTeleportation: 1
     BodyControllerName: Keyboard
     HeadControllerName: Oculus Headset
@@ -4683,16 +4686,17 @@ MonoBehaviour:
     TimeToDisplayObjectWhenFoundInSeconds: 2
     offsetToTeleportation: 2
     categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 3
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
     useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 0.9
-    rotationSpeed: 50
+    forwardMovementSpeed: 1.4
+    rotationSpeed: 10
     groupByMazes: 1
     UseShortWayBack: 0
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes:
-    - Name: Maze2
+    - Name: Maze3
       pathIds: 01000000
 --- !u!1001 &1683745838
 Prefab:
@@ -5026,6 +5030,7 @@ MonoBehaviour:
     groupByMazes: 1
     UseShortWayBack: 0
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes: []
   hidingSpotInstance: {fileID: 0}
   pathController: {fileID: 0}
@@ -6212,6 +6217,7 @@ MonoBehaviour:
     m_RotationOrder: 0
   rotateSmooth: 0
   SmoothBodyTime: 2
+  allowBackwardsMovement: 0
   ForwardSpeed: 1.4
   body: {fileID: 0}
   speed: 2
@@ -6504,7 +6510,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.2
+  near clip plane: 0.05
   far clip plane: 100
   field of view: 100
   orthographic: 0
@@ -6673,6 +6679,7 @@ MonoBehaviour:
       groupByMazes: 1
       UseShortWayBack: 0
       UseMonoscopicViewOnVRHeadset: 0
+      UseNoseInVRView: 0
       ExpectedMazes: []
     Trials: []
   conditionConfig:
@@ -6692,4 +6699,5 @@ MonoBehaviour:
     groupByMazes: 1
     UseShortWayBack: 0
     UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
     ExpectedMazes: []
