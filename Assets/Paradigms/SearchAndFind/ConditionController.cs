@@ -13,13 +13,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class ConditionController : MonoBehaviour, IConditionController
     {
-        private static NLog.Logger statistic = LogManager.GetLogger("Statistics");
-
         private static NLog.Logger appLog = LogManager.GetLogger("App");
 
         public ParadigmController paradigm;
 
         public Action OnLastConditionFinished;
+
+        public Action<ConditionConfiguration> ConditionShouldInitializeItsConfiguration;
 
         public Action<string> OnConditionFinished;
 
@@ -70,6 +70,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if(currentCondition != null) { 
                 currentCondition = null;
             }
+            
+            // this code should be moved to a more paradigm specific place
+            ConditionShouldInitializeItsConfiguration += ApplyConditionSpecificConfiguration;
         }
 
         public void Initialize(ConditionDefinition requestedCondition, bool andStart = false)
@@ -95,7 +98,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentLoadedTrialDefinitions = new LinkedList<TrialDefinition>(currentCondition.Trials);
 
-            ApplyConditionSpecificConfiguration(currentCondition.Config);
+            if(ConditionShouldInitializeItsConfiguration != null)
+                ConditionShouldInitializeItsConfiguration(currentCondition.Config);
 
             var statusMessage = string.Format("Initialize Condition: \'{0}\'", currentCondition.Identifier);
 
@@ -140,12 +144,23 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             paradigm.subject.Change<IHeadMovementController>(config.HeadControllerName);
 
             var vrHeadSetController = FindObjectOfType<OculusRiftController>();
-            var keyboardMovement = FindObjectOfType<KeyboardCombined>();
 
-            keyboardMovement.BodyRotationSpeed = conditionConfig.rotationSpeed;
-            keyboardMovement.MaxWalkingSpeed = conditionConfig.forwardMovementSpeed;
+            var keyboardCombiMovement = FindObjectOfType<KeyboardCombined>();
+            var keyboardMovement = FindObjectOfType<KeyboardController>();
+
+            keyboardMovement.speed = config.rotationSpeed;
+            keyboardMovement.ForwardSpeed = config.forwardMovementSpeed;
+
+            keyboardCombiMovement.BodyRotationSpeed = conditionConfig.rotationSpeed;
+            keyboardCombiMovement.MaxWalkingSpeed = conditionConfig.forwardMovementSpeed;
 
             vrHeadSetController.UseMonoscopigRendering = conditionConfig.UseMonoscopicViewOnVRHeadset;
+
+            var nose = GameObject.Find("Nose");
+
+            if (nose != null)
+                nose.SetActive(config.UseNoseInVRView);
+
         }
 
         /// <summary>
