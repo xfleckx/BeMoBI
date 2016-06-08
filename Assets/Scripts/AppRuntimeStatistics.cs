@@ -12,6 +12,8 @@ public class AppRuntimeStatistics : MonoBehaviour {
 
     public bool publishToLSL = true;
 
+    public float frameTimeAvgInterval = 0.5f;
+
     #region lsl
     
     private const string unique_source_id = "E493C423896E4783A004E93AA3D81051";
@@ -27,42 +29,14 @@ public class AppRuntimeStatistics : MonoBehaviour {
     #endregion
 
     #region FPS Counter
+    private readonly int fixedFPSIntervall = 1;
 
-    private int frameCount = 0;
+    private int lastFrameCount = 0;
     private float fps = 0;
     private float avgFrameTime;
-    private float timeSpendToCompleteLastFrame;
-
-    private float timeLeft = 0.5f;
-    private float timePassed = 0;
-    public float FpsUpdateInterval = 0.5f;
-
-    List<float> lastframeTimes = new List<float>();
-
-    private void EstimateFpsAndAverageFrameTime()
-    {
-        frameCount += 1;
-
-        float lastFrameTime = Time.deltaTime;
-
-        timeLeft -= lastFrameTime;
-
-        lastframeTimes.Add(lastFrameTime);
-
-        timePassed += Time.timeScale / Time.deltaTime;
-
-        if (timeLeft <= 0f)
-        {
-            fps = timePassed / frameCount;
-            timeLeft = FpsUpdateInterval;
-            timePassed = 0;
-            frameCount = 0;
-            avgFrameTime = lastframeTimes.Average();
-            lastframeTimes.Clear();
-        }
-
-    }
-
+    
+    List<float> frameTimeBuffer = new List<float>();
+    
     #endregion
     
     void Start()
@@ -82,24 +56,53 @@ public class AppRuntimeStatistics : MonoBehaviour {
         {
             Debug.Log(e.Message);
         }
+        
+        StartCoroutine(GetFPS());
+        StartCoroutine(GetAvgFrameTime());
     }
 
     void Update () {
 
-        EstimateFpsAndAverageFrameTime();
+        frameTimeBuffer.Add(Time.unscaledDeltaTime);
 
         if (hud != null)
             hud.UpdateFpsAndFTView(fps, avgFrameTime);
     }
-    
+
+    IEnumerator GetFPS()
+    {
+        while (true)
+        {
+            //int currentFrameCount = Time.renderedFrameCount;
+            //fps = currentFrameCount - lastFrameCount;
+            //lastFrameCount = currentFrameCount;
+
+            fps = 1 / Time.deltaTime;
+
+            yield return new WaitForSeconds(fixedFPSIntervall);
+        }
+    }
+
+    IEnumerator GetAvgFrameTime()
+    {
+        while (true)
+        {
+            if(frameTimeBuffer.Any())
+                avgFrameTime = frameTimeBuffer.Average();
+
+            frameTimeBuffer.Clear();
+
+            yield return new WaitForSeconds(frameTimeAvgInterval);
+        }
+    }
+
     public void LateUpdate()
     {
         if (outlet == null)
             return;
         
         currentSample[0] = fps;
-        currentSample[1] = timeSpendToCompleteLastFrame;
+        currentSample[1] = Time.unscaledDeltaTime;
         outlet.push_sample(currentSample, LSLTimeSync.Instance.UpdateTimeStamp);
     }
-    
 }
