@@ -131,15 +131,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Clear Config"))
             {
-                DestroyImmediate(instance.Config);
-
-                instance.Config = null;
-                instance.conditionController.conditionConfig = null;
-                instance.PathToLoadedConfig = string.Empty;
-
+                ParadigmInspectorHelper.ClearConfiguration(instance);
                 configName = string.Empty;
-
-                GC.Collect();
             }
                          
             if (instance.Config == null)
@@ -244,6 +237,22 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                     configName = Path.GetFileNameWithoutExtension(new FileInfo(configFilePathToLoad).Name);
                 }
             }
+
+        }
+    }
+
+    public static class ParadigmInspectorHelper
+    {
+        public static void ClearConfiguration(this ParadigmController instance)
+        {
+
+            UnityEngine.GameObject.DestroyImmediate(instance.Config);
+
+            instance.Config = null;
+            instance.conditionController.conditionConfig = null;
+            instance.PathToLoadedConfig = string.Empty;
+
+            GC.Collect();
 
         }
     }
