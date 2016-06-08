@@ -23,6 +23,8 @@ namespace Assets.BeMoBI.Scripts.Controls
         public float SmoothBodyTime = 2f;
 
 
+        public bool allowBackwardsMovement = false;
+
         public float ForwardSpeed = 10f;
 
         void Start()
@@ -75,16 +77,22 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             Vector3 desiredMove = Vector3.zero;
 
+            float forwardMovement = rawY;
+
+            if (!allowBackwardsMovement && forwardMovement < 0)
+                forwardMovement = 0;
+
             if (useStrafing)
                 desiredMove = transform.forward * rawX + transform.right;
             else
-                desiredMove = transform.forward * rawY * ForwardSpeed * Time.deltaTime;
+                desiredMove = transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
             
+
             var evaluated = BodyRotationAccelerationCurve.Evaluate(abs_body_raw_X);
 
             var rotationDirection = evaluated * signX;
 
-            expectedRotation *= Quaternion.Euler(0f, rotationDirection * speed, 0f);
+            expectedRotation *= Quaternion.Euler(0f, rotationDirection * speed * Time.deltaTime, 0f);
 
             if (rotateSmooth)
             {
