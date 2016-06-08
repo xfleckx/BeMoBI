@@ -335,7 +335,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             objectToRemember.SetActive(true);
 
-            paradigm.marker.Write(MarkerPattern.FormatDisplayObject(objectName, categoryName));
+            paradigm.marker.WriteAtTheEndOfThisFrame(MarkerPattern.FormatDisplayObject(objectName, categoryName));
 
             StartCoroutine(
                 DisplayObjectAtStartFor(
@@ -422,9 +422,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 paradigm.fogControl.LetFogDisappeare();
 
-                //paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
-
-
+                if(conditionConfig.UseTextInstructions)
+                    paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
+                
                 OnFinished(stopWatch.Elapsed);
             }
         }
@@ -544,14 +544,20 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                     paradigm.audioInstructions.play("wrongTurn");
 
-                    //paradigm.hud.ShowWrongTurnIconFor(1.5f);
-                    //acceptsASubmit = true;
+                    if (conditionConfig.UseTextInstructions)
+                    {
+                        paradigm.hud.ShowWrongTurnIconFor(1.5f);
+                        acceptsASubmit = true;
+                    }
                 }
                 else if(SubjectReturnsToPath())
                 {
-                    //paradigm.hud.ShowInstruction("Du bist wieder auf dem richtigen Weg!", "Gut.");
+                    if (conditionConfig.UseTextInstructions)
+                    {
+                        paradigm.hud.ShowInstruction("Du bist wieder auf dem richtigen Weg!", "Gut.");
 
-                    //acceptsASubmit = true;
+                        acceptsASubmit = true;
+                    }
                 }
 
             }
@@ -600,11 +606,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             if (conditionConfig.useTeleportation)
             {
-                paradigm.hud.ShowInstruction("Geschafft! Entspann dich, du wirst zum Endpunkt teleportiert.", "Sehr gut!");
+                if(conditionConfig.UseTextInstructions)
+                    paradigm.hud.ShowInstruction("Done! Relax, you will be teleportet back to start.", "Good!");
                 
-                // important here... to get rid of the last MazeUnitEvent when the subject gets teleported!
+                // important here... to get rid of the last MazeUnitEvent when the subject gets teleported otherwise markers get's messed up!
                 // It's too late - so do it here!
                 mazeInstance.MazeUnitEventOccured -= SubjectMovesWithinTheMaze;
+
                 paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Exiting));
 
                 StartCoroutine(BeginTeleportation());
@@ -613,7 +621,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             }
             else
             {
-                //paradigm.hud.ShowInstruction("Geschafft! Kehre nun zurück zum Endpunkt!", "Aufgabe");
+                if (conditionConfig.UseTextInstructions) {
+                    paradigm.hud.ShowInstruction("Done! Please turn and went back to the start room!", "Aufgabe");
+                }
 
                 if (conditionConfig.UseShortWayBack) {
                     mazeInstance.gameObject.SetActive(false);

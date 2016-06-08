@@ -439,7 +439,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (Config.waitForCommandOnConditionEnd)
             {
                 appLog.Info(string.Format("Waiting for signal to start next condition...", conditionId));
-
+                
                 //hud.ShowInstruction("You made it through one part of the experiment!", "Congrats!");
 
                 waitingForSignalToStartNextCondition = true;

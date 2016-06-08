@@ -25,11 +25,15 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         IEnumerator DisplayInstruction()
         {
-            paradigm.hud.Clear();
 
-          //  paradigm.hud.ShowInstruction("Merke dir das Objekt und den Pfad durch das Labyrinth!", "Aufgabe");
+            if (conditionConfig.UseTextInstructions) {
 
-            yield return new WaitForSeconds(2);
+                paradigm.hud.Clear();
+
+                paradigm.hud.ShowInstruction("Merke dir das Objekt und den Pfad durch das Labyrinth!", "Aufgabe");
+
+                yield return new WaitForSeconds(2);
+            }
 
             paradigm.hud.Clear();
 
