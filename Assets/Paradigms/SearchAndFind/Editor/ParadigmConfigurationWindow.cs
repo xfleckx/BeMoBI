@@ -334,12 +334,20 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                 selectedConditionConfig.groupByMazes);
 
             selectedConditionConfig.useTeleportation = EditorGUILayout.Toggle(
-                new GUIContent("use Teleportaiton", "Use Teleportation to bring the subject back to start after Trial ends"),
+                new GUIContent("use Teleportation", "Use Teleportation to bring the subject back to start after Trial ends"),
                 selectedConditionConfig.useTeleportation);
 
             selectedConditionConfig.UseShortWayBack = EditorGUILayout.Toggle(
                 new GUIContent("use short way back", "Disables the maze and let the subject move directly to the entrance area."),
                 selectedConditionConfig.UseShortWayBack);
+
+            selectedConditionConfig.UseNoseInVRView = EditorGUILayout.Toggle(
+                new GUIContent("use virtual nose", "Enables a virtual nose in the view"),
+                selectedConditionConfig.UseNoseInVRView);
+            
+            selectedConditionConfig.UseTextInstructions = EditorGUILayout.Toggle(
+                new GUIContent("use text instructions", "will show text instructions in certain moments"),
+                selectedConditionConfig.UseTextInstructions);
 
             selectedConditionConfig.UseMonoscopicViewOnVRHeadset = EditorGUILayout.Toggle(
                new GUIContent("Use monoscopic perspective", "An option for the vr headset to get monoscopic perspective instead of stereo perspective"),
@@ -352,6 +360,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
                     selectedConditionConfig.categoriesPerMaze);
             }
 
+            selectedConditionConfig.forwardMovementSpeed = EditorGUILayout.FloatField("Movement Speed (m/s)", selectedConditionConfig.forwardMovementSpeed);
+
+            selectedConditionConfig.rotationSpeed = EditorGUILayout.FloatField("Rotation speed (°/s)", selectedConditionConfig.rotationSpeed);
+            
             EditorGUILayout.LabelField("Count of object visitations");
 
             selectedConditionConfig.objectVisitationsInTraining = EditorGUILayout.IntField("Training", selectedConditionConfig.objectVisitationsInTraining);
