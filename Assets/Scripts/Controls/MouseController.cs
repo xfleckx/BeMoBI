@@ -68,7 +68,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         {
             var subject = GetComponent<VRSubjectController>();
             body = subject.Body;
-            var head = subject.Head;
+            //var head = subject.Head;
             m_CharacterTargetRot = body.transform.rotation;
            // m_CameraTargetRot = head.transform.localRotation;
         }
