@@ -10,7 +10,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public class TrialStatistic
         {
             private string mazeName;
-            private string conditionId;
             private int path;
             private double seconds;
             private string trialType;
@@ -52,14 +51,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 get
                 {
                     return trialType;
-                }
-            }
-                         
-            public string ConditionID
-            {
-                get
-                {
-                    return conditionId;
                 }
             }
         }

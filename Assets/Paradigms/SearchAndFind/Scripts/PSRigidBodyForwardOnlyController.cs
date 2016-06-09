@@ -18,7 +18,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         NLog.Logger appLog = NLog.LogManager.GetLogger("App");
 
-        string VERTICAL = "FW_Vertical";
+        // string VERTICAL = "FW_Vertical"; // not in use
 
         string VERTICAL_WiiMote = "FW_WiiM_Vertical";
          
