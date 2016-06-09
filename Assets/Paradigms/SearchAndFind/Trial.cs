@@ -333,10 +333,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         protected virtual void ShowObjectAtStart()
         {
-            objectToRemember.SetActive(true);
-
-            paradigm.marker.WriteAtTheEndOfThisFrame(MarkerPattern.FormatDisplayObject(objectName, categoryName));
-
             StartCoroutine(
                 DisplayObjectAtStartFor(
                     conditionConfig.TimeToDisplayObjectToRememberInSeconds)
@@ -345,6 +341,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         IEnumerator DisplayObjectAtStartFor(float waitingTime)
         {
+            yield return new WaitForSeconds(waitingTime / 2);
+
+            paradigm.marker.WriteAtTheEndOfThisFrame(MarkerPattern.FormatDisplayObject(objectName, categoryName));
+
+            objectToRemember.SetActive(true);
+
             yield return new WaitForSeconds(waitingTime);
 
             HideSocketAndOpenEntranceAtStart();
@@ -356,9 +358,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         {
             this.isReady = true; // Trial starts when Subject enters Startpoint
 
+            paradigm.startingPoint.gameObject.SetActive(true);
+
             paradigm.hud.Clear();
 
-            // paradigm.hud.ShowInstruction("Bitte betretet den grünen Start Punkt um zu Beginnen!", "Aufgabe");
+            if(conditionConfig.UseTextInstructions)
+              paradigm.hud.ShowInstruction("Please move to the green start point!", "Task");
 
             acceptsASubmit = true;
         }
@@ -386,7 +391,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 stopWatch.Start();
 
                 ShowObjectAtStart();
-
             }
         }
         
@@ -572,12 +576,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             yield return new WaitForSeconds(0.3f);
 
-            RevealObjectWhenSubjectReachesTheTarget();
+            RevealObjectAtPathEnd();
 
             yield return null;
         }
 
-        private void RevealObjectWhenSubjectReachesTheTarget()
+        private void RevealObjectAtPathEnd()
         {
             hidingSpotInstance.RevealImmediately();
 
