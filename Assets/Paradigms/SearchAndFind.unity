@@ -346,7 +346,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 1621562898}
+  Config: {fileID: 916113118}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -370,7 +370,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: G:\Documents\git_repos\BeMoBI\Assets\SearchAndFind_Config_Exp.json
+  PathToLoadedConfig: C:/Users/markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config.json
   AutoStartNextCondition: 0
 --- !u!114 &188249850
 MonoBehaviour:
@@ -859,6 +859,14 @@ Prefab:
     - target: {fileID: 194824, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
       propertyPath: m_Name
       value: Subject
+      objectReference: {fileID: 0}
+    - target: {fileID: 412046, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.192
+      objectReference: {fileID: 0}
+    - target: {fileID: 412046, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.185
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
@@ -1549,6 +1557,65 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &916113118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 0
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  waitForCommandOnConditionEnd: 1
+  conditionConfigurations:
+  - ConditionID: mono
+    useTeleportation: 1
+    BodyControllerName: Keyboard
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 3
+    useExactOnCategoryPerMaze: 1
+    forwardMovementSpeed: 1.4
+    rotationSpeed: 40
+    groupByMazes: 1
+    UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 1
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 00000000
+    UseTextInstructions: 0
+  - ConditionID: stereo
+    useTeleportation: 1
+    BodyControllerName: Keyboard
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 2
+    objectVisitationsInExperiment: 3
+    useExactOnCategoryPerMaze: 1
+    forwardMovementSpeed: 0.9
+    rotationSpeed: 50
+    groupByMazes: 1
+    UseShortWayBack: 0
+    UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
+    ExpectedMazes:
+    - Name: Maze2
+      pathIds: 01000000
+    UseTextInstructions: 0
 --- !u!114 &1021378915 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11488458, guid: 2209bac5d21fbe842a17863bb37ddd92,
@@ -1613,6 +1680,22 @@ MonoBehaviour:
 Transform:
   m_PrefabParentObject: {fileID: 472478, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
   m_PrefabInternal: {fileID: 389004842}
+--- !u!1 &1129188713 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100002, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+  m_PrefabInternal: {fileID: 653638832}
+--- !u!64 &1129188714
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1129188713}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
 --- !u!1 &1145635888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,65 +2631,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2acfa7c86bdeb0c409e9ee9bc4139ea6, type: 3}
   m_IsPrefabParent: 0
---- !u!114 &1621562898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 1
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  waitForCommandOnConditionEnd: 1
-  conditionConfigurations:
-  - ConditionID: test
-    useTeleportation: 0
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 1.4
-    rotationSpeed: 35
-    groupByMazes: 1
-    UseShortWayBack: 1
-    UseMonoscopicViewOnVRHeadset: 0
-    UseNoseInVRView: 0
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 04000000
-    UseTextInstructions: 0
-  - ConditionID: test2
-    useTeleportation: 1
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 1.4
-    rotationSpeed: 10
-    groupByMazes: 1
-    UseShortWayBack: 0
-    UseMonoscopicViewOnVRHeadset: 0
-    UseNoseInVRView: 0
-    ExpectedMazes:
-    - Name: Maze3
-      pathIds: 01000000
-    UseTextInstructions: 0
 --- !u!1001 &1683745838
 Prefab:
   m_ObjectHideFlags: 0
