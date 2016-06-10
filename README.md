@@ -5,7 +5,7 @@ Providing a Spatial cognition paradigm to show how such a thing could implemente
 
 # Setup
 
-### Submodules [optional]
+### Init Submodules [when using git clone from git bash or commandline]
 Only necessary when your working with the git commandline tools!
 After cloning this repository, call:
 
