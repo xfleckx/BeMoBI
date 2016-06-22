@@ -10,7 +10,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
     public class ScriptBatch
     {
-        [MenuItem("BeMoBI/Combile SearchAndFind")]
+        [MenuItem("BeMoBI/Compile SearchAndFind")]
         public static void Build_SearchAndFind()
         {
             /// a prototypical function to test automaticaly build scenes
