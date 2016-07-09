@@ -43,7 +43,8 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             var nlogConfigFile = "NLog.config";
             var configFileName = "SearchAndFind_Config.json";
             var appConfigFileName = "AppConfig.json";
-
+            var rigidBodyFileName = "6_upperBody.rb";
+             
             var sep = Path.DirectorySeparatorChar;
             var assets = "Assets";
             
@@ -52,6 +53,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             FileUtil.CopyFileOrDirectory(assets + sep + configFileName, path + sep + dataFolderName + sep + configFileName);
 
             FileUtil.CopyFileOrDirectory(assets + sep + appConfigFileName, path + sep + dataFolderName + sep + appConfigFileName);
+            FileUtil.CopyFileOrDirectory(assets + sep + rigidBodyFileName, path + sep + dataFolderName + sep + rigidBodyFileName);
             // open the target directory
             Process.Start(path);
 
