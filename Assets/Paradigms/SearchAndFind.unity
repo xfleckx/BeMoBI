@@ -868,6 +868,14 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0.185
       objectReference: {fileID: 0}
+    - target: {fileID: 11436134, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 2016469148}
+    - target: {fileID: 11436134, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: speed
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
   m_IsPrefabParent: 0
@@ -3325,6 +3333,11 @@ Transform:
 --- !u!1 &2016469147 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 194824, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+  m_PrefabInternal: {fileID: 389004842}
+--- !u!143 &2016469148 stripped
+CharacterController:
+  m_PrefabParentObject: {fileID: 14325420, guid: 2209bac5d21fbe842a17863bb37ddd92,
+    type: 2}
   m_PrefabInternal: {fileID: 389004842}
 --- !u!114 &2016469158 stripped
 MonoBehaviour:
