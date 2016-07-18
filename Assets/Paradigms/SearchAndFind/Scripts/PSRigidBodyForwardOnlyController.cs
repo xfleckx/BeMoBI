@@ -131,22 +131,34 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             if (tracker == null)
             {
-                Debug.Log("No tracker found!");
+                var msg = "No phasespace (owl) server found!";
+
+                appLog.Error(msg);
+
+                Debug.Log(msg);
+
                 this.enabled = false;
                 return;
             }
+
+            appLog.Error("Automatic use the first OWL server.");
 
             var firstServer = availableServers.FirstOrDefault();
 
             if (firstServer != null)
             {
+                var connectionAttemptMessage = string.Format("Try connection to OWL with address {0}", firstServer.address);
+
+                appLog.Error(connectionAttemptMessage);
+                Debug.Log(connectionAttemptMessage);
+
                 var result = tracker.Connect(firstServer.address, false, false);
 
                 if (result == false)
                 {
-                    var message = "Establishing connection failed...";
-                    appLog.Error(message);
-                    Debug.Log(message);
+                    var connectionFailedMessage = string.Format("Establishing connection to OWL with address {0} failed...", firstServer.address);
+                    appLog.Error(connectionFailedMessage);
+                    Debug.Log(connectionFailedMessage);
                 }
             }
             this.enabled = true;
@@ -176,9 +188,13 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             try
             {
+                if (tracker != null) {
+                    var creationMessage = string.Format("Try create rigidbody with ID: {0} from file: {1}", expectedRigidID, fileInfo.Name);
+                    appLog.Info(creationMessage);
+                    Debug.Log(creationMessage);
 
-                if (tracker != null)
                     tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
+                }
             }
             catch (OWLException owle)
             {   
@@ -200,7 +216,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             TryCreateRigidBodyTracker();
 
-            appLog.Info("Rigidbody initialized! Send Start Streaming Message to OWL!");
+            appLog.Info("Rigidbody initialized... Send 'Start Streaming' Message to OWL!");
 
             tracker.StartStreaming();
         }
@@ -262,11 +278,7 @@ namespace Assets.BeMoBI.Scripts.Controls
                 interp_index = (interp_index + 1) % quaternions.Length;
             }
         }
-
-        public void ResetForward()
-        { 
-        }
-
+        
         public void OnDestroy()
         {
             CloseTrackerConnection();
@@ -280,6 +292,8 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void Calibrate()
         {
             var delta = Quaternion.FromToRotation(subject.Head.forward, Body.transform.forward);
+
+            appLog.Info(string.Format("Applying '{0.00}'° as offset on calibration.", delta));
 
             y_rotation_correction = delta.eulerAngles.y;
         }
