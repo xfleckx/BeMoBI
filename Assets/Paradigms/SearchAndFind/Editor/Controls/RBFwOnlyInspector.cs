@@ -16,11 +16,7 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             instance = target as PSRigidBodyForwardOnlyController;
 
             base.OnInspectorGUI();
-
-            if(GUILayout.Button("Set Offset"))
-            {
-                instance.ResetForward();
-            }
+            
         }
 
     }

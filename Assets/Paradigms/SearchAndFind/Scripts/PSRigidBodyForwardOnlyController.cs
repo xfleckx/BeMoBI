@@ -144,7 +144,9 @@ namespace Assets.BeMoBI.Scripts.Controls
 
                 if (result == false)
                 {
-                    Debug.Log("Establishing connection failed...");
+                    var message = "Establishing connection failed...";
+                    appLog.Error(message);
+                    Debug.Log(message);
                 }
             }
             this.enabled = true;
@@ -162,9 +164,12 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             if (fileInfo == null)
             {
-                appLog.Fatal("An expected rigidbody file for configuring the phasespace server could not be found!");
+                var missingFileMessage = string.Format("An expected rigidbody file '{0}' for configuring the phasespace server could not be found!", fileProvider.Config.nameOfRigidBodyDefinition);
 
-                Debug.Log("Missing RigidBodyFile!");
+                appLog.Fatal(missingFileMessage);
+
+                Debug.LogError(missingFileMessage);
+
                 this.enabled = false;
 
             }
@@ -186,8 +191,17 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         IEnumerator WaitSecondsBeforeCreateRigidbody()
         {
+            var info = string.Format("Wait {0} seconds before creating the rigidbody tracker", TimeOffsetTilRBcreation);
+
+            appLog.Info(info);
+            Debug.Log(info);
+
             yield return new WaitForSeconds(TimeOffsetTilRBcreation);
+
             TryCreateRigidBodyTracker();
+
+            appLog.Info("Rigidbody initialized! Send Start Streaming Message to OWL!");
+
             tracker.StartStreaming();
         }
 
