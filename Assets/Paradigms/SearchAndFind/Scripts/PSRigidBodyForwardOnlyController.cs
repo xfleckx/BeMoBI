@@ -176,7 +176,7 @@ namespace Assets.BeMoBI.Scripts.Controls
                     tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
             }
             catch (OWLException owle)
-            {
+            {   
                 appLog.Fatal(owle.Message);
 
                 this.enabled = false;

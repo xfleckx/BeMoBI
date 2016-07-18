@@ -147,9 +147,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             var keyboardCombiMovement = FindObjectOfType<KeyboardCombined>();
             var keyboardMovement = FindObjectOfType<KeyboardController>();
+            var psrigidBody = FindObjectOfType<PSRigidBodyForwardOnlyController>();
 
             keyboardMovement.speed = config.rotationSpeed;
             keyboardMovement.ForwardSpeed = config.forwardMovementSpeed;
+            psrigidBody.ForwardSpeed = config.forwardMovementSpeed;
 
             keyboardCombiMovement.BodyRotationSpeed = conditionConfig.rotationSpeed;
             keyboardCombiMovement.MaxWalkingSpeed = conditionConfig.forwardMovementSpeed;
