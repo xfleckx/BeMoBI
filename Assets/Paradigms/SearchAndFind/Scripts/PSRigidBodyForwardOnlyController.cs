@@ -77,7 +77,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         }
 
         [Range(-360, 360)]
-        public float y_rotation_correction = 0;
+        public float yawCorrectionOffset = 0;
 
         void Awake()
         {
@@ -220,29 +220,7 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             tracker.StartStreaming();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-            UpdateFromTracker();
-
-            var y_rotation = prevRot.eulerAngles.y + y_rotation_correction;
-
-            Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
-            // using the rotation of the rigid body at this point is not valid... causes strange woobling behavior
-            // Body.transform.rotation = Quaternion.Euler(prevRot.eulerAngles.x, y_rotation, prevRot.eulerAngles.z);
-
-            // forward only - only take positive value ignoring left or right button!
-            var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL_WiiMote));
-
-            var movementVector = Body.transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
-
-            movementVector = new Vector3(movementVector.x, 0, movementVector.z);
-
-            subject.Move(movementVector);
-
-        }
-
+        
         protected void UpdateFromTracker()
         {
             // get data from tracker
@@ -278,7 +256,28 @@ namespace Assets.BeMoBI.Scripts.Controls
                 interp_index = (interp_index + 1) % quaternions.Length;
             }
         }
-        
+
+        // Update is called once per frame
+        void Update()
+        {
+            UpdateFromTracker();
+
+            var y_rotation = prevRot.eulerAngles.y + yawCorrectionOffset;
+
+            //eliminate the pitch and roll rotation - for this use case only!
+            Body.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
+            
+            // forward only - only take positive values and ignoring left or right button!
+            var forwardMovement = Math.Abs(Input.GetAxis(VERTICAL_WiiMote));
+
+            var movementVector = Body.transform.forward * forwardMovement * ForwardSpeed * Time.deltaTime;
+
+            //only move on a (x,z) plane
+            movementVector = new Vector3(movementVector.x, 0, movementVector.z);
+
+            subject.Move(movementVector);
+        }
+
         public void OnDestroy()
         {
             CloseTrackerConnection();
@@ -295,7 +294,9 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             appLog.Info(string.Format("Applying '{0.00}'° as offset on calibration.", delta));
 
-            y_rotation_correction = delta.eulerAngles.y;
+            yawCorrectionOffset += delta.eulerAngles.y;
+
+            appLog.Info(string.Format("Constant Yaw correction is now: '{0.00}'°", yawCorrectionOffset));
         }
     }
 }

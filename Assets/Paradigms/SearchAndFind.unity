@@ -864,6 +864,10 @@ Prefab:
       propertyPath: Head
       value: 
       objectReference: {fileID: 1112819487}
+    - target: {fileID: 11478774, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: yawCorrectionOffset
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
   m_IsPrefabParent: 0
