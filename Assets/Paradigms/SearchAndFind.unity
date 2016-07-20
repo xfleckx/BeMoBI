@@ -868,6 +868,14 @@ Prefab:
       propertyPath: yawCorrectionOffset
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 11478774, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: tracker
+      value: 
+      objectReference: {fileID: 1756469718}
+    - target: {fileID: 11478774, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: owlInterface
+      value: 
+      objectReference: {fileID: 1756469720}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
   m_IsPrefabParent: 0

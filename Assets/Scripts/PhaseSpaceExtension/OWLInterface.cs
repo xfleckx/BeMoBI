@@ -66,6 +66,9 @@ namespace Assets.BeMoBI.Scripts.PhaseSpaceExtensions
         // Use this for initialization
         void Start()
         {
+            if(Tracker == null)
+                Tracker = OWLTracker.Instance;
+
             LoadOrUseDefaultConfig();
 
             if (!Tracker.Device.Equals(string.Empty) && autoConnectOnStart)

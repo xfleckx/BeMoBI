@@ -91,6 +91,12 @@ namespace Assets.BeMoBI.Scripts.Controls
         
         void Start()
         {
+            if(tracker == null)
+                tracker = OWLTracker.Instance;
+
+            if (owlInterface == null)
+                owlInterface = FindObjectOfType<OWLInterface>();
+
             Assert.IsNotNull(rig);
             Assert.IsNotNull(owlInterface);
             Assert.IsNotNull(tracker);
@@ -123,7 +129,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void Enable()
         {
             this.enabled = true;
-
+            
             TryConnectToTracker();
 
             rig.UpdatedAnchors += Rig_UpdatedAnchors;
