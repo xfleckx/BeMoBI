@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEditor;
 using PhaseSpace;
 using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
+using System.IO;
 
 namespace Assets.Editor.BeMoBI.PhaseSpaceExtensions
 {
@@ -21,8 +22,48 @@ namespace Assets.Editor.BeMoBI.PhaseSpaceExtensions
         {
             instance = target as OWLInterface;
 
+            var currentConfigPathNotValid = !File.Exists(instance.configFilePath);
+
+            if (instance.configFilePath == null || instance.configFilePath.Equals("") || currentConfigPathNotValid)
+            {
+                instance.createDefaultConfigFilePath();
+            }
+
             base.OnInspectorGUI();
+
+
             EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Load Config"))
+            {
+                var choosenFilePath = EditorUtility.OpenFilePanel("Load Config", Application.dataPath, "json");
+
+                if(choosenFilePath != null || choosenFilePath == "") {
+
+                    instance.configFilePath = String.Empty; 
+                    
+                    DestroyImmediate(instance.config);
+
+                    instance.configFilePath = choosenFilePath.Replace(Application.dataPath, @"Assets");
+
+                    instance.LoadOrUseDefaultConfig();
+                }
+            }
+
+            if (GUILayout.Button("Save Config"))
+            {
+                var fullPath = EditorUtility.SaveFilePanel("Save Config", Application.dataPath, OWLInterface.DEFAULT_CONFIG_NAME, "json");
+
+                instance.configFilePath = fullPath.Replace(Application.dataPath, "Assets");
+                
+                instance.SaveConfig();
+
+                AssetDatabase.Refresh();
+            }
+
+            EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
 
@@ -40,7 +81,7 @@ namespace Assets.Editor.BeMoBI.PhaseSpaceExtensions
 
             if (GUILayout.Button("Ping"))
             {
-                ping = new Ping(instance.OWLHost);
+                ping = new Ping(instance.Tracker.Device);
             }
 
             GUILayout.Label(string.Format("Ping: {0} ms", lastPingTime), EditorStyles.boldLabel);

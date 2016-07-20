@@ -1,0 +1,8 @@
+{
+    "OWLHost": "",
+    "isSlave": false,
+    "broadcast": false,
+    "autoConnectOnStart": false,
+    "CreateDefaultPointTracker": false,
+    "updateMoment": 1
+}

@@ -37,9 +37,7 @@ namespace Assets.BeMoBI.Scripts
             {
                 if (onLoadFailed != null)
                     onLoadFailed();
-            }
-            finally
-            {
+                
                 if (writeNewWhenNotFound)
                 {
                     SaveAsJson<C>(expectedConfig, result);

@@ -346,7 +346,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 916113118}
+  Config: {fileID: 0}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -370,7 +370,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: C:/Users/markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config.json
+  PathToLoadedConfig: 
   AutoStartNextCondition: 0
 --- !u!114 &188249850
 MonoBehaviour:
@@ -1051,6 +1051,23 @@ MonoBehaviour:
   currentMazeName: 
   fog: {fileID: 0}
   wrongTurnIcon: {fileID: 0}
+--- !u!114 &521656961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 772221c824247d8459126668f366192b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OWLHost: 
+  isSlave: 0
+  broadcast: 0
+  autoConnectOnStart: 0
+  CreateDefaultPointTracker: 0
+  updateMoment: 1
 --- !u!4 &534861550 stripped
 Transform:
   m_PrefabParentObject: {fileID: 499712, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
@@ -1557,65 +1574,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &916113118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 0
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  waitForCommandOnConditionEnd: 1
-  conditionConfigurations:
-  - ConditionID: mono
-    useTeleportation: 1
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 3
-    useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 1.4
-    rotationSpeed: 40
-    groupByMazes: 1
-    UseShortWayBack: 0
-    UseMonoscopicViewOnVRHeadset: 0
-    UseNoseInVRView: 1
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 00000000
-    UseTextInstructions: 0
-  - ConditionID: stereo
-    useTeleportation: 1
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 2
-    objectVisitationsInExperiment: 3
-    useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 0.9
-    rotationSpeed: 50
-    groupByMazes: 1
-    UseShortWayBack: 0
-    UseMonoscopicViewOnVRHeadset: 0
-    UseNoseInVRView: 0
-    ExpectedMazes:
-    - Name: Maze2
-      pathIds: 01000000
-    UseTextInstructions: 0
 --- !u!114 &1021378915 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11488458, guid: 2209bac5d21fbe842a17863bb37ddd92,
@@ -2788,7 +2746,7 @@ MonoBehaviour:
   default_frequency: 480
   _Scale: 0.001
   _Interpolation: 0
-  Device: localhost
+  Device: 
   BroadcastMode: 0
   SlaveMode: 0
   updateOnPreRender: 0
@@ -2820,14 +2778,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9480a01f07ccf1f49a727f22bc7aa1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMoment: 0
-  OWLHost: 
-  isSlave: 0
-  broadcast: 0
+  updateMoment: 1
   autoConnectOnStart: 0
-  Tracker: {fileID: 1756469718}
-  OWLUpdateTook: 0
+  CreateDefaultPointTracker: 0
   showDeprecatedOnGUI: 0
+  configFilePath: C:/Users/Markus/Documents/git_repos/BeMoBI/Assets\phasespace.json
+  Tracker: {fileID: 1756469718}
+  config: {fileID: 521656961}
+  OWLUpdateTook: 0
 --- !u!1 &1761092154
 GameObject:
   m_ObjectHideFlags: 0

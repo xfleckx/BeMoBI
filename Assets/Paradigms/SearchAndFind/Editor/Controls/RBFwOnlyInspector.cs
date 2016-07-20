@@ -13,10 +13,10 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 
         public override void OnInspectorGUI()
         {
-           // instance = target as PSRigidBodyForwardOnlyController;
+           //instance = target as PSRigidBodyForwardOnlyController;
 
             base.OnInspectorGUI();
-            
+
         }
 
     }

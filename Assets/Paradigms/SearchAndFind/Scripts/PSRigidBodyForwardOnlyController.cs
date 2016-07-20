@@ -15,7 +15,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         public Transform Head;
 
         public VRSubjectController subject;
-
+        
         NLog.Logger appLog = NLog.LogManager.GetLogger("App");
 
         // string VERTICAL = "FW_Vertical"; // not in use
@@ -23,8 +23,10 @@ namespace Assets.BeMoBI.Scripts.Controls
         string VERTICAL_WiiMote = "FW_WiiM_Vertical";
          
         public float ForwardSpeed = 1;
+        
+        public OWLInterface owlInterface;
 
-        OWLTracker tracker;
+        public OWLTracker tracker;
 
         public int expectedRigidID;
 
@@ -84,12 +86,16 @@ namespace Assets.BeMoBI.Scripts.Controls
             subject = GetComponent<VRSubjectController>();
             rig = FindObjectOfType<OVRCameraRig>();
             
-            Assert.IsNotNull(rig);
-
             body = subject.GetComponent<CharacterController>();
-
         }
         
+        void Start()
+        {
+            Assert.IsNotNull(rig);
+            Assert.IsNotNull(owlInterface);
+            Assert.IsNotNull(tracker);
+        }
+
         private void Rig_UpdatedAnchors(OVRCameraRig obj)
         {
             OVRPose pose = rig.centerEyeAnchor.ToOVRPose(true);
@@ -102,8 +108,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void Disable()
         {
             this.enabled = false;
-
-
+            
             rig.UpdatedAnchors -= Rig_UpdatedAnchors;
         }
 
@@ -118,6 +123,7 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void Enable()
         {
             this.enabled = true;
+
             TryConnectToTracker();
 
             rig.UpdatedAnchors += Rig_UpdatedAnchors;
@@ -125,84 +131,25 @@ namespace Assets.BeMoBI.Scripts.Controls
 
         private void TryConnectToTracker()
         {
-            tracker = OWLTracker.Instance;
-
-            var availableServers = tracker.GetServers();
-
-            if (tracker == null)
+            owlInterface.OwlConnectedCallbacks += () =>
             {
-                var msg = "No phasespace (owl) server found!";
+                owlInterface.OwlUpdateCallbacks += UpdateFromTracker;
 
-                appLog.Error(msg);
+                StartCoroutine(WaitSecondsBeforeCreateRigidbody());
+            };
 
-                Debug.Log(msg);
-
-                this.enabled = false;
-                return;
-            }
-
-            appLog.Error("Automatic use the first OWL server.");
-
-            var firstServer = availableServers.FirstOrDefault();
-
-            if (firstServer != null)
+            owlInterface.OwlConnectionFailed += () =>
             {
-                var connectionAttemptMessage = string.Format("Try connection to OWL with address {0}", firstServer.address);
+                // this able this component...
+                var errorMsg = "Due to failed phasespace connection, PSRigidbodyController is disabled!";
 
-                appLog.Error(connectionAttemptMessage);
-                Debug.Log(connectionAttemptMessage);
+                appLog.Error(errorMsg);
+                Debug.LogError(errorMsg);
 
-                var result = tracker.Connect(firstServer.address, false, false);
+                Disable();
+            };
 
-                if (result == false)
-                {
-                    var connectionFailedMessage = string.Format("Establishing connection to OWL with address {0} failed...", firstServer.address);
-                    appLog.Error(connectionFailedMessage);
-                    Debug.Log(connectionFailedMessage);
-                }
-            }
-            this.enabled = true;
-
-            StartCoroutine(WaitSecondsBeforeCreateRigidbody());
-        }
-
-        private void TryCreateRigidBodyTracker()
-        {
-            Debug.Log("Try create rigid body");
-
-            var fileProvider = FindObjectOfType<ParadigmController>();
-
-            var fileInfo = fileProvider.GetRigidBodyDefinition();
-
-            if (fileInfo == null)
-            {
-                var missingFileMessage = string.Format("An expected rigidbody file '{0}' for configuring the phasespace server could not be found!", fileProvider.Config.nameOfRigidBodyDefinition);
-
-                appLog.Fatal(missingFileMessage);
-
-                Debug.LogError(missingFileMessage);
-
-                this.enabled = false;
-
-            }
-
-            try
-            {
-                if (tracker != null) {
-                    var creationMessage = string.Format("Try create rigidbody with ID: {0} from file: {1}", expectedRigidID, fileInfo.Name);
-                    appLog.Info(creationMessage);
-                    Debug.Log(creationMessage);
-
-                    tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
-                }
-            }
-            catch (OWLException owle)
-            {   
-                appLog.Fatal(owle.Message);
-
-                this.enabled = false;
-            }
-
+            owlInterface.ConnectToOWLInstance();
         }
 
         IEnumerator WaitSecondsBeforeCreateRigidbody()
@@ -219,6 +166,46 @@ namespace Assets.BeMoBI.Scripts.Controls
             appLog.Info("Rigidbody initialized... Send 'Start Streaming' Message to OWL!");
 
             tracker.StartStreaming();
+        }
+
+        private void TryCreateRigidBodyTracker()
+        {
+            var fileProvider = FindObjectOfType<ParadigmController>();
+
+            var fileInfo = fileProvider.GetRigidBodyDefinition();
+
+            if (fileInfo == null)
+            {
+                var missingFileMessage = string.Format("Expected rigidbody file '{0}' for configuring the phasespace server could not be found!", fileProvider.Config.nameOfRigidBodyDefinition);
+
+                appLog.Fatal(missingFileMessage);
+
+                Debug.LogError(missingFileMessage);
+
+                Disable();
+
+                return;
+            }
+
+            try
+            {
+                if (tracker != null) {
+
+                    var creationMessage = string.Format("Try create rigidbody with ID: {0} from file: {1}", expectedRigidID, fileInfo.Name);
+                    appLog.Info(creationMessage);
+                    Debug.Log(creationMessage);
+
+                    tracker.CreateRigidTracker(expectedRigidID, fileInfo.FullName);
+                }
+            }
+            catch (OWLException owle)
+            {   
+                appLog.Fatal(owle.Message);
+                Debug.LogError(owle.Message);
+
+                Disable();
+            }
+
         }
         
         protected void UpdateFromTracker()
@@ -256,12 +243,9 @@ namespace Assets.BeMoBI.Scripts.Controls
                 interp_index = (interp_index + 1) % quaternions.Length;
             }
         }
-
-        // Update is called once per frame
+        
         void Update()
         {
-            UpdateFromTracker();
-
             var y_rotation = prevRot.eulerAngles.y + yawCorrectionOffset;
 
             //eliminate the pitch and roll rotation - for this use case only!
@@ -281,11 +265,13 @@ namespace Assets.BeMoBI.Scripts.Controls
         public void OnDestroy()
         {
             CloseTrackerConnection();
+            owlInterface.ClearCallbacks();
         }
 
         public void OnDisable()
         {
             CloseTrackerConnection();
+            owlInterface.ClearCallbacks();
         }
 
         public void Calibrate()
