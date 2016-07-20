@@ -70,6 +70,7 @@ public class VRSubjectController : MonoBehaviour, ISubject
 
         if (possibleController.Any(withTheExpectedName))
         {
+            appLog.Info("Enable Controller: " + withTheExpectedName);
             possibleController.FirstOrDefault(withTheExpectedName).Enable();
         }
         

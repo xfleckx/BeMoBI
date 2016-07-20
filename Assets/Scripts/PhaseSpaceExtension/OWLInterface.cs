@@ -98,7 +98,7 @@ namespace Assets.BeMoBI.Scripts.PhaseSpaceExtensions
                 createDefaultConfigFilePath();
             }
 
-            appLog.Info(string.Format("Use phasespace config '{0}'",configFilePath));
+            appLog.Info(string.Format("Use phasespace config '{0}'", configFilePath));
 
             var expectedConfigFileFullPath = new FileInfo(configFilePath);
 
@@ -134,6 +134,8 @@ namespace Assets.BeMoBI.Scripts.PhaseSpaceExtensions
 
         public void ConnectToOWLInstance()
         {
+            appLog.Info("Try to connect to a phasespace server...");
+
             if (Tracker == null)
             {
                 var msg = "Missing reference to OWL Client instance";
@@ -144,8 +146,9 @@ namespace Assets.BeMoBI.Scripts.PhaseSpaceExtensions
 
                 return;
             }
-
+            
             var availableServers = Tracker.GetServers();
+
 
             Server serverToUse = null;
 
@@ -157,7 +160,9 @@ namespace Assets.BeMoBI.Scripts.PhaseSpaceExtensions
                 return;
             }
 
-            if (Tracker.Device != String.Empty && !availableServers.Any(server => server.address.Equals(Tracker.Device)))
+            appLog.Info(string.Format("Found {0} phasespace server.", availableServers.Length));
+
+            if (!availableServers.Any(server => server.address.Equals(Tracker.Device)))
             {
                 var msg = string.Format("Server with the expected address: {0} not found under available servers", Tracker.Device);
                 appLog.Error(msg);
@@ -172,42 +177,56 @@ namespace Assets.BeMoBI.Scripts.PhaseSpaceExtensions
             }
             else
             {
+                var status = string.Format("Using the Server with address: '{0}'", Tracker.Device);
+                appLog.Info(status);
+                UnityEngine.Debug.Log(status);
                 serverToUse = availableServers.First(s => s.address.Equals(Tracker.Device));
             }
 
-            if (serverToUse != null)
+            if (serverToUse == null)
             {
-                var connectionAttemptMessage = string.Format("Try connection to OWL with address {0}", serverToUse.address);
+                var fatalstatus = string.Format("Using the Server with address: '{0}' does not exist - abort!", Tracker.Device);
+                appLog.Fatal(fatalstatus);
+                UnityEngine.Debug.Log(fatalstatus);
 
-                appLog.Info(connectionAttemptMessage);
-                UnityEngine.Debug.Log(connectionAttemptMessage);
+                return;
+            }
 
-                if (Tracker.Connect(serverToUse.address, Tracker.SlaveMode, Tracker.BroadcastMode))
+            var connectionAttemptMessage = string.Format("Try connection to OWL with address {0}", serverToUse.address);
+
+            appLog.Info(connectionAttemptMessage);
+            UnityEngine.Debug.Log(connectionAttemptMessage);
+
+            if (Tracker.Connect(serverToUse.address, Tracker.SlaveMode, Tracker.BroadcastMode))
+            {
+                var status = string.Format("OWL connected to {0}", serverToUse.address);
+                UnityEngine.Debug.Log(status, this);
+
+                appLog.Info(status);
+                
+                appLog.Info("Owl awaits 'Start Streaming Command'");
+
+                if (!Tracker.SlaveMode && CreateDefaultPointTracker)
                 {
-                    UnityEngine.Debug.Log(string.Format("OWL connected to {0}", serverToUse.address), this);
-
-                    if (!Tracker.SlaveMode && CreateDefaultPointTracker)
-                    {
-                        CreateADefaultPointTracker();
-                    }
-
-                    if (OwlConnectedCallbacks != null)
-                    {
-                        OwlConnectedCallbacks.Invoke();
-                    }
-
-                    // Hint:
-                    // do not forget to call StartStreaming somewhere when a tracker has been created
+                    CreateADefaultPointTracker();
                 }
-                else
+
+                if (OwlConnectedCallbacks != null)
                 {
-                    var connectionFailedMessage = string.Format("Establishing connection to OWL with address {0} failed...", serverToUse.address);
-                    appLog.Error(connectionFailedMessage);
-                    UnityEngine.Debug.Log(connectionFailedMessage);
-
-                    if (OwlConnectionFailed != null)
-                        OwlConnectionFailed.Invoke();
+                    OwlConnectedCallbacks.Invoke();
                 }
+
+                // Hint:
+                // do not forget to call StartStreaming somewhere when a tracker has been created
+            }
+            else
+            {
+                var connectionFailedMessage = string.Format("Establishing connection to OWL with address {0} failed...", serverToUse.address);
+                appLog.Error(connectionFailedMessage);
+                UnityEngine.Debug.Log(connectionFailedMessage);
+
+                if (OwlConnectionFailed != null)
+                    OwlConnectionFailed.Invoke();
             }
 
         }
