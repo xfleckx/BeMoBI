@@ -1051,23 +1051,6 @@ MonoBehaviour:
   currentMazeName: 
   fog: {fileID: 0}
   wrongTurnIcon: {fileID: 0}
---- !u!114 &521656961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 772221c824247d8459126668f366192b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OWLHost: 
-  isSlave: 0
-  broadcast: 0
-  autoConnectOnStart: 0
-  CreateDefaultPointTracker: 0
-  updateMoment: 1
 --- !u!4 &534861550 stripped
 Transform:
   m_PrefabParentObject: {fileID: 499712, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
@@ -2782,9 +2765,9 @@ MonoBehaviour:
   autoConnectOnStart: 0
   CreateDefaultPointTracker: 0
   showDeprecatedOnGUI: 0
-  configFilePath: C:/Users/Markus/Documents/git_repos/BeMoBI/Assets\phasespace.json
+  configFilePath: Assets\phasespace.json
   Tracker: {fileID: 1756469718}
-  config: {fileID: 521656961}
+  config: {fileID: 1778637617}
   OWLUpdateTook: 0
 --- !u!1 &1761092154
 GameObject:
@@ -2854,6 +2837,23 @@ MonoBehaviour:
   currentMazeName: 
   fog: {fileID: 0}
   wrongTurnIcon: {fileID: 0}
+--- !u!114 &1778637617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 772221c824247d8459126668f366192b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OWLHost: 
+  isSlave: 0
+  broadcast: 0
+  autoConnectOnStart: 0
+  CreateDefaultPointTracker: 0
+  updateMoment: 1
 --- !u!1 &1932561765
 GameObject:
   m_ObjectHideFlags: 0
