@@ -10,6 +10,14 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
 {
     public class ScriptBatch
     {
+
+        static string executableName = "SearchAndFind";
+        static string dataFolderName = executableName + "_Data";
+
+        static string sep = "/";
+        static string assets = "Assets";
+        static string path = "";
+
         [MenuItem("BeMoBI/Compile SearchAndFind")]
         public static void Build_SearchAndFind()
         {
@@ -28,37 +36,56 @@ namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
             paradigm.ClearConfiguration();
             
             GameObject.DestroyImmediate(paradigm.InstanceDefinition);
-
-            // Get filename.
-            string path = EditorUtility.SaveFolderPanel("Choose Location of Built Game", System.Environment.CurrentDirectory, "");
+            
+            path = EditorUtility.SaveFolderPanel("Choose Location of Built Game", System.Environment.CurrentDirectory, "");
             string[] levels = new string[] { "Assets/Paradigms/SearchAndFind.unity" };
-
-            var executableName = "SearchAndFind";
-            var dataFolderName = executableName + "_Data";
-            var targetExecutable = path + "/" + executableName + ".exe";
-
-            // Build player.
+            
+            var targetExecutable = path + sep + executableName + ".exe";
+            
             BuildPipeline.BuildPlayer(levels, targetExecutable, BuildTarget.StandaloneWindows64, BuildOptions.None);
 
             var nlogConfigFile = "NLog.config";
-            var configFileName = "SearchAndFind_Config.json";
-            var appConfigFileName = "AppConfig.json";
-            var rigidBodyFileName = "6_upperBody.rb";
-             
-            var sep = Path.DirectorySeparatorChar;
-            var assets = "Assets";
-            
-            // Copy a file from the project folder to the build folder, alongside the built game.
-            FileUtil.CopyFileOrDirectory(assets + sep + nlogConfigFile, path + sep + dataFolderName + sep + nlogConfigFile);
-            FileUtil.CopyFileOrDirectory(assets + sep + configFileName, path + sep + dataFolderName + sep + configFileName);
 
-            FileUtil.CopyFileOrDirectory(assets + sep + appConfigFileName, path + sep + dataFolderName + sep + appConfigFileName);
-            FileUtil.CopyFileOrDirectory(assets + sep + rigidBodyFileName, path + sep + dataFolderName + sep + rigidBodyFileName);
+            var appConfigFileName = "AppConfig.json";
+
+            var phasespaceConfigName = "phasespace.json";
+
+            // Copy a file from the project folder to the build folder, alongside the built game.
+            copy(nlogConfigFile);
+
+            copy(appConfigFileName);
+
+            copy(phasespaceConfigName);
+
+            var rigidBodyfiles = Directory.GetFiles(assets, "*.rb");
+
+            foreach (var item in rigidBodyfiles)
+            {
+                var fileName = Path.GetFileName(item);
+                copy(fileName);
+            }
+
+            var configFiles = Directory.GetFiles(assets, "*_Config.json");
+
+            foreach (var item in configFiles)
+            {
+                var fileName = Path.GetFileName(item);
+                copy(fileName);
+            }
+
             // open the target directory
             Process.Start(path);
-
         }
 
+        static void copy(string fileName)
+        {
+            var source = assets + sep + fileName;
+
+            var target = path + sep + dataFolderName + sep + fileName;
+
+            if(!File.Exists(target))
+                FileUtil.CopyFileOrDirectory(source,target);
+        }
     }
     
     static class ExtensionHelper
