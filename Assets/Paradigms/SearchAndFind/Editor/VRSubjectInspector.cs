@@ -6,10 +6,10 @@ using UnityEditor;
 using UnityEngine;
 
 using Assets.BeMoBI.Scripts.Controls;
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
     [CustomEditor(typeof(VRSubjectController))]
-    public class VRSubjectInspector : UnityEditor.Editor
+    public class VRSubjectInspector : Editor
     {
         VRSubjectController instance;
 

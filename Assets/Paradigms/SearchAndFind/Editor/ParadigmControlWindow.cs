@@ -9,7 +9,7 @@ using NLog;
 using NLogger = NLog.Logger;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
 
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
     public class ParadigmControlWindow : EditorWindow
     {

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEditor;
-using PhaseSpace;
 using Assets.BeMoBI.Scripts.PhaseSpaceExtensions;
 using System.IO;
 
-namespace Assets.Editor.BeMoBI.PhaseSpaceExtensions
+namespace Assets.BeMoBI.EditorExtensions.PhaseSpaceExtensions
 {
     [CustomEditor(typeof(OWLInterface))]
-    public class OwlTrackerInspector : UnityEditor.Editor
+    public class OwlTrackerInspector : Editor
     {
         private OWLInterface instance;
 

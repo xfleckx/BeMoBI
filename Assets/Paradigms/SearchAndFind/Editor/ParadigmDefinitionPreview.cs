@@ -1,72 +1,74 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEditor;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
-using System;
 using System.Linq;
 
-public class ParadigmDefinitionPreview : EditorWindow
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
-    const string DEFINITION_PREVIEW_PATTERN = "{0}: {1} -> {2} = {3} from {4}";
-
-    private Vector2 configPreviewScrollState;
-    private int indexOfSelectedDefintionPreview;
-    private ConditionDefinition selectedConditionForPreview;
-    private ParadigmModel instanceToPreview;
-
-    public static void ShowFor(ParadigmModel definition)
+    public class ParadigmDefinitionPreview : EditorWindow
     {
-        var window = EditorWindow.GetWindow<ParadigmDefinitionPreview>();
+        const string DEFINITION_PREVIEW_PATTERN = "{0}: {1} -> {2} = {3} from {4}";
 
-        window.SetModelToPreview(definition);
+        private Vector2 configPreviewScrollState;
+        private int indexOfSelectedDefintionPreview;
+        private ConditionDefinition selectedConditionForPreview;
+        private ParadigmModel instanceToPreview;
 
-        window.Show();
-    }
-
-    private void SetModelToPreview(ParadigmModel definition)
-    {
-        this.instanceToPreview = definition;
-    }
-
-
-    void OnGUI() {
-        RenderPreviewFor(instanceToPreview);
-    }
-
-    private void RenderPreviewFor(ParadigmModel definition)
-    {
-        EditorGUILayout.LabelField("Preview:");
-
-        var definitionNames = definition.Conditions.Select(cc => cc.Identifier).ToArray();
-
-        indexOfSelectedDefintionPreview = EditorGUILayout.Popup(indexOfSelectedDefintionPreview, definitionNames);
-
-        selectedConditionForPreview = definition.Conditions[indexOfSelectedDefintionPreview];
-
-        EditorGUILayout.LabelField(string.Format("Condition {0} with {1} Trials", selectedConditionForPreview.Identifier, selectedConditionForPreview.Trials.Count));
-
-        configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
-
-        if (selectedConditionForPreview.Trials != null)
+        public static void ShowFor(ParadigmModel definition)
         {
-            string lastMazeName = string.Empty;
+            var window = EditorWindow.GetWindow<ParadigmDefinitionPreview>();
 
-            foreach (var tdef in selectedConditionForPreview.Trials)
-            {
-                if (!lastMazeName.Equals(tdef.MazeName))
-                    EditorGUILayout.Space();
+            window.SetModelToPreview(definition);
 
-                EditorGUILayout.LabelField(
-                    string.Format(DEFINITION_PREVIEW_PATTERN,
-                    tdef.TrialType,
-                    tdef.MazeName,
-                    tdef.Path,
-                    tdef.ObjectName,
-                    tdef.Category));
-                lastMazeName = tdef.MazeName;
-            }
+            window.Show();
         }
 
-        EditorGUILayout.EndScrollView();
+        private void SetModelToPreview(ParadigmModel definition)
+        {
+            this.instanceToPreview = definition;
+        }
+
+
+        void OnGUI()
+        {
+            RenderPreviewFor(instanceToPreview);
+        }
+
+        private void RenderPreviewFor(ParadigmModel definition)
+        {
+            EditorGUILayout.LabelField("Preview:");
+
+            var definitionNames = definition.Conditions.Select(cc => cc.Identifier).ToArray();
+
+            indexOfSelectedDefintionPreview = EditorGUILayout.Popup(indexOfSelectedDefintionPreview, definitionNames);
+
+            selectedConditionForPreview = definition.Conditions[indexOfSelectedDefintionPreview];
+
+            EditorGUILayout.LabelField(string.Format("Condition {0} with {1} Trials", selectedConditionForPreview.Identifier, selectedConditionForPreview.Trials.Count));
+
+            configPreviewScrollState = EditorGUILayout.BeginScrollView(configPreviewScrollState);
+
+            if (selectedConditionForPreview.Trials != null)
+            {
+                string lastMazeName = string.Empty;
+
+                foreach (var tdef in selectedConditionForPreview.Trials)
+                {
+                    if (!lastMazeName.Equals(tdef.MazeName))
+                        EditorGUILayout.Space();
+
+                    EditorGUILayout.LabelField(
+                        string.Format(DEFINITION_PREVIEW_PATTERN,
+                        tdef.TrialType,
+                        tdef.MazeName,
+                        tdef.Path,
+                        tdef.ObjectName,
+                        tdef.Category));
+                    lastMazeName = tdef.MazeName;
+                }
+            }
+
+            EditorGUILayout.EndScrollView();
+        }
     }
 }

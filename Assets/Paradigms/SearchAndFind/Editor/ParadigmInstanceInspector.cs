@@ -9,7 +9,7 @@ using System;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
 using Assets.BeMoBI.Scripts;
 
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
     [CustomEditor(typeof(ParadigmController))]
     public class ParadigmInstanceInspector : UnityEditor.Editor

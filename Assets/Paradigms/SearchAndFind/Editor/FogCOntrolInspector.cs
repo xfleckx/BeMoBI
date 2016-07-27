@@ -6,10 +6,10 @@ using UnityEngine;
 using UnityEditor;
 using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
 
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
     [CustomEditor(typeof(FogControl))]
-    public class FogCOntrolInspector : UnityEditor.Editor 
+    public class FogControlInspector : UnityEditor.Editor 
     {
         public override void OnInspectorGUI()
         {

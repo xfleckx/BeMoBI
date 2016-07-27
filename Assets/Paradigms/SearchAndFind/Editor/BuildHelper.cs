@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
 
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
     public class ScriptBatch
     {

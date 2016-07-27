@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections;
 using Assets.BeMoBI.Scripts.Controls;
 
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
 
     [CustomEditor(typeof(PSRigidBodyForwardOnlyController))]

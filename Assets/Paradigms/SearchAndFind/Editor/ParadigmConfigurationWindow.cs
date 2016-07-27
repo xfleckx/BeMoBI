@@ -11,8 +11,9 @@ using NLogger = NLog.Logger;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
 using Assets.BeMoBI.Scripts;
 using Assets.BeMoBI.Scripts.Controls;
+using Assets.SNEED.EditorExtensions.Util;
 
-namespace Assets.Editor.BeMoBI.Paradigms.SearchAndFind
+namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {
     public class ParadigmModelEditor : EditorWindow
     {
