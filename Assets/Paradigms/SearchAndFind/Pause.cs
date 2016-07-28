@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
+
     public class Pause : Trial
     {
         public override void Initialize(string mazeName, int pathID, string category, string objectName)
@@ -23,7 +24,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public override void ForceTrialEnd()
         {
-            paradigm.fading.StartFadeIn();
+            //paradigm.fading.StartFadeIn();
 
             base.ForceTrialEnd();
         }

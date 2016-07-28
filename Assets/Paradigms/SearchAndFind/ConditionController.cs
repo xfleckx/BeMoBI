@@ -37,7 +37,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private int currentTrialIndex = 0;
 
         private bool currentRunShouldEndAfterTrialFinished;
-        private bool pauseActive = false;
+        private bool pauseRequested = false;
+        private bool isPause = false;
 
         private bool isTrialRunning = false;
         public bool IsRunning
@@ -165,6 +166,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         }
 
+        #region deprecated functions for pause management
         /// <summary>
         /// Use this for regular breaks
         /// </summary>
@@ -191,11 +193,41 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentLoadedTrialDefinitions.AddBefore(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
         }
-        
-        public void ReturnFromPauseTrial()
+
+
+        #endregion
+
+        public void RequestAPause()
         {
-            if (currentTrial.Equals(paradigm.pause))
-                currentTrial.ForceTrialEnd();
+            if (isPause) { 
+                return;
+            }
+
+            if (isTrialRunning) { 
+                pauseRequested = true;
+            }
+
+            if (!isTrialRunning)
+            {
+                InitializePause();
+            }
+
+        }
+
+        public void ReturnFromPauseToNextTrial()
+        {
+            if (!pauseRequested && !isPause)
+                return;
+
+            appLog.Info("End Pause");
+            paradigm.marker.Write("Pause End");
+            pauseRequested = false;
+            isPause = false;
+
+            SetNextTrialPending();
+
+            //if (currentTrial.Equals(paradigm.pause))
+            //    currentTrial.ForceTrialEnd();
         }
 
         /// <summary>
@@ -254,8 +286,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
         {
-            if (!(trial is Pause))
-                currentTrialIndex++;
+            //if (!(trial is Pause))
+            //    currentTrialIndex++;
 
             appLog.Info(string.Format("Starting Trial {0} of {1}", currentTrialIndex, currentLoadedTrialDefinitions.Count));
 
@@ -311,8 +343,22 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 return;
             }
 
-            if (!pauseActive)
+            if (!pauseRequested) { 
                 SetNextTrialPending();
+            }
+            else
+            {
+                InitializePause();
+            }
+        }
+
+        private void InitializePause()
+        {
+            appLog.Info("Start Pause");
+            isPause = true;
+            paradigm.marker.Write("Pause");
+
+            paradigm.fading.StartFadeOut();
         }
 
         internal void ResetCurrentTrial()
