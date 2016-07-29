@@ -40,7 +40,7 @@ namespace Assets.BeMoBI.Scripts
 
             if (command.Equals("pause"))
             {
-                paradigm.ConditionController.InjectPauseTrialAfterCurrentTrial();
+                paradigm.ConditionController.RequestAPause();
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace Assets.BeMoBI.Scripts
 
             if (command.Equals("pause end"))
             {
-                paradigm.ConditionController.ReturnFromPauseTrial();
+                paradigm.ConditionController.ReturnFromPauseToNextTrial();
                 return;
             }
 

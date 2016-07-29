@@ -9,8 +9,8 @@ namespace Assets.BeMoBI.Scripts.Paradigm
     {
         void SetSpecificConditionPending(string conditionName, bool attempReRun = false);
 
-        void InjectPauseTrialAfterCurrentTrial();
+        void RequestAPause();
 
-        void ReturnFromPauseTrial();
+        void ReturnFromPauseToNextTrial();
     }
 }

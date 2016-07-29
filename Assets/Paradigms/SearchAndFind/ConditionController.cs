@@ -8,6 +8,7 @@ using NLog;
 using Assets.BeMoBI.Scripts.Paradigm;
 using Assets.BeMoBI.Scripts.Controls;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
@@ -22,6 +23,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public Action<ConditionConfiguration> ConditionShouldInitializeItsConfiguration;
 
         public Action<string> OnConditionFinished;
+        
+        public UnityEvent OnPauseBegin;
+
+        public UnityEvent OnPauseEnd;
+
 
         #region Condition state
 
@@ -37,14 +43,14 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private int currentTrialIndex = 0;
 
         private bool currentRunShouldEndAfterTrialFinished;
-        private bool pauseActive = false;
-
-        private bool isTrialRunning = false;
-        public bool IsRunning
+        private bool pauseRequested = false;
+        private bool isPause = false;
+        
+        public bool IsATrialRunning
         {
             get
             {
-                return isTrialRunning;
+                return currentTrial != null && currentTrial.isActiveAndEnabled;
             }
         }
 
@@ -164,40 +170,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 nose.SetActive(config.UseNoseInVRView);
 
         }
-
-        /// <summary>
-        /// Use this for regular breaks
-        /// </summary>
-        public void InjectPauseTrialAfterCurrentTrial()
-        {
-            var pauseTrial = new TrialDefinition()
-            {
-                TrialType = typeof(Pause).Name
-            };
-
-            if(currentTrialDefinition != null)
-                currentLoadedTrialDefinitions.AddAfter(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
-        }
-
-        /// <summary>
-        /// use this for instant breaks
-        /// </summary>
-        public void InjectPauseTrialBeforeCurrentTrial()
-        {
-            var pauseTrial = new TrialDefinition()
-            {
-                TrialType = typeof(Pause).Name
-            };
-
-            currentLoadedTrialDefinitions.AddBefore(currentTrialDefinition, new LinkedListNode<TrialDefinition>(pauseTrial));
-        }
         
-        public void ReturnFromPauseTrial()
-        {
-            if (currentTrial.Equals(paradigm.pause))
-                currentTrial.ForceTrialEnd();
-        }
-
         /// <summary>
         /// Setup the next trial but wait until subject enters startpoint
         /// 
@@ -246,29 +219,20 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 Begin(paradigm.experiment, definitionForNextTrial);
 
             }
-            else if (definitionForNextTrial.TrialType.Equals(typeof(Pause).Name))
-            {
-                Begin(paradigm.pause, definitionForNextTrial);
-            }
         }
         
         public void Begin<T>(T trial, TrialDefinition trialDefinition) where T : Trial
         {
-            if (!(trial is Pause))
-                currentTrialIndex++;
-
-            appLog.Info(string.Format("Starting Trial {0} of {1}", currentTrialIndex, currentLoadedTrialDefinitions.Count));
-
             if (!runCounter.ContainsKey(trial))
-                runCounter.Add(trial, 0);
+                runCounter.Add(trial, 1);
 
             currentTrial = trial;
 
             Prepare(currentTrial);
 
-            isTrialRunning = true;
-
             currentTrial.SetReady();
+
+            appLog.Info(string.Format("Starting Trial {0} of {1} : {2}", currentTrialIndex, currentLoadedTrialDefinitions.Count, currentTrial.currentMazeName));
         }
 
         private void Prepare(Trial currentTrial)
@@ -296,8 +260,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// <param name="result">A collection of informations on the trial run</param>
         void CallWhenCurrentTrialFinished(Trial trial, TrialResult result)
         {
-            isTrialRunning = false;
-
             runCounter[trial]++;
 
             currentTrial.CleanUp();
@@ -306,13 +268,70 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentTrial.gameObject.SetActive(false);
 
+            currentTrial = null;
+
             if (currentRunShouldEndAfterTrialFinished) { 
                 ConditionFinished();
                 return;
             }
 
-            if (!pauseActive)
+            if (!pauseRequested) { 
                 SetNextTrialPending();
+            }
+            else
+            {
+                InitializePause();
+            }
+        }
+
+        public void RequestAPause()
+        {
+            appLog.Info("A Pause has been requested");
+
+            if (isPause)
+            {
+                appLog.Info("Pause request ignored, paradigm is already in pause!");
+                return;
+            }
+
+            if (IsATrialRunning)
+            {
+                appLog.Info("A pause will be available after the current trial ends!");
+                pauseRequested = true;
+                return;
+            }
+
+            if (!IsATrialRunning)
+            {
+                appLog.Info("Set Pause!");
+                InitializePause();
+            }
+
+        }
+
+        private void InitializePause()
+        {
+            appLog.Info("Start Pause");
+            isPause = true;
+
+            if (OnPauseBegin.GetPersistentEventCount() > 0)
+                OnPauseBegin.Invoke();
+        }
+
+        public void ReturnFromPauseToNextTrial()
+        {
+            if (!pauseRequested && !isPause)
+                return;
+
+            if (OnPauseEnd.GetPersistentEventCount() > 0)
+                OnPauseEnd.Invoke();
+
+            appLog.Info("End Pause");
+            pauseRequested = false;
+            isPause = false;
+
+            SetNextTrialPending();
+
         }
 
         internal void ResetCurrentTrial()

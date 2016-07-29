@@ -11,6 +11,7 @@ using Assets.BeMoBI.Scripts;
 // A logging framework, mainly used to write the log and statistic files. 
 // See also the NLog.config within the asset directory 
 // Pittfall: You need to copy the NLog.config file to the *_DATA directory after the build!
+// Use the Build Helper
 using NLog;
 using Logger = NLog.Logger; // just aliasing
 using Assets.BeMoBI.Paradigms.SearchAndFind.Scripts;
@@ -308,10 +309,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (waitingForSignalToStartNextCondition == true)
                 waitingForSignalToStartNextCondition = false;
 
-            if (!conditionController.IsRunning && noConditionHasBeenInitialized)
+            if (!conditionController.IsATrialRunning && noConditionHasBeenInitialized)
                 StartExperimentFromBeginning();
 
-            if (!conditionController.IsRunning)
+            if (!conditionController.IsATrialRunning)
                 conditionController.SetNextConditionPending();
         }
 

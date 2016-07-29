@@ -3,6 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections;
 using Assets.BeMoBI.Paradigms.SearchAndFind;
+using UnityEngine.Events;
 
 [CustomEditor(typeof(ConditionController))]
 public class ConditionInspector : Editor {
@@ -90,6 +91,13 @@ public class ConditionInspector : Editor {
             instance.paradigm.Config.conditionConfigurations.Add(ConditionConfiguration.GetDefault());
         }
 
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("OnPauseBegin"));
+        
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("OnPauseEnd"));
+
+        serializedObject.ApplyModifiedProperties();
 
         if (OnPostGUICommands != null) { 
             OnPostGUICommands();

@@ -3,30 +3,29 @@ using System.Collections;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
-    public class Pause : Trial
+
+    public class Pause : MonoBehaviour
     {
-        public override void Initialize(string mazeName, int pathID, string category, string objectName)
+        ParadigmController paradigm;
+
+        void Start()
         {
-            // does actual nothing
+            if (paradigm == null)
+                paradigm = FindObjectOfType<ParadigmController>();
         }
 
-        public override void SetReady()
+        public void WhenPauseBegin()
         {
-            OnBeforeStart();
-            var marker = MarkerPattern.FormatBeginTrial(GetType().Name, string.Empty, -1, string.Empty, string.Empty);
-            paradigm.marker.Write(marker);
-            stopWatch = new System.Diagnostics.Stopwatch();
-            stopWatch.Start();
-
             paradigm.fading.StartFadeOut();
+
+            paradigm.marker.Write("Pause Begin");
         }
 
-        public override void ForceTrialEnd()
+        public void WhenPauseEnds()
         {
             paradigm.fading.StartFadeIn();
 
-            base.ForceTrialEnd();
+            paradigm.marker.Write("Pause End");
         }
-        
     }
 }
