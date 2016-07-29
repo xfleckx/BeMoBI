@@ -178,6 +178,13 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         void SetNextTrialPending()
         {
+            // invalid state.. if no condition has been initialized
+            if(currentLoadedTrialDefinitions == null)
+            {
+                return;
+            }
+
+
             if (currentTrialDefinition == null)
             {
                 // Special case: First Trial after condition start
