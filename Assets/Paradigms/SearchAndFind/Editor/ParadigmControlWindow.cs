@@ -90,7 +90,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
                 return;
             }
 
-            if (!instance.conditionController.IsRunning) {
+            if (!instance.conditionController.IsATrialRunning) {
                 
                 if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
                 {
@@ -134,12 +134,12 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             if (instance.conditionController.currentTrial != instance.pause && GUILayout.Button("Inject Pause Trial"))
             {
-                instance.conditionController.InjectPauseTrialAfterCurrentTrial();
+                instance.conditionController.RequestAPause();
             }
 
-            if (instance.conditionController.currentTrial == instance.pause && GUILayout.Button("End Pause"))
+            if (!instance.conditionController.IsATrialRunning && GUILayout.Button("End Pause"))
             {
-                instance.conditionController.currentTrial.ForceTrialEnd();
+                instance.conditionController.ReturnFromPauseToNextTrial();
             }
 
             EditorGUILayout.Space();

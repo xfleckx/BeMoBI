@@ -309,10 +309,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             if (waitingForSignalToStartNextCondition == true)
                 waitingForSignalToStartNextCondition = false;
 
-            if (!conditionController.IsRunning && noConditionHasBeenInitialized)
+            if (!conditionController.IsATrialRunning && noConditionHasBeenInitialized)
                 StartExperimentFromBeginning();
 
-            if (!conditionController.IsRunning)
+            if (!conditionController.IsATrialRunning)
                 conditionController.SetNextConditionPending();
         }
 
