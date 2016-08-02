@@ -362,6 +362,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         public void StartExperimentFromBeginning()
         {
+            if (conditionController.IsATrialRunning)
+            {
+                appLog.Error(string.Format("Starting Paradigma not allowed! It's already running!", InstanceDefinition.name));
+                return;
+            }
+
             appLog.Info(string.Format("Run complete paradigma as defined in {0}!", InstanceDefinition.name));
             
             marker.Write("Start Experiment");
