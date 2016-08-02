@@ -74,12 +74,12 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
                 }
 
 
-                if(GUILayout.Button("Open Survey"))
-                {
-                    var httpRequest = FormatSurveyRequest();
+                //if(GUILayout.Button("Open Survey"))
+                //{
+                //    var httpRequest = FormatSurveyRequest();
 
-                    Process.Start("explorer", httpRequest);
-                }
+                //    Process.Start("explorer", httpRequest);
+                //}
 
 
                 if (GUILayout.Button("Open logs"))
@@ -92,11 +92,29 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             if (!instance.conditionController.IsATrialRunning) {
                 
-                if (GUILayout.Button("Start First Trial", GUILayout.Height(25)))
+                if (GUILayout.Button("Start from Beginning", GUILayout.Height(25)))
                 {
+                    if (instance.conditionController.currentCondition != null)
+                        instance.conditionController.currentCondition = null;
+
                     instance.StartExperimentFromBeginning();
                 }
+                
+                EditorGUILayout.LabelField("initialize condition:");
 
+                foreach (var condition in instance.conditionController.PendingConditions)
+                {
+                    if (GUILayout.Button(condition.Identifier)) {
+                        instance.conditionController.Initialize(condition);
+                    }
+                }
+
+                if (instance.conditionController.currentCondition != null) { 
+                    if(GUILayout.Button("Start "+ instance.conditionController.currentCondition.Identifier))
+                    {
+                        instance.conditionController.StartCurrentConditionWithFirstTrial();
+                    }
+                }
             }
             else
             {

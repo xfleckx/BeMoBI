@@ -412,9 +412,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void ForceABreakInstantly()
         {
-            //conditionController.InjectPauseTrial();
             conditionController.ResetCurrentTrial();
             hud.ShowInstruction("Press the Submit Button to continue!\n Close your eyes and talk to the supervisor!", "Break");
+
         }
           
         public void StartExperimentWithCurrentPendingCondition()
@@ -553,4 +553,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
     }
 
     #endregion
+
+
 }

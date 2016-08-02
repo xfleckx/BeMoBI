@@ -32,7 +32,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             if (GUILayout.Button("Open Control Window", GUILayout.Height(25)))
             {
-                var existingWindow = EditorWindow.GetWindow<ParadigmControlWindow>();
+                var existingWindow = EditorWindow.GetWindow<ParadigmControlWindow>(true, "Experiment control");
 
                 if (existingWindow != null)
                     controlWindow = existingWindow;
@@ -41,9 +41,9 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
                 controlWindow.Initialize(instance);
 
-                controlWindow.Show();
+                controlWindow.ShowUtility(); 
             }
-            
+
             if (instance.Config == null)
             {
                 EditorGUILayout.HelpBox("To Generate Instance definitions please load or generate a paradigm config!", MessageType.Info);
@@ -53,13 +53,13 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
                 if (GUILayout.Button("Open Configuration Window", GUILayout.Height(25)))
                 {
                     var window = EditorWindow.GetWindow<ParadigmModelEditor>();
-
+                    
                     window.Initialize(instance);
 
                     window.Show();
                 }
             }
-            
+
 
             EditorGUILayout.EndHorizontal();
 
@@ -85,22 +85,22 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
                 return;
             }
-            
+
             EditorGUILayout.EndHorizontal();
-            
+
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Current Configuration", EditorStyles.boldLabel);
-            
+
             EditorGUILayout.BeginVertical();
-           
+
             EditorGUILayout.LabelField("Config Name:");
 
             if (configName == string.Empty && instance.PathToLoadedConfig != string.Empty)
                 configName = Path.GetFileNameWithoutExtension(instance.PathToLoadedConfig);
 
             configName = EditorGUILayout.TextField(configName);
-            
+
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.LabelField("Path to Config");
@@ -109,7 +109,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             EditorGUILayout.BeginHorizontal();
 
-            if(configName != String.Empty)
+            if (configName != String.Empty)
             {
                 EditorGUILayout.BeginVertical();
 
@@ -134,7 +134,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
                 ParadigmInspectorHelper.ClearConfiguration(instance);
                 configName = string.Empty;
             }
-                         
+
             if (instance.Config == null)
             {
                 EditorGUILayout.HelpBox("Load a Config to see available config values!", MessageType.Info);
@@ -144,7 +144,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
                 instance.Config.writeStatistics = EditorGUILayout.Toggle(new GUIContent("Write Statistics", "Writes a statistics file for the experiment per subject."), instance.Config.writeStatistics);
                 instance.Config.waitForCommandOnConditionEnd = EditorGUILayout.Toggle(new GUIContent("Wait after Condition finished", "Wait on a command (button press or remote control)."), instance.Config.waitForCommandOnConditionEnd);
             }
-            
+
             if (GUILayout.Button("Lookup Instance definitions"))
             {
                 availableDefinitions = Resources.FindObjectsOfTypeAll<ParadigmModel>().ToList();
@@ -238,6 +238,16 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
                 }
             }
 
+        }
+        
+        [DrawGizmo(GizmoType.NonSelected | GizmoType.Active)]
+        static void DrawGizmos(ParadigmController controller, GizmoType gizmoType)
+        {
+            var pos = controller.transform.position;
+            var forward = Camera.current.transform.forward;
+            
+            Handles.DrawWireDisc(pos, forward, 0.15f);
+            Handles.Label(pos, new GUIContent(controller.name));
         }
     }
 
