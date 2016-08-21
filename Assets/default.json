@@ -1,0 +1,40 @@
+{
+    "ifNoInstanceDefinitionCreateOne": true,
+    "writeStatistics": true,
+    "logMarkerToFile": true,
+    "nameOfRigidBodyDefinition": "",
+    "waitForCommandOnConditionEnd": true,
+    "conditionConfigurations": [
+        {
+            "ConditionID": "another_default",
+            "useTeleportation": true,
+            "BodyControllerName": "Keyboard",
+            "HeadControllerName": "Oculus Headset",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "objectVisitationsInTraining": 1,
+            "objectVisitationsInExperiment": 1,
+            "useExactOnCategoryPerMaze": true,
+            "forwardMovementSpeed": 0.8999999761581421,
+            "rotationSpeed": 50.0,
+            "groupByMazes": true,
+            "UseShortWayBack": false,
+            "UseMonoscopicViewOnVRHeadset": false,
+            "UseNoseInVRView": true,
+            "ExpectedMazes": [
+                {
+                    "Name": "Maze1",
+                    "pathIds": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            ],
+            "UseTextInstructions": false
+        }
+    ]
+}

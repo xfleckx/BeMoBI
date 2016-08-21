@@ -1,25 +1,28 @@
 {
     "ifNoInstanceDefinitionCreateOne": true,
-    "writeStatistics": true,
+    "writeStatistics": false,
     "logMarkerToFile": true,
-    "nameOfRigidBodyDefinition": "",
+    "nameOfRigidBodyDefinition": "6_upperBody.rb",
     "waitForCommandOnConditionEnd": true,
     "conditionConfigurations": [
         {
-            "ConditionID": "default",
-            "useTeleportation": false,
-            "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "KeyboardCombi",
+            "ConditionID": "mono",
+            "useTeleportation": true,
+            "BodyControllerName": "Keyboard",
+            "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
             "objectVisitationsInTraining": 2,
-            "objectVisitationsInExperiment": 2,
+            "objectVisitationsInExperiment": 3,
             "useExactOnCategoryPerMaze": true,
+            "forwardMovementSpeed": 1.399999976158142,
+            "rotationSpeed": 40.0,
             "groupByMazes": true,
-            "UseShortWayBack": true,
-            "UseMonoscopicViewOnVRHeadset": true,
+            "UseShortWayBack": false,
+            "UseMonoscopicViewOnVRHeadset": false,
+            "UseNoseInVRView": true,
             "ExpectedMazes": [
                 {
                     "Name": "Maze1",
@@ -27,55 +30,36 @@
                         0
                     ]
                 }
-            ]
+            ],
+            "UseTextInstructions": false
         },
         {
-            "ConditionID": "fizz",
-            "useTeleportation": false,
-            "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "KeyboardCombi",
+            "ConditionID": "stereo",
+            "useTeleportation": true,
+            "BodyControllerName": "Keyboard",
+            "HeadControllerName": "Oculus Headset",
             "TimeToDisplayObjectToRememberInSeconds": 3.0,
             "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
             "offsetToTeleportation": 2.0,
             "categoriesPerMaze": 1,
             "objectVisitationsInTraining": 2,
-            "objectVisitationsInExperiment": 2,
+            "objectVisitationsInExperiment": 3,
             "useExactOnCategoryPerMaze": true,
+            "forwardMovementSpeed": 0.8999999761581421,
+            "rotationSpeed": 50.0,
             "groupByMazes": true,
-            "UseShortWayBack": true,
+            "UseShortWayBack": false,
             "UseMonoscopicViewOnVRHeadset": false,
+            "UseNoseInVRView": false,
             "ExpectedMazes": [
                 {
                     "Name": "Maze2",
                     "pathIds": [
-                        0
+                        1
                     ]
                 }
-            ]
-        },
-        {
-            "ConditionID": "buzz",
-            "useTeleportation": false,
-            "BodyControllerName": "KeyboardCombi",
-            "HeadControllerName": "KeyboardCombi",
-            "TimeToDisplayObjectToRememberInSeconds": 3.0,
-            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
-            "offsetToTeleportation": 2.0,
-            "categoriesPerMaze": 1,
-            "objectVisitationsInTraining": 2,
-            "objectVisitationsInExperiment": 2,
-            "useExactOnCategoryPerMaze": true,
-            "groupByMazes": true,
-            "UseShortWayBack": true,
-            "UseMonoscopicViewOnVRHeadset": false,
-            "ExpectedMazes": [
-                {
-                    "Name": "Maze3",
-                    "pathIds": [
-                        0
-                    ]
-                }
-            ]
+            ],
+            "UseTextInstructions": false
         }
     ]
 }

@@ -1,0 +1,58 @@
+{
+    "ifNoInstanceDefinitionCreateOne": true,
+    "writeStatistics": true,
+    "logMarkerToFile": true,
+    "nameOfRigidBodyDefinition": "6LED_shoulder.rb",
+    "waitForCommandOnConditionEnd": true,
+    "conditionConfigurations": [
+        {
+            "ConditionID": "stereo_config",
+            "useTeleportation": false,
+            "BodyControllerName": "PS_RigidBody",
+            "HeadControllerName": "Oculus Headset",
+            "TimeToDisplayObjectToRememberInSeconds": 3.0,
+            "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
+            "offsetToTeleportation": 2.0,
+            "categoriesPerMaze": 1,
+            "objectVisitationsInTraining": 2,
+            "objectVisitationsInExperiment": 3,
+            "useExactOnCategoryPerMaze": true,
+            "forwardMovementSpeed": 1.399999976158142,
+            "rotationSpeed": 50.0,
+            "groupByMazes": true,
+            "UseShortWayBack": true,
+            "UseMonoscopicViewOnVRHeadset": false,
+            "UseNoseInVRView": true,
+            "ExpectedMazes": [
+                {
+                    "Name": "Maze3",
+                    "pathIds": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                },
+                {
+                    "Name": "Maze4",
+                    "pathIds": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                },
+                {
+                    "Name": "Maze5",
+                    "pathIds": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            ],
+            "UseTextInstructions": false
+        }
+    ]
+}

@@ -34,7 +34,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         private LinkedList<TrialDefinition> currentLoadedTrialDefinitions;
         public LinkedListNode<TrialDefinition> currentTrialDefinition;
         public Trial currentTrial;
-
+        private TrialDefinition nextTrialDefinition;
         public ConditionDefinition currentCondition;
         public ConditionConfiguration conditionConfig;
 
@@ -207,6 +207,9 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 {
                     // normal case the next trial is the follower of the current trial due to the definition
                     currentTrialDefinition = currentTrialDefinition.Next;
+                    // to get the next trial after the current, to get infos for the next maze
+                    nextTrialDefinition = currentTrialDefinition.Next.Value;
+
                 }
                 else
                 {
@@ -239,7 +242,12 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             currentTrial.SetReady();
 
+            currentTrialIndex++;
+            
             appLog.Info(string.Format("Starting Trial {0} of {1} : {2}", currentTrialIndex, currentLoadedTrialDefinitions.Count, currentTrial.currentMazeName));
+
+            if(nextTrialDefinition != null && currentTrial.currentMazeName != nextTrialDefinition.MazeName)
+                appLog.Info(string.Format("Next trial has a new Maze {0} - Press Pause to break!", nextTrialDefinition.MazeName));
         }
 
         private void Prepare(Trial currentTrial)

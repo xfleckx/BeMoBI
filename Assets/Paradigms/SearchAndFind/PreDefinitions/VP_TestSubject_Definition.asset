@@ -14,84 +14,67 @@ MonoBehaviour:
   Subject: TestSubject
   Configuration: {fileID: 0}
   Conditions:
-  - Identifier: CA
+  - Identifier: a_default
     Config:
-      ConditionID: default
-      useTeleportation: 0
+      ConditionID: a_default
+      useTeleportation: 1
       BodyControllerName: KeyboardCombi
-      HeadControllerName: KeyboardCombi
+      HeadControllerName: Oculus Headset
       TimeToDisplayObjectToRememberInSeconds: 3
       TimeToDisplayObjectWhenFoundInSeconds: 2
       offsetToTeleportation: 2
       categoriesPerMaze: 1
-      mazesToUse: 0
-      pathsToUsePerMaze: 0
       objectVisitationsInTraining: 1
       objectVisitationsInExperiment: 1
       useExactOnCategoryPerMaze: 1
+      forwardMovementSpeed: 0.9
+      rotationSpeed: 50
       groupByMazes: 1
+      UseShortWayBack: 0
+      UseMonoscopicViewOnVRHeadset: 0
+      UseNoseInVRView: 1
+      ExpectedMazes:
+      - Name: Maze1
+        pathIds: 00000000010000000200000003000000
+      UseTextInstructions: 0
     Trials:
     - TrialType: Training
       MazeName: Maze1
-      Path: 0
-      Category: Category04
-      ObjectName: 2_Hacksaw
-    - TrialType: Experiment
+      Path: 2
+      Category: Toys
+      ObjectName: 2_Rocket
+    - TrialType: Training
       MazeName: Maze1
-      Path: 0
-      Category: Category04
-      ObjectName: 2_Hacksaw
-  - Identifier: CB
-    Config:
-      ConditionID: default
-      useTeleportation: 0
-      BodyControllerName: KeyboardCombi
-      HeadControllerName: KeyboardCombi
-      TimeToDisplayObjectToRememberInSeconds: 3
-      TimeToDisplayObjectWhenFoundInSeconds: 2
-      offsetToTeleportation: 2
-      categoriesPerMaze: 1
-      mazesToUse: 0
-      pathsToUsePerMaze: 0
-      objectVisitationsInTraining: 1
-      objectVisitationsInExperiment: 1
-      useExactOnCategoryPerMaze: 1
-      groupByMazes: 1
-    Trials:
+      Path: 1
+      Category: Toys
+      ObjectName: 3_Duck
     - TrialType: Training
       MazeName: Maze1
       Path: 0
-      Category: Category04
-      ObjectName: 1_Drill
-    - TrialType: Experiment
-      MazeName: Maze1
-      Path: 0
-      Category: Category04
-      ObjectName: 1_Drill
-  - Identifier: CC
-    Config:
-      ConditionID: default
-      useTeleportation: 0
-      BodyControllerName: KeyboardCombi
-      HeadControllerName: KeyboardCombi
-      TimeToDisplayObjectToRememberInSeconds: 3
-      TimeToDisplayObjectWhenFoundInSeconds: 2
-      offsetToTeleportation: 2
-      categoriesPerMaze: 1
-      mazesToUse: 0
-      pathsToUsePerMaze: 0
-      objectVisitationsInTraining: 1
-      objectVisitationsInExperiment: 1
-      useExactOnCategoryPerMaze: 1
-      groupByMazes: 1
-    Trials:
+      Category: Toys
+      ObjectName: 4_Ball
     - TrialType: Training
       MazeName: Maze1
-      Path: 0
-      Category: Category04
-      ObjectName: 6_Wrench
+      Path: 3
+      Category: Toys
+      ObjectName: 1_Teddy
+    - TrialType: Experiment
+      MazeName: Maze1
+      Path: 3
+      Category: Toys
+      ObjectName: 1_Teddy
     - TrialType: Experiment
       MazeName: Maze1
       Path: 0
-      Category: Category04
-      ObjectName: 6_Wrench
+      Category: Toys
+      ObjectName: 4_Ball
+    - TrialType: Experiment
+      MazeName: Maze1
+      Path: 1
+      Category: Toys
+      ObjectName: 3_Duck
+    - TrialType: Experiment
+      MazeName: Maze1
+      Path: 2
+      Category: Toys
+      ObjectName: 2_Rocket
