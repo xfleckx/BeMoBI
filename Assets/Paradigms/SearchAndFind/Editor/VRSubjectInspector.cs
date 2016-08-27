@@ -11,6 +11,10 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
     [CustomEditor(typeof(VRSubjectController))]
     public class VRSubjectInspector : Editor
     {
+        private static Mesh SubjectHeadMesh;
+
+        private static Mesh SubjectBodyMesh;
+        
         VRSubjectController instance;
 
         public override void OnInspectorGUI()
@@ -96,6 +100,57 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             GUILayout.EndVertical();
 
+        }
+
+
+        static void LoadPreviewMesh()
+        {
+            string path = "Assets/Models/";
+            SubjectHeadMesh = AssetDatabase.LoadAssetAtPath<Mesh>(path  + "SubjectHead.fbx");
+
+            SubjectBodyMesh = AssetDatabase.LoadAssetAtPath<Mesh>(path + "SubjectBody.fbx");
+            
+        }
+
+        [DrawGizmo(GizmoType.Active | GizmoType.Selected | GizmoType.NonSelected)]
+        static void OnDrawGizmos(VRSubjectController controller, GizmoType type)
+        {
+            var characterController = controller.GetComponent<CharacterController>();
+
+            var bodyCenter = controller.Body.transform.localPosition + new Vector3(0, characterController.height / 2, 0);
+
+            var temp = Gizmos.color;
+
+            Gizmos.color = new Color(0.2f, 0.3f, 0.7f);
+
+            Gizmos.DrawWireSphere(controller.Head.position, 0.2f);
+
+            Gizmos.DrawLine(bodyCenter, controller.Head.position);
+
+            if(SubjectBodyMesh == null || SubjectHeadMesh == null)
+            {
+                LoadPreviewMesh();
+            }
+            
+            var meshMid = (SubjectBodyMesh.bounds.max - SubjectBodyMesh.bounds.min).magnitude / 2;
+
+            Gizmos.color = Color.yellow;
+
+            Gizmos.DrawMesh(SubjectBodyMesh, bodyCenter + new Vector3(0,meshMid,0), controller.Body.transform.rotation * Quaternion.Euler(-90, 180, 0), new Vector3(10f, 10f, 10f));
+
+            Gizmos.DrawMesh(SubjectHeadMesh, controller.Head.transform.position, controller.Head.transform.rotation * Quaternion.Euler(-90,0,0));
+
+            Gizmos.color = new Color(0.2f, 0.3f, 0.7f);
+
+            Gizmos.DrawRay(controller.HeadPerspective.transform.position, controller.HeadPerspective.transform.forward);
+
+            Gizmos.DrawRay(bodyCenter, controller.Body.transform.forward * 0.5f);
+
+            Gizmos.DrawSphere(bodyCenter, 0.05f);
+
+            Gizmos.DrawWireCube(controller.Body.transform.localPosition, new Vector3(0.4f, 0.001f, 0.4f));
+
+            Gizmos.color = temp;
         }
     }
 }

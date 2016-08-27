@@ -17,17 +17,39 @@
             "objectVisitationsInTraining": 1,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
+            "forwardMovementSpeed": 0.8999999761581421,
+            "rotationSpeed": 50.0,
             "groupByMazes": true,
             "UseShortWayBack": true,
             "UseMonoscopicViewOnVRHeadset": true,
+            "UseNoseInVRView": false,
             "ExpectedMazes": [
                 {
                     "Name": "Maze1",
                     "pathIds": [
                         0
                     ]
+                },
+                {
+                    "Name": "Maze2",
+                    "pathIds": [
+                        1
+                    ]
+                },
+                {
+                    "Name": "Maze3",
+                    "pathIds": [
+                        3
+                    ]
+                },
+                {
+                    "Name": "Maze5",
+                    "pathIds": [
+                        1
+                    ]
                 }
-            ]
+            ],
+            "UseTextInstructions": false
         },
         {
             "ConditionID": "stereo",
@@ -41,9 +63,12 @@
             "objectVisitationsInTraining": 1,
             "objectVisitationsInExperiment": 1,
             "useExactOnCategoryPerMaze": true,
+            "forwardMovementSpeed": 0.8999999761581421,
+            "rotationSpeed": 50.0,
             "groupByMazes": true,
             "UseShortWayBack": true,
             "UseMonoscopicViewOnVRHeadset": false,
+            "UseNoseInVRView": false,
             "ExpectedMazes": [
                 {
                     "Name": "Maze2",
@@ -51,7 +76,8 @@
                         1
                     ]
                 }
-            ]
+            ],
+            "UseTextInstructions": false
         }
     ]
 }

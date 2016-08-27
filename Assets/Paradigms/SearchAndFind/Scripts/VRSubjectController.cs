@@ -187,29 +187,6 @@ public class VRSubjectController : MonoBehaviour, ISubject
 
     #endregion
     
-    void OnDrawGizmos()
-    {
-        var bodyCenter = Body.transform.localPosition + new Vector3(0, 1, 0);
-
-        var temp = Gizmos.color;
-
-        Gizmos.color = new Color(0.2f, 0.3f, 0.7f);
-
-        Gizmos.DrawWireSphere(Head.position, 0.2f);
-
-        Gizmos.DrawLine(bodyCenter, Head.position);
-
-        Gizmos.DrawRay(HeadPerspective.transform.position, HeadPerspective.transform.forward);
-
-        Gizmos.DrawRay(bodyCenter, Body.transform.forward * 0.5f);
-
-        Gizmos.DrawCube(bodyCenter, new Vector3(0.1f, 0.4f, 0.1f));
-        
-        Gizmos.DrawWireCube(Body.transform.localPosition, new Vector3(0.4f, 0.001f, 0.4f));
-
-        Gizmos.color = temp;
-    }
-
     public void Move(Vector3 movementVector)
     {
         Body.Move(movementVector);

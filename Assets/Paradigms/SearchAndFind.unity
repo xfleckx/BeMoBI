@@ -13,16 +13,16 @@ SceneSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 6
+  serializedVersion: 7
   m_Fog: 1
   m_FogColor: {r: 0.72794116, g: 0.72794116, b: 0.72794116, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.001
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.72794116, g: 0.8986816, b: 1, a: 1}
-  m_AmbientEquatorColor: {r: 0.8455882, g: 0.83937067, b: 0.83937067, a: 1}
-  m_AmbientGroundColor: {r: 0.2794118, g: 0.2794118, b: 0.2794118, a: 1}
+  m_AmbientSkyColor: {r: 0.37052205, g: 0.45742893, b: 0.509, a: 0.509}
+  m_AmbientEquatorColor: {r: 0.4304044, g: 0.4272397, b: 0.4272397, a: 0.509}
+  m_AmbientGroundColor: {r: 0.1422206, g: 0.1422206, b: 0.1422206, a: 0.509}
   m_AmbientIntensity: 0.509
   m_AmbientMode: 1
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -37,12 +37,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.18854466, g: 0.19155037, b: 0.1790255, a: 1}
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 6
+  serializedVersion: 7
   m_GIWorkflowMode: 0
-  m_LightmapsMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -53,17 +53,22 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 3
+    serializedVersion: 4
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
     m_TextureHeight: 1024
+    m_AO: 0
     m_AOMaxDistance: 1
-    m_Padding: 2
     m_CompAOExponent: 0
+    m_CompAOExponentDirect: 0
+    m_Padding: 2
     m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
     m_TextureCompression: 1
+    m_DirectLightInLightProbes: 1
     m_FinalGather: 0
+    m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
   m_LightingDataAsset: {fileID: 0}
@@ -127,16 +132,17 @@ Light:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 56572919}
   m_Enabled: 1
-  serializedVersion: 6
+  serializedVersion: 7
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.41
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
+    m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
@@ -149,10 +155,10 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
-  m_AreaSize: {x: 1, y: 1}
 --- !u!4 &71957938 stripped
 Transform:
   m_PrefabParentObject: {fileID: 406912, guid: 42afeeab6c78fc940a9769159776e081, type: 2}
@@ -275,17 +281,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 6e1d36c4bbd37d54f9ea183e4f5fd656, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -321,10 +330,10 @@ GameObject:
   - 4: {fileID: 188249851}
   - 114: {fileID: 188249849}
   - 114: {fileID: 188249853}
+  - 114: {fileID: 188249856}
   - 114: {fileID: 188249852}
   - 114: {fileID: 188249850}
   - 114: {fileID: 188249854}
-  - 114: {fileID: 188249856}
   m_Layer: 0
   m_Name: ParadigmController
   m_TagString: Untagged
@@ -346,7 +355,7 @@ MonoBehaviour:
   SubjectID: TestSubject
   appInit: {fileID: 699533151}
   conditionController: {fileID: 2120861125}
-  Config: {fileID: 209290472}
+  Config: {fileID: 973393196}
   InstanceDefinition: {fileID: 0}
   TrialEndPoint: {fileID: 307021767}
   VRManager: {fileID: 1029432134}
@@ -370,7 +379,7 @@ MonoBehaviour:
   experiment: {fileID: 1353002344}
   pause: {fileID: 1761092156}
   instruction: {fileID: 470305384}
-  PathToLoadedConfig: 
+  PathToLoadedConfig: C:/Users/Markus/Documents/git_repos/BeMoBI/Assets/SearchAndFind_Config_MonoStereo.json
   AutoStartNextCondition: 0
 --- !u!114 &188249850
 MonoBehaviour:
@@ -539,7 +548,7 @@ Light:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 200460092}
   m_Enabled: 1
-  serializedVersion: 6
+  serializedVersion: 7
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 6.4
@@ -549,6 +558,7 @@ Light:
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
+    m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
@@ -561,10 +571,10 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
-  m_AreaSize: {x: 1, y: 1}
 --- !u!1 &207143227
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,17 +615,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: df2c5f0f72dce874e9cfe42a342a3050, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -642,65 +655,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 207143227}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &209290472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifNoInstanceDefinitionCreateOne: 1
-  writeStatistics: 0
-  logMarkerToFile: 1
-  nameOfRigidBodyDefinition: 6_upperBody.rb
-  waitForCommandOnConditionEnd: 1
-  conditionConfigurations:
-  - ConditionID: mono
-    useTeleportation: 0
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 0.9
-    rotationSpeed: 50
-    groupByMazes: 1
-    UseShortWayBack: 1
-    UseMonoscopicViewOnVRHeadset: 1
-    UseNoseInVRView: 0
-    ExpectedMazes:
-    - Name: Maze1
-      pathIds: 00000000
-    UseTextInstructions: 0
-  - ConditionID: stereo
-    useTeleportation: 0
-    BodyControllerName: Keyboard
-    HeadControllerName: Oculus Headset
-    TimeToDisplayObjectToRememberInSeconds: 3
-    TimeToDisplayObjectWhenFoundInSeconds: 2
-    offsetToTeleportation: 2
-    categoriesPerMaze: 1
-    objectVisitationsInTraining: 1
-    objectVisitationsInExperiment: 1
-    useExactOnCategoryPerMaze: 1
-    forwardMovementSpeed: 0.9
-    rotationSpeed: 50
-    groupByMazes: 1
-    UseShortWayBack: 1
-    UseMonoscopicViewOnVRHeadset: 0
-    UseNoseInVRView: 0
-    ExpectedMazes:
-    - Name: Maze2
-      pathIds: 01000000
-    UseTextInstructions: 0
 --- !u!1 &265783581
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,17 +794,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -935,6 +892,34 @@ Prefab:
       propertyPath: owlInterface
       value: 
       objectReference: {fileID: 1756469720}
+    - target: {fileID: 11494820, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241300, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241300, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: MinDistance
+      value: 0.38050652
+      objectReference: {fileID: 0}
+    - target: {fileID: 14325420, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_Height
+      value: 1.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 411102, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 14325420, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_SlopeLimit
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 14325420, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_StepOffset
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
   m_IsPrefabParent: 0
@@ -1177,6 +1162,14 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 527fdff6ad1a7da4c873f01f84c98a42, type: 3}
   m_IsPrefabParent: 0
@@ -1411,7 +1404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &726889598
 Transform:
   m_ObjectHideFlags: 0
@@ -1458,17 +1451,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: d8f414233559df049b46ee4151b3545c, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -1571,17 +1567,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 6e1d36c4bbd37d54f9ea183e4f5fd656, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -1624,6 +1623,71 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &973393196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d096ba953a0ab884198228feff1936c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ifNoInstanceDefinitionCreateOne: 1
+  writeStatistics: 1
+  logMarkerToFile: 1
+  nameOfRigidBodyDefinition: 6_upperBody.rb
+  waitForCommandOnConditionEnd: 1
+  conditionConfigurations:
+  - ConditionID: mono
+    useTeleportation: 0
+    BodyControllerName: Keyboard
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    forwardMovementSpeed: 0.9
+    rotationSpeed: 50
+    groupByMazes: 1
+    UseShortWayBack: 1
+    UseMonoscopicViewOnVRHeadset: 1
+    UseNoseInVRView: 0
+    ExpectedMazes:
+    - Name: Maze1
+      pathIds: 00000000
+    - Name: Maze2
+      pathIds: 01000000
+    - Name: Maze3
+      pathIds: 03000000
+    - Name: Maze5
+      pathIds: 01000000
+    UseTextInstructions: 0
+  - ConditionID: stereo
+    useTeleportation: 0
+    BodyControllerName: Keyboard
+    HeadControllerName: Oculus Headset
+    TimeToDisplayObjectToRememberInSeconds: 3
+    TimeToDisplayObjectWhenFoundInSeconds: 2
+    offsetToTeleportation: 2
+    categoriesPerMaze: 1
+    objectVisitationsInTraining: 1
+    objectVisitationsInExperiment: 1
+    useExactOnCategoryPerMaze: 1
+    forwardMovementSpeed: 0.9
+    rotationSpeed: 50
+    groupByMazes: 1
+    UseShortWayBack: 1
+    UseMonoscopicViewOnVRHeadset: 0
+    UseNoseInVRView: 0
+    ExpectedMazes:
+    - Name: Maze2
+      pathIds: 01000000
+    UseTextInstructions: 0
 --- !u!114 &1021378915 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11488458, guid: 2209bac5d21fbe842a17863bb37ddd92,
@@ -2034,7 +2098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lslStreamName: MoBIVR.SearchAndFind
-  lslStreamType: markers
+  lslStreamType: Markers
   LogAlsoToFile: 1
 --- !u!114 &1460822095
 MonoBehaviour:
@@ -2797,17 +2861,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 6e1d36c4bbd37d54f9ea183e4f5fd656, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3000,17 +3067,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3332,17 +3402,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: df2c5f0f72dce874e9cfe42a342a3050, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
