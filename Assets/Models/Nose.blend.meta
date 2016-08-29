@@ -4,7 +4,21 @@ timeCreated: 1465313444
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: LowPolyNose
+    100002: //RootNode
+    100004: Sphere
+    400000: LowPolyNose
+    400002: //RootNode
+    400004: Sphere
+    2300000: LowPolyNose
+    2300002: Sphere
+    3300000: LowPolyNose
+    3300002: Sphere
+    4300000: Sphere
+    4300002: LowPolyNose
+    7400000: Default Take
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -12,7 +26,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 

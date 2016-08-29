@@ -57,22 +57,8 @@
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Tools_2",
-                    "ObjectName": "6_Wrench"
-                },
-                {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze1",
-                    "Path": 0,
-                    "Category": "Tools_2",
-                    "ObjectName": "6_Wrench"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze3",
-                    "Path": 3,
-                    "Category": "Container",
-                    "ObjectName": "3_CarboardBox"
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 },
                 {
                     "TrialType": "Experiment",
@@ -86,28 +72,7 @@
                     "MazeName": "Maze2",
                     "Path": 1,
                     "Category": "Boxes",
-                    "ObjectName": "4_ToolCase"
-                },
-                {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze2",
-                    "Path": 1,
-                    "Category": "Boxes",
-                    "ObjectName": "4_ToolCase"
-                },
-                {
-                    "TrialType": "Training",
-                    "MazeName": "Maze5",
-                    "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
-                },
-                {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze5",
-                    "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
+                    "ObjectName": "2_HP_FBX"
                 }
             ]
         },
@@ -146,15 +111,15 @@
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "1_Teddy"
+                    "Category": "Boxes",
+                    "ObjectName": "3_Jerrycan"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "1_Teddy"
+                    "Category": "Boxes",
+                    "ObjectName": "3_Jerrycan"
                 }
             ]
         }
