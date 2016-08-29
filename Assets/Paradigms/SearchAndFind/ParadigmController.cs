@@ -20,6 +20,7 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using Assets.BeMoBI.Scripts.Paradigm;
 using Assets.LSL4Unity.Scripts;
+using Assets.SNEED.Scripts.ObjectsAndCategories;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
