@@ -920,6 +920,66 @@ Prefab:
       propertyPath: m_StepOffset
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 145780, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 171006, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14325420, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 455222, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 472478, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.11467699
+      objectReference: {fileID: 0}
+    - target: {fileID: 472478, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -13.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 472478, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.99340284
+      objectReference: {fileID: 0}
+    - target: {fileID: 472478, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 472478, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492928, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492928, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: headRotation_X_Sensitivity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492928, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: headRotation_Y_Sensitivity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492928, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: headRotationClampMaxX
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492928, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: headRotationClampMaxY
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492928, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
+      propertyPath: UseSmoothHeadRotation
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2209bac5d21fbe842a17863bb37ddd92, type: 2}
   m_IsPrefabParent: 0

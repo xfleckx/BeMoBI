@@ -28,7 +28,7 @@ namespace Assets.BeMoBI.Scripts.Controls
             float xRot = head_raw_X * headRotation_X_Sensitivity;
             float yRot = head_raw_Y * headRotation_Y_Sensitivity;
 
-            headTargetRotation *= Quaternion.Euler(-yRot, xRot, 0f);
+            headTargetRotation = Quaternion.Euler(xRot, -yRot, 0f);
 
             if (clampVerticalRotation)
                 headTargetRotation = InputUtils.ClampRotationAroundXAxis(headTargetRotation, headRotationClampMinX, headRotationClampMaxX);
@@ -41,12 +41,12 @@ namespace Assets.BeMoBI.Scripts.Controls
 
             if (UseSmoothHeadRotation)
             {
-                Head.localRotation *= Quaternion.Slerp(sourceLocalRotation, headTargetRotation,
+                Head.localRotation = Quaternion.Slerp(sourceLocalRotation, headTargetRotation,
                     HeadRotsmoothTime * Time.deltaTime);
             }
             else
             {
-                Head.rotation *= headTargetRotation;
+                Head.localRotation = headTargetRotation;
             }
 
             var euler = Head.rotation.eulerAngles;
