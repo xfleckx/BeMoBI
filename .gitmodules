@@ -8,3 +8,6 @@
 	path = Assets/SNEED
 	url = https://github.com/xfleckx/SNEED.git
 	branch = master
+[submodule "Assets/VREF"]
+	path = Assets/VREF
+	url = https://github.com/xfleckx/VREF
