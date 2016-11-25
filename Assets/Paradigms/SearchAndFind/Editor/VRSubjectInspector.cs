@@ -123,7 +123,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             Gizmos.color = new Color(0.2f, 0.3f, 0.7f);
 
-            Gizmos.DrawWireSphere(controller.Head.position, 0.2f);
+            Gizmos.DrawWireSphere(controller.Head.position, 0.15f);
 
             Gizmos.DrawLine(bodyCenter, controller.Head.position);
 
@@ -134,7 +134,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
             
             var meshMid = (SubjectBodyMesh.bounds.max - SubjectBodyMesh.bounds.min).magnitude / 2;
 
-            Gizmos.color = Color.yellow;
+            Gizmos.color = new Color(0.2f, 0.3f, 0.7f, 0.4f);
 
             Gizmos.DrawMesh(SubjectBodyMesh, bodyCenter + new Vector3(0,meshMid,0), controller.Body.transform.rotation * Quaternion.Euler(-90, 180, 0), new Vector3(10f, 10f, 10f));
 
@@ -148,9 +148,29 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 
             Gizmos.DrawSphere(bodyCenter, 0.05f);
 
+            Gizmos.color = Color.red;
             Gizmos.DrawWireCube(controller.Body.transform.localPosition, new Vector3(0.4f, 0.001f, 0.4f));
 
             Gizmos.color = temp;
+
+            var handleColorTemp = Handles.color;
+            Handles.color = Color.yellow;
+
+            var angleBetweenSubjectForwardAndNorth = Vector3.Angle(controller.transform.forward, Vector3.forward);
+            Handles.DrawSolidArc(bodyCenter, controller.transform.up, Vector3.forward, angleBetweenSubjectForwardAndNorth, 0.5f);
+
+            Handles.color = Color.magenta;
+
+            var sign = controller.HeadPerspective.transform.rotation.eulerAngles.y;
+            var angleBetweenHeadAndBodyForward = Vector3.Angle(controller.Body.transform.forward, controller.HeadPerspective.transform.forward);
+
+            var angleStart = Quaternion.Euler(0, sign * angleBetweenHeadAndBodyForward, 0);
+            
+            Handles.DrawSolidArc(bodyCenter, 
+                                controller.transform.up, 
+                                controller.Body.transform.forward,  
+                                angleBetweenHeadAndBodyForward, 0.3f);
+
         }
     }
 }
