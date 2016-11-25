@@ -1,4 +1,5 @@
 ﻿using Assets.BeMoBI.Scripts;
+using Assets.SNEED.Mazes;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
