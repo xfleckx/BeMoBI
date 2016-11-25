@@ -2,6 +2,7 @@
 using System.Collections;
 using LSL;
 using Assets.LSL4Unity.Scripts;
+using Assets.SNEED.Mazes;
 
 public class LSLSubjectRelativePositionStream : MonoBehaviour {
     

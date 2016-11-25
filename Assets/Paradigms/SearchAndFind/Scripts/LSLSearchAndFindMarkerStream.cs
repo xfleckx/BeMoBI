@@ -2,6 +2,7 @@
 using System.Collections;
 using NLog;
 using NLogger = NLog.Logger;
+using LSL;
 
 public class LSLSearchAndFindMarkerStream : MonoBehaviour {
 
@@ -17,7 +18,7 @@ public class LSLSearchAndFindMarkerStream : MonoBehaviour {
 	private LSL.liblsl.StreamInfo lslStreamInfo;
 	private LSL.liblsl.StreamOutlet lslOutlet;
 	private int lslChannelCount = 1;
-	private double nominalRate = 0;
+	private double nominalRate = liblsl.IRREGULAR_RATE;
 	private const LSL.liblsl.channel_format_t lslChannelFormat = LSL.liblsl.channel_format_t.cf_string;
 
 	private string[] sample; 

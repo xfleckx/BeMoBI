@@ -8,45 +8,27 @@
             "Identifier": "mono",
             "Config": {
                 "ConditionID": "mono",
-                "useTeleportation": false,
+                "useTeleportation": true,
                 "BodyControllerName": "Keyboard",
-                "HeadControllerName": "Oculus Headset",
+                "HeadControllerName": "GamePad",
                 "TimeToDisplayObjectToRememberInSeconds": 3.0,
                 "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
                 "offsetToTeleportation": 2.0,
                 "categoriesPerMaze": 1,
-                "objectVisitationsInTraining": 1,
-                "objectVisitationsInExperiment": 1,
+                "objectVisitationsInTraining": 2,
+                "objectVisitationsInExperiment": 3,
                 "useExactOnCategoryPerMaze": true,
-                "forwardMovementSpeed": 0.8999999761581421,
-                "rotationSpeed": 50.0,
+                "forwardMovementSpeed": 1.399999976158142,
+                "rotationSpeed": 40.0,
                 "groupByMazes": true,
-                "UseShortWayBack": true,
-                "UseMonoscopicViewOnVRHeadset": true,
+                "UseShortWayBack": false,
+                "UseMonoscopicViewOnVRHeadset": false,
                 "UseNoseInVRView": false,
                 "ExpectedMazes": [
                     {
                         "Name": "Maze1",
                         "pathIds": [
                             0
-                        ]
-                    },
-                    {
-                        "Name": "Maze2",
-                        "pathIds": [
-                            1
-                        ]
-                    },
-                    {
-                        "Name": "Maze3",
-                        "pathIds": [
-                            3
-                        ]
-                    },
-                    {
-                        "Name": "Maze5",
-                        "pathIds": [
-                            1
                         ]
                     }
                 ],
@@ -61,16 +43,30 @@
                     "ObjectName": "2_HP_FBX"
                 },
                 {
-                    "TrialType": "Experiment",
-                    "MazeName": "Maze3",
-                    "Path": 3,
-                    "Category": "Container",
-                    "ObjectName": "3_CarboardBox"
+                    "TrialType": "Training",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 },
                 {
-                    "TrialType": "Training",
-                    "MazeName": "Maze2",
-                    "Path": 1,
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze1",
+                    "Path": 0,
                     "Category": "Boxes",
                     "ObjectName": "2_HP_FBX"
                 }
@@ -80,20 +76,20 @@
             "Identifier": "stereo",
             "Config": {
                 "ConditionID": "stereo",
-                "useTeleportation": false,
+                "useTeleportation": true,
                 "BodyControllerName": "Keyboard",
                 "HeadControllerName": "Oculus Headset",
                 "TimeToDisplayObjectToRememberInSeconds": 3.0,
                 "TimeToDisplayObjectWhenFoundInSeconds": 2.0,
                 "offsetToTeleportation": 2.0,
                 "categoriesPerMaze": 1,
-                "objectVisitationsInTraining": 1,
-                "objectVisitationsInExperiment": 1,
+                "objectVisitationsInTraining": 2,
+                "objectVisitationsInExperiment": 3,
                 "useExactOnCategoryPerMaze": true,
                 "forwardMovementSpeed": 0.8999999761581421,
                 "rotationSpeed": 50.0,
                 "groupByMazes": true,
-                "UseShortWayBack": true,
+                "UseShortWayBack": false,
                 "UseMonoscopicViewOnVRHeadset": false,
                 "UseNoseInVRView": false,
                 "ExpectedMazes": [
@@ -111,15 +107,36 @@
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Boxes",
-                    "ObjectName": "3_Jerrycan"
+                    "Category": "Toys",
+                    "ObjectName": "3_Duck"
+                },
+                {
+                    "TrialType": "Training",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "3_Duck"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Boxes",
-                    "ObjectName": "3_Jerrycan"
+                    "Category": "Toys",
+                    "ObjectName": "3_Duck"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "3_Duck"
+                },
+                {
+                    "TrialType": "Experiment",
+                    "MazeName": "Maze2",
+                    "Path": 1,
+                    "Category": "Toys",
+                    "ObjectName": "3_Duck"
                 }
             ]
         }
