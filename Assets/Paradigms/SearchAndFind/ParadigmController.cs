@@ -21,6 +21,8 @@ using UnityEngine.SceneManagement;
 using Assets.BeMoBI.Scripts.Paradigm;
 using Assets.LSL4Unity.Scripts;
 using Assets.SNEED.Scripts.ObjectsAndCategories;
+using Assets.SNEED.Scripts;
+using Assets.VREF.Scripts.Instructions;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
@@ -62,6 +64,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         
         public ParadigmConfiguration Config;
 
+        public string PathToLoadedConfig = string.Empty;
+
         public ParadigmModel InstanceDefinition;
         
         public ActionWaypoint TrialEndPoint;
@@ -75,7 +79,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public ObjectPool objectPool;
         public Transform objectPositionAtTrialStart;
         public GameObject HidingSpotPrefab;
-        public GameObject entrance;
+        public DoorControl entrance;
         public FullScreenFade fading;
         public Teleporting teleporter;
         public VRSubjectController subject;
@@ -88,8 +92,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         public Pause pause;
         public InstructionTrial instruction;
         private bool waitingForSignalToStartNextCondition;
-
-        public string PathToLoadedConfig = string.Empty;
 
         #endregion
 
