@@ -1,4 +1,6 @@
 ﻿using Assets.BeMoBI.Scripts;
+using Assets.SNEED.Mazes;
+using Assets.SNEED.Scripts;
 using Assets.SNEED.Scripts.ObjectsAndCategories;
 using System;
 using System.Collections.Generic;

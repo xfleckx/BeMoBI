@@ -166,7 +166,7 @@ namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
             {
                 // TODO force immediately safe shutdown
 
-                instance.conditionController.currentTrial.Finished += (t, ts) => {
+                instance.conditionController.currentTrial.Finished += (t) => {
                     EditorApplication.ExecuteMenuItem("Edit/Play"); // call Play a second time to stop it
                 };
             }

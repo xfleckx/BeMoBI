@@ -273,7 +273,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         /// </summary>
         /// <param name="trial">the trial instance which has finished</param>
         /// <param name="result">A collection of informations on the trial run</param>
-        void CallWhenCurrentTrialFinished(Trial trial, TrialResult result)
+        void CallWhenCurrentTrialFinished(Trial trial)
         {
             runCounter[trial]++;
 

@@ -12,6 +12,7 @@ using Assets.BeMoBI.Paradigms.SearchAndFind;
 using Assets.BeMoBI.Scripts;
 using Assets.BeMoBI.Scripts.Controls;
 using Assets.SNEED.EditorExtensions.Util;
+using Assets.SNEED.Mazes;
 
 namespace Assets.EditorExtensions.BeMoBI.Paradigms.SearchAndFind
 {

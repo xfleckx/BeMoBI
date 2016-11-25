@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Assets.Paradigms.SearchAndFind.ImageEffects;
+using Assets.SNEED.Mazes;
+using Assets.SNEED;
 
 namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
@@ -18,7 +20,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         event Action BeforeStart;
 
-        event Action<Trial, TrialResult> Finished;
+        event Action<Trial> Finished;
 
         void CleanUp();
     }
@@ -48,6 +50,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public Texture wrongTurnIcon;
 
+        public const float TimeToWaitFromInstructionToEvent = 0.3f;
         #endregion
 
         #region Trial state only interesting for the trial itself!
@@ -65,11 +68,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
         protected MazeUnit lastUnit;
 
         protected Internal_Trial_State currentTrialState;
-
-        protected Stopwatch stopWatch;
-
-        protected Stopwatch unitStopWatch;
-
+        
         protected MazeUnit lastCorrectUnit;
 
         private bool isReady;
@@ -92,12 +91,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             else
             {
                 UnityEngine.Debug.Log(string.Format("Expected VR Environment \"{0}\" not found! Ending Trial!", mazeName));
-                OnFinished(TimeSpan.Zero);
+                OnFinished();
             }
-
-            stopWatch = new Stopwatch();
-
-            unitStopWatch = new Stopwatch();
 
             mazeInstance = activeEnvironment.GetComponent<beMobileMaze>();
 
@@ -186,7 +181,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private void HideSocketAndOpenEntranceAtStart()
         {
-            OpenEntrance();
+            paradigm.entrance.Open();
 
             paradigm.objectPresenter.SetActive(false);
             var socketAtThePathEnd = hidingSpotInstance.GetSocket();
@@ -200,20 +195,6 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             paradigm.fogControl.RaiseFog();
         }
 
-        private void OpenEntrance()
-        {
-            var animator = paradigm.entrance.GetComponent<Animator>();
-
-            animator.SetTrigger("Open");
-
-        }
-
-        private void CloseEntrance()
-        {
-            var animator = paradigm.entrance.GetComponent<Animator>();
-
-            animator.SetTrigger("Close");
-        }
 
         protected void SwitchAllLightPanelsOff(beMobileMaze maze)
         {
@@ -370,38 +351,32 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         private void OnStartPointEntered(Collider c)
         {
-            if (c.tag == "Subject")
-                EntersStartPoint(paradigm.subject);
-        }
+            if (!(c.tag == "Subject"))
+                return;
 
-        private void OnStartPointLeaved(Collider c)
-        {
-            if (c.tag == "Subject")
-                LeavesStartPoint(paradigm.subject);
-        }
-
-        public virtual void EntersStartPoint(VRSubjectController subject)
-        {
             if (isReady && currentTrialState == Internal_Trial_State.Searching)
             {
                 OnBeforeStart();
 
                 paradigm.marker.Write(MarkerPattern.FormatBeginTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
-
-                stopWatch.Start();
-
+                
                 ShowObjectAtStart();
             }
         }
-        
-        public virtual void LeavesStartPoint(VRSubjectController subject)
+
+        private void OnStartPointLeaved(Collider c)
         {
+            if ( ! (c.tag == "Subject"))
+                return;
+
+
             if (currentTrialState == Internal_Trial_State.Searching)
             {
                 paradigm.startingPoint.gameObject.SetActive(false);
                 // write a marker when the subject starts walking!?
                 paradigm.hud.Clear();
             }
+
         }
 
         /// <summary>
@@ -418,18 +393,17 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 paradigm.marker.Write(MarkerPattern.FormatEndTrial(this.GetType().Name, currentMazeName, path.ID, objectName, categoryName));
                 
-                stopWatch.Stop();
 
                 waypoint.HideInfoText();
 
-                CloseEntrance();
+                paradigm.entrance.Close();
 
                 paradigm.fogControl.LetFogDisappeare();
 
                 if(conditionConfig.UseTextInstructions)
                     paradigm.hud.ShowInstruction("Kehre zurück und betretet den grünen \"End\" Punkt", "Aufgabe:");
                 
-                OnFinished(stopWatch.Elapsed);
+                OnFinished();
             }
         }
         
@@ -573,8 +547,8 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             acceptsASubmit = true;
 
             yield return new WaitWhile(() => acceptsASubmit);
-
-            yield return new WaitForSeconds(0.3f); // Anforderung von Klaus
+            // Requirement for enabling a new Event related potiential within the EEG
+            yield return new WaitForSeconds(TimeToWaitFromInstructionToEvent);
 
             RevealObjectAtPathEnd();
 
@@ -587,10 +561,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
             var socket = hidingSpotInstance.GetSocket();
 
+            // object should look in the direction of the subject but only on Y axis
             socket.transform.LookAt(paradigm.subject.Body.transform);
-
+            
             var originalRotation = socket.transform.rotation;
-
             socket.rotation = Quaternion.Euler(0, originalRotation.eulerAngles.y, 0);
 
             var objectFoundMarker = MarkerPattern.FormatFoundObject(currentMazeName, path.ID, objectName, categoryName);
@@ -612,16 +586,16 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
             {
                 if(conditionConfig.UseTextInstructions)
                     paradigm.hud.ShowInstruction("Done! Relax, you will be teleportet back to start.", "Good!");
-                
-                // important here... to get rid of the last MazeUnitEvent when the subject gets teleported otherwise markers get's messed up!
-                // It's too late - so do it here!
+
+                // Special case here to get rid of the last MazeUnitEvent when the subject gets teleported
+                // otherwise markers get's messed up!
                 mazeInstance.MazeUnitEventOccured -= SubjectMovesWithinTheMaze;
 
                 paradigm.marker.Write(MarkerPattern.FormatMazeUnitEvent(currentUnit, MazeUnitEventType.Exiting));
 
                 StartCoroutine(BeginTeleportation());
 
-                CloseEntrance();
+                paradigm.entrance.Close();
             }
             else
             {
@@ -686,11 +660,11 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
                 BeforeStart();
         }
 
-        public event Action<Trial, TrialResult> Finished;
-        protected void OnFinished(TimeSpan trialDuration)
+        public event Action<Trial> Finished;
+        protected void OnFinished()
         {
             if (Finished != null)
-                Finished(this, new TrialResult(trialDuration));
+                Finished(this);
         }
 
         protected void ClearCallbacks()
@@ -703,7 +677,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         public void CleanUp()
         {
-            paradigm.entrance.SetActive(true);
+            paradigm.entrance.gameObject.SetActive(true);
 
             paradigm.hud.Clear();
 
@@ -771,15 +745,5 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
         #endregion
     }
-
-    public class TrialResult
-    {
-        private TimeSpan duration;
-        public TimeSpan Duration { get { return duration; } }
-
-        public TrialResult(TimeSpan duration)
-        {
-            this.duration = duration;
-        }
-    }
+    
 }

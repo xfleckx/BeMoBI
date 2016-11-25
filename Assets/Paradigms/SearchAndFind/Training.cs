@@ -7,8 +7,10 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 {
     public class Training : Trial
     {
+        public float WaitOnInstructionInSeconds = 2;
+
         /// <summary>
-        /// A Trial Start may caused from external source (e.g. a key press)
+        /// Ready means the trial is waiting for an event which causes the actual start of the trial. 
         /// </summary>
         public override void SetReady()
         {
@@ -32,7 +34,7 @@ namespace Assets.BeMoBI.Paradigms.SearchAndFind
 
                 paradigm.hud.ShowInstruction("Merke dir das Objekt und den Pfad durch das Labyrinth!", "Aufgabe");
 
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(WaitOnInstructionInSeconds);
             }
 
             paradigm.hud.Clear();
