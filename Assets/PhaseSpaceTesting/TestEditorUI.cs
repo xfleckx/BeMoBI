@@ -67,6 +67,11 @@ public class TestEditorUI : EditorWindow {
             }
         }
 
+        if(GUILayout.Button("Reset Rift"))
+        {
+            OVRManager.display.RecenterPose();
+        }
+
         EditorGUILayout.Space();
 
         if (isStreaming())
