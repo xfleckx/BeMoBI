@@ -116,6 +116,8 @@ namespace PhaseSpace
 		protected int numPlanes = 0;
 		protected int numPeaks = 0;
 
+        [Range(1,4)]
+        public int mode = 1;
 
 		// lastest reported error
 		protected int error = 0;
@@ -245,8 +247,31 @@ namespace PhaseSpace
 			int flag = 0;
 			if (slave)
 				flag |= OWL_SLAVE;
+             
+            switch (mode)
+            {
+                case 1:
+                    flag |= OWL_MODE1;
+                    break;
 
-			int ret = owlInit (server, flag);
+                case 2:
+                    flag |= OWL_MODE2;
+                    break;
+
+                case 3:
+                    flag |= OWL_MODE3;
+                    break;
+
+                case 4:
+                    flag |= OWL_MODE4;
+                    break;
+
+                default:
+                    flag |= OWL_MODE1;
+                    break;
+            }
+            print(String.Format("OWL Init with Mode: {0}", mode));
+            int ret = owlInit (server, flag);
 			if (ret < 0) {
 				print (String.Format ("OWL Connect error: 0x{0,0:X}", error));
 				error = ret;
@@ -272,8 +297,8 @@ namespace PhaseSpace
 				owlSetInteger (OWL_BROADCAST, OWL_ENABLE);
 			}
 
-			// make sure nothing went wrong
-			owlGetStatus ();
+            // make sure nothing went wrong
+            owlGetStatus ();
 			while (true) {
 				int err = owlGetError ();
 				if (err == OWL_NO_ERROR) {
@@ -292,7 +317,6 @@ namespace PhaseSpace
 
 		virtual public void StartStreaming ()
 		{
-
 			//enable streaming of events, markers, and rigids
 			owlSetInteger (OWL_EVENTS, OWL_ENABLE);
 			owlSetInteger (OWL_MARKERS, OWL_ENABLE);
