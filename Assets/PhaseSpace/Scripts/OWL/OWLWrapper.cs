@@ -245,32 +245,39 @@ namespace PhaseSpace
 
 			// connect to OWL server in slave mode
 			int flag = 0;
-			if (slave)
+			if (slave) { 
 				flag |= OWL_SLAVE;
-             
-            switch (mode)
-            {
-                case 1:
-                    flag |= OWL_MODE1;
-                    break;
 
-                case 2:
-                    flag |= OWL_MODE2;
-                    break;
-
-                case 3:
-                    flag |= OWL_MODE3;
-                    break;
-
-                case 4:
-                    flag |= OWL_MODE4;
-                    break;
-
-                default:
-                    flag |= OWL_MODE1;
-                    break;
+                print( "OWL Init as slave ignoring mode option!");
             }
-            print(String.Format("OWL Init with Mode: {0}", mode));
+            else
+            {
+                switch (mode)
+                {
+                    case 1:
+                        flag |= OWL_MODE1;
+                        break;
+
+                    case 2:
+                        flag |= OWL_MODE2;
+                        break;
+
+                    case 3:
+                        flag |= OWL_MODE3;
+                        break;
+
+                    case 4:
+                        flag |= OWL_MODE4;
+                        break;
+
+                    default:
+                        flag |= OWL_MODE1;
+                        break;
+                }
+                print(String.Format("OWL Init with Mode: {0}", mode));
+
+            }
+
             int ret = owlInit (server, flag);
 			if (ret < 0) {
 				print (String.Format ("OWL Connect error: 0x{0,0:X}", error));
@@ -306,7 +313,10 @@ namespace PhaseSpace
 				} else {
 					error = err;
 					print (String.Format ("OWL Connect error: 0x{0,0:X}", error));
-					connected = false;
+                    if(err == OWL_SLAVE)
+                        print(String.Format("OWL Connect error as slave?: 0x{0,0:X}", error));
+
+                    connected = false;
 					owlDone ();
 					return false;
 				}
@@ -333,11 +343,26 @@ namespace PhaseSpace
 			owlGetStatus ();
 			while (true) {
 				int err = owlGetError ();
-				if (err == OWL_NO_ERROR) {
-					break;
-				} else {
-					print(String.Format ("owl set error: 0x{0,0:X}", err));
-				}
+                if (err == OWL_NO_ERROR)
+                {
+                    break;
+                }
+                else if (err == OWL_INVALID_VALUE) {
+
+                    print(String.Format("Error: 0x{0,0:X} - Invalid value", err));
+                }
+                else if (err == OWL_INVALID_ENUM)
+                {
+                    print(String.Format("Error: 0x{0,0:X} - Invalid ENUM", err));
+                }
+                else if (err == OWL_INVALID_OPERATION)
+                {
+                    print(String.Format("Error: 0x{0,0:X} - Invalid Operation", err));
+                }
+                else
+                {
+                    print(String.Format("owl set error: 0x{0,0:X}", err));
+                }
 			}
 
 			// owlScale
