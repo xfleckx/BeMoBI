@@ -120,8 +120,7 @@ public class TestEditorUI : EditorWindow {
 
         if(GUILayout.Button("Set Tracking Space Correction (Euler Angles)"))
         {
-            var ovrCamRig = FindObjectOfType<OVRCameraRig>();
-            ovrCamRig.transform.Rotate(config.trackingSpaceCorrection);
+            SetTrackingCorrection();
         }
 
         EditorGUILayout.Space();
@@ -177,6 +176,12 @@ public class TestEditorUI : EditorWindow {
         EditorGUILayout.EndScrollView();
     }
 
+    private void SetTrackingCorrection()
+    {
+        var ovrCamRig = FindObjectOfType<OVRCameraRig>();
+        ovrCamRig.transform.Rotate(config.trackingSpaceCorrection);
+    }
+
     private void ConnectToTracker()
     {
         tracker.mode = config.Mode;
@@ -213,6 +218,7 @@ public class TestEditorUI : EditorWindow {
             ConnectToTracker();
             tracker.CreateRigidTracker(lastRigidID, lastRBFile);
             tracker.StartStreaming();
+            SetTrackingCorrection();
         }
     }
 
@@ -235,5 +241,15 @@ public class TestEditorUI : EditorWindow {
     {
         return tracker != null && isNotStreaming();
     }
-      
+    
+    [DrawGizmo(GizmoType.Active | GizmoType.NotInSelectionHierarchy, typeof(FreeFlyRiftPSRigid))]
+    private static void DrawGizmosForFreeFly(FreeFlyRiftPSRigid instance, GizmoType type)
+    {
+        var cam = instance.GetComponent<UnityEngine.Camera>();
+        var temp = Gizmos.matrix;
+        Gizmos.matrix = instance.transform.localToWorldMatrix;
+        Gizmos.DrawFrustum(instance.transform.position, cam.fieldOfView, cam.farClipPlane* 0.001f, cam.nearClipPlane, cam.aspect);
+        Gizmos.matrix = temp;
+        Gizmos.DrawRay(instance.transform.position, instance.transform.forward);
+    } 
 }
