@@ -23,9 +23,24 @@ public class TestEditorUI : EditorWindow {
     private int lastRigidID = 0;
     private string lastRBFile;
     private OWLTestUpdater updater;
+    private bool autoConnectAndStart = true;
+    
+    Action performAutoStart;
 
     private void OnGUI()
     {
+        if (autoConnectAndStart && performAutoStart == null)
+        {
+            performAutoStart += new Action(OnAutoStart);
+            Debug.Log("Auto Connect procedure attached...");
+        }
+
+        if(!autoConnectAndStart && performAutoStart != null)
+        {
+            performAutoStart = null;
+            Debug.Log("Auto Connect procedure detached");
+        }
+
         if(tracker == null)
             tracker = FindObjectOfType<OWLTracker>();
 
@@ -34,11 +49,12 @@ public class TestEditorUI : EditorWindow {
             return;
         }
 
+        autoConnectAndStart = EditorGUILayout.Toggle("Auto Start on Play", autoConnectAndStart);
+
         tracker.mode = EditorGUILayout.IntField("Choose Mode before connecting: ", tracker.mode);
 
         if (GUILayout.Button("Connect"))
         {
-
             if (tracker != null)
                 tracker.Connect();
         }
@@ -50,12 +66,22 @@ public class TestEditorUI : EditorWindow {
             if (isNotStreaming() && GUILayout.Button("Load RB File"))
             {
                 lastRBFile = EditorUtility.OpenFilePanel("RB file", Application.dataPath, "rb");
-                EditorGUILayout.LabelField(lastRBFile);
-                if (lastRBFile != string.Empty && File.Exists(lastRBFile))
-                    tracker.CreateRigidTracker(lastRigidID, lastRBFile);
+                
             }
 
-            if (isNotStreaming() && GUILayout.Button("Start Streaming"))
+            EditorGUILayout.LabelField(lastRBFile);
+
+            if(GUILayout.Button("Create Rigid Body"))
+            {
+
+                if (lastRBFile != String.Empty)
+                {
+                    if (lastRBFile != string.Empty && File.Exists(lastRBFile))
+                        tracker.CreateRigidTracker(lastRigidID, lastRBFile);
+                }
+            }
+            
+            if (isNotStreaming()&& GUILayout.Button("Start Streaming"))
             {
                 tracker.StartStreaming();
             }
@@ -79,7 +105,6 @@ public class TestEditorUI : EditorWindow {
             if(updater == null) 
                 updater = FindObjectOfType<OWLTestUpdater>();
             
-
             if(updater != null)
             {
                 updater.showCameras =  GUILayout.Toggle(updater.showCameras, "Show Cameras", "Button");
@@ -87,8 +112,19 @@ public class TestEditorUI : EditorWindow {
                 updater.showRigids =  GUILayout.Toggle(updater.showRigids, "Show Rigids", "Button");
             }
         }
-         
-    } 
+
+    }
+
+    private void OnAutoStart()
+    {
+        if (lastRBFile != string.Empty && File.Exists(lastRBFile))
+        {
+            Debug.Log("Auto Start with rb File:: " + Path.GetFileName(lastRBFile));
+            tracker.Connect();
+            tracker.CreateRigidTracker(lastRigidID, lastRBFile);
+            tracker.StartStreaming();
+        }
+    }
 
     private bool isStreaming()
     {
@@ -104,4 +140,18 @@ public class TestEditorUI : EditorWindow {
     {
         return tracker != null && tracker.Connected();
     }
+
+    private void Update()
+    {
+        if (tracker != null && EditorApplication.isPlayingOrWillChangePlaymode && performAutoStart != null)
+        {
+            // call whatever is placed in the callback
+            performAutoStart();
+            // clean the callback so no auto start logic get`s called twice
+            performAutoStart = null;
+        }
+    }
+
+
+
 }
