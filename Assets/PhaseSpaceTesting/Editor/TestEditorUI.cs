@@ -24,8 +24,25 @@ public class TestEditorUI : EditorWindow {
     private string lastRBFile;
     private OWLTestUpdater updater;
     private bool autoConnectAndStart = true;
-    
+
+    private Vector3 trackingSpaceCorrection = Vector3.zero;
+
     Action performAutoStart;
+
+    private void OnDestroy()
+    { 
+        EditorApplication.playmodeStateChanged -= OnPlayModeChange;
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.playmodeStateChanged -= OnPlayModeChange;
+    }
+
+    private void OnEnable()
+    {
+        EditorApplication.playmodeStateChanged += OnPlayModeChange;
+    }
 
     private void OnGUI()
     {
@@ -59,26 +76,21 @@ public class TestEditorUI : EditorWindow {
                 tracker.Connect();
         }
 
+        lastRigidID = EditorGUILayout.IntField("Rigid ID", lastRigidID);
+
+        if (isNotStreaming() && GUILayout.Button("Load RB File"))
+        {
+            lastRBFile = EditorUtility.OpenFilePanel("RB file", Application.dataPath, "rb");
+        }
+
+        EditorGUILayout.LabelField(lastRBFile);
+
         if (trackerCanBeConfigured())
         {
-            lastRigidID = EditorGUILayout.IntField("Rigid ID", lastRigidID);
-
-            if (isNotStreaming() && GUILayout.Button("Load RB File"))
-            {
-                lastRBFile = EditorUtility.OpenFilePanel("RB file", Application.dataPath, "rb");
-                
-            }
-
-            EditorGUILayout.LabelField(lastRBFile);
-
             if(GUILayout.Button("Create Rigid Body"))
             {
-
-                if (lastRBFile != String.Empty)
-                {
-                    if (lastRBFile != string.Empty && File.Exists(lastRBFile))
-                        tracker.CreateRigidTracker(lastRigidID, lastRBFile);
-                }
+                if (rbFileIsValid()) 
+                        tracker.CreateRigidTracker(lastRigidID, lastRBFile); 
             }
             
             if (isNotStreaming()&& GUILayout.Button("Start Streaming"))
@@ -91,6 +103,15 @@ public class TestEditorUI : EditorWindow {
                 if (tracker != null)
                     tracker.Disconnect();
             }
+        }
+
+        EditorGUILayout.LabelField("Rotation Offsets for Tracking correction:");
+        trackingSpaceCorrection = EditorGUILayout.Vector3Field("",trackingSpaceCorrection);
+
+        if(GUILayout.Button("Set Tracking Space Correction (Euler Angles)"))
+        {
+            var ovrCamRig = FindObjectOfType<OVRCameraRig>();
+            ovrCamRig.transform.Rotate(trackingSpaceCorrection);
         }
 
         if(GUILayout.Button("Reset Rift"))
@@ -115,15 +136,34 @@ public class TestEditorUI : EditorWindow {
 
     }
 
+    private void OnPlayModeChange()
+    { 
+        if (EditorApplication.isPlayingOrWillChangePlaymode && performAutoStart != null)
+        {
+            EditorApplication.delayCall += () =>
+            {
+                // call whatever is placed in the callback
+                performAutoStart();
+                // clean the callback so no auto start logic get`s called twice
+                performAutoStart = null;
+            };
+        }
+    }
+
     private void OnAutoStart()
     {
-        if (lastRBFile != string.Empty && File.Exists(lastRBFile))
+        if (rbFileIsValid())
         {
-            Debug.Log("Auto Start with rb File:: " + Path.GetFileName(lastRBFile));
+            Debug.Log("Auto Start with rb File: " + Path.GetFileName(lastRBFile));
             tracker.Connect();
             tracker.CreateRigidTracker(lastRigidID, lastRBFile);
             tracker.StartStreaming();
         }
+    }
+
+    private bool rbFileIsValid()
+    {
+        return lastRBFile != string.Empty && File.Exists(lastRBFile);
     }
 
     private bool isStreaming()
@@ -138,20 +178,7 @@ public class TestEditorUI : EditorWindow {
 
     private bool trackerCanBeConfigured()
     {
-        return tracker != null && tracker.Connected();
+        return tracker != null && isNotStreaming();
     }
-
-    private void Update()
-    {
-        if (tracker != null && EditorApplication.isPlayingOrWillChangePlaymode && performAutoStart != null)
-        {
-            // call whatever is placed in the callback
-            performAutoStart();
-            // clean the callback so no auto start logic get`s called twice
-            performAutoStart = null;
-        }
-    }
-
-
-
+      
 }
