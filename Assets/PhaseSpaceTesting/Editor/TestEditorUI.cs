@@ -24,8 +24,7 @@ public class TestEditorUI : EditorWindow {
     private string lastRBFile;
     private OWLTestUpdater updater;
     private bool autoConnectAndStart = true;
-
-    private Vector3 trackingSpaceCorrection = Vector3.zero;
+    public PSMoCapConfig config;
 
     Action performAutoStart;
 
@@ -43,9 +42,15 @@ public class TestEditorUI : EditorWindow {
     {
         EditorApplication.playmodeStateChanged += OnPlayModeChange;
     }
+    private Vector2 scrollPosition;
 
     private void OnGUI()
     {
+        if(config == null)
+        {
+            CreateConfig();
+        }
+
         if (autoConnectAndStart && performAutoStart == null)
         {
             performAutoStart += new Action(OnAutoStart);
@@ -61,6 +66,8 @@ public class TestEditorUI : EditorWindow {
         if(tracker == null)
             tracker = FindObjectOfType<OWLTracker>();
 
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
         if (tracker == null) { 
             EditorGUILayout.HelpBox("No OWLTracker Instance found in current Scene", MessageType.Error);
             return;
@@ -68,17 +75,15 @@ public class TestEditorUI : EditorWindow {
 
         autoConnectAndStart = EditorGUILayout.Toggle("Auto Start on Play", autoConnectAndStart);
 
-        tracker.mode = EditorGUILayout.IntField("Choose Mode before connecting: ", tracker.mode);
+        config.Mode = EditorGUILayout.IntField("Set Mode before connecting: ", config.Mode);
 
         if (GUILayout.Button("Connect"))
         {
             if (tracker != null)
-                tracker.Connect();
+                ConnectToTracker();
         }
-
-        lastRigidID = EditorGUILayout.IntField("Rigid ID", lastRigidID);
-
-        if (isNotStreaming() && GUILayout.Button("Load RB File"))
+         
+        if (GUILayout.Button("Load RB File"))
         {
             lastRBFile = EditorUtility.OpenFilePanel("RB file", Application.dataPath, "rb");
         }
@@ -87,7 +92,8 @@ public class TestEditorUI : EditorWindow {
 
         if (trackerCanBeConfigured())
         {
-            if(GUILayout.Button("Create Rigid Body"))
+            lastRigidID = EditorGUILayout.IntField("Rigid ID", lastRigidID);
+            if (GUILayout.Button("Create Rigid Body"))
             {
                 if (rbFileIsValid()) 
                         tracker.CreateRigidTracker(lastRigidID, lastRBFile); 
@@ -104,19 +110,18 @@ public class TestEditorUI : EditorWindow {
                     tracker.Disconnect();
             }
         }
+        else if(isStreaming())
+        {
+            EditorGUILayout.HelpBox("OWL is streaming. Config not allowed!", MessageType.Info);
+        }
 
         EditorGUILayout.LabelField("Rotation Offsets for Tracking correction:");
-        trackingSpaceCorrection = EditorGUILayout.Vector3Field("",trackingSpaceCorrection);
+        config.trackingSpaceCorrection = EditorGUILayout.Vector3Field("", config.trackingSpaceCorrection);
 
         if(GUILayout.Button("Set Tracking Space Correction (Euler Angles)"))
         {
             var ovrCamRig = FindObjectOfType<OVRCameraRig>();
-            ovrCamRig.transform.Rotate(trackingSpaceCorrection);
-        }
-
-        if(GUILayout.Button("Reset Rift"))
-        {
-            OVRManager.display.RecenterPose();
+            ovrCamRig.transform.Rotate(config.trackingSpaceCorrection);
         }
 
         EditorGUILayout.Space();
@@ -134,6 +139,54 @@ public class TestEditorUI : EditorWindow {
             }
         }
 
+        EditorGUILayout.Space();
+
+        if (OVRManager.instance != null)
+        {
+            if(GUILayout.Button("Reset Rift"))
+            {
+                OVRManager.display.RecenterPose();
+            }
+        }else
+        {
+            EditorGUILayout.HelpBox("No Oculus component found in the Scene!", MessageType.Info);
+        }
+
+        config = EditorGUILayout.ObjectField(config, typeof(PSMoCapConfig), false) as PSMoCapConfig;
+
+        config.name = EditorGUILayout.TextField("Config Name", config.name);
+        EditorGUILayout.LabelField("Description");
+
+        config.description = EditorGUILayout.TextArea(config.description);
+
+        if (GUILayout.Button("Save Config as Asset"))
+        {
+            var path = EditorUtility.SaveFilePanelInProject("Save MoCapConfig", config.name, "asset", "Save the current MoCap config as asset");
+            AssetDatabase.CreateAsset(config, path);
+            
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+        if (GUILayout.Button("Delete Config"))
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(config));
+            ScriptableObject.DestroyImmediate(config, true);
+            config = null;
+            AssetDatabase.Refresh();
+        }
+        EditorGUILayout.EndScrollView();
+    }
+
+    private void ConnectToTracker()
+    {
+        tracker.mode = config.Mode;
+        tracker.Connect();
+    }
+
+    private void CreateConfig()
+    {
+       config = PSMoCapConfig.CreateInstance<PSMoCapConfig>();
+        config.name = "mocap_" + DateTime.Now.ToString("MM-dd-yy_hh-mm-ss");
     }
 
     private void OnPlayModeChange()
@@ -148,6 +201,8 @@ public class TestEditorUI : EditorWindow {
                 performAutoStart = null;
             };
         }
+
+        Repaint();
     }
 
     private void OnAutoStart()
@@ -155,7 +210,7 @@ public class TestEditorUI : EditorWindow {
         if (rbFileIsValid())
         {
             Debug.Log("Auto Start with rb File: " + Path.GetFileName(lastRBFile));
-            tracker.Connect();
+            ConnectToTracker();
             tracker.CreateRigidTracker(lastRigidID, lastRBFile);
             tracker.StartStreaming();
         }
