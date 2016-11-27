@@ -20,8 +20,7 @@ public class TestEditorUI : EditorWindow {
     }
 
     private OWLTracker tracker;
-    private int lastRigidID = 0;
-    private string lastRBFile;
+
     private OWLTestUpdater updater;
     private bool autoConnectAndStart = true;
     public PSMoCapConfig config;
@@ -85,18 +84,18 @@ public class TestEditorUI : EditorWindow {
          
         if (GUILayout.Button("Load RB File"))
         {
-            lastRBFile = EditorUtility.OpenFilePanel("RB file", Application.dataPath, "rb");
+           config.lastRBFile = EditorUtility.OpenFilePanel("RB file", Application.dataPath, "rb");
         }
 
-        EditorGUILayout.LabelField(lastRBFile);
+        EditorGUILayout.LabelField(config.lastRBFile);
 
         if (trackerCanBeConfigured())
         {
-            lastRigidID = EditorGUILayout.IntField("Rigid ID", lastRigidID);
+            config.lastRigidID = EditorGUILayout.IntField("Rigid ID", config.lastRigidID);
             if (GUILayout.Button("Create Rigid Body"))
             {
                 if (rbFileIsValid()) 
-                        tracker.CreateRigidTracker(lastRigidID, lastRBFile); 
+                        tracker.CreateRigidTracker(config.lastRigidID, config.lastRBFile); 
             }
             
             if (isNotStreaming()&& GUILayout.Button("Start Streaming"))
@@ -214,9 +213,9 @@ public class TestEditorUI : EditorWindow {
     {
         if (rbFileIsValid())
         {
-            Debug.Log("Auto Start with rb File: " + Path.GetFileName(lastRBFile));
+            Debug.Log("Auto Start with rb File: " + Path.GetFileName(config.lastRBFile));
             ConnectToTracker();
-            tracker.CreateRigidTracker(lastRigidID, lastRBFile);
+            tracker.CreateRigidTracker(config.lastRigidID, config.lastRBFile);
             tracker.StartStreaming();
             SetTrackingCorrection();
         }
@@ -224,7 +223,7 @@ public class TestEditorUI : EditorWindow {
 
     private bool rbFileIsValid()
     {
-        return lastRBFile != string.Empty && File.Exists(lastRBFile);
+        return config.lastRBFile != string.Empty && File.Exists(config.lastRBFile);
     }
 
     private bool isStreaming()
