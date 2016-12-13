@@ -39,36 +39,36 @@
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Boxes",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Boxes",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Boxes",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Boxes",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze1",
                     "Path": 0,
-                    "Category": "Boxes",
-                    "ObjectName": "2_HP_FBX"
+                    "Category": "Toys_Traffic",
+                    "ObjectName": "5_Heli"
                 }
             ]
         },
@@ -107,36 +107,36 @@
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 },
                 {
                     "TrialType": "Training",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 },
                 {
                     "TrialType": "Experiment",
                     "MazeName": "Maze2",
                     "Path": 1,
-                    "Category": "Toys",
-                    "ObjectName": "3_Duck"
+                    "Category": "Boxes",
+                    "ObjectName": "2_HP_FBX"
                 }
             ]
         }
