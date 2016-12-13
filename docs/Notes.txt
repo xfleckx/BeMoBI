@@ -1,0 +1,6 @@
+Wenn man die Master App nebenbei laufen lassen möchte
+Aktivierung als Slave möglich -> 
+In Master App: "Slaves Activate Streams" aktivieren
+Dann auf Rigidbody ID achten, ist die ursprünglich mit 0 eingestellt, wird die durch den Master geändert
+
+Ist die activate als Stream option nicht aktiv, stimmen die Positionswerte aus einem seltsamen grund nicht... :/
